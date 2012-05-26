@@ -1,0 +1,54 @@
+## SCL Builder Setup File: Do not edit!!
+
+## VERSION: X.BETA.RC6
+## FORMAT:  v2.00.01
+## DEVICE:  PIC32MX460F512L
+
+## PINREGACTIONS
+cyc
+No Repeat
+--
+3000
+--
+&
+## ADVPINREGACTIONS
+--
+1
+COND1
+Cont
+1
+cyc
+--
+&
+--
+COND1
+Bit
+IC1CON.ON
+=
+1
+100
+us
+
+--
+&
+## CLOCK
+Input_capture_Stimulus
+IC1
+Always
+Never
+High
+1000
+3
+
+--
+&
+## STIMULUSFILE
+&
+## RESPONSEFILE
+&
+## ASYNCH
+&
+## ADVANCEDSCL
+
+1
+&
