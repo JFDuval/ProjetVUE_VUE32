@@ -1,6 +1,6 @@
 
-#ifndef CN_PARAM_H
-#define CN_PARAM_H
+#ifndef CN_VUE32_H
+#define CN_VUE32_H
 
 
 #include "def.h"

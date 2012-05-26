@@ -4,18 +4,17 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>ADC_Param.h</itemPath>
       <itemPath>def.h</itemPath>
-      <itemPath>Timer_Param.h</itemPath>
-      <itemPath>PWM_Param.h</itemPath>
       <itemPath>periph.h</itemPath>
-      <itemPath>CN_param.h</itemPath>
       <itemPath>VUE32def.h</itemPath>
-      <itemPath>internalTemp.h</itemPath>
-      <itemPath>Analogic_Module.h</itemPath>
-      <itemPath>Digital_Module.h</itemPath>
       <itemPath>Device_configuration.h</itemPath>
-      <itemPath>Power_Module.h</itemPath>
+      <itemPath>cn_vue32.h</itemPath>
+      <itemPath>analogic_module.h</itemPath>
+      <itemPath>digital_module.h</itemPath>
+      <itemPath>power_module.h</itemPath>
+      <itemPath>pwm_vue32.h</itemPath>
+      <itemPath>adc_vue32.h</itemPath>
+      <itemPath>timer_vue32.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -24,16 +23,15 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>adc.c</itemPath>
-      <itemPath>simple_main.c</itemPath>
-      <itemPath>Timer.c</itemPath>
-      <itemPath>pwm.c</itemPath>
       <itemPath>periph.c</itemPath>
-      <itemPath>CN.c</itemPath>
-      <itemPath>internalTemp.c</itemPath>
-      <itemPath>Analogic_Module.c</itemPath>
-      <itemPath>Digital_Module.c</itemPath>
-      <itemPath>Power_Module.c</itemPath>
+      <itemPath>cn_vue32.c</itemPath>
+      <itemPath>pwm_vue32.c</itemPath>
+      <itemPath>power_module.c</itemPath>
+      <itemPath>digital_module.c</itemPath>
+      <itemPath>analogic_module.c</itemPath>
+      <itemPath>timer_vue32.c</itemPath>
+      <itemPath>adc_vue32.c</itemPath>
+      <itemPath>main.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

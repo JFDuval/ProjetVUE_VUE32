@@ -39,18 +39,18 @@ unsigned Flag_Timer1;
 
 
     
-    unsigned char cLeftLight;//Left Light activation variable
-    unsigned char cRightLight;//Right Light activation variable
-    unsigned char cLowLight;//Low Light activation variable
-    unsigned char cHighLight; //High Light activation variable
-    unsigned char cNightLight;//Night Light activation variable
-    unsigned char cBrakeLight;//Brake Light activation Variable
-    unsigned char cCoolingPump;//Cooling Pump activation Variable
-    unsigned char cWiperFrontPump;// Wiper pump activation Variable
-    unsigned char cWiperBackPump;// Wiper pump activation Variable
-    unsigned char cCharger;//Charger Indicator Variable
+unsigned char cLeftLight;//Left Light activation variable
+unsigned char cRightLight;//Right Light activation variable
+unsigned char cLowLight;//Low Light activation variable
+unsigned char cHighLight; //High Light activation variable
+unsigned char cNightLight;//Night Light activation variable
+unsigned char cBrakeLight;//Brake Light activation Variable
+unsigned char cCoolingPump;//Cooling Pump activation Variable
+unsigned char cWiperFrontPump;// Wiper pump activation Variable
+unsigned char cWiperBackPump;// Wiper pump activation Variable
+unsigned char cCharger;//Charger Indicator Variable
 
-    unsigned int speed[2];
+unsigned int speed[2];
 
 /*Section of the different definition for Board VUE32*/
 #if defined ADC_ON_BOARD

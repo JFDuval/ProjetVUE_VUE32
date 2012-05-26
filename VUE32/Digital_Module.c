@@ -1,6 +1,6 @@
 
-#include "Digital_Module.h"
-#include "PWM_Param.h"
+#include "digital_module.h"
+#include "pwm_vue32.h"
 
 unsigned int unStarterKeyTimestamp;
 unsigned int unChargerTimestamp;
@@ -56,7 +56,8 @@ void Light_Action(void){
     if(Light_State[LIGHT_SIGNAL_30] & LIGHT_PIN_83b)    // if we see 83b, that means we are at L3
     {
         //Brume (Night ???)
-        //cNightLight =1;   // Not activated in our netwoek
+        //cNightLight =1;   // Not activated in our system, replaced with cLowLight
+        cLowLight= 1;
 
     }
     else if(Light_State[LIGHT_SIGNAL_30] &LIGHT_PIN_56b) // 83 is not there but 56b is, L2
@@ -77,9 +78,6 @@ void Light_Action(void){
     }
 
 }
-
-
-
 
 void Wiper_init(void)
 {
