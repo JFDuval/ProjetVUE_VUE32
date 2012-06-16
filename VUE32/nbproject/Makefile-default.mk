@@ -41,11 +41,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/periph.o ${OBJECTDIR}/cn_vue32.o ${OBJECTDIR}/pwm_vue32.o ${OBJECTDIR}/power_module.o ${OBJECTDIR}/digital_module.o ${OBJECTDIR}/analogic_module.o ${OBJECTDIR}/timer_vue32.o ${OBJECTDIR}/adc_vue32.o ${OBJECTDIR}/main.o
-POSSIBLE_DEPFILES=${OBJECTDIR}/periph.o.d ${OBJECTDIR}/cn_vue32.o.d ${OBJECTDIR}/pwm_vue32.o.d ${OBJECTDIR}/power_module.o.d ${OBJECTDIR}/digital_module.o.d ${OBJECTDIR}/analogic_module.o.d ${OBJECTDIR}/timer_vue32.o.d ${OBJECTDIR}/adc_vue32.o.d ${OBJECTDIR}/main.o.d
+OBJECTFILES_QUOTED_IF_SPACED=${OBJECTDIR}/main.o ${OBJECTDIR}/periph.o ${OBJECTDIR}/cn_vue32.o ${OBJECTDIR}/pwm_vue32.o ${OBJECTDIR}/timer_vue32.o ${OBJECTDIR}/adc_vue32.o ${OBJECTDIR}/analogic_module.o ${OBJECTDIR}/digital_module.o ${OBJECTDIR}/power_module.o ${OBJECTDIR}/Communication_Module.o
+POSSIBLE_DEPFILES=${OBJECTDIR}/main.o.d ${OBJECTDIR}/periph.o.d ${OBJECTDIR}/cn_vue32.o.d ${OBJECTDIR}/pwm_vue32.o.d ${OBJECTDIR}/timer_vue32.o.d ${OBJECTDIR}/adc_vue32.o.d ${OBJECTDIR}/analogic_module.o.d ${OBJECTDIR}/digital_module.o.d ${OBJECTDIR}/power_module.o.d ${OBJECTDIR}/Communication_Module.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/periph.o ${OBJECTDIR}/cn_vue32.o ${OBJECTDIR}/pwm_vue32.o ${OBJECTDIR}/power_module.o ${OBJECTDIR}/digital_module.o ${OBJECTDIR}/analogic_module.o ${OBJECTDIR}/timer_vue32.o ${OBJECTDIR}/adc_vue32.o ${OBJECTDIR}/main.o
+OBJECTFILES=${OBJECTDIR}/main.o ${OBJECTDIR}/periph.o ${OBJECTDIR}/cn_vue32.o ${OBJECTDIR}/pwm_vue32.o ${OBJECTDIR}/timer_vue32.o ${OBJECTDIR}/adc_vue32.o ${OBJECTDIR}/analogic_module.o ${OBJECTDIR}/digital_module.o ${OBJECTDIR}/power_module.o ${OBJECTDIR}/Communication_Module.o
 
 
 CFLAGS=
@@ -81,6 +81,11 @@ endif
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: compile
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
+${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/main.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  -legacy-libc
+	
 ${OBJECTDIR}/periph.o: periph.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/periph.o.d 
@@ -96,21 +101,6 @@ ${OBJECTDIR}/pwm_vue32.o: pwm_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pwm_vue32.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/pwm_vue32.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/pwm_vue32.o.d" -o ${OBJECTDIR}/pwm_vue32.o pwm_vue32.c  -legacy-libc
 	
-${OBJECTDIR}/power_module.o: power_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/power_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/power_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/power_module.o.d" -o ${OBJECTDIR}/power_module.o power_module.c  -legacy-libc
-	
-${OBJECTDIR}/digital_module.o: digital_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/digital_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/digital_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/digital_module.o.d" -o ${OBJECTDIR}/digital_module.o digital_module.c  -legacy-libc
-	
-${OBJECTDIR}/analogic_module.o: analogic_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/analogic_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/analogic_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/analogic_module.o.d" -o ${OBJECTDIR}/analogic_module.o analogic_module.c  -legacy-libc
-	
 ${OBJECTDIR}/timer_vue32.o: timer_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/timer_vue32.o.d 
@@ -121,12 +111,32 @@ ${OBJECTDIR}/adc_vue32.o: adc_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/adc_vue32.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/adc_vue32.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/adc_vue32.o.d" -o ${OBJECTDIR}/adc_vue32.o adc_vue32.c  -legacy-libc
 	
+${OBJECTDIR}/analogic_module.o: analogic_module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/analogic_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/analogic_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/analogic_module.o.d" -o ${OBJECTDIR}/analogic_module.o analogic_module.c  -legacy-libc
+	
+${OBJECTDIR}/digital_module.o: digital_module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/digital_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/digital_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/digital_module.o.d" -o ${OBJECTDIR}/digital_module.o digital_module.c  -legacy-libc
+	
+${OBJECTDIR}/power_module.o: power_module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/power_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/power_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/power_module.o.d" -o ${OBJECTDIR}/power_module.o power_module.c  -legacy-libc
+	
+${OBJECTDIR}/Communication_Module.o: Communication_Module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Communication_Module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/Communication_Module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/Communication_Module.o.d" -o ${OBJECTDIR}/Communication_Module.o Communication_Module.c  -legacy-libc
+	
+else
 ${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG  -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  -legacy-libc
+	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  -legacy-libc
 	
-else
 ${OBJECTDIR}/periph.o: periph.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/periph.o.d 
@@ -142,21 +152,6 @@ ${OBJECTDIR}/pwm_vue32.o: pwm_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/pwm_vue32.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/pwm_vue32.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/pwm_vue32.o.d" -o ${OBJECTDIR}/pwm_vue32.o pwm_vue32.c  -legacy-libc
 	
-${OBJECTDIR}/power_module.o: power_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/power_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/power_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/power_module.o.d" -o ${OBJECTDIR}/power_module.o power_module.c  -legacy-libc
-	
-${OBJECTDIR}/digital_module.o: digital_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/digital_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/digital_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/digital_module.o.d" -o ${OBJECTDIR}/digital_module.o digital_module.c  -legacy-libc
-	
-${OBJECTDIR}/analogic_module.o: analogic_module.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/analogic_module.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/analogic_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/analogic_module.o.d" -o ${OBJECTDIR}/analogic_module.o analogic_module.c  -legacy-libc
-	
 ${OBJECTDIR}/timer_vue32.o: timer_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
 	@${RM} ${OBJECTDIR}/timer_vue32.o.d 
@@ -167,10 +162,25 @@ ${OBJECTDIR}/adc_vue32.o: adc_vue32.c  nbproject/Makefile-${CND_CONF}.mk
 	@${RM} ${OBJECTDIR}/adc_vue32.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/adc_vue32.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/adc_vue32.o.d" -o ${OBJECTDIR}/adc_vue32.o adc_vue32.c  -legacy-libc
 	
-${OBJECTDIR}/main.o: main.c  nbproject/Makefile-${CND_CONF}.mk
+${OBJECTDIR}/analogic_module.o: analogic_module.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR} 
-	@${RM} ${OBJECTDIR}/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/main.o.d" -o ${OBJECTDIR}/main.o main.c  -legacy-libc
+	@${RM} ${OBJECTDIR}/analogic_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/analogic_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/analogic_module.o.d" -o ${OBJECTDIR}/analogic_module.o analogic_module.c  -legacy-libc
+	
+${OBJECTDIR}/digital_module.o: digital_module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/digital_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/digital_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/digital_module.o.d" -o ${OBJECTDIR}/digital_module.o digital_module.c  -legacy-libc
+	
+${OBJECTDIR}/power_module.o: power_module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/power_module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/power_module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/power_module.o.d" -o ${OBJECTDIR}/power_module.o power_module.c  -legacy-libc
+	
+${OBJECTDIR}/Communication_Module.o: Communication_Module.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR} 
+	@${RM} ${OBJECTDIR}/Communication_Module.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/Communication_Module.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION) -I"C:/Program Files (x86)/Microchip/MPLAB C32 Suite/pic32-libs" -MMD -MF "${OBJECTDIR}/Communication_Module.o.d" -o ${OBJECTDIR}/Communication_Module.o Communication_Module.c  -legacy-libc
 	
 endif
 

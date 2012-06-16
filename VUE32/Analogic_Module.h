@@ -8,18 +8,18 @@
 #define HIGH_TEMP 70
 #define LOW_TEMP 60
 
-void Acc_Foot_init();
-void Acc_Foot();
-void Brk_Foot_init();
-void Brk_Foot();
-void Speed_Sensor_Left_Front();
-void Speed_Sensor_Right_Front();
-void Speed_Sensor_Left_Rear();
-void Speed_Sensor_Right_Rear();
-void Speed_Sensor_Left_Front_Init();
-void Speed_Sensor_Right_Front_Init();
-void Speed_Sensor_Left_Rear_Init();
-void Speed_Sensor_Right_Rear_Init();
+void Fct_Acc_Foot_init();
+void Fct_Acc_Foot();
+void Fct_Brk_Foot_init();
+void Fct_Brk_Foot();
+void Fct_Speed_Sensor_Left_Front();
+void Fct_Speed_Sensor_Right_Front();
+void Fct_Speed_Sensor_Left_Rear();
+void Fct_Speed_Sensor_Right_Rear();
+void Fct_Speed_Sensor_Left_Front_Init();
+void Fct_Speed_Sensor_Right_Front_Init();
+void Fct_Speed_Sensor_Left_Rear_Init();
+void Fct_Speed_Sensor_Right_Rear_Init();
 
 
 /* ********* Variable for internal Temperature ********** */
@@ -28,8 +28,8 @@ unsigned int unLastTempTimestamp;
 char cInternalTempStatus;
 signed int board_temp;
 /* ********* Function for internal Temperature ********** */
-void Internal_Temp_init();
-void Run_Check_Internal_Temp();
+void Fct_Internal_Temp_init();
+void Fct_Run_Check_Internal_Temp();
 
 
 

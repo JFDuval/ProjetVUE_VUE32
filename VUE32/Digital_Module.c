@@ -5,7 +5,6 @@
 unsigned int unStarterKeyTimestamp;
 unsigned int unChargerTimestamp;
 unsigned int unWindowsButtonTimestamp;
-unsigned int unStarterKeyTimestamp;
 unsigned char cWindowDown;
 unsigned char cWindowUp;
 
@@ -13,12 +12,12 @@ unsigned char cWindowUp;
     unsigned int dummy_var;
 #endif
 
-void Light_init(void)
+void Fct_Light_init(void)
 {
     LIGHT_OUTPUT == 2;
     DIGITAL_TRIS_USED = 0x00FC;
 }
-void Light_Read(void){
+void Fct_Light_Read(void){
 
 
         if(Light_counter>=LIGHT_OUTPUT)
@@ -30,10 +29,10 @@ void Light_Read(void){
   
       // output a channel
       DIGITAL_PORT_USED=1<<Light_counter;
-      Light_Action();
+      Fct_Light_Action();
 }
 
-void Light_Action(void){
+void Fct_Light_Action(void){
     cLeftLight =0;
     cRightLight =0;
     cLowLight =0;
@@ -79,12 +78,12 @@ void Light_Action(void){
 
 }
 
-void Wiper_init(void)
+void Fct_Wiper_init(void)
 {
     WIPER_OUTPUT = DEF_WIPER_OUTPUT;
     DIGITAL_TRIS_USED = 0x00E0;
 }
-void Wiper_Read(void){
+void Fct_Wiper_Read(void){
 
     if(Wiper_counter>=WIPER_OUTPUT)
     {
@@ -94,9 +93,9 @@ void Wiper_Read(void){
         Wiper_State[Wiper_counter++]= DIGITAL_PORT_USED;
     // output a channel
     DIGITAL_PORT_USED=1<<Wiper_counter;
-    Wiper_Action();
+    Fct_Wiper_Action();
 }
-void Wiper_Action(void){
+void Fct_Wiper_Action(void){
 
     if(Wiper_State[WIPER_SIGNAL_15] & WIPER_PIN_W)
     {
@@ -150,21 +149,21 @@ void Wiper_Action(void){
     }
 }
 
-void Starter_Key_Init(void)
+void Fct_Starter_Key_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Starter_Key;
+    function_table[ucFunctTableSize++] = &Fct_Starter_Key;
 }
-void Starter_Key(void)
+void Fct_Starter_Key(void)
 {
 
 }
 
-void Charger_Init(void)
+void Fct_Charger_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Charger;
+    function_table[ucFunctTableSize++] = &Fct_Charger;
     DIGITAL_TRIS_USED = DIGITAL_TRIS_USED | CHARGER_INDICATOR_PIN;
 }
-void Charger(void)
+void Fct_Charger(void)
 {
     if(DIGITAL_PORT_USED & CHARGER_INDICATOR_PIN)
     {
@@ -176,23 +175,23 @@ void Charger(void)
     }
 }
 
-void End_Wiper_Course_Init(void)
+void Fct_End_Wiper_Course_Init(void)
 {
-    function_table[ucFunctTableSize++] = &End_Wiper_Course;
+    function_table[ucFunctTableSize++] = &Fct_End_Wiper_Course;
     DIGITAL_TRIS_USED = DIGITAL_TRIS_USED | WIPER_END_COURSE_PIN;
 }
-void End_Wiper_Course(void)
+void Fct_End_Wiper_Course(void)
 {
     //how is it generated?
 }
 
-void Window_Button_Init(void)
+void Fct_Window_Button_Init(void)
 {
-    DIGITAL_PORT_USED = WINDOW_BUTTON_OUTPUT_PIN;
-    function_table[ucFunctTableSize++] = &Window_Button;
+    DIGITAL_PORT_USED = DIGITAL_PORT_USED | WINDOW_BUTTON_OUTPUT_PIN;
+    function_table[ucFunctTableSize++] = &Fct_Window_Button;
 
 }
-void Window_Button(void)
+void Fct_Window_Button(void)
 {
     if(DIGITAL_PORT_USED & WINDOW_BUTTON_INPUT_DOWN_PIN )
     {

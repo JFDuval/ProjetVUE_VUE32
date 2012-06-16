@@ -1,11 +1,11 @@
 #include "Power_Module.h"
 
 
-void Low_Light_Init(void)
+void Fct_Low_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Low_Light;
+    function_table[ucFunctTableSize++] = &Fct_Low_Light;
 }
-void Low_Light(void)
+void Fct_Low_Light(void)
 {
     if(power_module == 1)
     {
@@ -24,12 +24,12 @@ void Low_Light(void)
     }
 }
 
-void Left_Light_Init(void)
+void Fct_Left_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Left_Light;
+    function_table[ucFunctTableSize++] = &Fct_Left_Light;
     cLeftLight =0;
 }
-void Left_Light(void)
+void Fct_Left_Light(void)
 {
     TIMESTAMP_SECURITY(unLastLeftLightTimestamp,100);
     if(COMPARE_TIMESTAMP(unLastLeftLightTimestamp,100))
@@ -57,11 +57,11 @@ void Left_Light(void)
     }
 }
 
-void Right_Light_Init(void)
+void Fct_Right_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Right_Light;
+    function_table[ucFunctTableSize++] = &Fct_Right_Light;
 }
-void Right_Light(void)
+void Fct_Right_Light(void)
 {
     TIMESTAMP_SECURITY(unLastRightLightTimestamp,100);
     if(COMPARE_TIMESTAMP(unLastRightLightTimestamp,100))
@@ -89,11 +89,11 @@ void Right_Light(void)
     }
 }
 
-void High_Light_Init(void)
+void Fct_High_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &High_Light;
+    function_table[ucFunctTableSize++] = &Fct_High_Light;
 }
-void High_Light(void)
+void Fct_High_Light(void)
 {
     if(power_module == 1)
     {
@@ -112,11 +112,11 @@ void High_Light(void)
     }
 }
 
-void Brake_Light_Init(void)
+void Fct_Brake_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Brake_Light;
+    function_table[ucFunctTableSize++] = &Fct_Brake_Light;
 }
-void Brake_Light(void)
+void Fct_Brake_Light(void)
 {
     if(power_module == 1)
     {
@@ -135,11 +135,11 @@ void Brake_Light(void)
     }
 }
 
-void Night_Light_Init(void)
+void Fct_Night_Light_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Night_Light;
+    function_table[ucFunctTableSize++] = &Fct_Night_Light;
 }
-void Night_Light(void)
+void Fct_Night_Light(void)
 {
     if(power_module == 1)
     {
@@ -158,12 +158,12 @@ void Night_Light(void)
     }
 }
 
-void Cooling_Pump_Init(void)
+void Fct_Cooling_Pump_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Cooling_Pump;
+    function_table[ucFunctTableSize++] = &Fct_Cooling_Pump;
     cCoolingPump =1;// need to be changed along with the function
 }
-void Cooling_Pump(void)
+void Fct_Cooling_Pump(void)
 {
     if(power_module == 1)
     {
@@ -181,12 +181,12 @@ void Cooling_Pump(void)
         PORTD = PORTD & ~(1<<(PWR_PIN_POSITION_COOLING_PUMP+3));
     }
 }
-void Wiper_Front_Pump_Init(void)
+void Fct_Wiper_Front_Pump_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Wiper_Front_Pump;
+    function_table[ucFunctTableSize++] = &Fct_Wiper_Front_Pump;
     cWiperFrontPump =0;// need to be changed along with the function
 }
-void Wiper_Front_Pump(void)
+void Fct_Wiper_Front_Pump(void)
 {
     if(power_module == 1)
     {
@@ -204,12 +204,12 @@ void Wiper_Front_Pump(void)
         PORTD = PORTD & ~(1<<(PWR_PIN_POSITION_WIPER_FRONT_PUMP+3));
     }
 }
-void Wiper_Back_Pump_Init(void)
+void Fct_Wiper_Back_Pump_Init(void)
 {
-    function_table[ucFunctTableSize++] = &Wiper_Back_Pump;
+    function_table[ucFunctTableSize++] = &Fct_Wiper_Back_Pump;
     cWiperBackPump =0;// need to be changed along with the function
 }
-void Wiper_Back_Pump(void)
+void Fct_Wiper_Back_Pump(void)
 {
     if(power_module == 1)
     {

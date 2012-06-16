@@ -11,7 +11,7 @@
 
 unsigned int init_cnt;
 
-void pinout_init(void)
+void Fct_pinout_init(void)
 {
     // ADC pin
     TRISBbits.TRISB0 = 1;   //Analog 1 (AN0)

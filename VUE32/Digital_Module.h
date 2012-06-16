@@ -52,7 +52,8 @@
     #define WIPER_PIN_31b     (1<<WIPER_SIGNAL_31b)
     
     #define WIPER_END_COURSE_PIN (1<<WIPER_END_COURSE_SIGNAL)
-    
+
+
 /* ****Windows**** */
     #define WINDOW_BUTTON_OUTPUT_SIGNAL 0
     #define WINDOW_BUTTON_OUTPUT_PIN (1<<WINDOW_BUTTON_OUTPUT_SIGNAL)
@@ -87,26 +88,26 @@ unsigned char Wiper_counter;
 unsigned int Wiper_State[DEF_WIPER_OUTPUT];
 
 
-void Wiper_init(void);
-void Wiper_Read(void);
-void Wiper_Action(void);
+void Fct_Wiper_init(void);
+void Fct_Wiper_Read(void);
+void Fct_Wiper_Action(void);
 
 
-void Light_init(void);
-void Light_Read(void);
-void Light_Action(void);
+void Fct_Light_init(void);
+void Fct_Light_Read(void);
+void Fct_Light_Action(void);
 
-void Starter_Key_Init(void);
-void Starter_Key(void);
+void Fct_Starter_Key_Init(void);
+void Fct_Starter_Key(void);
 
-void Charger_Init(void);
-void Charger(void);
+void Fct_Charger_Init(void);
+void Fct_Charger(void);
 
-void End_Wiper_Course_Init(void);
-void End_Wiper_Course(void);
+void Fct_End_Wiper_Course_Init(void);
+void Fct_End_Wiper_Course(void);
 
-void Window_Button_Init(void);
-void Window_Button(void);
+void Fct_Window_Button_Init(void);
+void Fct_Window_Button(void);
 
 
 #endif
