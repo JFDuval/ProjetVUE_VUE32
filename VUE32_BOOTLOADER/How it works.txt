@@ -1,0 +1,14 @@
+Explication du Bootloader pour la carte VUE32
+
+Fonctionnement du bootloader :
+•	À chaque démarrage du PIC, c’est ce programme qui s’exécute en premier
+•	Le bootloader attends quelques secondes de recevoir une commande
+•	Si aucune commande n’est reçue avant la fin de l’attente, le programme normal démarre
+•	Si une commande de bootloader est reçue, on entre en mode reprogrammation de la flash
+•	En tout temps dans le bootloader, les paquets reçus sur une interface sont broadcastés sur toutes les autres (Broadcast)
+•	Les pages mémoires de la flash sont  transmises à tour de rôle, avec une pause entre chacune
+•	Si l’une des cartes détecte une erreur dans les données transmises, elle transmet un packet de NACK et la page de flash entière sera retransmise.
+•	Une fois le transfert du firmware terminé, une commande spéciale redémarre les cartes.
+
+L'identifiant de la carte VUE32 (VUE5a, VUE7, etc) est programmé en même temps que le bootloader dans
+une zone mémoire fixe.

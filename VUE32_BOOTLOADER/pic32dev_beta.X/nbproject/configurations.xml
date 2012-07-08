@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <logicalFolder name="root" displayName="root" projectFiles="true">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <logicalFolder name="f1" displayName="NETV32" projectFiles="true">
+        <itemPath>../NETV32_CANDriver.h</itemPath>
+        <itemPath>../NETV32_Common.h</itemPath>
+        <itemPath>../NETV32_Device.h</itemPath>
+        <itemPath>../NETV32_Memory.h</itemPath>
+        <itemPath>../NETV32_SerialDriver.h</itemPath>
+        <itemPath>../NETV32_Shared.h</itemPath>
+        <itemPath>../NETV32_USB-CDCDriver.h</itemPath>
+        <itemPath>../NETV32_Utils.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="USB_CDC" projectFiles="true">
+        <itemPath>../USB-CDC_Microchip/Compiler.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/HardwareProfile.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_ch9.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_common.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_config.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_device.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_function_cdc.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_function_generic.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_function_hid.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_function_msd.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_hal.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_hal_pic32.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_host.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_host_generic.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_host_msd.h</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_host_msd_scsi.h</itemPath>
+      </logicalFolder>
+      <itemPath>bsp.h</itemPath>
+      <itemPath>serial.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="LibraryFiles"
+                   displayName="Library Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="LinkerScript"
+                   displayName="Linker Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="ObjectFiles"
+                   displayName="Object Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <logicalFolder name="f1" displayName="NETV32" projectFiles="true">
+        <itemPath>../NETV32_CANDriver.c</itemPath>
+        <itemPath>../NETV32_Common.c</itemPath>
+        <itemPath>../NETV32_Memory.c</itemPath>
+        <itemPath>../NETV32_SerialDriver.c</itemPath>
+        <itemPath>../NETV32_Shared.c</itemPath>
+        <itemPath>../NETV32_USB-CDCDriver.c</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f2" displayName="USB_CDC" projectFiles="true">
+        <itemPath>../USB-CDC_Microchip/usb_descriptors.c</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_device.c</itemPath>
+        <itemPath>../USB-CDC_Microchip/usb_function_cdc.c</itemPath>
+      </logicalFolder>
+      <itemPath>main.c</itemPath>
+      <itemPath>pic32mx_cfg.c</itemPath>
+      <itemPath>serial.c</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="default" type="2">
+      <toolsSet>
+        <developmentServer>localhost</developmentServer>
+        <targetDevice>PIC32MX795F512H</targetDevice>
+        <targetHeader></targetHeader>
+        <platformTool>ICD3PlatformTool</platformTool>
+        <languageToolchain>C32</languageToolchain>
+        <languageToolchainVersion></languageToolchainVersion>
+        <platform>3</platform>
+      </toolsSet>
+      <compileType>
+        <linkerTool>
+          <linkerLibItems>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <makeCustomizationType>
+        <makeCustomizationPreStepEnabled>false</makeCustomizationPreStepEnabled>
+        <makeCustomizationPreStep></makeCustomizationPreStep>
+        <makeCustomizationPostStepEnabled>false</makeCustomizationPostStepEnabled>
+        <makeCustomizationPostStep></makeCustomizationPostStep>
+        <makeCustomizationAlternativeFileToLoadEnabled>false</makeCustomizationAlternativeFileToLoadEnabled>
+        <makeCustomizationAlternativeFileToLoad></makeCustomizationAlternativeFileToLoad>
+        <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
+      </makeCustomizationType>
+      <item path="../NETV32_CANDriver.c" ex="true" overriding="false">
+        <C32>
+          <property key="additional-warnings" value="false"/>
+          <property key="enable-omit-frame-pointer" value="false"/>
+          <property key="enable-unroll-loops" value="false"/>
+          <property key="exclude-floating-point" value="false"/>
+          <property key="extra-include-directories" value="./;../;../USB-CDC_Microchip"/>
+          <property key="generate-16-bit-code" value="false"/>
+          <property key="isolate-each-function" value="false"/>
+          <property key="make-warnings-into-errors" value="false"/>
+          <property key="optimization-level" value=""/>
+          <property key="place-data-into-section" value="false"/>
+          <property key="post-instruction-scheduling" value="default"/>
+          <property key="pre-instruction-scheduling" value="default"/>
+          <property key="preprocessor-macros" value=""/>
+          <property key="strict-ansi" value="false"/>
+          <property key="support-ansi" value="false"/>
+          <property key="use-indirect-calls" value="false"/>
+        </C32>
+        <C32-AS>
+        </C32-AS>
+        <C32-LD>
+        </C32-LD>
+        <C32Global>
+        </C32Global>
+      </item>
+      <item path="../NETV32_SerialDriver.c" ex="true" overriding="false">
+        <C32>
+        </C32>
+        <C32-AS>
+        </C32-AS>
+        <C32-LD>
+        </C32-LD>
+        <C32Global>
+        </C32Global>
+      </item>
+      <C32>
+        <property key="additional-warnings" value="false"/>
+        <property key="enable-app-io" value="false"/>
+        <property key="enable-omit-frame-pointer" value="false"/>
+        <property key="enable-symbols" value="true"/>
+        <property key="enable-unroll-loops" value="false"/>
+        <property key="exclude-floating-point" value="false"/>
+        <property key="extra-include-directories" value="./;../;../USB-CDC_Microchip"/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="isolate-each-function" value="false"/>
+        <property key="make-warnings-into-errors" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="place-data-into-section" value="false"/>
+        <property key="post-instruction-scheduling" value="default"/>
+        <property key="pre-instruction-scheduling" value="default"/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="strict-ansi" value="false"/>
+        <property key="support-ansi" value="false"/>
+        <property key="use-indirect-calls" value="false"/>
+      </C32>
+      <C32-AS>
+      </C32-AS>
+      <C32-LD>
+        <property key="enable-check-sections" value="false"/>
+        <property key="exclude-floating-point-library" value="false"/>
+        <property key="exclude-standard-libraries" value="false"/>
+        <property key="extra-lib-directories" value=""/>
+        <property key="generate-16-bit-code" value="false"/>
+        <property key="generate-cross-reference-file" value="false"/>
+        <property key="heap-size" value=""/>
+        <property key="input-libraries" value=""/>
+        <property key="linker-symbols" value=""/>
+        <property key="map-file" value="memorymap.txt"/>
+        <property key="no-startup-files" value="false"/>
+        <property key="optimization-level" value=""/>
+        <property key="preprocessor-macros" value=""/>
+        <property key="remove-unused-sections" value="false"/>
+        <property key="report-memory-usage" value="true"/>
+        <property key="stack-size" value=""/>
+        <property key="symbol-stripping" value=""/>
+        <property key="trace-symbols" value=""/>
+        <property key="warn-section-align" value="false"/>
+      </C32-LD>
+      <C32Global>
+      </C32Global>
+      <ICD3PlatformTool>
+        <property key="ADC @" value="true"/>
+        <property key="AutoSelectMemRanges" value="auto"/>
+        <property key="CHANGE NOTICE" value="true"/>
+        <property key="COMPARATOR" value="true"/>
+        <property key="DMA" value="true"/>
+        <property key="Freeze All Other Peripherals" value="true"/>
+        <property key="I2C@" value="true"/>
+        <property key="INPUT CAPTURE @" value="true"/>
+        <property key="INTERRUPT CONTROL" value="true"/>
+        <property key="OUTPUT COMPARE @" value="true"/>
+        <property key="PARALLEL MASTER/SLAVE PORT" value="true"/>
+        <property key="REAL TIME CLOCK" value="true"/>
+        <property key="SecureSegment.SegmentProgramming" value="FullChipProgramming"/>
+        <property key="TIMER1" value="true"/>
+        <property key="TIMER@" value="true"/>
+        <property key="UART@" value="true"/>
+        <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="memories.eeprom" value="false"/>
+        <property key="memories.id" value="false"/>
+        <property key="memories.programmemory" value="true"/>
+        <property key="memories.programmemory.end" value="0x1d07ffff"/>
+        <property key="memories.programmemory.start" value="0x1d000000"/>
+        <property key="poweroptions.powerenable" value="false"/>
+        <property key="programoptions.eraseb4program" value="true"/>
+        <property key="programoptions.preserveeeprom" value="false"/>
+        <property key="programoptions.preserveprogramrange" value="false"/>
+        <property key="programoptions.preserveprogramrange.end" value="0x1d0001ff"/>
+        <property key="programoptions.preserveprogramrange.start" value="0x1d000000"/>
+        <property key="programoptions.usehighvoltageonmclr" value="false"/>
+        <property key="voltagevalue" value="3.25"/>
+      </ICD3PlatformTool>
+      <item path="serial.c" ex="true" overriding="false">
+        <C32>
+        </C32>
+        <C32-AS>
+        </C32-AS>
+        <C32-LD>
+        </C32-LD>
+        <C32Global>
+        </C32Global>
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
