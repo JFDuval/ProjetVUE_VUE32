@@ -1,0 +1,153 @@
+#ifndef INC_DEF_H
+#define INC_DEF_H
+
+#include <p32xxxx.h>
+#include <plib.h>
+#include "periph.h"
+#include "vue32_adc.h"
+#include "vue32_i2c.h"
+#include "vue32_oc_pwm.h"
+#include "vue32_timers.h"
+#include "onboard_sensors.h"
+#include "user_input.h"
+#include "power_out.h"
+
+//Main data structure
+struct vue32_data
+{
+    unsigned char       board_id;
+    //4x Generic analog channels
+    unsigned short      adc_an0;
+    unsigned short      adc_an1;
+    unsigned short      adc_an2;
+    unsigned short      adc_an3;
+    //Decoded analog values
+    unsigned short      mcs1;
+    unsigned short      mcs2;
+    char                temp;
+    unsigned short      vbat;
+    //Speed sensor
+    int                 speed1;
+    int                 speed2;
+    //Digital I/O
+    unsigned char       dio;
+    //Power out
+    short               pwr1;
+    short               pwr2;
+    short               pwr3;
+    short               pwr4;
+    //Motor control
+    short               motor1;
+    short               motor2;
+};
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                          //
+//                                  	Function prototypes                                 //
+//                                                                                          //
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+void setup_oscillator(void);
+void config(void);
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                         //
+//                                         Definitions                                     //
+//                                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//System Clock definition and Peripheral Clock
+#define SYSCLK                  80000000
+#define FPB                     SYSCLK
+#define US_TO_CT_TICKS          (SYSCLK/2000000UL)
+
+//LEDs
+#define LED_ON			0
+#define LED_OFF			1
+
+//Board ID
+#define VUE32_GENERIC           0
+#define VUE32_1                 1
+#define VUE32_2                 2
+#define VUE32_3                 3
+#define VUE32_4                 4
+#define VUE32_5                 5
+#define VUE32_6                 6
+#define VUE32_7                 7
+
+//Automatic tests
+#define PASS                    1
+#define FAIL                    0
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+//                                                                                         //
+//                                       Pin Definitions                                   //
+//                                                                                         //
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+//Analog inputs
+#define TRIS_AN0		TRISBbits.TRISB0	//AN0
+#define TRIS_AN1		TRISBbits.TRISB1	//AN1
+#define TRIS_AN2		TRISBbits.TRISB2	//AN2
+#define TRIS_AN3		TRISBbits.TRISB3	//AN3
+#define TRIS_MCS1		TRISBbits.TRISB4	//AN4
+#define TRIS_MCS2		TRISBbits.TRISB9	//AN9
+#define TRIS_TEMP		TRISBbits.TRISB10	//AN10
+#define TRIS_VOLT		TRISBbits.TRISB11	//AN11
+
+//LEDs
+#define LED1			LATBbits.LATB12	
+#define TRIS_LED1		TRISBbits.TRISB12
+#define LED2			LATBbits.LATB13	
+#define TRIS_LED2		TRISBbits.TRISB13
+//1 = Off (PNP driver)
+
+//Digital I/Os
+#define TRIS_DIO		TRISE	
+#define LAT_DIO			LATE
+#define PORT_DIO		PORTE
+//ToDo assign individual pins
+
+//Speed sensor
+#define SPDO1			PORTCbits.RC13		//CN1
+#define TRIS_SPDO1		TRISCbits.TRISC13	
+#define SPDO2			PORTCbits.RC14		//CN0
+#define TRIS_SPDO2		TRISCbits.TRISC14
+
+//Power outputs
+#define PWR1			LATDbits.LATD4		//OC5
+#define TRIS_PWR1		TRISDbits.TRISD4	
+#define PWR2			LATDbits.LATD5
+#define TRIS_PWR2		TRISDbits.TRISD5
+#define PWR3			LATDbits.LATD6	
+#define TRIS_PWR3		TRISDbits.TRISD6
+#define PWR4			LATDbits.LATD7	
+#define TRIS_PWR4		TRISDbits.TRISD7
+
+//I2C
+#define TRIS_SDA		TRISDbits.TRISD9
+#define TRIS_SCL		TRISDbits.TRISD10
+
+//Motor #1
+#define IN1_M1			LATDbits.LATD0		//OC1
+#define TRIS_IN1_M1		TRISDbits.TRISD0
+#define IN2_M1			LATDbits.LATD2		//OC3
+#define TRIS_IN2_M1		TRISDbits.TRISD2
+
+//Motor #2
+#define IN1_M2			LATDbits.LATD1		//OC2
+#define TRIS_IN1_M2		TRISDbits.TRISD1
+#define IN2_M2			LATDbits.LATD3		//OC4
+#define TRIS_IN2_M2		TRISDbits.TRISD3
+
+//CAN
+#define TRIS_CRX1		TRISFbits.TRISF0	
+#define TRIS_CTX1		TRISFbits.TRISF1
+#define TRIS_CRX2		TRISBbits.TRISB14
+#define TRIS_CTX2		TRISBbits.TRISB8
+
+//UART
+#define TRIS_U3ARX		TRISFbits.TRISF4
+#define TRIS_U3ATX		TRISFbits.TRISF5
+
+#endif
