@@ -41,56 +41,58 @@ int main(void)
 
     config();
 
+    /*
     init_wiper_input();
 
     //Test function - To be removed later
-    while(1)
+    while (1)
     {
-        dummy = read_wiper_input();
-        Nop();
-        Nop();
-        wiper_action(dummy);
-        Nop();
-        Nop();
+	dummy = read_wiper_input();
+	Nop();
+	Nop();
+	wiper_action(dummy);
+	Nop();
+	Nop();
     }
 
     //Test function - To be removed later
-    while(1)
+    while (1)
     {
-            auto_test = test_code1_adc_and_dio();
-            
-            if(auto_test)
-                LED2 = 0;
-            else
-                LED2 = 1;            
+	auto_test = test_code1_adc_and_dio();
+
+	if (auto_test)
+	    LED2 = 0;
+	else
+	    LED2 = 1;
     }
+*/
 
-    while(1)
+    while (1)
     {
-        //ToDo
-        if(flag_fsm)
-        {
-            flag_fsm=0;
+	//ToDo
+	if (flag_fsm)
+	{
+	    flag_fsm = 0;
 
-            switch(fsm_step)
-            {
-                case 0:
-                fsm_step += 1;
-                break;
+	    switch (fsm_step)
+	    {
+		case 0:
+		    fsm_step += 1;
+		    break;
 
-                case 1:
-                fsm_step += 1;
-                break;
+		case 1:
+		    fsm_step += 1;
+		    break;
 
-                case 2:
-                fsm_step += 1;
-                break;
+		case 2:
+		    fsm_step += 1;
+		    break;
 
-                case 3:
-                fsm_step = 0;
-                break;
-            }
-        }
+		case 3:
+		    fsm_step = 0;
+		    break;
+	    }
+	}
     }
 
     return 0;
@@ -104,6 +106,7 @@ int main(void)
 
 void config(void)
 {
+    SYSTEMConfigPerformance(80000000);
     pb_clk_test = SYSTEMConfig(SYSCLK, SYS_CFG_PCACHE);
     SYSTEMConfig(SYSCLK, SYS_CFG_PB_BUS);
     SYSTEMConfigPB(SYSCLK);
@@ -116,7 +119,7 @@ void config(void)
     define_io();
 
     //Peripherals:
-    //init_adc();
+    init_adc();
     init_timers();
     init_output_compare();
     init_i2c();
@@ -126,6 +129,9 @@ void config(void)
 
 
 //Config fuses
+// SYSCLK = (8MHz Crystal/ FPLLIDIV * FPLLMUL / FPLLODIV)
+// SYSCLK = (8MHz Crystal/ 2 * 20 / 1) = 80MHz
+// PBCLK = SYSCLK = 80MHz
 #pragma config UPLLEN   = ON            // USB PLL Enabled
 #pragma config FPLLMUL  = MUL_20        // PLL Multiplier
 #pragma config UPLLIDIV = DIV_2         // USB PLL Input Divider

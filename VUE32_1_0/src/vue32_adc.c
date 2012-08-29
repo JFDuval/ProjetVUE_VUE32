@@ -23,8 +23,6 @@ void __ISR(_ADC_VECTOR,ipl2) isr_adc(void)
     unsigned short i = 0;
     static unsigned int adc_pos = 0;
 
-    AD1CON1bits.ASAM = 0;   // Stop auto-sampling
-
     //From ADC1BUFx to adc_raw[x][adc_pos]
     adc_raw[0][adc_pos] = ADC1BUF0;
     adc_raw[1][adc_pos] = ADC1BUF1;
@@ -43,6 +41,10 @@ void __ISR(_ADC_VECTOR,ipl2) isr_adc(void)
     //Data valid?
     if(adc_pos == 0)
         flag_adc_valid = 1; //Yes, we filled all the variables
+
+   //ToDo remove test only
+    LATE = 0xFF;
+    LATE = 0x00;
 
     // Clear the AD1 interrupt flag
     IFS1bits.AD1IF = 0;
@@ -77,18 +79,18 @@ void init_adc(void)
     AD1CON1bits.SIDL = 0;           // Continue in idle
     AD1CON1bits.FORM = 0;           // Integer 16bits
     AD1CON1bits.SSRC = 7;           // Auto convert
-    AD1CON1bits.ASAM = 0;           // Manual sampling
+    AD1CON1bits.ASAM = 1;           // Automatic sampling
 
     AD1CON2bits.VCFG = 0;           // Ref = VDD/VSS
     AD1CON2bits.OFFCAL = 0;         // Disable offset calibration
     AD1CON2bits.CSCNA = 1;          // Scan inputs
-    AD1CON2bits.SMPI = 7;           // 8 channels
+    AD1CON2bits.SMPI = 7;           // 8 channels   //ToDo
     AD1CON2bits.BUFM = 0;           // Word buffer
     AD1CON2bits.ALTS = 0;           // Always use MUXA
 
-    AD1CON3bits.ADRC = 1;           // Internal ADC clock
-    AD1CON3bits.SAMC = 31;          // x TAD - Max                 ToDo: Confirm
-    AD1CON3bits.ADCS = 128;         // x TAD                      ToDo: Confirm
+    AD1CON3bits.ADRC = 0;           // PBCLK clock
+    AD1CON3bits.SAMC = 15;          // x TAD - Max                 ToDo: Confirm
+    AD1CON3bits.ADCS = 1;         // x TAD                      ToDo: Confirm
 
     AD1CHSbits.CH0NA = 0;           // Negative input is VR-
     AD1CHSbits.CH0SA = 0;           // By default, AN0
@@ -99,7 +101,9 @@ void init_adc(void)
     IFS1bits.AD1IF = 0;              // clear interrupt flag
     IPC6bits.AD1IP = 2;              // interrupt priority 2
     IEC1bits.AD1IE = 1;              // enable interrupt
-    AD1CON1bits.ADON = 1;            // ADC ON  
+    AD1CON1bits.ADON = 1;            // ADC ON
+
+    IFS1bits.AD1IF = 0;              // clear interrupt flag - Errata
 }
 
 //Fills adc_mean[] with the filtered values

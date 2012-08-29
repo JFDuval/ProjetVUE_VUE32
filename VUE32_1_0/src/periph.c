@@ -22,7 +22,8 @@ void define_io(void)
     TRIS_LED2 = 0;
 
     //Digital I/Os
-    TRIS_DIO = 0xFFFF;	//By default, all inputs
+    //TRIS_DIO = 0xFFFF;	//By default, all inputs
+    TRIS_DIO = 0x00;   //ToDo remove! Test only.
 
     //Speed sensor
     TRIS_SPDO1 = 1;
@@ -73,7 +74,6 @@ void define_io(void)
     TRISGbits.TRISG7 = 1;
     TRISGbits.TRISG8 = 1;
     TRISGbits.TRISG9 = 1;
-    //ToDo confirm when the schematic will be completed
 }
 
 //µs delays:

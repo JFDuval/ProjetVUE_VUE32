@@ -25,6 +25,8 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+unsigned int PWR4_enable = 0;
+unsigned int pwr4_pwm_dc = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -34,24 +36,40 @@
 
 unsigned int power_out(unsigned char outx, unsigned int duty)
 {
+    //Note: only OUT4 has PWM functionnality
+
     if(outx == 1)
     {
-
+	if(duty)
+	    PWR1 = 1;
+	else
+	    PWR1 = 0;
     }
     else if(outx == 2)
     {
-
+	if(duty)
+	    PWR2 = 1;
+	else
+	    PWR2 = 0;
     }
     else if(outx == 3)
     {
-
+	if(duty)
+	    PWR3 = 1;
+	else
+	    PWR3 = 0;
     }
     else if(outx == 4)
     {
-
+	if(duty)
+	    PWR4_enable = 1;
+	else
+	    PWR4_enable = 0;
     }
     else
     {
-        
+	return 1;
     }
+
+    return 0;
 }

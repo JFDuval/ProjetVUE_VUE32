@@ -1,7 +1,7 @@
 #ifndef INC_UINPUT_H
 #define INC_UINPUT_H
 
-//Note: Pin names given according to the wiring convention found on the levers.
+//Note: Pin names given according to the wiring convention written on the levers.
 
 //Wiper control:
 #define WP_OUT_W        LATEbits.LATE7          //Output - W - Red/Green
@@ -12,7 +12,6 @@
 #define WP_IN_15        PORTEbits.RE2           //Input - 15 - Pink/Red
 #define WP_IN_31        PORTEbits.RE1           //Input - 31 - Brown
 #define WP_IN_31b       PORTEbits.RE0           //Input - 31b - Blue/Black
-//Note: we need external pull-downs on all the inputs!	//ToDo Onboards pull-down ok?
 
 //Wiper states:
 #define WP_E0           0b00000001
@@ -25,12 +24,12 @@
 #define WP_ACT2         0b01000000
 
 //Speed:
-#define WP_SUPER_SLOW   0   //ToDo Change for PWM DC%
-#define WP_SLOW         1
-#define WP_FAST         2
-#define WP_SUPER_FAST   3
-#define WP_PUMP_MIN     0
-#define WP_PUMP_MAX     0   //ToDo Change for PWM DC%
+#define WP_SUPER_SLOW   1
+#define WP_SLOW         2
+#define WP_FAST         3
+#define WP_SUPER_FAST   4
+#define WP_PUMP_MIN     1
+#define WP_PUMP_MAX     4
 
 //Assigned power output:
 #define POWER_OUT_WIPER 4
@@ -44,7 +43,6 @@
 #define LT_IN_56b       PORTEbits.RE2           //Input - 56b
 #define LT_IN_56a       PORTEbits.RE1           //Input - 56a
 #define LT_IN_83b       PORTEbits.RE0           //Input - 83b
-//Note: we need external pull-downs on all the inputs!
 
 //Light states:
 #define LT_FLASHER_LEFT     0b00010000
@@ -63,8 +61,8 @@
 #define LT_PWR_REAR         3
 
 //Levels (ON - OFF):
-#define LT_MIN              0
-#define LT_MAX              0   //ToDo Change for PWM DC%
+#define LT_MIN              1
+#define LT_MAX              4
 
 /////////////////////////////////////////////////////////////////////////////
 //                                                                         //

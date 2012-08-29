@@ -106,7 +106,6 @@ void config(void);
 #define TRIS_DIO		TRISE	
 #define LAT_DIO			LATE
 #define PORT_DIO		PORTE
-//ToDo assign individual pins
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1

@@ -2,6 +2,10 @@
 
 volatile unsigned int flag_timer1_100us = 0;
 
+//power_out.c
+extern unsigned int PWR4_enable;
+extern unsigned int pwr4_pwm_dc;
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                         Interruptions                                    //
@@ -31,7 +35,9 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     }
 
     //Sample ADC
-    AD1CON1bits.ASAM = 1;   // Start sampling
+//    AD1CON1bits.SAMP = 1;   // Start sampling
+
+
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
@@ -56,6 +62,21 @@ void __ISR(_TIMER_4_VECTOR, ipl4) isr_timer4(void)
     speed[0] = 0 ;
     IFS0CLR = _IFS0_T4IF_MASK;
      */
+}
+
+//Timer 5 - Custom PWM for output 4
+void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
+{
+    static unsigned int diy_pwm_cnt = 0;
+
+    diy_pwm_cnt = (diy_pwm_cnt + 1) % 5;
+
+    if((pwr4_pwm_dc >= diy_pwm_cnt) && (PWR4_enable == 1))
+	PWR4 = 1;
+    else
+	PWR4 = 0;
+
+    IFS0CLR = _IFS0_T5IF_MASK;
 }
 
 //Change notification
