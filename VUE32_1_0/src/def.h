@@ -57,7 +57,7 @@ void config(void);
 /////////////////////////////////////////////////////////////////////////////////////////////
 
 //System Clock definition and Peripheral Clock
-#define SYSCLK                  80000000
+#define SYSCLK                  80000000L
 #define FPB                     SYSCLK
 #define US_TO_CT_TICKS          (SYSCLK/2000000UL)
 
