@@ -60,7 +60,9 @@ void init_timer4(void)
     T4CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
     T4CONbits.TCKPS = 7;    		// prescaler value =2^(TCKPS+1) = 128
     //T4CONbits.TCS = 0;      		// Internal clock (1= external clock)
-    T4CONbits.T32 = 0;       		// 16-bit Timer	
+    T4CONbits.T32 = 0;       		// 16-bit Timer
+    PR4 = 20000;			// 20000*3.2µs = 64ms
+    TMR4 = 0;
     T4CONbits.ON = 1;			// On
 }
 

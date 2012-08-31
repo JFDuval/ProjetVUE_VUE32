@@ -78,25 +78,3 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 
     IFS0CLR = _IFS0_T5IF_MASK;
 }
-
-//Change notification
-void __ISR(_CHANGE_NOTICE_VECTOR, ipl4) CNHandler(void)
-{
-/*
-    if (!SPDO2)	//CN0 down
-    {
-        speed[0]=CONV_SPEED(unTimer4Value[0]+TMR4);
-        unTimer4Value[1]+=TMR4;
-        unTimer4Value[0]=0;
-    }
-    if (!SPDO1)	//CN1 down
-    {
-        speed[1]=CONV_SPEED(unTimer4Value[1]+TMR4);
-        unTimer4Value[0]+=TMR4;
-        unTimer4Value[1]=0;
-    }
-    TMR4=0;
- *
- * */
-    IFS1CLR = _IFS1_CNIF_MASK;
-}

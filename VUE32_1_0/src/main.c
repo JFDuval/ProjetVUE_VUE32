@@ -119,10 +119,11 @@ void config(void)
     define_io();
 
     //Peripherals:
-    init_adc();
+    //init_adc();	//ToDo enable
     init_timers();
     init_output_compare();
-    init_i2c();
+    //init_i2c();
+    init_change_notification();
 
     asm volatile ("ei"); //This routine enables the core to handle any pending interrupt requests
 }
