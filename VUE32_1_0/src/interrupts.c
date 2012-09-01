@@ -4,12 +4,19 @@
 
 volatile unsigned int flag_timer1_100us = 0;
 
+volatile unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
+
+//Debug only
+//unsigned int log_spd[5];
+//unsigned int pos = 0;
+
 //power_out.c
 extern unsigned int PWR4_enable;
 extern unsigned int pwr4_pwm_dc;
 
 //wheel_sensor.c
 extern unsigned int last_spdo1, last_spdo2;
+extern unsigned int period_spdo1, period_spdo2;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -24,6 +31,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
     static unsigned int led_cnt = 0;
     static unsigned int tmb_cnt = 0;
+    static unsigned int whl_cnt = 0;
 
     led_cnt++;
     if(led_cnt > 1500)
@@ -39,8 +47,29 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         //1ms
     }
 
+    whl_cnt++;
+    if(whl_cnt > 10)	//10ms
+    {
+        whl_cnt = 0;
+
+	//ToDo place in main()
+	wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
+	wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
+
+	//Debug only
+	/*
+	pos++;
+	if(pos >= 5)
+	    pos = 0;
+	log_spd[pos] = wheel_spdo1_kph;
+	if(pos == 4)
+	    Nop();
+	 */
+    }
+
+
     //Sample ADC
-//    AD1CON1bits.SAMP = 1;   // Start sampling
+//    AD1CON1bits.SAMP = 1;   // Start sampling	ToDo ?
 
     //Wheel sensors:
     last_spdo1 = SPDO1;
