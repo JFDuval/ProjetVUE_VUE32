@@ -1,10 +1,15 @@
 #include "def.h"
 
+//"The user-selectable priority levels range from 1 (lowest) to 7 (highest)."
+
 volatile unsigned int flag_timer1_100us = 0;
 
 //power_out.c
 extern unsigned int PWR4_enable;
 extern unsigned int pwr4_pwm_dc;
+
+//wheel_sensor.c
+extern unsigned int last_spdo1, last_spdo2;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -37,7 +42,9 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     //Sample ADC
 //    AD1CON1bits.SAMP = 1;   // Start sampling
 
-
+    //Wheel sensors:
+    last_spdo1 = SPDO1;
+    last_spdo2 = SPDO2;
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
@@ -51,17 +58,16 @@ void __ISR(_TIMER_3_VECTOR, ipl3) isr_timer3 (void)
     IFS0bits.T3IF = 0;           // Clearing Timer3 interrupt flag
 }
 
+//Timer 2
+void __ISR(_TIMER_2_VECTOR, ipl4) isr_timer2(void)
+{
+    //Shouldn't happen, error
+}
+
 //Timer 4
 void __ISR(_TIMER_4_VECTOR, ipl4) isr_timer4(void)
 {
-    /*
-	//ToDo
     //Shouldn't happen, error
-    TMR4=0;
-    speed[0] =0 ;
-    speed[0] = 0 ;
-    IFS0CLR = _IFS0_T4IF_MASK;
-     */
 }
 
 //Timer 5 - Custom PWM for output 4

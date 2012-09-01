@@ -18,6 +18,7 @@
 void init_timers(void)
 {
     init_timer1();
+    init_timer2();
     init_timer3();
     init_timer4();
     init_timer5();
@@ -38,6 +39,20 @@ void init_timer1(void)
     T1CONbits.ON = 1;               // start timer
 }
 
+//Input capture (speed sensor SPDO2) - 3.2탎/tick
+void init_timer2(void)
+{
+    //Configure Timer 2
+    T2CONbits.ON = 0;			// Off
+    T2CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
+    T2CONbits.TCKPS = 7;    		// prescaler value =2^(TCKPS+1) = 128
+    //T4CONbits.TCS = 0;      		// Internal clock (1= external clock)
+    T2CONbits.T32 = 0;       		// 16-bit Timer
+    PR2 = 20000;			// 20000*3.2탎 = 64ms
+    TMR2 = 0;
+    T2CONbits.ON = 1;			// On
+}
+
 //Output compare (motor PWM) - 20kHz
 void init_timer3(void)
 {
@@ -52,7 +67,7 @@ void init_timer3(void)
     T3CONbits.ON = 1;               // Activate Timer3
 }
 
-//Input capture (speed sensor) - 3.2탎/tick
+//Input capture (speed sensor SPDO1) - 3.2탎/tick
 void init_timer4(void)
 {
     //Configure Timer 4

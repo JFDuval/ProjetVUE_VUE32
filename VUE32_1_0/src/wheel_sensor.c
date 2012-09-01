@@ -7,6 +7,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+unsigned int last_spdo1 = 0, last_spdo2 = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -33,43 +34,74 @@ void init_change_notification(void)
 
     //Interrupts
     IFS1bits.CNIF = 0;	    //Clear flag
-    IPC6bits.CNIP = 2;	    //Priority	    //ToDo set!
+    IPC6bits.CNIP = 4;	    //Priority	    //ToDo set!
     IEC1bits.CNIE = 1;	    //Enable interrupt
 }
 
-unsigned int cnt = 0, log[10];
+unsigned int cnt1 = 0;
+unsigned int cnt2 = 0;
+unsigned int log_period1[10];
+unsigned int log_period2[10];
 
 //Change notification ISR
 void __ISR(_CHANGE_NOTICE_VECTOR, ipl4) CNHandler(void)
 {
     unsigned int spdo1 = 0, spdo2 = 0;
-    static unsigned int last_spdo1 = 0, last_spdo2 = 0;
+    
     unsigned int period1 = 0, period2 = 0;
 
     //Read inputs
     spdo1 = SPDO1;
     spdo2 = SPDO2;
 
-    //Negative edge detection - ToDo to be debuged
+    //Negative edge detection - SPDO1
     if(!spdo1)
     {
 	if(last_spdo1)
 	{
 	    period1 = TMR4;
 	    TMR4 = 0;
+
+	    //ToDo remove test only
+	    LATE = 0xFF;
+	    LATE = 0x00;
+
+	        cnt1++;
+		if(cnt1>=10)
+		    cnt1 = 0;
+		log_period1[cnt1] = period1;
+
+		if(cnt1 == 9)
+		    Nop();
 	}
-	last_spdo1 = 0;
     }
     else
 	last_spdo1 = 1;
 
-    cnt++;
-    if(cnt>=10)
-	cnt = 0;
-    log[cnt] = period1;
+    //Negative edge detection - SPDO2
+    if(!spdo2)
+    {
+	if(last_spdo2)
+	{
+	    period2 = TMR2;
+	    TMR2 = 0;
 
-    if(cnt == 9)
-	Nop();
+	    //ToDo remove, test only
+	        cnt2++;
+		if(cnt2>=10)
+		    cnt2 = 0;
+		log_period2[cnt2] = period2;
+
+		if(cnt2 == 9)
+		    Nop();
+		//==========
+	}
+    }
+    else
+	last_spdo2 = 1;
+
+    //From timer count to Hertz:
+    //ToDo
 
 
     IFS1bits.CNIF = 0;	    //Clear flag
