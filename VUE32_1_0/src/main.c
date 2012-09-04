@@ -3,11 +3,7 @@
 //ToDo:
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // => CAN
-// => USB
 // => Lecture accéléro
-// => Speed sensor
-// => Power Out
-// => OpenECoSys
 
 
 //Comments:
@@ -27,6 +23,9 @@ unsigned int VUE32_ID = VUE32_4;
 unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
+//vue32_adc.c
+extern volatile unsigned int flag_adc_filter;
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                        Main function                                     //
@@ -40,6 +39,12 @@ int main(void)
     unsigned int dummy = 0;
 
     config();
+
+    while(1)
+    {
+	init_adxl345();
+	ShortDelay(5*US_TO_CT_TICKS);
+    }
 
     /*
     init_wiper_input();
@@ -93,6 +98,14 @@ int main(void)
 		    break;
 	    }
 	}
+
+	//Filter ADC results
+	if(flag_adc_filter)
+	{
+	    flag_adc_filter = 0;
+	    filter_adc();
+	    Nop();
+	}
     }
 
     return 0;
@@ -119,11 +132,11 @@ void config(void)
     define_io();
 
     //Peripherals:
-    //init_adc();	//ToDo enable
+    init_adc();	//ToDo enable
     init_timers();
     init_output_compare();
-    //init_i2c();
-    init_change_notification();
+    init_i2c();
+    //init_change_notification();
 
     asm volatile ("ei"); //This routine enables the core to handle any pending interrupt requests
 }

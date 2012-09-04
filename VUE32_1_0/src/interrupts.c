@@ -67,11 +67,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 	 */
     }
 
-
-    //Sample ADC
-//    AD1CON1bits.SAMP = 1;   // Start sampling	ToDo ?
-
-    //Wheel sensors:
+    //Wheel sensors (needed for the edge detection):
     last_spdo1 = SPDO1;
     last_spdo2 = SPDO2;
 

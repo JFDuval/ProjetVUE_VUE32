@@ -13,7 +13,7 @@
 #include "power_out.h"
 #include "wheel_sensor.h"
 
-//Main data structure
+//Main data structure ToDo useful?
 struct vue32_data
 {
     unsigned char       board_id;

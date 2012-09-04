@@ -1,9 +1,9 @@
 #ifndef INC_I2C_H
 #define INC_I2C_H
 
-//SDO Low, address = 0x1D:
-#define ADXL345_W	0b00111010
-#define ADXL345_R	0b00111011
+//SDO Low, address = 0x53:
+#define ADXL345_W	0xA6
+#define ADXL345_R	0xA7
 
 #define ADXL345_CTL     0x2D
 

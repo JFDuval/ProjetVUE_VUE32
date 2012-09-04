@@ -6,6 +6,8 @@
 //- SDO High = 0x1D, Low = 0x53. In our case: low.
 //- We need to write in the 0x2D register before we can read data
 //- The pull-ups are already present on the VUE32
+//And from the datasheet:
+// "With CS tied high to VDD I/O, the ADXL345 is in I2C mode"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -34,13 +36,17 @@ void init_i2c(void)
     I2C1CONbits.GCEN = 0;       // No general call
     I2C1CONbits.RCEN = 1;       // Enable receive
 
+    //I2CxBRG = ((1/(2*Fsck) - Tpgd)*PBCLK)-2
+    //I2CxBRG = ((1/(2*100kHz) - 104ns)*80MHz)-2 = 390
+    I2C1BRG = 390;
+
     I2C1CONbits.ON = 1;         // I2C On
 }
 
 //The following code is an adaptation from Sparkfun's Nathan Seidle code
 
 //ToDo clean and test
-//ToDo: we need an escape condition for the while()
+//ToDo: we need an escape condition for the many while()
 //Setup ADXL345 for constant measurement mode
 void init_adxl345(void)
 {
@@ -50,20 +56,20 @@ void init_adxl345(void)
     while(I2C1CONbits.SEN);		    //Wait for Start to be over
 
     //Send address
-    while(!I2CTransmitterIsReady(I2C1));    //Ready?
-    I2CSendByte(I2C1, ADXL345_W);	    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = ADXL345_W;		    //Send byte
     while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
     while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
     //Send memory offset
-    while(!I2CTransmitterIsReady(I2C1));    //Ready?
-    I2CSendByte(I2C1, ADXL345_CTL);	    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = ADXL345_CTL;		    //Send byte
     while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
     while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
     //Send value
     while(!I2CTransmitterIsReady(I2C1));    //Ready?
-    I2CSendByte(I2C1, 0b00001000);	    //Send byte
+    I2C1TRN = 0b00001000;		    //Send byte
     while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
     while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
