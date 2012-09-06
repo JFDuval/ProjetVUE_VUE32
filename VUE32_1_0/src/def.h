@@ -3,6 +3,8 @@
 
 #include <p32xxxx.h>
 #include <plib.h>
+#include <sys/kmem.h>
+#include "bsp.h"
 #include "periph.h"
 #include "vue32_adc.h"
 #include "vue32_i2c.h"
@@ -12,6 +14,18 @@
 #include "user_input.h"
 #include "power_out.h"
 #include "wheel_sensor.h"
+#include "NETV32_Utils.h"
+#include "USB-CDC_Microchip/usb.h"
+#include "USB-CDC_Microchip/usb_function_cdc.h"
+#include "USB-CDC_Microchip\HardwareProfile.h"
+#include "GenericTypeDefs.h"
+#include "USB-CDC_Microchip\Compiler.h"
+#include "USB-CDC_Microchip\usb_config.h"
+#include "USB-CDC_Microchip\usb_device.h"
+#include "USB-CDC_Microchip\usb.h"
+#include "NETV32_Common.h"
+#include "NETV32_Shared.h"
+
 
 //Main data structure ToDo useful?
 struct vue32_data
@@ -59,6 +73,7 @@ void config(void);
 
 //System Clock definition and Peripheral Clock
 #define SYSCLK                  80000000L
+#define SYS_XTAL_FREQ           SYSCLK
 #define FPB                     SYSCLK
 #define US_TO_CT_TICKS          (SYSCLK/2000000UL)
 
