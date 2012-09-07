@@ -10,4 +10,6 @@
 	 <ModuleVariable offset="14"  description="adc[7]" type="uint16" value="" name="adc7" />
 	 <ModuleVariable offset="16"  description="DIO Read" type="uint16" value="" name="dio" />
 	 <ModuleVariable offset="18"  description="Accelero X" type="sint16" value="" name="accel_x" />
+	 <ModuleVariable offset="20"  description="Accelero Y" type="sint16" value="" name="accel_y" />
+	 <ModuleVariable offset="22"  description="Accelero Z" type="sint16" value="" name="accel_z" />
 </ModuleConfiguration>

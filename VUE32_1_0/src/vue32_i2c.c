@@ -1,13 +1,7 @@
 #include "vue32_i2c.h"
 #include "def.h"
 
-//I2C used for the ADXL345 3-axis accelerometer (Sparkfun breakout board)
-//Some advices from Sparkfun:
-//- SDO High = 0x1D, Low = 0x53. In our case: low.
-//- We need to write in the 0x2D register before we can read data
-//- The pull-ups are already present on the VUE32
-//And from the datasheet:
-// "With CS tied high to VDD I/O, the ADXL345 is in I2C mode"
+//ToDo: Interrupt and not polling!
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -15,6 +9,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+short accel_x = 0, accel_y = 0, accel_z = 0;
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -79,9 +74,10 @@ void init_adxl345(void)
     while(I2C1CONbits.PEN);
 }
 
-short read_adxl345(char reg_adr)
+//Read all 6 registers - Polling
+void read_adxl345(char reg_adr)
 {
-    char lsb, msb;
+    char data[6], i = 0;
 
     //Start communication
     while(!I2CBusIsIdle(I2C1));		    //Bus ready?
@@ -110,23 +106,28 @@ short read_adxl345(char reg_adr)
     while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
     while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
-    //Read data - First byte
-    I2C1CONbits.RCEN = 1;		    // Enable receive
-    while(!I2C1STATbits.RBF);
-    I2CAcknowledgeByte(I2C1, TRUE);	    //ACK
-    lsb = I2C1RCV;			    //Read the LSB data
-    while(!I2CAcknowledgeHasCompleted(I2C1));
+    for(i = 0; i < 5; i++)
+    {
+	//Read data - First byte
+	I2C1CONbits.RCEN = 1;		    // Enable receive
+	while(!I2C1STATbits.RBF);
+	I2CAcknowledgeByte(I2C1, TRUE);	    //ACK
+	data[i] = I2C1RCV;		    //Read data
+	while(!I2CAcknowledgeHasCompleted(I2C1));
+    }
 
-    //Read data - Second byte
+    //Read data - Last byte
     I2C1CONbits.RCEN = 1;		    // Enable receive
     while(!I2C1STATbits.RBF);
     I2CAcknowledgeByte(I2C1, FALSE);	    //NACK - Last transfer
-    msb = I2C1RCV;			    //Read the LSB data
+    data[5] = I2C1RCV;			    //Read data
     while(!I2CAcknowledgeHasCompleted(I2C1));
 
     I2C1CONbits.PEN = 1;		    //Stop
     while(I2C1CONbits.PEN);
 
-    //Return combined result
-    return( (msb<<8) | lsb);
+    //Store combined result
+    accel_x = ((data[1]<<8) | data[0]);
+    accel_y = ((data[3]<<8) | data[2]);
+    accel_z = ((data[5]<<8) | data[4]);
 }

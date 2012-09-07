@@ -23,7 +23,8 @@ unsigned int VUE32_ID = VUE32_4;
 unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
-short accel_x = 0;
+//vue32_i2c.c
+extern short accel_x, accel_y, accel_z;
 
 //interrupts.c
 extern volatile unsigned int flag_1ms;
@@ -190,7 +191,7 @@ int main(void)
 	if(flag_1ms)
 	{
 	    flag_1ms = 0;
-	    accel_x = read_adxl345(0x32);
+	    read_adxl345(0x32);
 	}
 
 	//NetV on USB-CDC
@@ -260,6 +261,8 @@ void update_variables(void)
 
     //Accelerometer
     g_globalNETVVariables.accel_x = accel_x;
+    g_globalNETVVariables.accel_y = accel_y;
+    g_globalNETVVariables.accel_z = accel_z;
 }
 
 static void InitializeSystem(void)

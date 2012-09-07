@@ -20,7 +20,7 @@
 
 void init_i2c(void);
 void init_adxl345(void);
-short read_adxl345(char reg_adr);
+void read_adxl345(char reg_adr);
 
 #endif
 
