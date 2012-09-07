@@ -36,6 +36,8 @@ void init_i2c(void)
     I2C1CONbits.GCEN = 0;       // No general call
     I2C1CONbits.RCEN = 1;       // Enable receive
 
+    I2C1ADD = SLAVE_ADD;
+
     //I2CxBRG = ((1/(2*Fsck) - Tpgd)*PBCLK)-2
     //I2CxBRG = ((1/(2*100kHz) - 104ns)*80MHz)-2 = 390
     I2C1BRG = 390;
@@ -73,40 +75,58 @@ void init_adxl345(void)
     while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
     while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
-    I2CStop(I2C1);			    //Stop
+    I2C1CONbits.PEN = 1;		    //Stop
+    while(I2C1CONbits.PEN);
 }
- //ToDo
-/*
-unsigned int read_adxl345(char reg_adr)
+
+short read_adxl345(char reg_adr)
 {
-	char lsb, msb;
+    char lsb, msb;
 
-	i2cSendStart();
-	i2cWaitForComplete();
+    //Start communication
+    while(!I2CBusIsIdle(I2C1));		    //Bus ready?
+    I2CStart(I2C1);			    //Start
+    while(I2C1CONbits.SEN);		    //Wait for Start to be over
 
-	i2cSendByte(ADXL345_W);	// write to this I2C address, R/*W cleared
-	i2cWaitForComplete();
+    //Send address - Write
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = ADXL345_W;		    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
+    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
-	i2cSendByte(reg_adr);	//Read from a given address
-	i2cWaitForComplete();
+    //Send memory offset
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = reg_adr;			    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
+    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
-	i2cSendStart();
+    //Restart
+    I2C1CONbits.RSEN = 1;		    //Restart
+    while(I2C1CONbits.RSEN);		    //Wait for restart to be over
 
-	i2cSendByte(ADXL345_R); // read from this I2C address, R/*W Set
-	i2cWaitForComplete();
+    //Send address - Read
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = ADXL345_R;		    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
+    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
 
-	i2cReceiveByte(TRUE);
-	i2cWaitForComplete();
-	lsb = i2cGetReceivedByte(); //Read the LSB data
-	i2cWaitForComplete();
+    //Read data - First byte
+    I2C1CONbits.RCEN = 1;		    // Enable receive
+    while(!I2C1STATbits.RBF);
+    I2CAcknowledgeByte(I2C1, TRUE);	    //ACK
+    lsb = I2C1RCV;			    //Read the LSB data
+    while(!I2CAcknowledgeHasCompleted(I2C1));
 
-	i2cReceiveByte(FALSE);
-	i2cWaitForComplete();
-	msb = i2cGetReceivedByte(); //Read the MSB data
-	i2cWaitForComplete();
+    //Read data - Second byte
+    I2C1CONbits.RCEN = 1;		    // Enable receive
+    while(!I2C1STATbits.RBF);
+    I2CAcknowledgeByte(I2C1, FALSE);	    //NACK - Last transfer
+    msb = I2C1RCV;			    //Read the LSB data
+    while(!I2CAcknowledgeHasCompleted(I2C1));
 
-	i2cSendStop();
+    I2C1CONbits.PEN = 1;		    //Stop
+    while(I2C1CONbits.PEN);
 
-	return( (msb<<8) | lsb);
+    //Return combined result
+    return( (msb<<8) | lsb);
 }
- */

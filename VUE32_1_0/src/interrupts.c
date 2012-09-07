@@ -2,7 +2,7 @@
 
 //"The user-selectable priority levels range from 1 (lowest) to 7 (highest)."
 
-volatile unsigned int flag_timer1_100us = 0;
+volatile unsigned int flag_timer1_100us = 0, flag_1ms = 0;
 
 volatile unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 
@@ -43,6 +43,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     tmb_cnt++;
     if(tmb_cnt > 10)
     {
+	flag_1ms = 1;
         tmb_cnt = 0;
         //1ms
     }

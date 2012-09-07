@@ -4,6 +4,34 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f2" displayName="NETV32" projectFiles="true">
+        <itemPath>../src/bsp.h</itemPath>
+        <itemPath>../src/NETV32_Common.h</itemPath>
+        <itemPath>../src/NETV32_Device.h</itemPath>
+        <itemPath>../src/NETV32_Memory.h</itemPath>
+        <itemPath>../src/NETV32_Shared.h</itemPath>
+        <itemPath>../src/NETV32_USB-CDCDriver.h</itemPath>
+        <itemPath>../src/NETV32_Utils.h</itemPath>
+        <itemPath>../src/NETV32_SerialDriver.h</itemPath>
+      </logicalFolder>
+      <logicalFolder name="f1" displayName="USB_CDC" projectFiles="true">
+        <itemPath>../src/USB-CDC_Microchip/Compiler.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/HardwareProfile.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_ch9.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_common.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_device.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_function_cdc.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_function_generic.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_function_hid.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_function_msd.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_hal.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_hal_pic32.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_host.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_host_generic.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_host_msd.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_host_msd_scsi.h</itemPath>
+      </logicalFolder>
       <itemPath>../src/def.h</itemPath>
       <itemPath>../src/vue32_timers.h</itemPath>
       <itemPath>../src/vue32_adc.h</itemPath>
@@ -22,6 +50,12 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="USB_CDC" projectFiles="true">
+        <itemPath>../src/USB-CDC_Microchip/usb_config.h</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_descriptors.c</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_device.c</itemPath>
+        <itemPath>../src/USB-CDC_Microchip/usb_function_cdc.c</itemPath>
+      </logicalFolder>
       <itemPath>../src/interrupts.c</itemPath>
       <itemPath>../src/vue32_adc.c</itemPath>
       <itemPath>../src/periph.c</itemPath>
@@ -33,6 +67,10 @@
       <itemPath>../src/user_input.c</itemPath>
       <itemPath>../src/power_out.c</itemPath>
       <itemPath>../src/wheel_sensor.c</itemPath>
+      <itemPath>../src/NETV32_Common.c</itemPath>
+      <itemPath>../src/NETV32_Memory.c</itemPath>
+      <itemPath>../src/NETV32_Shared.c</itemPath>
+      <itemPath>../src/NETV32_USB-CDCDriver.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

@@ -38,8 +38,9 @@
 
 typedef struct
 {
-    unsigned short  adc[8];     //Offset 0 to 16
-    unsigned short  port;       //Offset 18
+    unsigned short  adc[8];     //Offset 0 to 14
+    unsigned short  port;       //Offset 16
+    short           accel_x;    //Offset
 
 } GlobalNETVVariables;
 

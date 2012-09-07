@@ -23,6 +23,11 @@ unsigned int VUE32_ID = VUE32_4;
 unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
+short accel_x = 0;
+
+//interrupts.c
+extern volatile unsigned int flag_1ms;
+
 //vue32_adc.c
 extern volatile unsigned int flag_adc_filter;
 extern unsigned int adc_mean[ADC_CH];
@@ -62,7 +67,6 @@ int main(void)
 	
     unsigned int fsm_step = 0;
     unsigned int auto_test = FAIL;
-    unsigned int dummy = 0;
 
     config();
 	
@@ -110,13 +114,16 @@ int main(void)
 	
 
     //Test function - To be removed later
+    init_adxl345();
     /*
+    ShortDelay(50*US_TO_CT_TICKS);
     while(1)
     {
-	init_adxl345();
-	ShortDelay(5*US_TO_CT_TICKS);
-    }
-    */
+
+	dummy = read_adxl345(0x32);
+	//init_adxl345();
+	ShortDelay(1000*US_TO_CT_TICKS);
+    }*/
 
     /*
     init_wiper_input();
@@ -177,6 +184,13 @@ int main(void)
 	    flag_adc_filter = 0;
 	    filter_adc();
 	    Nop();
+	}
+
+	//I2C Polling
+	if(flag_1ms)
+	{
+	    flag_1ms = 0;
+	    accel_x = read_adxl345(0x32);
 	}
 
 	//NetV on USB-CDC
@@ -243,6 +257,9 @@ void update_variables(void)
 
     //DIOE
     g_globalNETVVariables.port = (unsigned short) PORT_DIO;
+
+    //Accelerometer
+    g_globalNETVVariables.accel_x = accel_x;
 }
 
 static void InitializeSystem(void)

@@ -1,7 +1,6 @@
 #ifndef INC_I2C_H
 #define INC_I2C_H
 
-//SDO Low, address = 0x53:
 #define ADXL345_W	0xA6
 #define ADXL345_R	0xA7
 
@@ -11,6 +10,8 @@
 #define ADXL345_Y       0x34
 #define ADXL345_Z       0x36
 
+#define SLAVE_ADD       0x66    //Our own slave address
+
 /////////////////////////////////////////////////////////////////////////////
 //                                                                         //
 //                         	Function prototypes                        //
@@ -19,7 +20,7 @@
 
 void init_i2c(void);
 void init_adxl345(void);
-unsigned int read_adxl345(char reg_adr);
+short read_adxl345(char reg_adr);
 
 #endif
 
