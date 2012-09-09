@@ -2,6 +2,7 @@
 #include "def.h"
 
 //ToDo: Interrupt and not polling!
+//ToDo: set refresh rate
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

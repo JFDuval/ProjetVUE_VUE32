@@ -229,6 +229,7 @@ void config(void)
     init_output_compare();
     init_i2c();
     init_change_notification();
+    init_can2();
 
     asm volatile ("ei"); //This routine enables the core to handle any pending interrupt requests
 }

@@ -10,6 +10,7 @@
 #include "vue32_i2c.h"
 #include "vue32_oc_pwm.h"
 #include "vue32_timers.h"
+#include "vue32_can.h"
 #include "onboard_sensors.h"
 #include "user_input.h"
 #include "power_out.h"

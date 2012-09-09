@@ -42,6 +42,7 @@
       <itemPath>../src/user_input.h</itemPath>
       <itemPath>../src/power_out.h</itemPath>
       <itemPath>../src/wheel_sensor.h</itemPath>
+      <itemPath>../src/vue32_can.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -71,6 +72,7 @@
       <itemPath>../src/NETV32_Memory.c</itemPath>
       <itemPath>../src/NETV32_Shared.c</itemPath>
       <itemPath>../src/NETV32_USB-CDCDriver.c</itemPath>
+      <itemPath>../src/vue32_can.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
