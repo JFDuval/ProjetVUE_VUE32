@@ -24,6 +24,7 @@ unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
 unsigned short current = 0;
+unsigned short gfi_freq = 0;
 
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
@@ -162,6 +163,8 @@ int main(void)
     }
 */
 
+    TRIS_DIO_GFI_FREQ = 1;  //make sure it's an input
+    
     while (1)
     {
 	//ToDo
@@ -197,11 +200,14 @@ int main(void)
 	    Nop();
 	}
 
-	//I2C Polling
+	//1ms timebase
 	if(flag_1ms)
 	{
 	    flag_1ms = 0;
-	    read_adxl345(0x32);
+	    read_adxl345(0x32);	    //I2C Polling
+
+	    //GFI sensor
+	    gfi_freq = gfi_freq_sensor();
 	}
 
 	//NetV on USB-CDC
@@ -274,6 +280,9 @@ void update_variables(void)
     g_globalNETVVariables.accel_x = accel_x;
     g_globalNETVVariables.accel_y = accel_y;
     g_globalNETVVariables.accel_z = accel_z;
+
+    //GFI
+    g_globalNETVVariables.gfi_freq = gfi_freq;
 }
 
 static void InitializeSystem(void)

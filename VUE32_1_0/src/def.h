@@ -124,6 +124,10 @@ void config(void);
 #define TRIS_DIO		TRISE	
 #define LAT_DIO			LATE
 #define PORT_DIO		PORTE
+#define DIO_GFI_FREQ            PORTEbits.RE0
+#define TRIS_DIO_GFI_FREQ       TRISEbits.TRISE0
+#define DIO_GFI_STATE           PORTEbits.RE1
+#define TRIS_DIO_GFI_STATE      TRISEbits.TRISE1
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1

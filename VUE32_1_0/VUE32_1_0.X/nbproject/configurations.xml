@@ -89,7 +89,7 @@
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC32MX795F512H</targetDevice>
         <targetHeader></targetHeader>
-        <platformTool>Simulator</platformTool>
+        <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.00</languageToolchainVersion>
         <platform>3</platform>
@@ -121,8 +121,8 @@
       </C32-LD>
       <C32Global>
       </C32Global>
-      <ICD3PlatformTool>
-      </ICD3PlatformTool>
+      <Simulator>
+      </Simulator>
     </conf>
   </confs>
 </configurationDescriptor>

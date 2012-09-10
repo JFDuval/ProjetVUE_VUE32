@@ -40,12 +40,13 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;          //Toggle
     }
 
+    //1ms Time base
     tmb_cnt++;
     if(tmb_cnt > 10)
     {
 	flag_1ms = 1;
         tmb_cnt = 0;
-        //1ms
+        
     }
 
     whl_cnt++;
