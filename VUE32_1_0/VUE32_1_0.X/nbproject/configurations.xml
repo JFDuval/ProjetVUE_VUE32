@@ -43,6 +43,7 @@
       <itemPath>../src/power_out.h</itemPath>
       <itemPath>../src/wheel_sensor.h</itemPath>
       <itemPath>../src/vue32_can.h</itemPath>
+      <itemPath>../src/offboard_sensors.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -73,6 +74,7 @@
       <itemPath>../src/NETV32_Shared.c</itemPath>
       <itemPath>../src/NETV32_USB-CDCDriver.c</itemPath>
       <itemPath>../src/vue32_can.c</itemPath>
+      <itemPath>../src/offboard_sensors .c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -87,7 +89,7 @@
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC32MX795F512H</targetDevice>
         <targetHeader></targetHeader>
-        <platformTool>ICD3PlatformTool</platformTool>
+        <platformTool>Simulator</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.00</languageToolchainVersion>
         <platform>3</platform>

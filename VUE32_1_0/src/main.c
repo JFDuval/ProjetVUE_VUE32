@@ -23,6 +23,8 @@ unsigned int VUE32_ID = VUE32_4;
 unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
+unsigned short current = 0;
+
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
 
@@ -68,6 +70,14 @@ int main(void)
 	
     unsigned int fsm_step = 0;
     unsigned int auto_test = FAIL;
+
+    /*
+        //ToDo remove, test only
+    while(1)
+    {
+	current = read_current(693, 919);
+    }
+     */
 
     config();
 	

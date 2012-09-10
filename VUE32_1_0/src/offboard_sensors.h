@@ -1,5 +1,5 @@
-#ifndef INC_SENSORS_H
-#define INC_SENSORS_H
+#ifndef INC_OFFBSENSORS_H
+#define INC_OFFBSENSORS_H
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -8,8 +8,8 @@
 //                                                                         //
 /////////////////////////////////////////////////////////////////////////////
 
-int read_temp(unsigned int adc_in);
-int read_vbat(unsigned int adc_in);
+short read_current(unsigned int adc_in, unsigned int adc_vbat);
+void read_yaw_lateral(unsigned int adc_yaw, unsigned int adc_lateral);
 
 #endif
 
