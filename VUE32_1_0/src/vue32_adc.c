@@ -90,13 +90,13 @@ void init_adc(void)
     AD1CON2bits.VCFG = 0;           // Ref = VDD/VSS
     AD1CON2bits.OFFCAL = 0;         // Disable offset calibration
     AD1CON2bits.CSCNA = 1;          // Scan inputs
-    AD1CON2bits.SMPI = 7;           // 8 channels   //ToDo
+    AD1CON2bits.SMPI = 7;           // 8 channels
     AD1CON2bits.BUFM = 0;           // One buffer
     AD1CON2bits.ALTS = 0;           // Always use MUXA
 
     AD1CON3bits.ADRC = 0;           // PBCLK clock
-    AD1CON3bits.SAMC = 1;	    // x TAD - Max                 ToDo: Confirm
-    AD1CON3bits.ADCS = 45;	    // x TAD                      ToDo: Confirm
+    AD1CON3bits.SAMC = 1;	    // 
+    AD1CON3bits.ADCS = 45;	    // 
 
     AD1CHSbits.CH0NA = 0;           // Negative input is VR-
     AD1CHSbits.CH0SA = 0;           // By default, AN0

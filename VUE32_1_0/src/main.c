@@ -1,11 +1,5 @@
 #include "def.h"
 
-//ToDo:
-//=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// => CAN
-// => Lecture accéléro
-
-
 //Comments:
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 //=> Do a Search in Files (CTRL+SHIFT+F) with "ToDo" to find incomplete
@@ -18,24 +12,28 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned int VUE32_ID = VUE32_4;
+unsigned int VUE32_ID = VUE32_GENERIC;
 
-unsigned int flag_fsm = 0;
 unsigned int pb_clk_test;
 
 unsigned short current = 0;
 unsigned short gfi_freq = 0;
 extern unsigned short steering_angle;
+unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
 
 //interrupts.c
-extern volatile unsigned int flag_1ms;
+extern volatile unsigned int flag_1ms_a, flag_1ms_b;
+unsigned int flag_fsm = 0;
 
 //vue32_adc.c
 extern volatile unsigned int flag_adc_filter;
 extern unsigned int adc_mean[ADC_CH];
+
+//wheel_sensor.c
+extern unsigned int period_spdo1, period_spdo2;
 
 //NetV USB-CDC
 char USB_In_Buffer[64];
@@ -48,12 +46,14 @@ BOOL stringPrinted;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+//USB
 static void InitializeSystem(void);
 void ProcessIO(void);
 void USBDeviceTasks(void);
 void YourHighPriorityISRCode();
 void YourLowPriorityISRCode();
 
+//OpenECoSys NetV
 void init_default_variables(void);
 void netv_proc_message(NETV_MESSAGE *message);
 void update_variables(void);
@@ -73,26 +73,18 @@ int main(void)
     unsigned int fsm_step = 0;
     unsigned int auto_test = FAIL;
 
-    /*
-        //ToDo remove, test only
-    while(1)
-    {
-	current = read_current(693, 919);
-    }
-     */
-
+    //Config peripherals, pins, clock, ...
     config();
 	
-	//USB setup
+    //USB setup
     InitializeSystem();
 
     #if defined(USB_INTERRUPT)
-        USBDeviceAttach();
+    USBDeviceAttach();
     #endif
 
     //NetV:
     bootConfig = netv_get_boot_config();
-
     if (bootConfig)
     {
             //read configuration
@@ -123,23 +115,7 @@ int main(void)
     init_default_variables();
 
     //UPDATE NETV ADDRESS
-    canAddr = bootConfig->module_id;
-	
-
-    #ifdef USE_I2C
-    //Test function - To be removed later
-    init_adxl345();
-    #endif
-
-    /*
-    ShortDelay(50*US_TO_CT_TICKS);
-    while(1)
-    {
-
-	dummy = read_adxl345(0x32);
-	//init_adxl345();
-	ShortDelay(1000*US_TO_CT_TICKS);
-    }*/
+    canAddr = bootConfig->module_id;	
 
     /*
     init_wiper_input();
@@ -167,7 +143,7 @@ int main(void)
     }
 */
 
-    TRIS_DIO_GFI_FREQ = 1;  //make sure it's an input
+    TRIS_DIO_GFI_FREQ = 1;  //make sure it's an input ToDo move
     
     while (1)
     {
@@ -204,10 +180,10 @@ int main(void)
 	    Nop();
 	}
 
-	//1ms timebase
-	if(flag_1ms)
+	//1ms timebase A
+	if(flag_1ms_a)
 	{
-	    flag_1ms = 0;
+	    flag_1ms_a = 0;
 
 	    #ifdef USE_I2C
 	    read_adxl345(0x32);	    //I2C Polling
@@ -217,6 +193,15 @@ int main(void)
 	    gfi_freq = gfi_freq_sensor();
 	}
 
+        //1ms timebase B
+	if(flag_1ms_a)
+	{
+            flag_1ms_b = 0;
+            
+            wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
+            wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
+        }
+
 	//NetV on USB-CDC
 	ProcessIO();
 	update_variables();
@@ -224,7 +209,6 @@ int main(void)
 
 	//Can message processing
 	can_recv_message();
-	//steering_angle = decode_steering_angle(can_buffer);
     }
 
     return 0;
@@ -256,6 +240,7 @@ void config(void)
     init_output_compare();
     #ifdef USE_I2C
     init_i2c();
+    init_adxl345();
     #endif
     //init_change_notification();
     init_can2();
@@ -267,7 +252,6 @@ void netv_proc_message(NETV_MESSAGE *message)
 {
     //EMPTY
 }
-
 
 void init_default_variables(void)
 {

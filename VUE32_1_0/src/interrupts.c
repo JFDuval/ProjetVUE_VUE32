@@ -2,13 +2,8 @@
 
 //"The user-selectable priority levels range from 1 (lowest) to 7 (highest)."
 
-volatile unsigned int flag_timer1_100us = 0, flag_1ms = 0;
-
-volatile unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
-
-//Debug only
-//unsigned int log_spd[5];
-//unsigned int pos = 0;
+volatile unsigned int flag_timer1_100us = 0;
+volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0;
 
 //power_out.c
 extern unsigned int PWR4_enable;
@@ -16,7 +11,6 @@ extern unsigned int pwr4_pwm_dc;
 
 //wheel_sensor.c
 extern unsigned int last_spdo1, last_spdo2;
-extern unsigned int period_spdo1, period_spdo2;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -24,15 +18,13 @@ extern unsigned int period_spdo1, period_spdo2;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-
-
 //Timer 1 - Main timebase 100µs - 10kHz
 void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
     static unsigned int led_cnt = 0;
-    static unsigned int tmb_cnt = 0;
-    static unsigned int whl_cnt = 0;
+    static unsigned int tmb_a_cnt = 0, tmb_b_cnt = 2;
 
+    //150ms
     led_cnt++;
     if(led_cnt > 1500)
     {
@@ -40,33 +32,20 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;          //Toggle
     }
 
-    //1ms Time base
-    tmb_cnt++;
-    if(tmb_cnt > 10)
+    //1ms Time base A
+    tmb_a_cnt++;
+    if(tmb_a_cnt > 10)
     {
-	flag_1ms = 1;
-        tmb_cnt = 0;
-        
+	flag_1ms_a = 1;
+        tmb_a_cnt = 0;
     }
 
-    whl_cnt++;
-    if(whl_cnt > 10)	//10ms
+    //1ms Time base B
+    tmb_b_cnt++;
+    if(tmb_b_cnt > 10)
     {
-        whl_cnt = 0;
-
-	//ToDo place in main()
-	wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
-	wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
-
-	//Debug only
-	/*
-	pos++;
-	if(pos >= 5)
-	    pos = 0;
-	log_spd[pos] = wheel_spdo1_kph;
-	if(pos == 4)
-	    Nop();
-	 */
+	flag_1ms_b = 1;
+        tmb_b_cnt = 0;
     }
 
     //Wheel sensors (needed for the edge detection):

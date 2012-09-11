@@ -22,8 +22,7 @@ void define_io(void)
     TRIS_LED2 = 0;
 
     //Digital I/Os
-    //TRIS_DIO = 0xFFFF;	//By default, all inputs
-    TRIS_DIO = 0x00;   //ToDo remove! Test only.
+    TRIS_DIO = 0xFFFF;	//By default, all inputs
 
     //Speed sensor
     TRIS_SPDO1 = 1;

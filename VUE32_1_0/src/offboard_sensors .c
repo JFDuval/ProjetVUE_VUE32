@@ -128,7 +128,7 @@ unsigned short gfi_freq_sensor(void)
 unsigned short gfi_state_sensor(void)
 {
     //Read DIOE1:
-    TRIS_DIO_GFI_STATE = 1;  //make sure it's an input
+    TRIS_DIO_GFI_STATE = 1;  //make sure it's an input ToDo move
 
     return DIO_GFI_STATE;
 }
