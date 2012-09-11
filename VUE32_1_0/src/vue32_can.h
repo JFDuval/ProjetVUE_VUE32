@@ -5,6 +5,5 @@
 
 CANRxMessageBuffer* can_recv_message();
 void init_can2();
-unsigned short decode_steering_angle(CANRxMessageBuffer* can_data);
 
 #endif
