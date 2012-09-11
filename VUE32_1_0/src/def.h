@@ -28,6 +28,8 @@
 #include "NETV32_Common.h"
 #include "NETV32_Shared.h"
 
+//#define USE_I2C
+
 
 //Main data structure ToDo useful?
 struct vue32_data

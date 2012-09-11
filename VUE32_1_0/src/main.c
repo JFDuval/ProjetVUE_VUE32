@@ -25,6 +25,7 @@ unsigned int pb_clk_test;
 
 unsigned short current = 0;
 unsigned short gfi_freq = 0;
+extern unsigned short steering_angle;
 
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
@@ -125,8 +126,11 @@ int main(void)
     canAddr = bootConfig->module_id;
 	
 
+    #ifdef USE_I2C
     //Test function - To be removed later
     init_adxl345();
+    #endif
+
     /*
     ShortDelay(50*US_TO_CT_TICKS);
     while(1)
@@ -204,7 +208,10 @@ int main(void)
 	if(flag_1ms)
 	{
 	    flag_1ms = 0;
+
+	    #ifdef USE_I2C
 	    read_adxl345(0x32);	    //I2C Polling
+	    #endif
 
 	    //GFI sensor
 	    gfi_freq = gfi_freq_sensor();
@@ -214,6 +221,10 @@ int main(void)
 	ProcessIO();
 	update_variables();
 	netv_transceiver(canAddr);
+
+	//Can message processing
+	can_recv_message();
+	//steering_angle = decode_steering_angle(can_buffer);
     }
 
     return 0;
@@ -243,8 +254,10 @@ void config(void)
     init_adc();
     init_timers();
     init_output_compare();
+    #ifdef USE_I2C
     init_i2c();
-    init_change_notification();
+    #endif
+    //init_change_notification();
     init_can2();
 
     asm volatile ("ei"); //This routine enables the core to handle any pending interrupt requests
@@ -283,6 +296,9 @@ void update_variables(void)
 
     //GFI
     g_globalNETVVariables.gfi_freq = gfi_freq;
+
+    //Steering angle
+    g_globalNETVVariables.steering_angle = steering_angle;
 }
 
 static void InitializeSystem(void)
