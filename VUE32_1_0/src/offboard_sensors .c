@@ -63,21 +63,25 @@ void read_yaw_lateral(unsigned int adc_yaw, unsigned int adc_lateral)
     lateral = 427*(adc_lateral - 586);
 }
 
+unsigned short counter = 0;
+
 //IR155-3204 Isometer - Ground fault interrupt sensor
-//ToDo Test in progress - do not like low Freq...
-unsigned short gfi_freq_sensor(void)
+//Note: Might oscillate between 2 values at "illegal" frequencies, like 3Hz.
+//	Should not happen on the real product.
+//Output value: Byte, MSB = Fault, bit 6 = 0Hz High/Low, LSBs = Frequency
+unsigned char gfi_freq_sensor(void)
 {
     //This function needs to be called each ~1ms
     //Maximum frequency: 50Hz (20ms)
 
     static unsigned short pin_state = 0, last_pin_state = 0;
-    static unsigned short counter = 0;
+    //static unsigned short counter = 0;
     static unsigned short result = FREQ_0HZ;
 
     //Count period
     counter += 1;
 
-    //Read DIOE0:
+    //Read DIOE1:
     pin_state = DIO_GFI_FREQ;
 
     //If there is a frequency on the pin:
@@ -87,11 +91,11 @@ unsigned short gfi_freq_sensor(void)
 	{
 	    //Rising edge detected
 
-	    if(counter <= COUNT_50HZ)
+	    if((counter >= COUNT_50HZ-2) && (counter <= COUNT_50HZ+1))
 	    {
 		result = FREQ_50HZ;
 	    }
-	    else if((counter >= COUNT_40HZ-2) && (counter <= COUNT_40HZ+2))
+	    else if((counter >= COUNT_40HZ-1) && (counter <= COUNT_40HZ+2))
 	    {
 		result = FREQ_40HZ;
 	    }
@@ -119,16 +123,10 @@ unsigned short gfi_freq_sensor(void)
 	result = FREQ_0HZ;
     }
 
+    //Output byte
+    result = (result | (DIO_GFI_STATE << 7) | (pin_state << 6));
+
     last_pin_state = pin_state;
 
     return result;
-}
-
-//0 = Error, 1 = OK
-unsigned short gfi_state_sensor(void)
-{
-    //Read DIOE1:
-    TRIS_DIO_GFI_STATE = 1;  //make sure it's an input ToDo move
-
-    return DIO_GFI_STATE;
 }

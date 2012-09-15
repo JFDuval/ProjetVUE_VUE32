@@ -35,8 +35,8 @@
 #define POWER_OUT_WIPER 4
 
 //Light control:
-#define LT_OUT_30       LATEbits.LATE7          //Output - 30 - Fixed +3V3
-#define LT_OUT_31       LATEbits.LATE6          //Output - 31 - Fixed +3V3
+#define LT_OUT_30       LATEbits.LATE7          //Output - 30 - Fixed +3V3	//ToDo remove, link to "real" 3.3V
+#define LT_OUT_31       LATEbits.LATE6          //Output - 31 - Fixed +3V3	//ToDo remove, link to "real" 3.3V
 #define LT_IN_L         PORTEbits.RE5           //Input - L
 #define LT_IN_R         PORTEbits.RE4           //Input - R
 #define LT_IN_58        PORTEbits.RE3           //Input - 58

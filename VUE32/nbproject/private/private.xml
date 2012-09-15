@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/Analogic_Module.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/def.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/periph.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/VUE32def.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/Device_configuration.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/adc_vue32.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/timer_vue32.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/timer_vue32.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/cn_vue32.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/pwm_vue32.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/pwm_vue32.h</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/Digital_Module.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/Power_Module.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/periph.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/adc_vue32.c</file>
+        <file>file:/C:/Dropbox/VUE/Code/Controle/Code_VUE32/VUE32/main.c</file>
+    </open-files>
 </project-private>

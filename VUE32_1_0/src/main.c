@@ -17,7 +17,7 @@ unsigned int VUE32_ID = VUE32_GENERIC;
 unsigned int pb_clk_test;
 
 unsigned short current = 0;
-unsigned short gfi_freq = 0;
+unsigned char gfi_freq = 0;
 extern unsigned short steering_angle;
 unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 
@@ -39,6 +39,9 @@ extern unsigned int period_spdo1, period_spdo2;
 char USB_In_Buffer[64];
 char USB_Out_Buffer[64];
 BOOL stringPrinted;
+
+//ToDo debug only remove
+extern unsigned short counter;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

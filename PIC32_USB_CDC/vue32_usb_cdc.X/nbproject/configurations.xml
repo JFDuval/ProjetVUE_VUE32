@@ -39,8 +39,8 @@
         <targetDevice>PIC32MX795F512H</targetDevice>
         <targetHeader></targetHeader>
         <platformTool>ICD3PlatformTool</platformTool>
-        <languageToolchain>C32</languageToolchain>
-        <languageToolchainVersion>2.02</languageToolchainVersion>
+        <languageToolchain>XC32</languageToolchain>
+        <languageToolchainVersion>1.00</languageToolchainVersion>
         <platform>3</platform>
       </toolsSet>
       <compileType>
@@ -48,15 +48,19 @@
           <linkerLibItems>
           </linkerLibItems>
         </linkerTool>
+        <loading>
+          <useAlternateLoadableFile>false</useAlternateLoadableFile>
+          <alternateLoadableFile></alternateLoadableFile>
+        </loading>
       </compileType>
       <makeCustomizationType>
         <makeCustomizationPreStepEnabled>true</makeCustomizationPreStepEnabled>
         <makeCustomizationPreStep></makeCustomizationPreStep>
         <makeCustomizationPostStepEnabled>true</makeCustomizationPostStepEnabled>
         <makeCustomizationPostStep></makeCustomizationPostStep>
-        <makeCustomizationAlternativeFileToLoadEnabled>false</makeCustomizationAlternativeFileToLoadEnabled>
-        <makeCustomizationAlternativeFileToLoad></makeCustomizationAlternativeFileToLoad>
         <makeCustomizationPutChecksumInUserID>false</makeCustomizationPutChecksumInUserID>
+        <makeCustomizationEnableLongLines>false</makeCustomizationEnableLongLines>
+        <makeCustomizationNormalizeHexFile>false</makeCustomizationNormalizeHexFile>
       </makeCustomizationType>
       <C32>
         <property key="additional-warnings" value="false"/>
@@ -128,6 +132,8 @@
         <property key="tracecontrol.medium" value="0"/>
         <property key="tracecontrol.select" value="0"/>
       </ICD3PlatformTool>
+      <XC32>
+      </XC32>
     </conf>
   </confs>
 </configurationDescriptor>
