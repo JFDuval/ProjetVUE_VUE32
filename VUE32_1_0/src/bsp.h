@@ -45,6 +45,7 @@ typedef struct
     short           accel_z;            //Offset 22
     unsigned short  steering_angle;     //Offset 24
     unsigned char   gfi_freq;           //Offset 26
+    unsigned char   user_input;         //Offset 27
 
 } GlobalNETVVariables;
 

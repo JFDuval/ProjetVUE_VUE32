@@ -20,6 +20,7 @@ unsigned short current = 0;
 unsigned char gfi_freq = 0;
 extern unsigned short steering_angle;
 unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
+unsigned char user_input = 0;
 
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
@@ -39,9 +40,6 @@ extern unsigned int period_spdo1, period_spdo2;
 char USB_In_Buffer[64];
 char USB_Out_Buffer[64];
 BOOL stringPrinted;
-
-//ToDo debug only remove
-extern unsigned short counter;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -120,6 +118,7 @@ int main(void)
     //UPDATE NETV ADDRESS
     canAddr = bootConfig->module_id;	
 
+    init_light_input();	//Test function - To be moved later
     /*
     init_wiper_input();
 
@@ -194,6 +193,9 @@ int main(void)
 
 	    //GFI sensor
 	    gfi_freq = gfi_freq_sensor();
+
+	    //User input
+	    user_input = read_light_input();	//ToDo
 	}
 
         //1ms timebase B
@@ -285,7 +287,11 @@ void update_variables(void)
     g_globalNETVVariables.gfi_freq = gfi_freq;
 
     //Steering angle
-    g_globalNETVVariables.steering_angle = steering_angle;
+    //g_globalNETVVariables.steering_angle = steering_angle;	ToDo Fix
+    g_globalNETVVariables.steering_angle = PORTE;
+
+    //User input
+    g_globalNETVVariables.user_input = user_input;
 }
 
 static void InitializeSystem(void)

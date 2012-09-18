@@ -19,7 +19,6 @@ void init_wiper_input(void)
 {
     //Set GPIOs
     TRIS_DIO = 0b00000111;
-    LAT_DIO = 0x00;
 }
 
 unsigned char read_wiper_input(void)
@@ -132,8 +131,7 @@ unsigned int read_brake(unsigned int adc_in)
 void init_light_input(void)
 {
     //Set GPIOs
-    TRIS_DIO = 0b00111111;
-    LAT_DIO = 0x00;
+    TRIS_DIO = 0b01111111;
 }
 
 unsigned char read_light_input(void)
@@ -146,8 +144,7 @@ unsigned char read_light_input(void)
     if(read_brake(0))    //ToDo send proper ADC value!
         lt_status_3 = 0x80;
 
-    //Set outputs, read the inputs:
-    LT_OUT_30 = 1;
+    //Set the output, read the inputs:
     LT_OUT_31 = 1;
     ShortDelay(5*US_TO_CT_TICKS);
 
@@ -157,12 +154,14 @@ unsigned char read_light_input(void)
     else if(LT_IN_R)
         lt_status_1 = LT_FLASHER_RIGHT;
 
+    LT_OUT_31 = 0;
+    ShortDelay(5*US_TO_CT_TICKS);
+
     //Light level?
+    lt_status_2 = LT_OFF;   //Default = Off
     if(LT_IN_58)
         lt_status_2 = LT_LOW;
-    if(LT_IN_56b)
-        lt_status_2 = LT_MID;
-    if((LT_IN_56a == 1) || (LT_IN_83b == 1))
+    if(LT_IN_58 && LT_IN_56a)
         lt_status_2 = LT_HIGH;
 
     //Output flasher and intensity in 1 byte:
@@ -205,7 +204,7 @@ unsigned int light_action(unsigned char light_input)
             power_out(LT_PWR_FRONT_HIGH, LT_MIN);
 
         //Rear night lights
-        if(lights == LT_MID || lights == LT_HIGH)
+        if(lights == LT_LOW || lights == LT_HIGH)
              power_out(LT_PWR_REAR, LT_MAX);
         else
             power_out(LT_PWR_REAR, LT_MIN);

@@ -35,20 +35,21 @@
 #define POWER_OUT_WIPER 4
 
 //Light control:
-#define LT_OUT_30       LATEbits.LATE7          //Output - 30 - Fixed +3V3	//ToDo remove, link to "real" 3.3V
-#define LT_OUT_31       LATEbits.LATE6          //Output - 31 - Fixed +3V3	//ToDo remove, link to "real" 3.3V
-#define LT_IN_L         PORTEbits.RE5           //Input - L
-#define LT_IN_R         PORTEbits.RE4           //Input - R
-#define LT_IN_58        PORTEbits.RE3           //Input - 58
-#define LT_IN_56b       PORTEbits.RE2           //Input - 56b
-#define LT_IN_56a       PORTEbits.RE1           //Input - 56a
-#define LT_IN_83b       PORTEbits.RE0           //Input - 83b
+#define LT_OUT_31       LATEbits.LATE7          //Output - 31 - Brown
+#define LT_IN_L         PORTEbits.RE5           //Input - L - Red/White
+#define LT_IN_R         PORTEbits.RE4           //Input - R - Brown/Black
+#define LT_IN_58        PORTEbits.RE3           //Input - 58 - Green/Blue
+#define LT_IN_56b       PORTEbits.RE2           //Input - 56b - Purple/Blue
+#define LT_IN_56a       PORTEbits.RE1           //Input - 56a - Yellow
+#define LT_IN_83b       PORTEbits.RE0           //Input - 83b - Yellow/Red
+//Note: Red (30) linked to +3V3
+//Note: some functions are not cabled
 
 //Light states:
 #define LT_FLASHER_LEFT     0b00010000
 #define LT_FLASHER_RIGHT    0b00100000
-#define LT_LOW              0b00000001
-#define LT_MID              0b00000010
+#define LT_OFF              0b00000001
+#define LT_LOW              0b00000010
 #define LT_HIGH             0b00000011
 #define LT_BRAKE            0b10000000
 

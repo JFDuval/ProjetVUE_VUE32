@@ -14,4 +14,5 @@
 	 <ModuleVariable offset="22"  description="Accelero Z" type="sint16" value="" name="accel_z" />
 	 <ModuleVariable offset="24"  description="Steering angle" type="uint16" value="" name="steering" />
 	 <ModuleVariable offset="26"  description="GFI Freq code" type="uint8" value="" name="gfi_freq" />
+	 <ModuleVariable offset="27"  description="User input code" type="uint8" value="" name="user_input" />
 </ModuleConfiguration>
