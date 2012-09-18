@@ -116,8 +116,15 @@ unsigned int test_code1_adc_and_dio(void)
     return PASS;
 }
 
+//ToDo call this function from CAN too
 void com_led_toggle(void)
 {
-    //ToDo
-    LED2 ^= 1;  //Toggle LED 4Hz
+    static unsigned short led2_cnt = 0;
+
+    led2_cnt++;
+    if(led2_cnt > 25)
+    {
+	led2_cnt = 0;
+	LED2 ^= 1;  //Toggle LED
+    } 
 }

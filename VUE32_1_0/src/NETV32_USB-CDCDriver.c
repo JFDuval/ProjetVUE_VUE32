@@ -126,7 +126,7 @@ unsigned char netv_send_message(NETV_MESSAGE *message)
     //Need to transform a TxMessageBuffer into a NETV_MESSAGE
     NETVSerialMessage buf;
 
-/**
+/*
 		unsigned char start_byte;
 		unsigned char pri_boot_rtr;
 		unsigned char type;
@@ -137,13 +137,13 @@ unsigned char netv_send_message(NETV_MESSAGE *message)
 		unsigned char checksum;
 */
 
-	//Set fields
-	buf.start_byte = START_BYTE;
-	buf.pri_boot_rtr = (message->msg_priority << 5) | (message->msg_read_write << 3) | (message->msg_eeprom_ram << 4) | (message->msg_remote);
-	buf.type = message->msg_type;
-	buf.cmd = message->msg_cmd;
-	buf.dest = message->msg_dest;
-	buf.data_length_iface = (message->msg_data_length << 4);
+    //Set fields
+    buf.start_byte = START_BYTE;
+    buf.pri_boot_rtr = (message->msg_priority << 5) | (message->msg_read_write << 3) | (message->msg_eeprom_ram << 4) | (message->msg_remote);
+    buf.type = message->msg_type;
+    buf.cmd = message->msg_cmd;
+    buf.dest = message->msg_dest;
+    buf.data_length_iface = (message->msg_data_length << 4);
 
     //copy data
     for (i = 0 ; i < 8; i++)
@@ -151,8 +151,8 @@ unsigned char netv_send_message(NETV_MESSAGE *message)
         buf.data[i] = message->msg_data[i];
     }
 
-	//calculate checksum
-	buf.checksum = serial_calculate_checksum(&buf);
+    //calculate checksum
+    buf.checksum = serial_calculate_checksum(&buf);
 
 
     //Place data in USB output buffer
@@ -249,6 +249,9 @@ unsigned char netv_recv_message(NETV_MESSAGE *message)
 				{
 				   message->msg_data[i] = buf.data[i];
 				}
+
+				//Toggle LED2
+				com_led_toggle();
 
 				//message valid
 				return 1;
