@@ -44,6 +44,7 @@
       <itemPath>../src/wheel_sensor.h</itemPath>
       <itemPath>../src/vue32_can.h</itemPath>
       <itemPath>../src/offboard_sensors.h</itemPath>
+      <itemPath>../src/microchip_usb_fct.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -75,6 +76,7 @@
       <itemPath>../src/NETV32_USB-CDCDriver.c</itemPath>
       <itemPath>../src/vue32_can.c</itemPath>
       <itemPath>../src/offboard_sensors .c</itemPath>
+      <itemPath>../src/microchip_usb_fct.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -121,8 +123,8 @@
       </C32-LD>
       <C32Global>
       </C32Global>
-      <Simulator>
-      </Simulator>
+      <ICD3PlatformTool>
+      </ICD3PlatformTool>
     </conf>
   </confs>
 </configurationDescriptor>

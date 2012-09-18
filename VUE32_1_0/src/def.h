@@ -25,6 +25,7 @@
 #include "USB-CDC_Microchip\usb_config.h"
 #include "USB-CDC_Microchip\usb_device.h"
 #include "USB-CDC_Microchip\usb.h"
+#include "microchip_usb_fct.h"
 #include "NETV32_Common.h"
 #include "NETV32_Shared.h"
 
