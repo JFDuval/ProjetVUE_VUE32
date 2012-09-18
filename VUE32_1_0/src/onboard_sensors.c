@@ -14,7 +14,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-int read_temp(unsigned int adc_in)
+char read_temp(unsigned short adc_in)
 {
     //750mV @ 25C, 10mV/C
     //10 bits 3.3V ADC = 3.22mV/bit
@@ -27,7 +27,7 @@ int read_temp(unsigned int adc_in)
     return (((adc_in - 233)/3) + 25);
 }
 
-int read_vbat(unsigned int adc_in)
+unsigned short read_vbat(unsigned short adc_in)
 {
     //Divider: 10k over 30k, Vo/Vi = 10/(10+30) = 0.25
     //10 bits 3.3V ADC = 3.22mV/bit

@@ -7,9 +7,17 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned int adc_raw[ADC_CH][ADC_FILTER];
-unsigned int adc_mean[ADC_CH];
-volatile unsigned int flag_adc_valid = 0, flag_adc_filter = 0;
+unsigned short adc_raw[ADC_CH][ADC_FILTER];
+unsigned short adc_mean[ADC_CH];
+volatile unsigned char flag_adc_valid = 0, flag_adc_filter = 0;
+
+//Decoded ADC values:
+char board_temp = 0, current = 0;
+unsigned short board_volt = 0;
+unsigned short pedal_accelerator = 0, pedal_brake = 0;
+
+//main.c
+extern unsigned char VUE32_ID;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -24,14 +32,14 @@ void __ISR(_ADC_VECTOR,ipl2) isr_adc(void)
     static unsigned int adc_pos = 0;
 
     //From ADC1BUFx to adc_raw[x][adc_pos]
-    adc_raw[0][adc_pos] = ADC1BUF0;
-    adc_raw[1][adc_pos] = ADC1BUF1;
-    adc_raw[2][adc_pos] = ADC1BUF2;
-    adc_raw[3][adc_pos] = ADC1BUF3;
-    adc_raw[4][adc_pos] = ADC1BUF4;
-    adc_raw[5][adc_pos] = ADC1BUF5;
-    adc_raw[6][adc_pos] = ADC1BUF6;
-    adc_raw[7][adc_pos] = ADC1BUF7;
+    adc_raw[0][adc_pos] = (unsigned short) ADC1BUF0;
+    adc_raw[1][adc_pos] = (unsigned short) ADC1BUF1;
+    adc_raw[2][adc_pos] = (unsigned short) ADC1BUF2;
+    adc_raw[3][adc_pos] = (unsigned short) ADC1BUF3;
+    adc_raw[4][adc_pos] = (unsigned short) ADC1BUF4;
+    adc_raw[5][adc_pos] = (unsigned short) ADC1BUF5;
+    adc_raw[6][adc_pos] = (unsigned short) ADC1BUF6;
+    adc_raw[7][adc_pos] = (unsigned short) ADC1BUF7;
 
     //Fills the right buffer
     adc_pos++;
@@ -128,5 +136,52 @@ void filter_adc(void)
             sum += adc_raw[i][j];
         }
         adc_mean[i] = (sum >> ADC_FILTER_SHIFT);
+    }
+}
+
+//Calls the proper conversion functions
+void board_specific_adc_decode(void)
+{
+    //ToDo
+
+    //Filter ADC to get the latest filtered results
+    filter_adc();
+
+    //Onboard sensors:
+    board_temp = read_temp(adc_mean[ADC_FILTERED_TEMP]);
+    board_volt = read_vbat(adc_mean[ADC_FILTERED_VOLT]);
+
+    if(VUE32_ID == VUE32_GENERIC)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_1)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_2)
+    {
+	current = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
+    }
+    else if(VUE32_ID == VUE32_3)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_4)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_5)
+    {
+	pedal_accelerator = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
+	pedal_brake = read_brake(adc_mean[ADC_FILTERED_AN2]);
+    }
+    else if(VUE32_ID == VUE32_6)
+    {
+	read_yaw_lateral(adc_mean[ADC_FILTERED_AN1], adc_mean[ADC_FILTERED_AN0]);
+    }
+    else if(VUE32_ID == VUE32_7)
+    {
+	Nop();
     }
 }

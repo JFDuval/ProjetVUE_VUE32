@@ -16,6 +16,6 @@
 
 void init_adc(void);
 void filter_adc(void);
-
+void board_specific_adc_decode(void);
 
 #endif

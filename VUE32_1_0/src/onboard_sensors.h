@@ -8,8 +8,8 @@
 //                                                                         //
 /////////////////////////////////////////////////////////////////////////////
 
-int read_temp(unsigned int adc_in);
-int read_vbat(unsigned int adc_in);
+char read_temp(unsigned short adc_in);
+unsigned short read_vbat(unsigned short adc_in);
 
 #endif
 

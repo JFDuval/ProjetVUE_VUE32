@@ -5,6 +5,7 @@
 // Connect the load between the Output (+) and the vehicle's GND (-)
 // 1 = +12V on OUTx = Powered load
 
+//ToDo Update! Connexions changed
 // Connections - VUE32 #4
 // ======================
 // => OUT1: Lights - Front Low/Night - 110W (2x 55W)

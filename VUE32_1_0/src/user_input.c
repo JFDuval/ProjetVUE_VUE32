@@ -7,7 +7,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-extern unsigned int VUE32_ID;       //main.c
+extern unsigned char VUE32_ID;       //main.c
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -73,6 +73,7 @@ unsigned char read_wiper_input(void)
     return (wp_status_1 | wp_status_2);
 }
 
+//ToDo Update! Connexions changed
 unsigned int wiper_action(unsigned char wiper_input)
 {
     //Here's how it works:
@@ -114,14 +115,16 @@ unsigned int wiper_action(unsigned char wiper_input)
     }
 }
 
-unsigned int read_accelerator(unsigned int adc_in)
+unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
 {
-    //If needed, do some computing here
+    unsigned short accelerator = 0;
 
-    return(adc_in);
+    //ToDo!
+
+    return(accelerator);
 }
 
-unsigned int read_brake(unsigned int adc_in)
+unsigned short read_brake(unsigned short adc_in)
 {
     //ToDo
 
@@ -168,6 +171,7 @@ unsigned char read_light_input(void)
     return (lt_status_1 | lt_status_2 | lt_status_3);
 }
 
+//ToDo Update! Connexions changed
 unsigned int light_action(unsigned char light_input)
 {
     unsigned char flashers = (light_input & 0xE0);
@@ -215,4 +219,23 @@ unsigned int light_action(unsigned char light_input)
         else
             power_out(LT_PWR_BRAKE, LT_MIN);
     }
+}
+
+void init_dpr_key(void)
+{
+    //Configure pins as inputs:
+    TRIS_DIO_BRAKE_SW = 1;
+    TRIS_DIO_DPR_SW1 = 1;
+    TRIS_DIO_DPR_SW2 = 1;
+    TRIS_DIO_KEY_SW1 = 1;
+    TRIS_DIO_KEY_SW2 = 1;
+}
+
+unsigned char read_dpr_key(void)
+{
+    unsigned char key_state = 0, dpr_state = 0;
+
+    //ToDo Properly decode
+
+    return (key_state | dpr_state);
 }

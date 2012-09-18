@@ -25,8 +25,8 @@
 //                                                                         //
 /////////////////////////////////////////////////////////////////////////////
 
-short read_current(unsigned int adc_in, unsigned int adc_vbat);
-void read_yaw_lateral(unsigned int adc_yaw, unsigned int adc_lateral);
+short read_current(unsigned short adc_in, unsigned short adc_vbat);
+void read_yaw_lateral(unsigned short adc_yaw, unsigned short adc_lateral);
 unsigned char gfi_freq_sensor(void);
 
 #endif

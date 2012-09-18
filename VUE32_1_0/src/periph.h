@@ -17,6 +17,7 @@
 void define_io(void);
 void ShortDelay(unsigned int DelayCount);
 unsigned int test_code1_adc_and_dio(void);
+void com_led_toggle(void);
 
 #endif
 

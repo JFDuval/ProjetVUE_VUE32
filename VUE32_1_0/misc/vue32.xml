@@ -15,4 +15,5 @@
 	 <ModuleVariable offset="24"  description="Steering angle" type="uint16" value="" name="steering" />
 	 <ModuleVariable offset="26"  description="GFI Freq code" type="uint8" value="" name="gfi_freq" />
 	 <ModuleVariable offset="27"  description="User input code" type="uint8" value="" name="user_input" />
+	 <ModuleVariable offset="28"  description="VUE32 ID" type="uint8" value="" name="vue32_id" />
 </ModuleConfiguration>

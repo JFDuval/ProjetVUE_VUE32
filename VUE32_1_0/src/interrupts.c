@@ -22,14 +22,14 @@ extern unsigned int last_spdo1, last_spdo2;
 void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
     static unsigned int led_cnt = 0;
-    static unsigned int tmb_a_cnt = 0, tmb_b_cnt = 2;
+    static unsigned int tmb_a_cnt = 0, tmb_b_cnt = 4;
 
-    //150ms
+    //125ms - 8Hz
     led_cnt++;
-    if(led_cnt > 1500)
+    if(led_cnt > 1250)
     {
         led_cnt = 0;
-        LED1 ^= 1;          //Toggle
+        LED1 ^= 1;  //Toggle LED 4Hz
     }
 
     //1ms Time base A

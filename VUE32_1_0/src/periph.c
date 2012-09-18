@@ -115,3 +115,9 @@ unsigned int test_code1_adc_and_dio(void)
 
     return PASS;
 }
+
+void com_led_toggle(void)
+{
+    //ToDo
+    LED2 ^= 1;  //Toggle LED 4Hz
+}

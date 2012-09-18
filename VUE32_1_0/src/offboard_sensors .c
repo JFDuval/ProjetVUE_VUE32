@@ -16,7 +16,7 @@ short yaw_rate = 0, lateral = 0;
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 //Returns the current in Amps
-short read_current(unsigned int adc_in, unsigned int adc_vbat)
+short read_current(unsigned short adc_in, unsigned short adc_vbat)
 {
     //Supply voltage: 12VDC
     //Resistive divider: 10k and 26.7k, Vo = 0.272Vin. 12V => 3.27V
@@ -39,11 +39,11 @@ short read_current(unsigned int adc_in, unsigned int adc_vbat)
     //1.523mV/A = 0.473A/bit
     gain = ((float)batt_volt/12000)*0.473;
 
-    return (int)((float)(adc_in - offset)/gain);
+    return (short)((float)(adc_in - offset)/gain);
 }
 
 //Bosch Yaw-rate and Lateral acceleration sensor
-void read_yaw_lateral(unsigned int adc_yaw, unsigned int adc_lateral)
+void read_yaw_lateral(unsigned short adc_yaw, unsigned short adc_lateral)
 {
     //Supply voltage: 12VDC
     //Reference voltage: 2.5V. Span: 0.65V - 4.35V
@@ -63,8 +63,6 @@ void read_yaw_lateral(unsigned int adc_yaw, unsigned int adc_lateral)
     lateral = 427*(adc_lateral - 586);
 }
 
-unsigned short counter = 0;
-
 //IR155-3204 Isometer - Ground fault interrupt sensor
 //Note: Might oscillate between 2 values at "illegal" frequencies, like 3Hz.
 //	Should not happen on the real product.
@@ -75,7 +73,7 @@ unsigned char gfi_freq_sensor(void)
     //Maximum frequency: 50Hz (20ms)
 
     static unsigned short pin_state = 0, last_pin_state = 0;
-    //static unsigned short counter = 0;
+    static unsigned short counter = 0;
     static unsigned short result = FREQ_0HZ;
 
     //Count period

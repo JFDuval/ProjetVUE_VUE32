@@ -4,6 +4,7 @@
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 //=> Do a Search in Files (CTRL+SHIFT+F) with "ToDo" to find incomplete
 //   statements.
+//=> At the end of this file there is a listing of board specific functions.
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -12,26 +13,31 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned int VUE32_ID = VUE32_GENERIC;
-
+unsigned char VUE32_ID = VUE32_4;
 unsigned int pb_clk_test;
-
-unsigned short current = 0;
 unsigned char gfi_freq = 0;
-extern unsigned short steering_angle;
 unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 unsigned char user_input = 0;
 
+//vue32_can.c
+extern unsigned short steering_angle;
+
 //vue32_i2c.c
 extern short accel_x, accel_y, accel_z;
+
+//offboard_sensors.c
+extern short yaw_rate, lateral;
 
 //interrupts.c
 extern volatile unsigned int flag_1ms_a, flag_1ms_b;
 unsigned int flag_fsm = 0;
 
 //vue32_adc.c
-extern volatile unsigned int flag_adc_filter;
-extern unsigned int adc_mean[ADC_CH];
+extern volatile unsigned char flag_adc_filter;
+extern unsigned short adc_mean[ADC_CH];
+extern char board_temp, current;
+extern unsigned short board_volt;
+extern unsigned short pedal_accelerator, pedal_brake;
 
 //wheel_sensor.c
 extern unsigned int period_spdo1, period_spdo2;
@@ -67,8 +73,9 @@ int main(void)
     unsigned int fsm_step = 0;
     unsigned int auto_test = FAIL;
 
-    //Config peripherals, pins, clock, ...
+    //Config peripherals, pins and clock
     config();
+    board_specific_config();
 	
     //USB setup
     InitializeSystem();
@@ -111,68 +118,14 @@ int main(void)
     //UPDATE NETV ADDRESS
     canAddr = bootConfig->module_id;	
 
-    init_light_input();	//Test function - To be moved later
-    /*
-    init_wiper_input();
-
-    //Test function - To be removed later
+    //Most of the functions in the while(1) loop are timed by Timer1
     while (1)
     {
-	dummy = read_wiper_input();
-	Nop();
-	Nop();
-	wiper_action(dummy);
-	Nop();
-	Nop();
-    }
-
-    //Test function - To be removed later
-    while (1)
-    {
-	auto_test = test_code1_adc_and_dio();
-
-	if (auto_test)
-	    LED2 = 0;
-	else
-	    LED2 = 1;
-    }
-*/
-
-    TRIS_DIO_GFI_FREQ = 1;  //make sure it's an input ToDo move
-    
-    while (1)
-    {
-	//ToDo
-	if (flag_fsm)
-	{
-	    flag_fsm = 0;
-
-	    switch (fsm_step)
-	    {
-		case 0:
-		    fsm_step += 1;
-		    break;
-
-		case 1:
-		    fsm_step += 1;
-		    break;
-
-		case 2:
-		    fsm_step += 1;
-		    break;
-
-		case 3:
-		    fsm_step = 0;
-		    break;
-	    }
-	}
-
 	//Filter ADC results
 	if(flag_adc_filter)
 	{
 	    flag_adc_filter = 0;
 	    filter_adc();
-	    Nop();
 	}
 
 	//1ms timebase A
@@ -180,24 +133,41 @@ int main(void)
 	{
 	    flag_1ms_a = 0;
 
-	    #ifdef USE_I2C
-	    read_adxl345(0x32);	    //I2C Polling
-	    #endif
+	    if(VUE32_ID == VUE32_6)
+	    {
+		#ifdef USE_I2C
+		read_adxl345(0x32);	    //I2C Polling
+		#endif
+	    }
 
 	    //GFI sensor
-	    gfi_freq = gfi_freq_sensor();
+	    if(VUE32_ID == VUE32_2)
+		gfi_freq = gfi_freq_sensor();
 
 	    //User input
-	    user_input = read_light_input();	//ToDo
+	    if(VUE32_ID == VUE32_4)
+		user_input = read_light_input();
+	    if(VUE32_ID == VUE32_6)
+		user_input = read_wiper_input();
+	    if(VUE32_ID == VUE32_5)
+		user_input = read_dpr_key();
 	}
 
         //1ms timebase B
-	if(flag_1ms_a)
+	if(flag_1ms_b)
 	{
             flag_1ms_b = 0;
-            
-            wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
-            wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
+
+	    //Speed sensors
+	    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_3) || (VUE32_ID == VUE32_7))
+	    {
+		wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
+	    }
+	    
+	    if(VUE32_ID == VUE32_3)
+		wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
+
+	    //ToDo Power Out
         }
 
 	//NetV on USB-CDC
@@ -236,15 +206,73 @@ void config(void)
     init_adc();
     init_timers();
     init_output_compare();
-    #ifdef USE_I2C
-    init_i2c();
-    init_adxl345();
-    #endif
-    //init_change_notification();
-    init_can2();
+    //init_can1();    //ToDo    
 
-    asm volatile ("ei"); //This routine enables the core to handle any pending interrupt requests
+    asm volatile ("ei"); //Enables the core to handle any pending interrupt requests
 }
+
+void board_specific_config(void)
+{
+    if(VUE32_ID == VUE32_GENERIC)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_1)
+    {
+	Nop();
+    }
+    else if(VUE32_ID == VUE32_2)
+    {
+	//Ground fault inputs
+	TRIS_DIO_GFI_STATE = 1;
+	TRIS_DIO_GFI_FREQ = 1;
+
+	//Speed sensor
+	init_change_notification();
+    }
+    else if(VUE32_ID == VUE32_3)
+    {
+	//CAN for the drives
+	init_can2();
+
+	//Speed sensor
+	init_change_notification();
+    }
+    else if(VUE32_ID == VUE32_4)
+    {
+	//Light lever
+	init_light_input();
+    }
+    else if(VUE32_ID == VUE32_5)
+    {
+	//CAN for the steering angle sensor
+	init_can2();
+
+	//Parking lever, key
+	init_dpr_key();
+    }
+    else if(VUE32_ID == VUE32_6)
+    {
+	#ifdef USE_I2C
+	init_i2c();
+	init_adxl345();
+	#endif
+
+	//Wiper lever
+	init_wiper_input();
+    }
+    else if(VUE32_ID == VUE32_7)
+    {
+	//CAN for the BMS
+	init_can2();
+
+	//Speed sensor
+	init_change_notification();
+    }
+}
+
+//OpenECoSys Network Viewer:
+//==========================
 
 void netv_proc_message(NETV_MESSAGE *message)
 {
@@ -258,15 +286,15 @@ void init_default_variables(void)
 
 void update_variables(void)
 {
-    //ADC
-    g_globalNETVVariables.adc[0] = (unsigned short) adc_mean[0];
-    g_globalNETVVariables.adc[1] = (unsigned short) adc_mean[1];
-    g_globalNETVVariables.adc[2] = (unsigned short) adc_mean[2];
-    g_globalNETVVariables.adc[3] = (unsigned short) adc_mean[3];
-    g_globalNETVVariables.adc[4] = (unsigned short) adc_mean[4];
-    g_globalNETVVariables.adc[5] = (unsigned short) adc_mean[5];
-    g_globalNETVVariables.adc[6] = (unsigned short) adc_mean[6];
-    g_globalNETVVariables.adc[7] = (unsigned short) adc_mean[7];
+    //ADC ToDo simplify
+    g_globalNETVVariables.adc[0] = adc_mean[0];
+    g_globalNETVVariables.adc[1] = adc_mean[1];
+    g_globalNETVVariables.adc[2] = adc_mean[2];
+    g_globalNETVVariables.adc[3] = adc_mean[3];
+    g_globalNETVVariables.adc[4] = adc_mean[4];
+    g_globalNETVVariables.adc[5] = adc_mean[5];
+    g_globalNETVVariables.adc[6] = adc_mean[6];
+    g_globalNETVVariables.adc[7] = adc_mean[7];
 
     //DIOE
     g_globalNETVVariables.port = (unsigned short) PORT_DIO;
@@ -280,15 +308,14 @@ void update_variables(void)
     g_globalNETVVariables.gfi_freq = gfi_freq;
 
     //Steering angle
-    //g_globalNETVVariables.steering_angle = steering_angle;	ToDo Fix
-    g_globalNETVVariables.steering_angle = PORTE;
+    g_globalNETVVariables.steering_angle = steering_angle;
 
     //User input
     g_globalNETVVariables.user_input = user_input;
+
+    //Board ID
+    g_globalNETVVariables.vue32_id = VUE32_ID;
 }
-
-
-
 
 //Config fuses
 // SYSCLK = (8MHz Crystal/ FPLLIDIV * FPLLMUL / FPLLODIV)
@@ -312,4 +339,52 @@ void update_variables(void)
 #pragma config BWP      = OFF           // Boot Flash Write Protect
 #pragma config PWP      = OFF           // Program Flash Write Protect
 #pragma config ICESEL   = ICS_PGx2      // ICE/ICD Comm Channel Select
-#pragma config DEBUG    = ON           	// Debugger Disabled for Starter Kit
+#pragma config DEBUG    = ON           	// Debugger enabled
+
+/*
+ * Board specific functions.
+ * See VUE32_Cables_and_Connectors for a complete description.
+ *
+ *VUE32 #1:
+ *=========
+ * Serial Bridge - Do not use this code project
+ *
+ *VUE32 #2:
+ *=========
+ * Battery current sensing
+ * GFI
+ * 1x Speed sensor
+ * 3x Power out (lights)
+ *
+ *VUE32 #3:
+ *=========
+ * CAN 2 (bridge) Drives
+ * 2x Speed sensor
+ * 2x Power Out (contactor and pump)
+ *
+ *VUE32 #4:
+ *=========
+ * Light lever
+ * 4x Power out, including Wipers
+ *
+ *VUE32 #5:
+ *=========
+ * Brake and accelerator
+ * D/P/R switch
+ * Ignition key
+ * CAN2 Steering wheel angle sensor
+ * 1x Power output (amplifier)
+ *
+ *VUE32 #6:
+ *=========
+ * Lateral acceleration
+ * Yaw rate
+ * Wiper lever
+ * 2x Power out (lights and washer pump)
+ *
+ *VUE32 #7:
+ *=========
+ * CAN2 BMS (bridge)
+ * 1x Speed sensor
+ * 3x Power out (lights)
+ */

@@ -29,8 +29,8 @@
 #include "NETV32_Common.h"
 #include "NETV32_Shared.h"
 
+//Enable/Disable high-level functions:
 //#define USE_I2C
-
 
 //Main data structure ToDo useful?
 struct vue32_data
@@ -69,6 +69,7 @@ struct vue32_data
 
 void setup_oscillator(void);
 void config(void);
+void board_specific_config(void);
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                         //
@@ -100,6 +101,16 @@ void config(void);
 #define PASS                    1
 #define FAIL                    0
 
+//ADC Pins
+#define ADC_FILTERED_AN0        0
+#define ADC_FILTERED_AN1        1
+#define ADC_FILTERED_AN2        2
+#define ADC_FILTERED_AN3        3
+#define ADC_FILTERED_MCS1       4
+#define ADC_FILTERED_MCS2       5
+#define ADC_FILTERED_TEMP       6
+#define ADC_FILTERED_VOLT       7
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                         //
 //                                       Pin Definitions                                   //
@@ -123,14 +134,27 @@ void config(void);
 #define TRIS_LED2		TRISBbits.TRISB13
 //1 = Off (PNP driver)
 
-//Digital I/Os
+//Digital I/Os - Port
 #define TRIS_DIO		TRISE	
 #define LAT_DIO			LATE
 #define PORT_DIO		PORTE
+//Digital I/Os - Board Specific pins
 #define DIO_GFI_FREQ            PORTEbits.RE0
 #define TRIS_DIO_GFI_FREQ       TRISEbits.TRISE0
 #define DIO_GFI_STATE           PORTEbits.RE1
 #define TRIS_DIO_GFI_STATE      TRISEbits.TRISE1
+#define DIO_WIPER_SW            PORTEbits.RE6
+#define TRIS_DIO_WIPER_SW       TRISEbits.TRISE6
+#define DIO_BRAKE_SW            PORTEbits.RE0
+#define TRIS_DIO_BRAKE_SW       TRISEbits.TRISE0
+#define DIO_DPR_SW1             PORTEbits.RE1
+#define TRIS_DIO_DPR_SW1        TRISEbits.TRISE1
+#define DIO_DPR_SW2             PORTEbits.RE2
+#define TRIS_DIO_DPR_SW2        TRISEbits.TRISE2
+#define DIO_KEY_SW1             PORTEbits.RE3
+#define TRIS_DIO_KEY_SW1        TRISEbits.TRISE3
+#define DIO_KEY_SW2             PORTEbits.RE4
+#define TRIS_DIO_KEY_SW2        TRISEbits.TRISE4
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1
