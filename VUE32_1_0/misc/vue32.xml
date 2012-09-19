@@ -16,4 +16,6 @@
 	 <ModuleVariable offset="26"  description="GFI Freq code" type="uint8" value="" name="gfi_freq" />
 	 <ModuleVariable offset="27"  description="User input code" type="uint8" value="" name="user_input" />
 	 <ModuleVariable offset="28"  description="VUE32 ID" type="uint8" value="" name="vue32_id" />
+	 <ModuleVariable offset="29"  description="Temp (C)" type="sint8" value="" name="temp" />
+	 <ModuleVariable offset="30"  description="Batt. Voltage" type="uint16" value="" name="volt" />
 </ModuleConfiguration>

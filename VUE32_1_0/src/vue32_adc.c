@@ -142,11 +142,6 @@ void filter_adc(void)
 //Calls the proper conversion functions
 void board_specific_adc_decode(void)
 {
-    //ToDo
-
-    //Filter ADC to get the latest filtered results
-    filter_adc();
-
     //Onboard sensors:
     board_temp = read_temp(adc_mean[ADC_FILTERED_TEMP]);
     board_volt = read_vbat(adc_mean[ADC_FILTERED_VOLT]);

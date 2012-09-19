@@ -126,6 +126,7 @@ int main(void)
 	{
 	    flag_adc_filter = 0;
 	    filter_adc();
+	    board_specific_adc_decode();
 	}
 
 	//1ms timebase A
@@ -315,6 +316,10 @@ void update_variables(void)
 
     //Board ID
     g_globalNETVVariables.vue32_id = VUE32_ID;
+
+    //Onboard sensors
+    g_globalNETVVariables.board_temp = board_temp;
+    g_globalNETVVariables.board_volt = board_volt;
 }
 
 //Config fuses

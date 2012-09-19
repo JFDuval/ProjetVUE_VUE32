@@ -47,6 +47,8 @@ typedef struct
     unsigned char   gfi_freq;           //Offset 26
     unsigned char   user_input;         //Offset 27
     unsigned char   vue32_id;           //Offset 28
+    char            board_temp;         //Offset 29
+    unsigned short  board_volt;         //Offset 30
 
 } GlobalNETVVariables;
 
