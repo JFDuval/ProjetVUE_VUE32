@@ -91,7 +91,7 @@ unsigned int test_code1_adc_and_dio(void)
 
     /*
      * To use this code, you need to plug the Test Connector #1 to the
-     * Logic connector. The digital pattern should be 0xAA and the ADC
+     * Logic connector. The digital pattern should be 0xAA (170d) and the ADC
      * values [AN0 ... AN3] = [819 618 412 205]
     */
 
