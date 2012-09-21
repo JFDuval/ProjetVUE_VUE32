@@ -4,6 +4,6 @@
 #include "def.h"
 
 CANRxMessageBuffer* can_recv_message();
-void init_can2();
+void init_can1();
 
 #endif

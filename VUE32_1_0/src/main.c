@@ -169,6 +169,7 @@ int main(void)
 		wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
 
 	    //ToDo Power Out
+
         }
 
 	//NetV on USB-CDC
@@ -207,7 +208,7 @@ void config(void)
     init_adc();
     init_timers();
     init_output_compare();
-    //init_can1();    //ToDo    
+    init_can1();
 
     asm volatile ("ei"); //Enables the core to handle any pending interrupt requests
 }
@@ -234,7 +235,7 @@ void board_specific_config(void)
     else if(VUE32_ID == VUE32_3)
     {
 	//CAN for the drives
-	init_can2();
+	//init_can2();	    //ToDo Enable
 
 	//Speed sensor
 	init_change_notification();
@@ -247,7 +248,7 @@ void board_specific_config(void)
     else if(VUE32_ID == VUE32_5)
     {
 	//CAN for the steering angle sensor
-	init_can2();
+	//init_can2();	//ToDo Enable
 
 	//Parking lever, key
 	init_dpr_key();
@@ -265,7 +266,7 @@ void board_specific_config(void)
     else if(VUE32_ID == VUE32_7)
     {
 	//CAN for the BMS
-	init_can2();
+	//init_can2();	//ToDo Enable
 
 	//Speed sensor
 	init_change_notification();
@@ -287,6 +288,8 @@ void init_default_variables(void)
 
 void update_variables(void)
 {
+    unsigned char powerout = 0;    //ToDo Remove
+
     //ADC ToDo simplify
     g_globalNETVVariables.adc[0] = adc_mean[0];
     g_globalNETVVariables.adc[1] = adc_mean[1];
@@ -320,6 +323,10 @@ void update_variables(void)
     //Onboard sensors
     g_globalNETVVariables.board_temp = board_temp;
     g_globalNETVVariables.board_volt = board_volt;
+
+    //Power out manual test:
+    powerout = g_globalNETVVariables.power_out;
+    power_out(1, powerout);
 }
 
 //Config fuses
