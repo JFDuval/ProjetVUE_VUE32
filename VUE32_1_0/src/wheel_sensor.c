@@ -46,6 +46,7 @@ unsigned int log_period2[10];
 
 //Change notification ISR
 //ToDo test with 2 channels at the same time
+//ToDo update: fails if the 2 inputs are synchronized. To be fixed!
 void __ISR(_CHANGE_NOTICE_VECTOR, ipl4) CNHandler(void)
 {
     unsigned int spdo1 = 0, spdo2 = 0;
@@ -85,19 +86,22 @@ void __ISR(_CHANGE_NOTICE_VECTOR, ipl4) CNHandler(void)
     IFS1bits.CNIF = 0;	    //Clear flag
 }
 
+//ToDo: we need to increase the resolution and/or filter
+//ToDo: no pulse should read 0, not 21824
+
 //Converts the timer value in (Hertz*10)
 unsigned int wheel_period_to_freq(unsigned int period)
 {
     //1 Tick = 3.2µs
-    float freq = 1 / (3.2e-6 * period);
+    float freq = 1 / (6.4e-6 * period);
 
     return (unsigned int) (freq * 10);
 }
 
-//Converts the frequency to speed in km/h
+//Converts the frequency to speed in km/h * 10
 unsigned int wheel_freq_to_kph(unsigned int freq)
 {
-    float speed = 0.01023 * freq;
+    float speed = 0.1023 * freq;
 
     return (unsigned int) speed;
 }

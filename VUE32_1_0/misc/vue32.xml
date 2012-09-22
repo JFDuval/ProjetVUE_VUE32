@@ -18,5 +18,7 @@
 	 <ModuleVariable offset="28"  description="VUE32 ID" type="uint8" value="" name="vue32_id" />
 	 <ModuleVariable offset="29"  description="Temp (C)" type="sint8" value="" name="temp" />
 	 <ModuleVariable offset="30"  description="Batt. Voltage" type="uint16" value="" name="volt" />
-	 <ModuleVariable offset="32"  description="Power Out" type="uint8" value="" name="power_out" />
+	 <ModuleVariable offset="32"  description="Speed 1 (kph*10)" type="sint16" value="" name="spdo1" />
+	 <ModuleVariable offset="34"  description="Speed 2 (kph*10)" type="sint16" value="" name="spdo2" />
+	 <ModuleVariable offset="36"  description="Power Out" type="uint8" value="" name="power_out" />
 </ModuleConfiguration>

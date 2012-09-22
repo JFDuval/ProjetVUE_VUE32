@@ -13,7 +13,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char VUE32_ID = VUE32_GENERIC;
+unsigned char VUE32_ID = VUE32_3;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
 unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
@@ -324,9 +324,13 @@ void update_variables(void)
     g_globalNETVVariables.board_temp = board_temp;
     g_globalNETVVariables.board_volt = board_volt;
 
+    //Wheel speed
+    g_globalNETVVariables.spdo1_kph = wheel_spdo1_kph;
+    g_globalNETVVariables.spdo2_kph = wheel_spdo2_kph;
+
     //Power out manual test:
     powerout = g_globalNETVVariables.power_out;
-    power_out(1, powerout);
+    power_out(3, powerout);
 }
 
 //Config fuses

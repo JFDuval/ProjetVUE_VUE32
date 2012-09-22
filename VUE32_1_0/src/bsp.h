@@ -49,7 +49,9 @@ typedef struct
     unsigned char   vue32_id;           //Offset 28
     char            board_temp;         //Offset 29
     unsigned short  board_volt;         //Offset 30
-    unsigned char   power_out;          //Offset 32
+    short           spdo1_kph;          //Offset 32
+    short           spdo2_kph;          //Offset 34
+    unsigned char   power_out;          //Offset 36
 
 } GlobalNETVVariables;
 

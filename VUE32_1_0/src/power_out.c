@@ -66,6 +66,8 @@ unsigned int power_out(unsigned char outx, unsigned int duty)
 	    PWR4_enable = 1;
 	else
 	    PWR4_enable = 0;
+
+	pwr4_pwm_dc = duty;
     }
     else
     {
