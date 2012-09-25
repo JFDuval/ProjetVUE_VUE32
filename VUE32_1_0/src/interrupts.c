@@ -52,6 +52,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     last_spdo1 = SPDO1;
     last_spdo2 = SPDO2;
 
+
     //Clear flag and return
     IFS0bits.T1IF = 0;
 }
@@ -61,26 +62,31 @@ void __ISR(_TIMER_3_VECTOR, ipl3) isr_timer3 (void)
 {
     //Should not happen...
     
-    IFS0bits.T3IF = 0;           // Clearing Timer3 interrupt flag
+    IFS0bits.T3IF = 0;           // Clear interrupt flag
 }
 
 //Timer 2
-void __ISR(_TIMER_2_VECTOR, ipl4) isr_timer2(void)
+void __ISR(_TIMER_2_VECTOR, ipl1) isr_timer2(void)
 {
     //Shouldn't happen, error
+
+    IFS0bits.T2IF = 0;           // Clear interrupt flag
 }
 
 //Timer 4
-void __ISR(_TIMER_4_VECTOR, ipl4) isr_timer4(void)
+void __ISR(_TIMER_4_VECTOR, ipl1) isr_timer4(void)
 {
     //Shouldn't happen, error
+
+    IFS0bits.T4IF = 0;           // Clear interrupt flag
 }
 
-//Timer 5 - Custom PWM for output 4
+//Timer 5 - Custom PWM for output 4 - Wheel sensors
 void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 {
     static unsigned int diy_pwm_cnt = 0;
 
+    //PWM:
     diy_pwm_cnt = (diy_pwm_cnt + 1) % 5;
 
     if((pwr4_pwm_dc >= diy_pwm_cnt) && (PWR4_enable == 1))
@@ -88,5 +94,5 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
     else
 	PWR4 = 0;
 
-    IFS0CLR = _IFS0_T5IF_MASK;
+    IFS0bits.T5IF = 0;           // Clear interrupt flag
 }

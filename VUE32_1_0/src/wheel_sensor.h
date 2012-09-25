@@ -9,8 +9,8 @@
 /////////////////////////////////////////////////////////////////////////////
 
 void init_change_notification(void);
-unsigned int wheel_period_to_freq(unsigned int period);
-unsigned int wheel_freq_to_kph(unsigned int freq);
+unsigned short wheel_period(unsigned short ts1, unsigned short ts2);
+unsigned short wheel_period_to_kph(unsigned short period);
 
 #endif
 

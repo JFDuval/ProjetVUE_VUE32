@@ -39,16 +39,15 @@ void init_timer1(void)
     T1CONbits.ON = 1;               // start timer
 }
 
-//Input capture (speed sensor SPDO2) - 3.2탎/tick
+//Input capture (speed sensor SPDO2) - 800ns/tick
 void init_timer2(void)
 {
     //Configure Timer 2
     T2CONbits.ON = 0;			// Off
     T2CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
-    T2CONbits.TCKPS = 7;    		// prescaler value =2^(TCKPS+1) = 128
-    //T4CONbits.TCS = 0;      		// Internal clock (1= external clock)
+    T2CONbits.TCKPS = 6;    		// prescaler value =2^(TCKPS+1) = 64
     T2CONbits.T32 = 0;       		// 16-bit Timer
-    PR2 = 20000;			// 20000*3.2탎 = 64ms
+    PR2 = WCMAX;			//
     TMR2 = 0;
     T2CONbits.ON = 1;			// On
 }
@@ -59,24 +58,22 @@ void init_timer3(void)
     T3CONbits.ON =0;
     T3CONbits.SIDL = 0 ;            // continue operation while CPU is IDLE
     T3CONbits.TCKPS = 0;            // prescaler value = 2^(TCKPS) = 0
-        //T3CONbits.TCS = 0;        // clock (1= external clock)
     IFS0bits.T3IF = 0;              // clear interrupt flag
-    IPC3bits.T3IP = 3;              // Set T3 interrupt priority to 7
+    IPC3bits.T3IP = 1;              // Set T3 interrupt priority
     IEC0bits.T3IE = 0;              // Disable interrupts
     PR3 = 4000;                     // PWM_frequency compared to time base
     T3CONbits.ON = 1;               // Activate Timer3
 }
 
-//Input capture (speed sensor SPDO1) - 3.2탎/tick
+//Input capture (speed sensor SPDO1) - 800ns/tick
 void init_timer4(void)
 {
     //Configure Timer 4
     T4CONbits.ON = 0;			// Off
     T4CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
-    T4CONbits.TCKPS = 7;    		// prescaler value =2^(TCKPS+1) = 128
-    //T4CONbits.TCS = 0;      		// Internal clock (1= external clock)
+    T4CONbits.TCKPS = 6;    		// prescaler value =2^(TCKPS+1) = 64
     T4CONbits.T32 = 0;       		// 16-bit Timer
-    PR4 = 20000;			// 20000*3.2탎 = 64ms
+    PR4 = WCMAX;			//
     TMR4 = 0;
     T4CONbits.ON = 1;			// On
 }
@@ -90,7 +87,7 @@ void init_timer5(void)
     T5CONbits.TCKPS = 0;    		// prescaler value =2^(TCKPS+1) = 0
     PR5 = 1000;				// 80MHz/80kHz = 1000
     IFS0bits.T5IF = 0;			// clear interrupt flag
-    IPC5bits.T5IP = 3;			// Set T5 interrupt priority to 0
+    IPC5bits.T5IP = 3;			// Set T5 interrupt priority 
     IEC0bits.T5IE = 1;			// Enable interrupts
     T5CONbits.ON = 1;			// On
 }

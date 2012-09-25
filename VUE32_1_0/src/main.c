@@ -16,7 +16,7 @@
 unsigned char VUE32_ID = VUE32_3;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
-unsigned int wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
+unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 unsigned char user_input = 0;
 
 //vue32_can.c
@@ -40,7 +40,7 @@ extern unsigned short board_volt;
 extern unsigned short pedal_accelerator, pedal_brake;
 
 //wheel_sensor.c
-extern unsigned int period_spdo1, period_spdo2;
+extern unsigned short spdo1_mean, spdo2_mean;
 
 //NetV USB-CDC
 char USB_In_Buffer[64];
@@ -72,6 +72,8 @@ int main(void)
 	
     unsigned int fsm_step = 0;
     unsigned int auto_test = FAIL;
+
+    unsigned short ts0_buf = 0, ts1_buf = 0;
 
     //Config peripherals, pins and clock
     config();
@@ -162,11 +164,18 @@ int main(void)
 	    //Speed sensors
 	    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_3) || (VUE32_ID == VUE32_7))
 	    {
-		wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
+		//wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
+		Nop();
 	    }
 	    
 	    if(VUE32_ID == VUE32_3)
-		wheel_spdo2_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo2));
+	    {
+		asm volatile ("di"); //Disable int
+		filter_wheel();
+		asm volatile ("ei"); //Enable int
+		wheel_spdo2_kph = wheel_period_to_kph(spdo2_mean);
+
+	    }
 
 	    //ToDo Power Out
 

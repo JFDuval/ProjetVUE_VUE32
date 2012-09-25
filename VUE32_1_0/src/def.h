@@ -111,6 +111,9 @@ void board_specific_config(void);
 #define ADC_FILTERED_TEMP       6
 #define ADC_FILTERED_VOLT       7
 
+//Wheel counter
+#define WCMAX                   65535
+
 /////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                         //
 //                                       Pin Definitions                                   //
