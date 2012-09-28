@@ -1,0 +1,24 @@
+<!DOCTYPE INTROLAB-NETWORKVIEWER>
+     <ModuleConfiguration moduleState="-1" deviceID="-1" projectID="102" codeVersion="-1" processorID="-1" tableVersion="-1" configName="VUE32">
+	 <ModuleVariable offset="0"  description="adc[0]" type="uint16" value="" name="adc0" />
+	 <ModuleVariable offset="2"  description="adc[1]" type="uint16" value="" name="adc1" />
+	 <ModuleVariable offset="4"  description="adc[2]" type="uint16" value="" name="adc3" />
+	 <ModuleVariable offset="6"  description="adc[3]" type="uint16" value="" name="adc3" />
+	 <ModuleVariable offset="8"  description="adc[4]" type="uint16" value="" name="adc4" />
+	 <ModuleVariable offset="10"  description="adc[5]" type="uint16" value="" name="adc5" />
+	 <ModuleVariable offset="12"  description="adc[6]" type="uint16" value="" name="adc6" />
+	 <ModuleVariable offset="14"  description="adc[7]" type="uint16" value="" name="adc7" />
+	 <ModuleVariable offset="16"  description="DIO Read" type="uint16" value="" name="dio" />
+	 <ModuleVariable offset="18"  description="Accelero X" type="sint16" value="" name="accel_x" />
+	 <ModuleVariable offset="20"  description="Accelero Y" type="sint16" value="" name="accel_y" />
+	 <ModuleVariable offset="22"  description="Accelero Z" type="sint16" value="" name="accel_z" />
+	 <ModuleVariable offset="24"  description="Steering angle" type="uint16" value="" name="steering" />
+	 <ModuleVariable offset="26"  description="GFI Freq code" type="uint8" value="" name="gfi_freq" />
+	 <ModuleVariable offset="27"  description="User input code" type="uint8" value="" name="user_input" />
+	 <ModuleVariable offset="28"  description="VUE32 ID" type="uint8" value="" name="vue32_id" />
+	 <ModuleVariable offset="29"  description="Temp (C)" type="sint8" value="" name="temp" />
+	 <ModuleVariable offset="30"  description="Batt. Voltage" type="uint16" value="" name="volt" />
+	 <ModuleVariable offset="32"  description="Speed 1 (kph*10)" type="uint16" value="" name="spdo1" />
+	 <ModuleVariable offset="34"  description="Speed 2 (kph*10)" type="uint16" value="" name="spdo2" />
+	 <ModuleVariable offset="36"  description="Power Out" type="uint8" value="" name="power_out" />
+</ModuleConfiguration>
