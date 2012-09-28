@@ -10,7 +10,6 @@
 #include "vue32_i2c.h"
 #include "vue32_oc_pwm.h"
 #include "vue32_timers.h"
-#include "vue32_can.h"
 #include "onboard_sensors.h"
 #include "offboard_sensors.h"
 #include "user_input.h"
@@ -86,16 +85,6 @@ void board_specific_config(void);
 //LEDs
 #define LED_ON			0
 #define LED_OFF			1
-
-//Board ID
-#define VUE32_GENERIC           0
-#define VUE32_1                 1
-#define VUE32_2                 2
-#define VUE32_3                 3
-#define VUE32_4                 4
-#define VUE32_5                 5
-#define VUE32_6                 6
-#define VUE32_7                 7
 
 //Automatic tests
 #define PASS                    1

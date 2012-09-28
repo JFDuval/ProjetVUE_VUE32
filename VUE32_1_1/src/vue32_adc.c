@@ -68,9 +68,20 @@ void __ISR(_ADC_VECTOR,ipl2) isr_adc(void)
 //f = 8*8*1kHz = 64kHz
 //With 8 samples/ISR, the ISR frequency will be 8kHz
 
-void init_adc(void)
+void InitADC(void)
 {
     unsigned short i = 0, j = 0;
+
+    // Define pins as input
+        //Analog inputs
+    TRIS_AN0 = 1;	//AN0
+    TRIS_AN1 = 1;	//AN1
+    TRIS_AN2 = 1;	//AN2
+    TRIS_AN3 = 1;	//AN3
+    TRIS_MCS1 = 1;	//AN4
+    TRIS_MCS2 = 1;	//AN9
+    TRIS_TEMP = 1;	//AN10
+    TRIS_VOLT = 1;	//AN11
 
     //Init buffers
     for ( i = 0; i < ADC_MAX_CH; i++)
@@ -146,7 +157,7 @@ void board_specific_adc_decode(void)
     board_temp = read_temp(adc_mean[ADC_FILTERED_TEMP]);
     board_volt = read_vbat(adc_mean[ADC_FILTERED_VOLT]);
 
-    if(VUE32_ID == VUE32_GENERIC)
+/*    if(VUE32_ID == VUE32_GENERIC)
     {
 	Nop();
     }
@@ -178,5 +189,5 @@ void board_specific_adc_decode(void)
     else if(VUE32_ID == VUE32_7)
     {
 	Nop();
-    }
+    }*/
 }

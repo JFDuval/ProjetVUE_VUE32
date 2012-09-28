@@ -24,6 +24,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #ifndef _NETV32_DEVICE_H_
 #define _NETV32_DEVICE_H_
 
+#define NETV_MASTER_NODE
+
+//Include generic definitions
+#include "def.h"
+
 //Include user board support package from external project
 #include "bsp.h"
 

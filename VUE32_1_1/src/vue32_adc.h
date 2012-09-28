@@ -14,7 +14,7 @@
 //                                                                         //
 /////////////////////////////////////////////////////////////////////////////
 
-void init_adc(void);
+void InitADC(void);
 void filter_adc(void);
 void board_specific_adc_decode(void);
 

@@ -84,7 +84,7 @@ unsigned int wiper_action(unsigned char wiper_input)
     //ACT1 = Activates pump
     //ACT2 = Unused for now
 
-    unsigned char speed = (wiper_input & 0x0F);
+    /*unsigned char speed = (wiper_input & 0x0F);
     unsigned char action = (wiper_input & 0xF0);
 
     if(VUE32_ID == VUE32_4) //Wiper arm
@@ -112,7 +112,7 @@ unsigned int wiper_action(unsigned char wiper_input)
             power_out(POWER_OUT_WIPER, WP_PUMP_MAX);
         else
             power_out(POWER_OUT_WIPER, WP_PUMP_MIN);
-    }
+    }*/
 }
 
 unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
@@ -178,7 +178,7 @@ unsigned int light_action(unsigned char light_input)
     unsigned char lights = (light_input & 0x0F);
     unsigned char brakes = (light_input & 0x80);
 
-    if(VUE32_ID == VUE32_4) //Front Low/Night, Both flashers
+   /* if(VUE32_ID == VUE32_4) //Front Low/Night, Both flashers
     {
         //Front headlights - Low
         if(lights == LT_LOW)
@@ -218,7 +218,7 @@ unsigned int light_action(unsigned char light_input)
              power_out(LT_PWR_BRAKE, LT_MAX);
         else
             power_out(LT_PWR_BRAKE, LT_MIN);
-    }
+    }*/
 }
 
 void init_dpr_key(void)

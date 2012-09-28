@@ -13,12 +13,13 @@ typedef union
 		unsigned char type;
 		unsigned char cmd;
 		unsigned char dest;
+                unsigned char source;
 		unsigned char data_length_iface;
 		unsigned char data[8];
 		unsigned char checksum;
 	};
 	
-	unsigned char messageBytes[15];
+	unsigned char messageBytes[16];
 } NETVSerialMessage;
 
 

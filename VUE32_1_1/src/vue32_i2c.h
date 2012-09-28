@@ -18,7 +18,7 @@
 //                                                                         //
 /////////////////////////////////////////////////////////////////////////////
 
-void init_i2c(void);
+void InitI2C(void);
 void init_adxl345(void);
 void read_adxl345(char reg_adr);
 

@@ -28,9 +28,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "NETV32_Shared.h"
 #include "NETV32_Utils.h"
 
+// Important constants
+#define MAX_CAN_TO_SERIAL_MESSAGE_LENGTH        16
+#define CAN_TO_SERIAL_MESSAGE_PAYLOADSIZE_POS   6
+#define MASK_DATA_LEN_FIELD                     0x0F
+#define MINIMUM_MESSAGE_SIZE                    8
+
 //USB Buffers:
+#define USB_OUT_BUFFER_SIZE 64
 extern char USB_In_Buffer[64];
-extern char USB_Out_Buffer[64];
+extern char USB_Out_Buffer[USB_OUT_BUFFER_SIZE];
 
 //memory buffer
 unsigned char g_recvDataBytes[RX_BUFFER_SIZE];
@@ -39,20 +46,25 @@ unsigned int g_availableBytes = 0;
 unsigned int g_readIndex = 0;
 unsigned int g_writeIndex = 0;
 unsigned int netv_send_usb_flag = 0;
+unsigned int netv_send_usb_size = 0;
 
 void netv32_usb_task()
 {
-    BYTE numBytesRead;
-    unsigned int i = 0;
-
     // If character received:
     if(mUSBUSARTIsTxTrfReady())
     {
-        BYTE i;
+        BYTE i, numBytesRead;
 
         numBytesRead = getsUSBUSART(USB_In_Buffer,64);
 
-        //store the data
+        if ( numBytesRead + g_availableBytes > RX_BUFFER_SIZE)
+        {
+            // There is not enough space in the receive buffer
+            // TODO: Count this error somewhere
+            return;
+        }
+
+        //store the data TODO: Optimize this loop with a smart memcpy (or two)
         for(i = 0; i < numBytesRead; i++)
         {
             g_recvDataBytes[g_writeIndex++] = USB_In_Buffer[i];
@@ -73,11 +85,11 @@ void netv32_usb_task()
     {
         if(USBUSARTIsTxTrfReady())
         {
-            putUSBUSART(USB_Out_Buffer, sizeof(NETVSerialMessage));
+            putUSBUSART(USB_Out_Buffer, netv_send_usb_size);
             netv_send_usb_flag = 0;
+            netv_send_usb_size = 0;
         }
     }
-
 }
 
 //TODO This should be moved somewhere else.
@@ -87,7 +99,7 @@ unsigned char serial_calculate_checksum(const NETVSerialMessage *message)
 	int i = 0;
 
 	//simple accumulation of bytes from start until checksum (excluded)
-	for (i = 0; i < (sizeof(NETVSerialMessage) - 1); i++)
+	for (i = 0; i < (7 + message->data_length_iface); i++)
 	{
 		checksum += message->messageBytes[i];
 	}
@@ -119,31 +131,21 @@ unsigned int serial_bytes_available(void)
 //
 //////////////////////////////////////////////////////////////////////
 
-unsigned char netv_send_message(NETV_MESSAGE *message)
+unsigned char usb_netv_send_message(NETV_MESSAGE *message)
 {
     unsigned char i=0;
 
     //Need to transform a TxMessageBuffer into a NETV_MESSAGE
     NETVSerialMessage buf;
 
-/*
-		unsigned char start_byte;
-		unsigned char pri_boot_rtr;
-		unsigned char type;
-		unsigned char cmd;
-		unsigned char dest;
-		unsigned char data_length_iface;
-		unsigned char data[8];
-		unsigned char checksum;
-*/
-
     //Set fields
     buf.start_byte = START_BYTE;
-    buf.pri_boot_rtr = (message->msg_priority << 5) | (message->msg_read_write << 3) | (message->msg_eeprom_ram << 4) | (message->msg_remote);
+    buf.pri_boot_rtr = (message->msg_priority << 5) | (message->msg_remote);
     buf.type = message->msg_type;
     buf.cmd = message->msg_cmd;
-    buf.dest = message->msg_dest;
-    buf.data_length_iface = (message->msg_data_length << 4);
+    buf.source = message->msg_source & 0x3F;
+    buf.dest = message->msg_dest & 0x3F;
+    buf.data_length_iface = message->msg_data_length;
 
     //copy data
     for (i = 0 ; i < 8; i++)
@@ -154,29 +156,30 @@ unsigned char netv_send_message(NETV_MESSAGE *message)
     //calculate checksum
     buf.checksum = serial_calculate_checksum(&buf);
 
-
     //Place data in USB output buffer
-    //TODO Optimize
-    USB_Out_Buffer[0] = buf.start_byte;
-    USB_Out_Buffer[1] = buf.pri_boot_rtr;
-    USB_Out_Buffer[2] = buf.type;
-    USB_Out_Buffer[3] = buf.cmd;
-    USB_Out_Buffer[4] = buf.dest;
-    USB_Out_Buffer[5] = buf.data_length_iface;
-    for (i = 0 ; i < 8; i++)
+    unsigned char offset = netv_send_usb_size;
+    USB_Out_Buffer[offset+0] = buf.start_byte;
+    USB_Out_Buffer[offset+1] = buf.pri_boot_rtr;
+    USB_Out_Buffer[offset+2] = buf.type;
+    USB_Out_Buffer[offset+3] = buf.cmd;
+    USB_Out_Buffer[offset+4] = buf.dest;
+    USB_Out_Buffer[offset+5] = buf.source;
+    USB_Out_Buffer[offset+6] = buf.data_length_iface;
+    for (i = 0 ; i < message->msg_data_length; i++)
     {
-        USB_Out_Buffer[6+i] = buf.data[i];
+        USB_Out_Buffer[offset+7+i] = buf.data[i];
     }
-    USB_Out_Buffer[14] = buf.checksum;
+    USB_Out_Buffer[offset + 7 + message->msg_data_length] = buf.checksum;
 
     //Ready to send
+    netv_send_usb_size += 8 + message->msg_data_length;
     netv_send_usb_flag = 1;
 
     return 0;
 }
 
 //////////////////////////////////////////////////////////////////////
-//   netv_recv_message
+//   usb_netv_recv_message
 //////////////////////////////////////////////////////////////////////
 //
 //   Description: Extract RX buffer message and put it in a message
@@ -189,12 +192,12 @@ unsigned char netv_send_message(NETV_MESSAGE *message)
 //
 //////////////////////////////////////////////////////////////////////
 
-unsigned char netv_recv_message(NETV_MESSAGE *message)
+unsigned char usb_netv_recv_message(NETV_MESSAGE *message)
 {
     unsigned char i = 0;
     NETVSerialMessage buf;
 
-	if(serial_bytes_available() >= sizeof(NETVSerialMessage))
+	if(serial_bytes_available() >= MINIMUM_MESSAGE_SIZE)
 	{
 		//Fill NETVSerialMessage with available bytes
 		//TODO Memory boundaries verification?
@@ -204,7 +207,15 @@ unsigned char netv_recv_message(NETV_MESSAGE *message)
 
 		if (g_recvDataBytes[g_readIndex] == START_BYTE)		{
 
-			for (i = 0; i < sizeof(NETVSerialMessage); i++)
+
+                        // Peek the payload size so we can deduce the full size of the message
+                        unsigned short usPayloadSizePos = (g_readIndex + CAN_TO_SERIAL_MESSAGE_PAYLOADSIZE_POS) % RX_BUFFER_SIZE;
+                        unsigned char ucPayloadSize =  g_recvDataBytes[usPayloadSizePos] & 0x0F;
+                        if ( serial_bytes_available() < (ucPayloadSize + MINIMUM_MESSAGE_SIZE) )
+                            return 0; // Not enough data received
+
+                        // Read Header
+			for (i = 0; i < CAN_TO_SERIAL_MESSAGE_PAYLOADSIZE_POS+1; i++)
 			{
 				//Copy byte
 				buf.messageBytes[i] = g_recvDataBytes[g_readIndex];
@@ -212,11 +223,24 @@ unsigned char netv_recv_message(NETV_MESSAGE *message)
 				//Increment read index
 				g_readIndex = (g_readIndex + 1) % RX_BUFFER_SIZE;
 			}
+                        
+                        // Read payload
+                        for (i = 0; i < ucPayloadSize; i++)
+                        {
+				//Copy byte
+				buf.data[i] = g_recvDataBytes[g_readIndex];
 
+				//Increment read index
+				g_readIndex = (g_readIndex + 1) % RX_BUFFER_SIZE;
+                        }
+
+                        // Read checksum
+                        buf.checksum = g_recvDataBytes[g_readIndex];
+                        g_readIndex = (g_readIndex + 1) % RX_BUFFER_SIZE; //Increment read index
 
 			//One less message available
 			asm volatile("di"); //disable interrupts
-			g_availableBytes -= sizeof(NETVSerialMessage);
+			g_availableBytes -= (MINIMUM_MESSAGE_SIZE + ucPayloadSize);
 			asm volatile("ei"); //Enable interrupts
 
 
@@ -237,12 +261,13 @@ unsigned char netv_recv_message(NETV_MESSAGE *message)
 				//Convert data structures
 				message->msg_priority = (buf.pri_boot_rtr >> 5) & 0x07;
 				message->msg_type = buf.type;
-				message->msg_eeprom_ram = (buf.pri_boot_rtr >> 4) & 0x01;
-				message->msg_read_write = (buf.pri_boot_rtr >> 3) & 0x01;
+				//message->msg_eeprom_ram = (buf.pri_boot_rtr >> 4) & 0x01;
+				//message->msg_read_write = (buf.pri_boot_rtr >> 3) & 0x01;
 				message->msg_cmd = buf.cmd;
-				message->msg_dest = buf.dest;
+				message->msg_dest = buf.dest & 0x3F;
+                                message->msg_source = buf.source & 0x3F;
 				message->msg_remote = (buf.pri_boot_rtr & 0x01);
-				message->msg_data_length = ((buf.data_length_iface >> 4) & 0x0F);
+				message->msg_data_length = (buf.data_length_iface & 0x0F);
 
 				//copy data
 				for(i = 0; i < 8; i++)
@@ -250,15 +275,13 @@ unsigned char netv_recv_message(NETV_MESSAGE *message)
 				   message->msg_data[i] = buf.data[i];
 				}
 
-				//Toggle LED2
-				com_led_toggle();
-
 				//message valid
 				return 1;
 			}
 			else //CHECKSUM ERROR
 			{
-				return 0;
+                            // Todo: Count these errors somewhere
+                            return 0;
 			}
 		}
 		else //not START_BYTE

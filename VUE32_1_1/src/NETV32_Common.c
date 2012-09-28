@@ -25,7 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "NETV32_Shared.h"
 #include "NETV32_Device.h"
 #include "NETV32_Common.h"
-#include "NETV32_Memory.h"
+
+#include "Board.h"
 
 #include <string.h>
 
@@ -33,7 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // Prototypes
 unsigned char netv_write_data_flow_table_v2(unsigned int offset, unsigned char mem_type, unsigned char *buffer, unsigned int size);
 unsigned char netv_read_data_flow_table_v2(unsigned int offset, unsigned char mem_type, unsigned char *buffer, unsigned int size);
-
 
 //GLOBAL BOOT CONFIGURATION USED FOR THIS DEVICE
 BootConfig g_BootConfig;
@@ -48,14 +48,14 @@ volatile unsigned char * const DATA_FLOW_TABLE = (unsigned char*) &g_globalNETVV
 READ EEPROM
  *******************************************************************/
 unsigned int netv_read_eeprom(unsigned int index) {
-    return ReadMem(index << 1);
+    //return ReadMem(index << 1);
 }
 
 /*******************************************************************
 WRITE EEPROM
  *******************************************************************/
 void netv_write_eeprom(unsigned int index, unsigned int data) {
-    WriteMem((index << 1), &data, 1);
+    //WriteMem((index << 1), &data, 1);
 }
 
 
@@ -114,101 +114,44 @@ __asm__ volatile ("disi #0x000"); //Enable interrupts
 //////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////
 
-void netv_transceiver(unsigned char netv_addr) {
+char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
     NETV_MESSAGE g_rMessage;
-    //   unsigned char buffer_size = 0;
-    unsigned int offset = 0;
-
 
     while (netv_recv_message(&g_rMessage)) {
-        if (g_rMessage.msg_dest == netv_addr || g_rMessage.msg_dest == 0xFF) {
+        
+        // The g_rMessage message wasn't intended for us, forward it
+        if ( g_rMessage.msg_dest != netv_addr && GetMyAddr() != 0 )
+        {
+            // TODO: Implement a routing table
+            // For now, we'll just broadcast it through our other interfaces
+            NETV_MESSAGE sendMsg;
+            memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
+            sendMsg.msg_comm_iface = ~g_rMessage.msg_comm_iface; // Swap interfaces (avoid resending the message on the same iface it was received)
+            netv_send_message(&sendMsg);
+        }
 
-            //Analyse for boot mode and I'm alive signal
-            switch (g_rMessage.msg_type) {
-                case NETV_TYPE_EMERGENCY:
+        // If we are targeted by the message
+        if ( g_rMessage.msg_dest == netv_addr || g_rMessage.msg_dest == NETV_ADDRESS_BROADCAST || GetMyAddr() == 0 )
+        {
+            // This message is for us
+            //TODO: Analyse for boot mode first
 
-                    switch (g_rMessage.msg_cmd) {
-                        case NETV_EMERGENCY_CMD_PROGRAM:
-                            //indicate to the bootloader that we are gonna program
-
-                            //TODO Update Boot Config
-                            //netv_write_eeprom(0xFF,NETV_BOOT_MODE_ID);
-
-
-                            //TODO FIX THIS
-                            //software reset, from reset documentation!
-                            //mSYSTEMUnlock();
-
-                            //Set arm reset
-                            //RSWRSTSET = 1;
-
-                            //Read register to trigger reset
-                            //volatile int *p = &RSWRST;
-
-                            //Wait until the reset happens
-                            //while(1);
-
-                            // Reset();
-                            break;
-                    }//end switch msg_cmd
-
-                    break;
-
-                case NETV_TYPE_EVENTS:
-                    switch (g_rMessage.msg_cmd) {
-                        case NETV_EVENTS_CMD_ALIVE:
-                            //Send i'm alive
-                            netv_send_im_alive(netv_addr);
-                            break;
-                    }//end switch msg_cmd
-                    break;
-
-                case NETV_TYPE_REQUEST_DATA:
-
-                    //get the memory offset
-                    offset = g_rMessage.msg_cmd;
-
-                    switch (g_rMessage.msg_read_write) {
-                        case NETV_REQUEST_READ:
-
-                            //WE MUST RECEIVE A REMOTE REQUEST...
-                            if (g_rMessage.msg_remote == 1) {
-                                netv_read_data_flow_table_v2(offset,
-                                        g_rMessage.msg_eeprom_ram,
-                                        &g_rMessage.msg_data[0],
-                                        MIN(g_rMessage.msg_data_length, 8));
-
-                                g_rMessage.msg_remote = 0;
-
-                                while (netv_send_message(&g_rMessage)) {
-                                    ;
-                                }
-
-                            }
-
-                            break;
-
-                        case NETV_REQUEST_WRITE:
-                            // We don't want to overwrite EEPROM table information
-                            // The message must not be a remote request
-                            if (g_rMessage.msg_remote == 0) {
-                                netv_write_data_flow_table_v2(offset,
-                                        g_rMessage.msg_eeprom_ram,
-                                        &g_rMessage.msg_data[0],
-                                        MIN(g_rMessage.msg_data_length, 8));
-                            }
-                            break;
-
-                    }//end sub-switch read_write
-                    break;
+            // Automatically answer to the Alive requests
+            if ( g_rMessage.msg_remote && g_rMessage.msg_type == NETV_TYPE_ALIVE )
+            {
+                netv_send_im_alive(&g_rMessage);
             }
-           
-        } //if dest
-
-        // processe the received message
-        netv_proc_message(&g_rMessage);
+            else if ( pMsgRecep )
+            {
+                // Send it to the application layer
+                memcpy(pMsgRecep, &g_rMessage, sizeof(NETV_MESSAGE));
+                return 1;
+            }
+        }
 
     }//while
+
+    return 0;
 }
 
 
@@ -226,25 +169,24 @@ void netv_transceiver(unsigned char netv_addr) {
 //
 //////////////////////////////////////////////////////////////////////
 
-void netv_send_im_alive(unsigned char netv_addr) {
+void netv_send_im_alive(NETV_MESSAGE *msg_req) {
     NETV_MESSAGE msg;
-    int i = 0;
 
     msg.msg_priority = 0x00;
-    msg.msg_type = NETV_TYPE_EVENTS;
+    msg.msg_type = NETV_TYPE_ALIVE;
     msg.msg_cmd = NETV_EVENTS_CMD_ALIVE;
-    msg.msg_dest = netv_addr;
-    msg.msg_eeprom_ram = NETV_REQUEST_EEPROM;
-    msg.msg_read_write = NETV_REQUEST_READ;
+    msg.msg_dest = msg_req->msg_source;
     msg.msg_data_length = 8;
+    msg.msg_comm_iface = msg_req->msg_comm_iface;
+    msg.msg_source = GetMyAddr();
 
     //Copy boot config
     memcpy(msg.msg_data, (char*) netv_get_boot_config(), 8);
 
     //make sure we are returning the right netv_addr
-    msg.msg_data[2] = netv_addr;
-
+    msg.msg_data[2] = GetMyAddr();
     msg.msg_remote = 0;
+
     netv_send_message(&msg);
 }
 

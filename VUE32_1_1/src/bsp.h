@@ -38,14 +38,6 @@
 
 typedef struct
 {
-    unsigned short  adc[8];             //Offset 0 to 14
-    unsigned short  port;               //Offset 16
-    short           accel_x;            //Offset 18
-    short           accel_y;            //Offset 20
-    short           accel_z;            //Offset 22
-    unsigned short  steering_angle;     //Offset 24
-    unsigned char   gfi_freq;           //Offset 26
-    unsigned char   user_input;         //Offset 27
     unsigned char   vue32_id;           //Offset 28
     char            board_temp;         //Offset 29
     unsigned short  board_volt;         //Offset 30
