@@ -27,7 +27,7 @@ void init_i2c(void)
     I2C1CONbits.ON = 0;         // I2C Off
     I2C1CONbits.SIDL = 0;       // Continue in idle
     I2C1CONbits.A10M = 0;       // 7-bit address
-    I2C1CONbits.DISSLW = 1;     // No slew-rate control (good for 100kHz)
+    I2C1CONbits.DISSLW = 0;     // Slew-rate control
     I2C1CONbits.SMEN = 0;	// No SMBus
     I2C1CONbits.GCEN = 0;       // No general call
     I2C1CONbits.RCEN = 1;       // Enable receive
@@ -36,9 +36,34 @@ void init_i2c(void)
 
     //I2CxBRG = ((1/(2*Fsck) - Tpgd)*PBCLK)-2
     //I2CxBRG = ((1/(2*100kHz) - 104ns)*80MHz)-2 = 390
-    I2C1BRG = 390;
+    //I2CxBRG = ((1/(2*400kHz) - 104ns)*80MHz)-2 = 90
+    I2C1BRG = 90;
 
     I2C1CONbits.ON = 1;         // I2C On
+}
+
+
+//Send a byte (address or data)
+void i2c_putc(unsigned char c)
+{
+    while(I2C1STATbits.TRSTAT);		    //Ready?
+    I2C1TRN = c;			    //Send byte
+    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
+    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+}
+
+//Read a byte, then ACK or NACK
+unsigned char i2c_readc(unsigned char ackstate)
+{
+    unsigned char byte = 0;
+
+    I2C1CONbits.RCEN = 1;		    //Enable receive
+    while(!I2C1STATbits.RBF);
+    I2CAcknowledgeByte(I2C1, ackstate);	    //ACK
+    byte = I2C1RCV;			    //Read data
+    while(!I2CAcknowledgeHasCompleted(I2C1));
+
+    return byte;
 }
 
 //The following code is an adaptation from Sparkfun's Nathan Seidle code
@@ -54,24 +79,20 @@ void init_adxl345(void)
     while(I2C1CONbits.SEN);		    //Wait for Start to be over
 
     //Send address
-    while(I2C1STATbits.TRSTAT);		    //Ready?
-    I2C1TRN = ADXL345_W;		    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    i2c_putc(ADXL345_W);
 
-    //Send memory offset
-    while(I2C1STATbits.TRSTAT);		    //Ready?
-    I2C1TRN = ADXL345_CTL;		    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    //Send memory offset - BW_RATE
+    i2c_putc(ADXL345_BW_RATE);
 
-    //Send value
-    while(!I2CTransmitterIsReady(I2C1));    //Ready?
-    I2C1TRN = 0b00001000;		    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    //Send BW_RATE value
+    i2c_putc(ADXL345_BW_100);
 
-    I2C1CONbits.PEN = 1;		    //Stop
+    //Send POWER_CTL value
+    i2c_putc(ADXL345_SET_POWER_CTL);
+    //Ok because POWER_CTL is right after BW_RATE
+
+    //Stop
+    I2C1CONbits.PEN = 1;
     while(I2C1CONbits.PEN);
 }
 
@@ -86,43 +107,25 @@ void read_adxl345(char reg_adr)
     while(I2C1CONbits.SEN);		    //Wait for Start to be over
 
     //Send address - Write
-    while(I2C1STATbits.TRSTAT);		    //Ready?
-    I2C1TRN = ADXL345_W;		    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    i2c_putc(ADXL345_W);
 
     //Send memory offset
-    while(I2C1STATbits.TRSTAT);		    //Ready?
-    I2C1TRN = reg_adr;			    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    i2c_putc(reg_adr);
 
     //Restart
     I2C1CONbits.RSEN = 1;		    //Restart
     while(I2C1CONbits.RSEN);		    //Wait for restart to be over
 
     //Send address - Read
-    while(I2C1STATbits.TRSTAT);		    //Ready?
-    I2C1TRN = ADXL345_R;		    //Send byte
-    while(I2C1STATbits.TRSTAT);		    //Wait 'till transfer is over
-    while(I2C1STATbits.ACKSTAT);	    //Wait 'till transfer we get an ACK
+    i2c_putc(ADXL345_R);
 
     for(i = 0; i < 5; i++)
     {
-	//Read data - First byte
-	I2C1CONbits.RCEN = 1;		    // Enable receive
-	while(!I2C1STATbits.RBF);
-	I2CAcknowledgeByte(I2C1, TRUE);	    //ACK
-	data[i] = I2C1RCV;		    //Read data
-	while(!I2CAcknowledgeHasCompleted(I2C1));
+	data[i] = i2c_readc(ACK);
     }
 
     //Read data - Last byte
-    I2C1CONbits.RCEN = 1;		    // Enable receive
-    while(!I2C1STATbits.RBF);
-    I2CAcknowledgeByte(I2C1, FALSE);	    //NACK - Last transfer
-    data[5] = I2C1RCV;			    //Read data
-    while(!I2CAcknowledgeHasCompleted(I2C1));
+    data[5] = i2c_readc(NACK);
 
     I2C1CONbits.PEN = 1;		    //Stop
     while(I2C1CONbits.PEN);

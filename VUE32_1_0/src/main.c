@@ -13,7 +13,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char VUE32_ID = VUE32_3;
+unsigned char VUE32_ID = VUE32_6;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
 unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
