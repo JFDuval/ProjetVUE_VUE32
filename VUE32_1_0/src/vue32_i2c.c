@@ -94,12 +94,32 @@ void init_adxl345(void)
     //Stop
     I2C1CONbits.PEN = 1;
     while(I2C1CONbits.PEN);
+
+    //3rd register:
+
+    //Start communication
+    while(!I2CBusIsIdle(I2C1));		    //Bus ready?
+    I2CStart(I2C1);			    //Start
+    while(I2C1CONbits.SEN);		    //Wait for Start to be over
+
+    //Send address
+    i2c_putc(ADXL345_W);
+
+    //Send memory offset - ADXL345_DATA_FORMAT
+    i2c_putc(ADXL345_DATA_FORMAT);
+
+    //Send BW_RATE value
+    i2c_putc(ADXL345_RANGE_2G);
+
+    //Stop
+    I2C1CONbits.PEN = 1;
+    while(I2C1CONbits.PEN);
 }
 
 //Read all 6 registers - Polling
 void read_adxl345(char reg_adr)
 {
-    char data[6], i = 0;
+    short data[6], i = 0;
 
     //Start communication
     while(!I2CBusIsIdle(I2C1));		    //Bus ready?
@@ -121,11 +141,11 @@ void read_adxl345(char reg_adr)
 
     for(i = 0; i < 5; i++)
     {
-	data[i] = i2c_readc(ACK);
+	data[i] = (short)i2c_readc(ACK);
     }
 
     //Read data - Last byte
-    data[5] = i2c_readc(NACK);
+    data[5] = (short)i2c_readc(NACK);
 
     I2C1CONbits.PEN = 1;		    //Stop
     while(I2C1CONbits.PEN);
