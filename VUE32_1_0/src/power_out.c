@@ -5,20 +5,38 @@
 // Connect the load between the Output (+) and the vehicle's GND (-)
 // 1 = +12V on OUTx = Powered load
 
-//ToDo Update! Connexions changed
-// Connections - VUE32 #4
+// Connexions - VUE32 #2
 // ======================
-// => OUT1: Lights - Front Low/Night - 110W (2x 55W)
-// => OUT2: Lights - Right flashers - 42W (2x 21W)
-// => OUT3: Lights - Left flashers - 42W (2x 21W)
-// => OUT4: Wipers - Arms - 60W
+// => OUT1: Lights - Brake - Rear Right - 21W
+// => OUT2: Lights - Reverse - Rear Right - 21W
+// => OUT3: Lights - Night - Rear Right - 21W
 
-// Connections - VUE32 #6
+// Connexions - VUE32 #3
 // ======================
-// => OUT1: Lights - High - 110W (2x 55W)
-// => OUT2: Lights - Rear brakes - 42W (2x 21W)
-// => OUT3: Lights - Rear night - 42W (2x 21W)
-// => OUT4: Wipers - Fluid pump - 60W
+// => OUT1: Cooling pump - 100W
+// => OUT2: Main contactor - 5W
+
+// Connexions - VUE32 #4
+// ======================
+// => OUT1: Lights - Low Beams - 110W (2x 55W)
+// => OUT2: Wipers - Arms - 60W
+// => OUT3: Lights - Left Flashers - 42W (2x 21W)
+// => OUT4: Lights - Right Flashers - 42W (2x 21W)
+
+// Connexions - VUE32 #5
+// ======================
+// => OUT1: Amplifier Enable - 1W
+
+// Connexions - VUE32 #6
+// ======================
+// => OUT1: Lights - High Beams - 110W (2x 55W)
+// => OUT2: Wipers - Fluid pump - 60W
+
+// Connexions - VUE32 #7
+// ======================
+// => OUT1: Lights - Brake - Rear Left - 21W
+// => OUT2: Lights - Reverse - Rear Left - 21W
+// => OUT3: Lights - Night - Rear Left - 21W
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

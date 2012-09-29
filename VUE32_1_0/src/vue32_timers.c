@@ -34,7 +34,7 @@ void init_timer1(void)
     TMR1 = 0;                       // zero timer
     PR1 = 1000;                     // 100µs
     IFS0bits.T1IF = 0;              // clear interrupt flag
-    IPC1bits.T1IP = 3;              // interrupt priority		//ToDo
+    IPC1bits.T1IP = 3;              // interrupt priority
     IEC0bits.T1IE = 1;              // enable interrupt
     T1CONbits.ON = 1;               // start timer
 }

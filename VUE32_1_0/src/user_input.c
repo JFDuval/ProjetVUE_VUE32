@@ -73,7 +73,6 @@ unsigned char read_wiper_input(void)
     return (wp_status_1 | wp_status_2);
 }
 
-//ToDo Update! Connexions changed
 unsigned int wiper_action(unsigned char wiper_input)
 {
     //Here's how it works:
@@ -92,26 +91,26 @@ unsigned int wiper_action(unsigned char wiper_input)
         if((action == WP_RLX1) || (action == WP_ACT1))
         {
             if(speed == WP_E0)
-                power_out(POWER_OUT_WIPER, WP_SUPER_SLOW);
+                power_out(WIPER_PWR_ARMS, WP_SUPER_SLOW);
             else if(speed == WP_E1)
-                power_out(POWER_OUT_WIPER, WP_SLOW);
+                power_out(WIPER_PWR_ARMS, WP_SLOW);
             else if(speed == WP_E2)
-                power_out(POWER_OUT_WIPER, WP_FAST);
+                power_out(WIPER_PWR_ARMS, WP_FAST);
             else if(speed == WP_E3)
-                power_out(POWER_OUT_WIPER, WP_SUPER_FAST);
+                power_out(WIPER_PWR_ARMS, WP_SUPER_FAST);
             else
-                power_out(POWER_OUT_WIPER, 0);
+                power_out(WIPER_PWR_ARMS, 0);
         }
         else
-            power_out(POWER_OUT_WIPER, 0);
+            power_out(WIPER_PWR_ARMS, 0);
     }
 
     if(VUE32_ID == VUE32_6) //Wiper fluid pump
     {
         if(action == WP_ACT1)
-            power_out(POWER_OUT_WIPER, WP_PUMP_MAX);
+            power_out(WIPER_PWR_PUMP, WP_PUMP_MAX);
         else
-            power_out(POWER_OUT_WIPER, WP_PUMP_MIN);
+            power_out(WIPER_PWR_PUMP, WP_PUMP_MIN);
     }
 }
 
@@ -126,7 +125,7 @@ unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
 
 unsigned short read_brake(unsigned short adc_in)
 {
-    //ToDo
+    //ToDo!
 
     return(0);
 }
@@ -142,10 +141,15 @@ unsigned char read_light_input(void)
     unsigned int lt_status_1 = 0;
     unsigned int lt_status_2 = 0;
     unsigned int lt_status_3 = 0;
+    unsigned int lt_status_4 = 0;
 
     //Are we braking?    
     if(read_brake(0))    //ToDo send proper ADC value!
-        lt_status_3 = 0x80;
+        lt_status_3 = LT_BRAKE;
+
+    //Are we in Reverse?
+    if(read_dpr_key() & DPRK_DPR_REVERSE)
+        lt_status_4 = LT_REVERSE;
 
     //Set the output, read the inputs:
     LT_OUT_31 = 1;
@@ -168,56 +172,65 @@ unsigned char read_light_input(void)
         lt_status_2 = LT_HIGH;
 
     //Output flasher and intensity in 1 byte:
-    return (lt_status_1 | lt_status_2 | lt_status_3);
+    return (lt_status_1 | lt_status_2 | lt_status_3 | lt_status_4);
 }
 
-//ToDo Update! Connexions changed
 unsigned int light_action(unsigned char light_input)
 {
-    unsigned char flashers = (light_input & 0xE0);
+    unsigned char flashers = (light_input & 0x30);
     unsigned char lights = (light_input & 0x0F);
     unsigned char brakes = (light_input & 0x80);
+    unsigned char reverse = (light_input & 0x40);
 
-    if(VUE32_ID == VUE32_4) //Front Low/Night, Both flashers
+    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_7)) //Right lights: Reverse, Night, Brake
     {
-        //Front headlights - Low
-        if(lights == LT_LOW)
-             power_out(LT_PWR_FRONT_LOW, LT_MAX);
+        //Night lights
+        if((lights == LT_LOW) || (lights == LT_HIGH))
+             power_out(LT_PWR_REAR, LT_MAX);
         else
-            power_out(LT_PWR_FRONT_LOW, LT_MIN);
+            power_out(LT_PWR_REAR, LT_MIN);
 
+        //Brake
+        if(brakes == LT_BRAKE)
+             power_out(LT_PWR_BRAKE, LT_MAX);
+        else
+            power_out(LT_PWR_BRAKE, LT_MIN);
+
+        //Reverse
+        if(reverse == LT_REVERSE)
+             power_out(LT_PWR_REVERSE, LT_MAX);
+        else
+            power_out(LT_PWR_REVERSE, LT_MIN);
+    }
+
+    if(VUE32_ID == VUE32_4) //Flashers and low beams
+    {
         //Left flashers
         if(flashers == LT_FLASHER_LEFT)
              power_out(LT_PWR_FLASH_LEFT, LT_MAX);
         else
             power_out(LT_PWR_FLASH_LEFT, LT_MIN);
 
-        //Right flashers
-        if(flashers == LT_FLASHER_RIGHT)
+	//Right flashers
+        if(flashers == LT_FLASHER_LEFT)
              power_out(LT_PWR_FLASH_RIGHT, LT_MAX);
         else
             power_out(LT_PWR_FLASH_RIGHT, LT_MIN);
+
+        //Low Beams
+        if(lights == LT_LOW)
+             power_out(LT_PWR_FRONT_LOW, LT_MAX);
+        else
+            power_out(LT_PWR_FRONT_LOW, LT_MIN);
     }
 
-    if(VUE32_ID == VUE32_6) //High, Rear, Brakes
+    if(VUE32_ID == VUE32_6) //High beams
     {
         //Front headlights - High
         if(lights == LT_HIGH)
              power_out(LT_PWR_FRONT_HIGH, LT_MAX);
         else
             power_out(LT_PWR_FRONT_HIGH, LT_MIN);
-
-        //Rear night lights
-        if(lights == LT_LOW || lights == LT_HIGH)
-             power_out(LT_PWR_REAR, LT_MAX);
-        else
-            power_out(LT_PWR_REAR, LT_MIN);
-
-        //Rear brake lights //ToDo Proportionnal
-        if(brakes == LT_BRAKE)
-             power_out(LT_PWR_BRAKE, LT_MAX);
-        else
-            power_out(LT_PWR_BRAKE, LT_MIN);
     }
 }
 
@@ -228,14 +241,19 @@ void init_dpr_key(void)
     TRIS_DIO_DPR_SW1 = 1;
     TRIS_DIO_DPR_SW2 = 1;
     TRIS_DIO_KEY_SW1 = 1;
-    TRIS_DIO_KEY_SW2 = 1;
 }
 
 unsigned char read_dpr_key(void)
 {
-    unsigned char key_state = 0, dpr_state = 0;
+    unsigned char out = 0;
 
-    //ToDo Properly decode
+    if(DIO_KEY_SW1)
+	out |= DPRK_KEY_ON;
+    else
+	out |= DPRK_KEY_OFF;
 
-    return (key_state | dpr_state);
+    //ToDo DPR
+
+    return out;
 }
+

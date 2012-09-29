@@ -32,35 +32,6 @@
 //Enable/Disable high-level functions:
 //#define USE_I2C
 
-//Main data structure ToDo useful?
-struct vue32_data
-{
-    unsigned char       board_id;
-    //4x Generic analog channels
-    unsigned short      adc_an0;
-    unsigned short      adc_an1;
-    unsigned short      adc_an2;
-    unsigned short      adc_an3;
-    //Decoded analog values
-    unsigned short      mcs1;
-    unsigned short      mcs2;
-    char                temp;
-    unsigned short      vbat;
-    //Speed sensor
-    int                 speed1;
-    int                 speed2;
-    //Digital I/O
-    unsigned char       dio;
-    //Power out
-    short               pwr1;
-    short               pwr2;
-    short               pwr3;
-    short               pwr4;
-    //Motor control
-    short               motor1;
-    short               motor2;
-};
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                  	Function prototypes                                 //
@@ -156,8 +127,6 @@ void board_specific_config(void);
 #define TRIS_DIO_DPR_SW2        TRISEbits.TRISE2
 #define DIO_KEY_SW1             PORTEbits.RE3
 #define TRIS_DIO_KEY_SW1        TRISEbits.TRISE3
-#define DIO_KEY_SW2             PORTEbits.RE4
-#define TRIS_DIO_KEY_SW2        TRISEbits.TRISE4
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1

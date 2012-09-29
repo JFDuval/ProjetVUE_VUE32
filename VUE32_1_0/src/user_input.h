@@ -32,7 +32,11 @@
 #define WP_PUMP_MAX     4
 
 //Assigned power output:
-#define POWER_OUT_WIPER 4
+#define WIPER_PWR_ARMS      4
+#define WIPER_PWR_PUMP      2
+#define MISC_PWR_CONTACTOR  2
+#define MISC_PWR_COOLING    1
+#define MISC_PWR_AMP_EN     1
 
 //Light control:
 #define LT_OUT_31       LATEbits.LATE7          //Output - 31 - Brown
@@ -52,14 +56,16 @@
 #define LT_LOW              0b00000010
 #define LT_HIGH             0b00000011
 #define LT_BRAKE            0b10000000
+#define LT_REVERSE          0b01000000
 
 //Assigned power output:
 #define LT_PWR_FRONT_LOW    1
 #define LT_PWR_FRONT_HIGH   1
 #define LT_PWR_FLASH_RIGHT  2
-#define LT_PWR_BRAKE        2
+#define LT_PWR_BRAKE        1
 #define LT_PWR_FLASH_LEFT   3
 #define LT_PWR_REAR         3
+#define LT_PWR_REVERSE      2
 
 //Levels (ON - OFF):
 #define LT_MIN              1
@@ -67,8 +73,7 @@
 
 //D/P/R and Key states
 #define DPRK_KEY_OFF        0b00000001
-#define DPRK_KEY_ACC        0b00000010
-#define DPRK_KEY_ON         0b00000100
+#define DPRK_KEY_ON         0b00000010
 #define DPRK_DPR_PARK       0b00001000
 #define DPRK_DPR_DRIVE      0b00010000
 #define DPRK_DPR_REVERSE    0b00100000
@@ -90,4 +95,3 @@ void init_dpr_key(void);
 unsigned char read_dpr_key(void);
 
 #endif
-
