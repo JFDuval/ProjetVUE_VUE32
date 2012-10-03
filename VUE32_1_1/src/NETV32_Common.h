@@ -72,65 +72,62 @@ EMERGENCY MESSAGE COMMANDS (TYPE_EMERGENCY)
 
 // VUE32 RESSOURCE IDs (command field)
 enum CANResourceId {
-    E_ID_VERSION = 0x00,
-    E_ID_ADDRESS = 0x01,
-    E_ID_WHEELVELOCITYSSENSOR_FL = 0x02,
-    E_ID_WHEELVELOCITYSSENSOR_FR = 0x03,
-    E_ID_WHEELVELOCITYSSENSOR_BL = 0x04,
-    E_ID_WHEELVELOCITYSSENSOR_BR = 0x05,
-    E_ID_BATTERYCURRENT = 0x06,
-    E_ID_GROUNDFAULT = 0x07,
-    E_ID_FRONTLIGHTCONTROL = 0x08,
-    E_ID_BRAKEPEDALPOT = 0x09,
-    E_ID_BRAKEPEDALSWITCH = 0x0a,
-    E_ID_ACCELERATORPOT1 = 0x0b,
-    E_ID_ACCELERATORPOT2 = 0x0c,
-    E_ID_STEERINGANGLESENSOR = 0x0d,
-    E_ID_TRANSMISSIONCONTROL = 0x0e,
-    E_ID_IGNITIONKEY = 0x0f,
-    E_ID_LATERALACCELERATIONSENSOR = 0x10,
-    E_ID_YAWRATE = 0x11,
-    E_ID_WIPERSENDOFCOURSE = 0x12,
-    E_ID_WIPERMODECONTROL = 0x13,
-    E_ID_BMS_BOARD_TEMP = 0x14,             // Arnaud????  TODO add BMS prefix, validate id
-    E_ID_BMS_CELL_GROUP1 = 0x15,
-    E_ID_BMS_CELL_GROUP2 = 0x16,
-    E_ID_BMS_CELLGROUP_VOLT1 = 0x17,
-    E_ID_BMS_CELLGROUP_VOLT2 = 0x18,
-    E_ID_BMS_CELLGROUP_TEMP = 0x19,
-    E_ID_CELL_BALANCING_STATE = 0x1d,       // Arnaud* Each BMS returns the balancing state of every of its CELL. By purpose, each bit corresponds to a specific cell. For the value 1, it's meant the cell is balancing itself.*/
-    E_ID_BMS_OPEN_CONTACT = 0x20,           // Arnaud
-    // E_ID_BMS_BASE_ADDRESS = 0x22,        // Arnaud
 
-    // Données en écriture (Actuateurs)
-    E_ID_DRIVE_L = 0x80,   // Premier actuateur
-    E_ID_DRIVE_R = 0x81,
-    E_ID_COOLINGPUMP = 0x82,
-    E_ID_WIPERFLUIDPUMP = 0x83,
-    E_ID_LOWBEAM = 0x84,
-    E_ID_HIGHBEAM = 0x85,
-    E_ID_RIGHTFLASHER = 0x86,
-    E_ID_LEFTFLASHER = 0x87,
-    E_ID_WIPERBLABES = 0x88,
-    E_ID_BRAKELIGHT_BR = 0x89,
-    E_ID_BRAKELIGHT_BL = 0x8a,
-    E_ID_NIGHTLIGHT_BR = 0x8b,
-    E_ID_NIGHTLIGHT_BL = 0x8c,
-    E_ID_REVERSELIGHT_BR = 0x8d,
-    E_ID_REVERSELIGHT_BL = 0x8e,
+            // Access in Read mode
+            E_ID_VERSION = 0x00,
+            E_ID_ADDRESS = 0x01,
+            E_ID_WHEELVELOCITYSSENSOR_FL = 0x02,
+            E_ID_WHEELVELOCITYSSENSOR_FR = 0x03,
+            E_ID_WHEELVELOCITYSSENSOR_BL = 0x04,
+            E_ID_WHEELVELOCITYSSENSOR_BR = 0x05,
+            E_ID_BATTERYCURRENT = 0x06,
+            E_ID_GROUNDFAULT_FREQ = 0x07,
+            E_ID_GROUNDFAULT_STATE = 0x08,
+            E_ID_FRONTLIGHTCONTROL = 0x09,
+            E_ID_BRAKEPEDALPOT = 0x0a,
+            E_ID_BRAKEPEDALSWITCH = 0x0b,
+            E_ID_ACCELERATORPOT1 = 0x0c,
+            E_ID_ACCELERATORPOT2 = 0x0d,
+            E_ID_STEERINGANGLESENSOR = 0x0e,
+            E_ID_TRANSMISSIONCONTROL = 0x0f,
+            E_ID_IGNITIONKEY = 0x10,
+            E_ID_LATERALACCELERATIONSENSOR = 0x11,
+            E_ID_YAWRATE = 0x12,
+            E_ID_WIPERSENDOFCOURSE = 0x13,
+            E_ID_WIPERMODECONTROL = 0x14,
+            E_ID_BMS_BOARD_TEMP = 0x15,
+            E_ID_BMS_CELL_GROUP1 = 0x16,
+            E_ID_BMS_CELL_GROUP2 = 0x17,
+            E_ID_BMS_OPEN_CONTACT = 0x18,
 
-    // BMS - To verify with Max
-    E_ID_BMS_STATE = 0x8f,
-    E_ID_BMS_TENSIONS = 0x90,
-    E_ID_BMS_TEMPERATURES = 0x91,
 
-    // Ampli audio
-    E_ID_AUDIOAMPLIFIER = 0x92
+            // Access in Read/Write mode  (actuator)
+            E_ID_DRIVE_L = 0x20,   // Premier actuateur
+            E_ID_DRIVE_R = 0x21,
+            E_ID_COOLINGPUMP = 0x22,
+            E_ID_WIPERFLUIDPUMP = 0x23,
+            E_ID_LOWBEAM = 0x24,
+            E_ID_HIGHBEAM = 0x25,
+            E_ID_RIGHTFLASHER = 0x26,
+            E_ID_LEFTFLASHER = 0x27,
+            E_ID_WIPERBLADES = 0x28,
+            E_ID_BRAKELIGHT_BR = 0x29,
+            E_ID_BRAKELIGHT_BL = 0x2a,
+            E_ID_NIGHTLIGHT_BR = 0x2b,
+            E_ID_NIGHTLIGHT_BL = 0x2c,
+            E_ID_REVERSELIGHT_BR = 0x2d,
+            E_ID_REVERSELIGHT_BL = 0x2e,
 
-    // BMS - To verify with Max
-    // E_ID_STATEBMS = 0x8b,
-    //E_ID_TENSIONBMS = 0x93,
-    //E_ID_TEMPERATUREBMS = 0x94
+            // BMS - To verify with Max
+            E_ID_BMS_STATUS = 0x2f,
+            E_ID_BMS_TENSIONS = 0x30,
+            E_ID_BMS_TEMPERATURES = 0x31,
+            E_ID_BMS_STATE_ERROR = 0x32,
+            E_ID_BMS_STATE_BALANCING = 0x33,
+
+            // Ampli audio
+            E_ID_AUDIOAMPLIFIER = 0x34
+
 } CANResourceId;
 
 /*

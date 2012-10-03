@@ -18,6 +18,9 @@ extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 // Mapping between pins and functionnalities
 #define GNDFAULT_FREQ DIO0
 #define GNDFAULT_STATE DIO1
+#define BATTERYCURRENT TRIS_AN0
+#define WHEELVELOCITYSSENSOR_BR SPDO1
+#define WHEELVELOCITYSSENSOR_BR_TRIS SPDO1_TRIS
 #define GNDFAULT_FREQ_TRIS DIO0_TRIS
 #define GNDFAULT_STATE_TRIS DIO1_TRIS
 
@@ -32,6 +35,7 @@ void InitVUE32_2(void)
     // Set the ground fault pins as input
     GNDFAULT_FREQ_TRIS = 1;
     GNDFAULT_STATE_TRIS = 1;
+    WHEELVELOCITYSSENSOR_BR_TRIS = 1;
     m_prev_gndfaultstate = GNDFAULT_STATE;
 
     // Set the LED2 as output (test)
@@ -62,9 +66,12 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
 
     // Deal with GETVALUE requests
     ON_MSG_TYPE_RTR( VUE32_TYPE_GETVALUE )
-        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, adc_raw[0][0])
-        ANSWER1(E_ID_GROUNDFAULT, unsigned char, GNDFAULT_STATE ? 0xFF : 0)
+        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, BATTERYCURRENT)
+        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, GNDFAULT_STATE ? 0xFF : 0)
+        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, WHEELVELOCITYSSENSOR_BR)
+        LED2 = ~LED2;
     END_OF_MSG_TYPE
+            
 
     // Deal with SETVALUE requests
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
