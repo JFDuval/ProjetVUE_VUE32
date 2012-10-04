@@ -11,10 +11,11 @@
 #include "vue32_adc.h"
 #include "NETV32_Common.h"
 #include "VUE32_Impl.h"
+#include "VUE32_Utils.h"
 
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000001;
+const int persistentData = 0x00000000;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0001
@@ -135,6 +136,7 @@ void InitVUE32(VUE32_ID id)
  */
 void CallVUE32Impl(VUE32_ID id)
 {
+    RunLongPolling();
     gImplFunc[id]();
 }
 

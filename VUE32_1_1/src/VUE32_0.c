@@ -8,6 +8,7 @@
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
+#include "Board.h"
 
 #include "def.h"
 #include <stdlib.h>
@@ -58,23 +59,19 @@ void OnMsgVUE32_0(NETV_MESSAGE *msg)
     unsigned short usTest;
     unsigned int unTest;
 
+    if ( msg->msg_dest == VUE32_3)
+        OnMsgVUE32_3(msg);
+    if ( msg->msg_dest == VUE32_4)
+        OnMsgVUE32_4(msg);
+    if ( msg->msg_dest == VUE32_5)
+        OnMsgVUE32_5(msg);
+    if ( msg->msg_dest == VUE32_6)
+        OnMsgVUE32_6(msg);
+    if ( msg->msg_dest == VUE32_7)
+        OnMsgVUE32_7(msg);
+
     // On every message received, toggle the LED2
     LED2 = ~LED2;
-
-    // Deal with GETVALUE requests
-    ON_MSG_TYPE_RTR( VUE32_TYPE_GETVALUE )
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, m_unRandom)
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FR, unsigned int, m_unRandom)
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, m_unRandom)
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, m_unRandom)
-        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, m_usRandom)
-        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, m_usRandom & 1 ? 0xFF : 0)
-        ANSWER1(E_ID_FRONTLIGHTCONTROL, unsigned short, m_usRandom)
-        ANSWER1(E_ID_BRAKEPEDALPOT, unsigned short, m_usRandom)
-        ANSWER1(E_ID_BRAKEPEDALSWITCH, unsigned char, m_usRandom & 1? 0xFF : 0)
-
-        ANSWER2(E_ID_BMS_BOARD_TEMP, unsigned short, 0xEFBE, unsigned char, 0xAB)
-    END_OF_MSG_TYPE
 
     // Deal with SETVALUE requests
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )

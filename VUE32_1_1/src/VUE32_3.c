@@ -22,6 +22,8 @@
 #define WHEELVELOCITYSSENSOR_FL SPDO2
 #define WHEELVELOCITYSSENSOR_FL_TRIS SPDO2_TRIS
 
+unsigned int tm_unRandom = 65000;
+
 /*
  * Specific Initialization
  */
@@ -33,6 +35,8 @@ void InitVUE32_3(void)
 
      // Set the LED2 as output (test)
      LED2_TRIS = 0;
+
+     srand( TMR3 );
 }
 
 /*
@@ -40,7 +44,6 @@ void InitVUE32_3(void)
  */
 void ImplVUE32_3(void)
 {
-
 }
 
 /*
@@ -50,8 +53,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
 {
         // Deal with GETVALUE requests
         ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
-            ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FR, unsigned int, WHEELVELOCITYSSENSOR_FR)
-            ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, WHEELVELOCITYSSENSOR_FL)
+            ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FR, unsigned int, 3)
+            ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, 3)
             LED2 = ~LED2;
         END_OF_MSG_TYPE
 }

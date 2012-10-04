@@ -45,4 +45,11 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
             netv_send_message(msg);
         }
     }
+
+    if ( g_unVUE3FinDelais <= gTimeStamp)
+    {
+        g_unVUE3FinDelais = gTimeStamp + duree;
+
+        // Faire ce qu'il y a à faire
+    }
 }

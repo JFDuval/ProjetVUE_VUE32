@@ -10,6 +10,10 @@
  * ****************************************************************************/
 
 #include "NETV32_Common.h"
+#include "HardwareProfile.h"
+#include "VUE32_Utils.h"
+
+#include "def.h"
 
 /*
  * Specific Initialization
@@ -32,6 +36,11 @@ void ImplVUE32_6(void)
  */
 void OnMsgVUE32_6(NETV_MESSAGE *msg)
 {
-
+    ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
+                ANSWER1(E_ID_LATERALACCELERATIONSENSOR, unsigned short, 6)
+                ANSWER1(E_ID_YAWRATE, unsigned short, 6)
+                ANSWER1(E_ID_WIPERMODECONTROL, unsigned short, 6)
+                LED2 = ~LED2;
+    END_OF_MSG_TYPE
 }
 

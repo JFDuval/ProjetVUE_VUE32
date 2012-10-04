@@ -27,6 +27,7 @@ extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 // Local variables
 unsigned int m_prev_gndfaultstate = 0;
 
+
 /*
  * Specific Initialization
  */
@@ -40,6 +41,7 @@ void InitVUE32_2(void)
 
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
+
 }
 
 /*
@@ -53,6 +55,7 @@ void ImplVUE32_2(void)
         m_prev_gndfaultstate = GNDFAULT_STATE;
         // TODO: Send a message or do something
     }
+    
 }
 
 /*
@@ -66,9 +69,9 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
 
     // Deal with GETVALUE requests
     ON_MSG_TYPE_RTR( VUE32_TYPE_GETVALUE )
-        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, BATTERYCURRENT)
-        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, GNDFAULT_STATE ? 0xFF : 0)
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, WHEELVELOCITYSSENSOR_BR)
+        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, 2)
+        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, 0xFF ? 0xFF : 0)
+        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, 2)
         LED2 = ~LED2;
     END_OF_MSG_TYPE
             

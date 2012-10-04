@@ -8,6 +8,10 @@
  * ****************************************************************************/
 
 #include "NETV32_Common.h"
+#include "HardwareProfile.h"
+#include "VUE32_Utils.h"
+
+#include "def.h"
 
 /*
  * Specific Initialization
@@ -30,6 +34,9 @@ void ImplVUE32_7(void)
  */
 void OnMsgVUE32_7(NETV_MESSAGE *msg)
 {
-
+    ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
+                ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
+                LED2 = ~LED2;
+    END_OF_MSG_TYPE
 }
 

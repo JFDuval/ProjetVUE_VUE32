@@ -8,6 +8,8 @@
 #ifndef VUE32_UTILS_H
 #define	VUE32_UTILS_H
 
+#define MAX_NBR_LG_PLG 5
+
 #define ON_MSG_TYPE(type) if (msg->msg_type == type){ unsigned char _temp;
 #define ON_MSG_TYPE_RTR(type) if (msg->msg_remote == 1 && msg->msg_type == type){ unsigned char _temp;
 #define ANSWER1(ressid, type1, var1)        \
@@ -76,6 +78,15 @@ var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];
 #define END_OF_ACTION }
 
 #define END_OF_MSG_TYPE }
+
+typedef struct {
+    unsigned int unEndWait;
+    unsigned int unDelay;
+} LP_PARAMS;
+
+void ActiveLongPolling(LP_PARAMS &sParams);
+void DesactivateLongPolling(LP_PARAMS &sParams);
+void RunLongPolling();
 
 
 #endif	/* VUE32_UTILS_H */

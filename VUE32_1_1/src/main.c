@@ -2,6 +2,8 @@
 #include "NETV32_Common.h"
 #include "def.h"
 
+//#define NOT_TESTING
+
 //Comments:
 //=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 //=> Do a Search in Files (CTRL+SHIFT+F) with "ToDo" to find incomplete
@@ -94,6 +96,7 @@ int main(void)
 	}
 
 	//1ms timebase A
+        #ifdef NOT_TESTING
 	if(flag_1ms_a)
 	{
 	    flag_1ms_a = 0;
@@ -141,6 +144,8 @@ int main(void)
 
 	    //ToDo Power Out
         }
+
+        #endif
 
 	// Process USB stack
 	ProcessIO();

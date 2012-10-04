@@ -98,6 +98,7 @@
         <itemPath>../src/VUE32_7.c</itemPath>
         <itemPath>../src/VUE32_Impl.c</itemPath>
         <itemPath>../src/VUE32_0.c</itemPath>
+        <itemPath>../src/VUE32_Utils.c</itemPath>
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
     </logicalFolder>

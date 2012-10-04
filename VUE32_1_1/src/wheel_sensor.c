@@ -39,7 +39,7 @@ void init_change_notification(void)
 
     //Interrupts
     IFS1bits.CNIF = 0;	    //Clear flag
-    IPC6bits.CNIP = 6;	    //Priority	    //ToDo set!
+    IPC6bits.CNIP = 6;	    //Priority
     IEC1bits.CNIE = 1;	    //Enable interrupt
 }
 
@@ -168,6 +168,7 @@ unsigned short wheel_period(unsigned short ts1, unsigned short ts2)
     return period;
 }
 
+//Speed in kph*10
 unsigned short wheel_period_to_kph(unsigned short period)
 {
     return (639539/period);

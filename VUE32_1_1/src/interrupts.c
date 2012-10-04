@@ -55,6 +55,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
+
 }
 
 //Timer 3 - PWM - 20kHz
