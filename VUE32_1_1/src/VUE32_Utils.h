@@ -9,6 +9,7 @@
 #define	VUE32_UTILS_H
 
 #define MAX_NBR_LG_PLG 5
+#define LIFE_TIME_LONG_POLLING 90000
 
 #define ON_MSG_TYPE(type) if (msg->msg_type == type){ unsigned char _temp;
 #define ON_MSG_TYPE_RTR(type) if (msg->msg_remote == 1 && msg->msg_type == type){ unsigned char _temp;
@@ -82,10 +83,18 @@ var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];
 typedef struct {
     unsigned int unEndWait;
     unsigned int unDelay;
+    unsigned char ucResourceId;
+    unsigned int unEndPolling;
 } LP_PARAMS;
 
-void ActiveLongPolling(LP_PARAMS &sParams);
-void DesactivateLongPolling(LP_PARAMS &sParams);
+typedef struct {
+    unsigned char ucResourceId;
+    unsigned char ucDataSize;
+    unsigned int uiHardwareAddress;
+}HDW_MAPPING;
+
+void ActiveLongPolling(LP_PARAMS *sParams);
+void DesactivateLongPolling(unsigned char ucRessourceId);
 void RunLongPolling();
 
 

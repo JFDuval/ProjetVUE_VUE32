@@ -15,6 +15,13 @@
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 
+HDW_MAPPING gVUE32_2_Ress[] = 
+{
+    {E_ID_BATTERYCURRENT, 2, 0x00},
+    {E_ID_GROUNDFAULT_FREQ, 1, 0x00},
+    {E_ID_WHEELVELOCITYSSENSOR_BR, 4, 0x00},
+};
+
 // Mapping between pins and functionnalities
 #define GNDFAULT_FREQ DIO0
 #define GNDFAULT_STATE DIO1

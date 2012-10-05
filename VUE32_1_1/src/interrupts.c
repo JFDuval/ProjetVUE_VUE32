@@ -5,6 +5,8 @@
 volatile unsigned int flag_timer1_100us = 0;
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0;
 
+volatile unsigned int uiTimeStamp = 0;
+
 //power_out.c
 extern unsigned int PWR4_enable;
 extern unsigned int pwr4_pwm_dc;
@@ -55,6 +57,9 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
+
+    //Local Timestamp uses by the long polling functionnality
+    uiTimeStamp++;
 
 }
 
