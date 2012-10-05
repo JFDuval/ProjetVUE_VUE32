@@ -201,21 +201,37 @@ unsigned int light_action(unsigned char light_input)
              power_out(LT_PWR_REVERSE, LT_MAX);
         else
             power_out(LT_PWR_REVERSE, LT_MIN);
+
+	//Flashers
+	if(VUE32_ID == VUE32_2)
+	{
+	    if(flashers == LT_FLASHER_RIGHT)
+		power_out(LT_PWR_FLASH_REAR_RIGHT, LT_MAX);
+	    else
+		power_out(LT_PWR_FLASH_REAR_RIGHT, LT_MIN);
+	}
+	if(VUE32_ID == VUE32_7)
+	{
+	    if(flashers == LT_FLASHER_LEFT)
+		power_out(LT_PWR_FLASH_REAR_LEFT, LT_MAX);
+	    else
+		power_out(LT_PWR_FLASH_REAR_LEFT, LT_MIN);
+	}
     }
 
     if(VUE32_ID == VUE32_4) //Flashers and low beams
     {
         //Left flashers
         if(flashers == LT_FLASHER_LEFT)
-             power_out(LT_PWR_FLASH_LEFT, LT_MAX);
+             power_out(LT_PWR_FLASH_FRONT_LEFT, LT_MAX);
         else
-            power_out(LT_PWR_FLASH_LEFT, LT_MIN);
+            power_out(LT_PWR_FLASH_FRONT_LEFT, LT_MIN);
 
 	//Right flashers
-        if(flashers == LT_FLASHER_LEFT)
-             power_out(LT_PWR_FLASH_RIGHT, LT_MAX);
+        if(flashers == LT_FLASHER_RIGHT)
+             power_out(LT_PWR_FLASH_FRONT_RIGHT, LT_MAX);
         else
-            power_out(LT_PWR_FLASH_RIGHT, LT_MIN);
+            power_out(LT_PWR_FLASH_FRONT_RIGHT, LT_MIN);
 
         //Low Beams
         if(lights == LT_LOW)

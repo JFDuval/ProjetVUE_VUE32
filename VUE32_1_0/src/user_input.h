@@ -32,7 +32,7 @@
 #define WP_PUMP_MAX     4
 
 //Assigned power output:
-#define WIPER_PWR_ARMS      4
+#define WIPER_PWR_ARMS      2
 #define WIPER_PWR_PUMP      2
 #define MISC_PWR_CONTACTOR  2
 #define MISC_PWR_COOLING    1
@@ -59,13 +59,15 @@
 #define LT_REVERSE          0b01000000
 
 //Assigned power output:
-#define LT_PWR_FRONT_LOW    1
-#define LT_PWR_FRONT_HIGH   1
-#define LT_PWR_FLASH_RIGHT  2
-#define LT_PWR_BRAKE        1
-#define LT_PWR_FLASH_LEFT   3
-#define LT_PWR_REAR         3
-#define LT_PWR_REVERSE      2
+#define LT_PWR_FRONT_LOW            1
+#define LT_PWR_FRONT_HIGH           1
+#define LT_PWR_FLASH_REAR_RIGHT     4
+#define LT_PWR_FLASH_REAR_LEFT      4
+#define LT_PWR_FLASH_FRONT_RIGHT    4
+#define LT_PWR_FLASH_FRONT_LEFT     3
+#define LT_PWR_BRAKE                1
+#define LT_PWR_REAR                 3
+#define LT_PWR_REVERSE              2
 
 //Levels (ON - OFF):
 #define LT_MIN              1

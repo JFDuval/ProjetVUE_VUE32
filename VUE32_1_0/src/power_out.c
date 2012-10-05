@@ -10,6 +10,7 @@
 // => OUT1: Lights - Brake - Rear Right - 21W
 // => OUT2: Lights - Reverse - Rear Right - 21W
 // => OUT3: Lights - Night - Rear Right - 21W
+// => OUT4: Lights - Flasher - Rear Right - 21W
 
 // Connexions - VUE32 #3
 // ======================
@@ -37,6 +38,7 @@
 // => OUT1: Lights - Brake - Rear Left - 21W
 // => OUT2: Lights - Reverse - Rear Left - 21W
 // => OUT3: Lights - Night - Rear Left - 21W
+// => OUT4: Lights - Flasher - Rear Left - 21W
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

@@ -13,7 +13,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char VUE32_ID = VUE32_6;
+unsigned char VUE32_ID = VUE32_GENERIC;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
 unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
@@ -337,9 +337,11 @@ void update_variables(void)
     g_globalNETVVariables.spdo1_kph = wheel_spdo1_kph;
     g_globalNETVVariables.spdo2_kph = wheel_spdo2_kph;
 
-    //Power out manual test:
+    //Power out manual test: ToDo Remove
     powerout = g_globalNETVVariables.power_out;
+    power_out(2, powerout);
     power_out(3, powerout);
+    power_out(4, powerout*5);
 }
 
 //Config fuses
@@ -365,51 +367,3 @@ void update_variables(void)
 #pragma config PWP      = OFF           // Program Flash Write Protect
 #pragma config ICESEL   = ICS_PGx2      // ICE/ICD Comm Channel Select
 #pragma config DEBUG    = ON           	// Debugger enabled
-
-/*
- * Board specific functions.
- * See VUE32_Cables_and_Connectors for a complete description.
- *
- *VUE32 #1:
- *=========
- * Serial Bridge - Do not use this code project
- *
- *VUE32 #2:
- *=========
- * Battery current sensing
- * GFI
- * 1x Speed sensor
- * 3x Power out (lights)
- *
- *VUE32 #3:
- *=========
- * CAN 2 (bridge) Drives
- * 2x Speed sensor
- * 2x Power Out (contactor and pump)
- *
- *VUE32 #4:
- *=========
- * Light lever
- * 4x Power out, including Wipers
- *
- *VUE32 #5:
- *=========
- * Brake and accelerator
- * D/P/R switch
- * Ignition key
- * CAN2 Steering wheel angle sensor
- * 1x Power output (amplifier)
- *
- *VUE32 #6:
- *=========
- * Lateral acceleration
- * Yaw rate
- * Wiper lever
- * 2x Power out (lights and washer pump)
- *
- *VUE32 #7:
- *=========
- * CAN2 BMS (bridge)
- * 1x Speed sensor
- * 3x Power out (lights)
- */
