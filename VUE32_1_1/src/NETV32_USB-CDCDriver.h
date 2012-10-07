@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //USB STUFF
 #include "USB-CDC_Microchip\usb.h"
 #include "USB-CDC_Microchip\usb_function_cdc.h"
-#include "USB-CDC_Microchip\HardwareProfile.h"
+#include "HardwareProfile.h"
 
 void netv32_init_usb_cdc();
 void netv32_usb_task();

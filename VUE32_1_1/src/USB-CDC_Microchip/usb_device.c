@@ -77,7 +77,7 @@
 #include "GenericTypeDefs.h"
 #include "Compiler.h"
 #include "USB.h"
-#include "HardwareProfile.h"
+#include "../HardwareProfile.h"
 
 
 #if defined(USB_USE_MSD)

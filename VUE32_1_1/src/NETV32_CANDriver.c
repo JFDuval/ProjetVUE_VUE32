@@ -122,7 +122,7 @@ void __attribute__((vector(46), interrupt(ipl4), nomips16)) CAN1InterruptHandler
 
 }
 
-
+#ifdef _CAN2
 void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler(void) {
     /* This is the CAN2 Interrupt Handler.
      * Note that there are many source events in the
@@ -188,7 +188,7 @@ void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler
     INTClearFlag(INT_CAN2);
 
 }
-
+#endif
 
 //////////////////////////////////////////////////////////////////////
 //   netv_send_message
@@ -311,6 +311,7 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
          * by the CAN1 ISR. */
         return 0;
     }
+#ifdef _CAN2
     else if (CANx == CAN2 && isCAN2MsgReceived == FALSE) {
         /* CAN1 did not receive any message so
          * exit the function. Note that the
@@ -318,6 +319,7 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
          * by the CAN1 ISR. */
         return 0;
     }
+#endif
 
     /* Message was received. Reset message received flag to catch
      * the next message and read the message. Note that
@@ -326,7 +328,9 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * been received. */
 
     if(CANx == CAN1) isCAN1MsgReceived = FALSE;
+#ifdef _CAN2
     if(CANx == CAN2) isCAN2MsgReceived = FALSE;
+#endif
 
     CANRxMessageBuffer *msgPtr = (CANRxMessageBuffer *) CANGetRxMessage(CANx, CAN_CHANNEL1);
 
@@ -517,10 +521,12 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     {
         CANAssignMemoryBuffer(CANx, CAN1MessageFifoArea, sizeof (CAN1MessageFifoArea));
     }
+#ifdef _CAN2
     else if(CANx == CAN2)
     {
         CANAssignMemoryBuffer(CANx, CAN2MessageFifoArea, sizeof (CAN2MessageFifoArea));
     }
+#endif
 
     /* Step 4: Configure channel 0 for TX and size of
      * 8 message buffers with RTR disabled and low medium
@@ -559,10 +565,12 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     C1RXM1 = 0x00000000;
     C1RXM2 = 0x00000000;
     C1RXM3 = 0x00000000;
+#ifdef _CAN2
     C2RXM0 = 0x00000000;
     C2RXM1 = 0x00000000;
     C2RXM2 = 0x00000000;
     C2RXM3 = 0x00000000;
+#endif
 
     /* Step 6: Enable interrupt and events. Enable the receive
      * channel not empty  event (channel event) and the receive
@@ -583,12 +591,14 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
         INTSetVectorSubPriority(INT_CAN_1_VECTOR, INT_SUB_PRIORITY_LEVEL_0);
         INTEnable(INT_CAN1, INT_ENABLED);
     }
+#ifdef _CAN2
     else
     {
         INTSetVectorPriority(INT_CAN_2_VECTOR, INT_PRIORITY_LEVEL_4);
         INTSetVectorSubPriority(INT_CAN_2_VECTOR, INT_SUB_PRIORITY_LEVEL_0);
         INTEnable(INT_CAN2, INT_ENABLED);
     }
+#endif
 
     /* Step 7: Switch the CAN mode
      * to normal mode. */

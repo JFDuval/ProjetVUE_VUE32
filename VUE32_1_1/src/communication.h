@@ -9,9 +9,7 @@
 #define	COMMUNICATION_H
 
 #include "NETV32_Common.h"
-
-// Get the current network address of this device
-unsigned char GetMyAddr();
+#include "Board.h" //Todo: remove this include, and put it in the .c files that need it
 
 // Send the message through the selected interfaces
 unsigned char netv_send_message (NETV_MESSAGE *message);

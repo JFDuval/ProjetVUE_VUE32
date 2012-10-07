@@ -42,6 +42,10 @@ VUE32_ID GetBoardID(void);
  */
 unsigned short GetFirmVersion(void);
 
+/*
+ * Get the current network address of this device
+ *  */
+unsigned char GetMyAddr(void);
 
 #endif	/* BOARD_H */
 

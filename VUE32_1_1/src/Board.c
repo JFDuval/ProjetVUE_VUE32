@@ -121,6 +121,12 @@ unsigned short GetFirmVersion(void)
     return FIRMWARE_VERSION;
 }
 
+// Get our network address (depending of which VUE32 card we are)
+unsigned char GetMyAddr()
+{
+    return GetBoardID();
+}
+
 /*
  * Initialize the specific VUE32 board
  * Drivers and unique functionnalities

@@ -8,12 +8,6 @@
 #include "Board.h"
 #include "VUE32_Impl.h"
 
-// Get our network address (depending of which VUE32 card we are)
-unsigned char GetMyAddr()
-{
-    return GetBoardID();
-}
-
 // Send the message through the selected interfaces
 unsigned char netv_send_message (NETV_MESSAGE *message)
 {
@@ -22,12 +16,16 @@ unsigned char netv_send_message (NETV_MESSAGE *message)
         can_netv_send_message(message, CAN1);
 
     // CAN2
+#ifdef _CAN2
     if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
         can_netv_send_message(message, CAN2);
+#endif
 
     // USB
+#ifndef __32MX575F512H__
     if ( message->msg_comm_iface & NETV_COMM_IFACE_USB )
         usb_netv_send_message(message);
+#endif
 
     return 1;
 }
@@ -43,18 +41,22 @@ unsigned char netv_recv_message (NETV_MESSAGE *message)
     }
 
     // CAN2
+#ifdef _CAN2
     if ( can_netv_recv_message(message, CAN2) )
     {
         message->msg_comm_iface = NETV_COMM_IFACE_CAN2;
         return 1;
     }
+#endif
 
     // USB
+#ifndef __32MX575F512H__
     if ( usb_netv_recv_message(message) )
     {
         message->msg_comm_iface = NETV_COMM_IFACE_USB;
         return 1;
     }
+#endif
 }
 
 /*
@@ -92,7 +94,12 @@ void OnMsgVUE32(NETV_MESSAGE *pMsg)
                 break;
         }
     }
-    
+
+#ifndef __32MX575F512H__
     // Call the ID specific message parser
     gOnMsgFunc[GetBoardID()](pMsg);
+#else
+    // Call the BMS message parser
+    OnMsgBMS(pMsg);
+#endif
 }

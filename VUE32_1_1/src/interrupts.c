@@ -63,20 +63,20 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 
 }
 
-//Timer 3 - PWM - 20kHz
-void __ISR(_TIMER_3_VECTOR, ipl3) isr_timer3 (void)
-{
-    //Should not happen...
-    
-    IFS0bits.T3IF = 0;           // Clear interrupt flag
-}
-
 //Timer 2
 void __ISR(_TIMER_2_VECTOR, ipl1) isr_timer2(void)
 {
     //Shouldn't happen, error
 
     IFS0bits.T2IF = 0;           // Clear interrupt flag
+}
+
+//Timer 3 - PWM - 20kHz
+void __ISR(_TIMER_3_VECTOR, ipl3) isr_timer3 (void)
+{
+    //Should not happen...
+    
+    IFS0bits.T3IF = 0;           // Clear interrupt flag
 }
 
 //Timer 4

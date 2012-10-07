@@ -155,5 +155,17 @@
 #define U3ARX_TRIS		TRISFbits.TRISF4
 #define U3ATX_TRIS		TRISFbits.TRISF5
 
+//#define USE_SELF_POWER_SENSE_IO
+#define tris_self_power     TRISAbits.TRISA2    // Input
+#define self_power          1
+
+//#define USE_USB_BUS_SENSE_IO
+#define tris_usb_bus_sense  TRISBbits.TRISB5    // Input
+#define USB_BUS_SENSE       1
+
+
+/** I/O pin definitions ********************************************/
+#define INPUT_PIN 1
+#define OUTPUT_PIN 0
 
 #endif
