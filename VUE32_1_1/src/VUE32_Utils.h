@@ -80,6 +80,13 @@ var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];
 
 #define END_OF_MSG_TYPE }
 
+#define EVERY_X_MS(period) \
+static unsigned int _timer = 0; \
+if ( _timer < uiTimeStamp ) { \
+_timer = uiTimeStamp + period;
+
+#define END }
+
 typedef struct {
     unsigned int unEndWait;
     unsigned int unDelay;

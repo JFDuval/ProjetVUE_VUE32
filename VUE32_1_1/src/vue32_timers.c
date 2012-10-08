@@ -1,5 +1,6 @@
+
+#include "HardwareProfile.h"
 #include "vue32_timers.h"
-#include "def.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -47,7 +48,7 @@ void init_timer2(void)
     T2CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
     T2CONbits.TCKPS = 6;    		// prescaler value =2^(TCKPS+1) = 64
     T2CONbits.T32 = 0;       		// 16-bit Timer
-    PR2 = WCMAX;			//
+    PR2 = 65535;			// Wheel counter max
     TMR2 = 0;
     T2CONbits.ON = 1;			// On
 }
@@ -73,7 +74,7 @@ void init_timer4(void)
     T4CONbits.SIDL = 0;    		// continue operation while CPU is IDLE
     T4CONbits.TCKPS = 6;    		// prescaler value =2^(TCKPS+1) = 64
     T4CONbits.T32 = 0;       		// 16-bit Timer
-    PR4 = WCMAX;			//
+    PR4 = 65535;			// Wheel counter max
     TMR4 = 0;
     T4CONbits.ON = 1;			// On
 }

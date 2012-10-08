@@ -31,7 +31,7 @@
 //Enable/Disable high-level functions:
 //#define USE_I2C
 
-//Main data structure ToDo useful?
+//Main data structure ToDo: useful?
 struct vue32_data
 {
     unsigned char       board_id;
