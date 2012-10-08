@@ -8,6 +8,9 @@
 #ifndef VUE32_UTILS_H
 #define	VUE32_UTILS_H
 
+// Global TimeStamp variable (do not erase!)
+extern volatile unsigned int uiTimeStamp;
+
 #define MAX_NBR_LG_PLG 5
 #define LIFE_TIME_LONG_POLLING 90000
 
@@ -81,11 +84,11 @@ var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];
 #define END_OF_MSG_TYPE }
 
 #define EVERY_X_MS(period) \
-static unsigned int _timer = 0; \
+{static unsigned int _timer = 0; \
 if ( _timer < uiTimeStamp ) { \
 _timer = uiTimeStamp + period;
 
-#define END }
+#define END_OF_EVERY }}
 
 typedef struct {
     unsigned int unEndWait;

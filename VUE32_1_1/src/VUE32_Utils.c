@@ -16,12 +16,20 @@ void ActiveLongPolling(LP_PARAMS *sParams)
 
     //TODO Verify if the ressource id exist in the board context. If it isn't the case, the function must return immediatly
 
-    //Make the ressource id doesn't exist already in the static array
+    //Make sure the ressource id doesn't exist already in the static array
     unsigned int i;
     for(i = 0; i< MAX_NBR_LG_PLG; i++)
     {
         if(g_sLpParams[i].ucResourceId == sParams->ucResourceId)
+        {
+            // This ressource id is already in long polling mode, update its parameters
+
+            //Determine the time when the next sensor value must be sent
+            g_sLpParams[i].unEndWait = uiTimeStamp+sParams->unDelay;
+            //Determine when the long polling sensor must died if it never received a renew message
+            g_sLpParams[i].unEndPolling = uiTimeStamp+LIFE_TIME_LONG_POLLING;
             return;
+        }
     }
 
     //Determine the time when the next sensor value must be sent
