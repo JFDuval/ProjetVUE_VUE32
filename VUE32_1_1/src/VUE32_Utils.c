@@ -1,6 +1,7 @@
-#include "VUE32_Utils.h"
 #include "NETV32_Common.h"
 #include "def.h"
+
+#include "VUE32_Utils.h"
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
 unsigned int g_unLpSize = 0;
@@ -14,11 +15,9 @@ void ActiveLongPolling(LP_PARAMS *sParams)
     if ( g_unLpSize == MAX_NBR_LG_PLG || sParams == NULL)
         return;
 
-    //TODO Verify if the ressource id exist in the board context. If it isn't the case, the function must return immediatly
-
     //Make sure the ressource id doesn't exist already in the static array
     unsigned int i;
-    for(i = 0; i< MAX_NBR_LG_PLG; i++)
+    for(i = 0; i< g_unLpSize; i++)
     {
         if(g_sLpParams[i].ucResourceId == sParams->ucResourceId)
         {
@@ -61,7 +60,7 @@ void DesactivateLongPolling(unsigned char ucRessourceId)
     }
 }
 
-void RunLongPolling()
+void RunLongPolling(void)
 {
     //For each subcribed sensor to long polling event
     unsigned int i;
@@ -89,4 +88,38 @@ void RunLongPolling()
             DesactivateLongPolling(g_sLpParams[i].ucResourceId);
         }
     }
+}
+
+
+void ActionStartEmettings(NETV_MESSAGE *msg, HDW_MAPPING *gVUE32_Ress, unsigned int unNbResourceId)
+{
+    //Is it really a message of type VUE32_TYPE_STARTEMETTING
+    if(msg->msg_type != VUE32_TYPE_STARTEMETTING)
+        return;
+
+    //Get parameters for long polling
+    LP_PARAMS newLongPollingEvent;
+
+
+    //Verify if this VUE32 has this ressource id
+    unsigned int i;
+    BOOL bResourceFound= 0;
+    for(i = 0;i<unNbResourceId; i++)
+    {
+        if(gVUE32_Ress->ucResourceId == msg->msg_cmd)
+            bResourceFound = 1;
+    }
+
+    //If this resource isn't available on this VUE32
+    if(!bResourceFound)
+        return;
+
+    //Load the delay between each transmetting event
+    newLongPollingEvent.unDelay = 0;
+    memcpy(&newLongPollingEvent.unDelay, msg->msg_data, 2);
+    newLongPollingEvent.ucDestinataire = msg->msg_data[2];
+    newLongPollingEvent.ucResourceId = msg->msg_cmd;
+
+    ActiveLongPolling(&newLongPollingEvent);
+
 }

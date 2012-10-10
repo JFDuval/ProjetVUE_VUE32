@@ -15,14 +15,19 @@
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 
+
+//Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_2_Ress[] = 
 {
     {E_ID_BATTERYCURRENT, 2, 0x00},
     {E_ID_GROUNDFAULT_FREQ, 1, 0x00},
     {E_ID_WHEELVELOCITYSSENSOR_BR, 4, 0x00},
 };
+unsigned int g_unNbResourceId_VUE32_2 = 3;
 
-// Mapping between pins and functionnalities
+
+//TODO remove these define and use the interface provided by HDW_MAPPING
+//Mapping between pins and functionnalities
 #define GNDFAULT_FREQ DIO0
 #define GNDFAULT_STATE DIO1
 #define BATTERYCURRENT TRIS_AN0
@@ -90,4 +95,10 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
             ANSWER3(E_ID_LOWBEAM, unsigned char, test, unsigned char, test, unsigned short, test2)
         END_OF_ACTION
     END_OF_MSG_TYPE
+
+    //Start Emetting (Long polling)
+    if(msg->msg_type == VUE32_TYPE_STARTEMETTING)
+    {
+        ActionStartEmettings(msg, (HDW_MAPPING *)gVUE32_2_Ress, g_unNbResourceId_VUE32_2);
+    }
 }

@@ -95,17 +95,20 @@ typedef struct {
     unsigned int unDelay;
     unsigned char ucResourceId;
     unsigned int unEndPolling;
+   unsigned char ucDestinataire;
 } LP_PARAMS;
 
 typedef struct {
     unsigned char ucResourceId;
     unsigned char ucDataSize;
-    unsigned int uiHardwareAddress;
+    unsigned int unHardwareAddress;
 }HDW_MAPPING;
 
 void ActiveLongPolling(LP_PARAMS *sParams);
 void DesactivateLongPolling(unsigned char ucRessourceId);
 void RunLongPolling();
+
+void ActionStartEmettings(NETV_MESSAGE *msg, HDW_MAPPING  *gVUE32_Ress, unsigned int unNbResourceId);
 
 
 #endif	/* VUE32_UTILS_H */
