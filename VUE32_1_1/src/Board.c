@@ -141,7 +141,7 @@ void InitVUE32(VUE32_ID id)
  */
 void CallVUE32Impl(VUE32_ID id)
 {
-    //RunLongPolling();
+    RunLongPolling();
     gImplFunc[id]();
 }
 

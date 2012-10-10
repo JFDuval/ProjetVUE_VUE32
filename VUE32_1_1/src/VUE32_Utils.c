@@ -75,16 +75,22 @@ void RunLongPolling(void)
             msg.msg_cmd = g_sLpParams[i].ucResourceId;
             msg.msg_source = GetMyAddr();
             msg.msg_dest = 0x00;
+            msg.msg_comm_iface = 0xFF;
             //TODO Link with the application who's interfaced with the hardware layer
             //msg.msg_data_length = g_sLpParams[i]->NbrByte;
             //memcpy(&msg.msg_data, TODO, g_sLpParams[i]->NbrByte);
+
+            //Determine the next time which the board will emit value
+            g_sLpParams[i].unEndWait = uiTimeStamp+g_sLpParams[i].unDelay;
+            
             netv_send_message(&msg);
+            
         }
         
         //Check for the sensor's life time
         if(g_sLpParams[i].unEndPolling <= uiTimeStamp)
         {
-            //Desactivating the long polling for it
+            //Desactivating the long polling
             DesactivateLongPolling(g_sLpParams[i].ucResourceId);
         }
     }
@@ -106,7 +112,7 @@ void ActionStartEmettings(NETV_MESSAGE *msg, HDW_MAPPING *gVUE32_Ress, unsigned 
     BOOL bResourceFound= 0;
     for(i = 0;i<unNbResourceId; i++)
     {
-        if(gVUE32_Ress->ucResourceId == msg->msg_cmd)
+        if(gVUE32_Ress[i].ucResourceId == msg->msg_cmd)
             bResourceFound = 1;
     }
 
