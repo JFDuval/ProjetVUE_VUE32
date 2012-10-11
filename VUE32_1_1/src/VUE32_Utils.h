@@ -79,6 +79,13 @@ var1 = ((type1*)msg->msg_data)[0];          \
 var2 = ((type2*)(msg->msg_data+sizeof(type1)))[0];  \
 var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];
 
+#define ACTION4(ressid, type1, var1, type2, var2, type3, var3, type4, var4) \
+if ( msg->msg_cmd == ressid && msg->msg_data_length >= sizeof(type1)+sizeof(type2)+sizeof(type3)+sizeof(type4)) {   \
+var1 = ((type1*)msg->msg_data)[0];          \
+var2 = ((type2*)(msg->msg_data+sizeof(type1)))[0];  \
+var3 = ((type3*)(msg->msg_data+sizeof(type1)+sizeof(type2)))[0];    \
+var4 = ((type4*)(msg->msg_data+sizeof(type1)+sizeof(type2)+sizeof(type3))[0];
+
 #define END_OF_ACTION }
 
 #define END_OF_MSG_TYPE }
