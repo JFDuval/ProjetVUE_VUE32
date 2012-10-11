@@ -69,7 +69,7 @@ void RunLongPolling(void)
         //Check if it's time to send the sensor's value
         if(g_sLpParams[i].unEndWait <= uiTimeStamp)
         {
-            NETV_MESSAGE msg;
+            NETV_MESSAGE msg = {0};
             msg.msg_priority = NETV_PRIORITY_EVENTS;
             msg.msg_type = NETV_TYPE_EVENT;
             msg.msg_cmd = g_sLpParams[i].ucResourceId;

@@ -40,6 +40,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define CAN_FIFO_SIZE 32
 #define CAN_NB_CHANNELS 2
 
+#define MINIMUM_MESSAGE_SIZE 8
+
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
 static volatile BOOL isCAN1MsgReceived = FALSE;
@@ -212,7 +214,21 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * check if the returned value is null. */
     CANTxMessageBuffer * msgPtr = NULL;
 
+    if( message->msg_data_length > MINIMUM_MESSAGE_SIZE )
+    {
+        // Invalid packet size
+        // TODO: Count this error somewhere
+        return;
+    }
+
     //ACTIVE WAIT ON BUFFER
+    /* TODO : Description:
+    This routine returns a pointer to an empty TX buffer. The routine will return a
+    null pointer if there aren't any empty TX buffers. In such a case, the application
+    should flush the channel and wait until the TX channel has at least one empty
+    buffer. In order to function correctly, it is essential that the CANUpdateChannel()
+    function is called in the proper sequence for the CANGetTxMessageBuffer() function to
+    return a pointer to an empty buffer. */
     do {
         msgPtr = CANGetTxMessageBuffer(CANx, CAN_CHANNEL0);
     }    while (msgPtr == NULL);

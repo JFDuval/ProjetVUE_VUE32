@@ -74,6 +74,7 @@
         <itemPath>../src/interrupts.c</itemPath>
         <itemPath>../src/Board.c</itemPath>
         <itemPath>../src/communication.c</itemPath>
+        <itemPath>../src/Exception.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="NETV32" projectFiles="true">
         <itemPath>../src/NETV32_Common.c</itemPath>
@@ -150,7 +151,6 @@
         <property key="extra-include-directories" value=""/>
         <property key="generate-16-bit-code" value="false"/>
         <property key="isolate-each-function" value="false"/>
-        <property key="keep-inline" value="false"/>
         <property key="make-warnings-into-errors" value="false"/>
         <property key="optimization-level" value=""/>
         <property key="place-data-into-section" value="false"/>
@@ -159,7 +159,6 @@
         <property key="preprocessor-macros" value=""/>
         <property key="strict-ansi" value="false"/>
         <property key="support-ansi" value="false"/>
-        <property key="use-cci" value="false"/>
         <property key="use-indirect-calls" value="false"/>
       </C32>
       <C32-AS>
@@ -190,12 +189,12 @@
         <property key="heap-size" value=""/>
         <property key="input-libraries" value=""/>
         <property key="linker-symbols" value=""/>
-        <property key="map-file" value=""/>
+        <property key="map-file" value="mapmem.txt"/>
         <property key="no-startup-files" value="false"/>
         <property key="optimization-level" value=""/>
         <property key="preprocessor-macros" value=""/>
         <property key="remove-unused-sections" value="false"/>
-        <property key="report-memory-usage" value="false"/>
+        <property key="report-memory-usage" value="true"/>
         <property key="stack-size" value=""/>
         <property key="symbol-stripping" value=""/>
         <property key="trace-symbols" value=""/>

@@ -138,6 +138,21 @@ unsigned char usb_netv_send_message(NETV_MESSAGE *message)
     //Need to transform a TxMessageBuffer into a NETV_MESSAGE
     NETVSerialMessage buf;
 
+    // Check if there is enough space in the send buffer
+    if ( netv_send_usb_size + MAX_CAN_TO_SERIAL_MESSAGE_LENGTH >= USB_OUT_BUFFER_SIZE)
+    {
+        // There is not enough space in the receive buffer
+        // TODO: Count this error somewhere
+        return;
+    }
+
+    if( message->msg_data_length > MINIMUM_MESSAGE_SIZE )
+    {
+        // Invalid packet size
+        // TODO: Count this error somewhere
+        return;
+    }
+
     //Set fields
     buf.start_byte = START_BYTE;
     buf.pri_boot_rtr = (message->msg_priority << 5) | (message->msg_remote);

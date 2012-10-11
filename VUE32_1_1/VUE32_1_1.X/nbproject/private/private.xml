@@ -1,22 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/offboard_sensors.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/periph.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/power_out.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/user_input.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/vue32_adc.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/vue32_oc_pwm.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/NETV32_USB-CDCDriver.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/Board.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/NETV32_USB-CDCDriver.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/main.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/USB-CDC_Microchip/usb_device.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/USB-CDC_Microchip/usb_hal_pic32.h</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/offboard_sensors%20.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/VUE32_0.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/VUE32_4.c</file>
-        <file>file:/C:/VUE/SVN/Code/Controle/Code_VUE32/VUE32_1_1/src/VUE32_3.c</file>
-    </open-files>
 </project-private>
