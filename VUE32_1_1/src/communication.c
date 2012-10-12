@@ -98,10 +98,9 @@ void OnMsgVUE32(NETV_MESSAGE *msg)
     }
 
     //Start Emetting (Long polling)
-    if(msg->msg_type == VUE32_TYPE_STARTEMETTING)
-    {
+    ON_MSG_TYPE( VUE32_TYPE_STARTEMETTING)
         ActionStartEmettings(msg);
-    }
+    END_OF_MSG_TYPE
 
     ON_MSG_TYPE( VUE32_TYPE_STOPEMETTING)
         DesactivateLongPolling(msg->msg_cmd);

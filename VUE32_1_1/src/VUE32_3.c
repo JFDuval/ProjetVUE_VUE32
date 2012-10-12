@@ -15,6 +15,12 @@
 
 #include "def.h"
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING gVUE32_3_Ress[] =
+{
+    {E_ID_WHEELVELOCITYSSENSOR_FR, 4, 0x00},
+    {E_ID_WHEELVELOCITYSSENSOR_FL, 4, 0x00},
+};
 
 // Mapping between pins and functionnalities
 #define WHEELVELOCITYSSENSOR_FR SPDO1

@@ -16,6 +16,18 @@
 
 #include "def.h"
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING gVUE32_5_Ress[] =
+{
+    {E_ID_BRAKEPEDALPOT, 2, 0x00},
+    {E_ID_BRAKEPEDALSWITCH, 1, 0x00},
+    {E_ID_ACCELERATORPOT1, 2, 0x00},
+    {E_ID_ACCELERATORPOT2, 2, 0x00},
+    {E_ID_STEERINGANGLESENSOR, 4, 0x00},
+    {E_ID_TRANSMISSIONCONTROL, 2, 0x00},
+    {E_ID_IGNITIONKEY, 2, 0x00},
+};
+
 /*
  * Specific Initialization
  */

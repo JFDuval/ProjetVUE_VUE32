@@ -13,6 +13,9 @@
 #include "def.h"
 #include <stdlib.h>
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING* gVUE32_0_Ress = NULL;
+
 // Mapping between pins and functionnalities
 #define GNDFAULT_FREQ DIO0
 #define GNDFAULT_STATE DIO1

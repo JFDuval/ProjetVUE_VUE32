@@ -14,6 +14,13 @@
 
 #include "def.h"
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING gVUE32_4_Ress[] =
+{
+    {E_ID_FRONTLIGHTCONTROL, 4, 0x00},
+    {E_ID_WIPERSENDOFCOURSE, 1, 0x00},
+};
+
 /*
  * Specific Initialization
  */

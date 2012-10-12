@@ -13,6 +13,7 @@ extern volatile unsigned int uiTimeStamp;
 
 #define MAX_NBR_LG_PLG 5
 #define LIFE_TIME_LONG_POLLING 90000
+#define LONG_POLLING_MINIMUM_DELAY 5
 
 #define ON_MSG_TYPE(type) if (msg->msg_type == type){ unsigned char _temp;
 #define ON_MSG_TYPE_RTR(type) if (msg->msg_remote == 1 && msg->msg_type == type){ unsigned char _temp;

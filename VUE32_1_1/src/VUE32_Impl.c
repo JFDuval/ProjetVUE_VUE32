@@ -28,7 +28,15 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg);
 void OnMsgVUE32_5(NETV_MESSAGE *msg);
 void OnMsgVUE32_6(NETV_MESSAGE *msg);
 void OnMsgVUE32_7(NETV_MESSAGE *msg);
+extern HDW_MAPPING gVUE32_0_Ress[];
+extern HDW_MAPPING gVUE32_1_Ress[];
 extern HDW_MAPPING gVUE32_2_Ress[];
+extern HDW_MAPPING gVUE32_3_Ress[];
+extern HDW_MAPPING gVUE32_4_Ress[];
+extern HDW_MAPPING gVUE32_5_Ress[];
+extern HDW_MAPPING gVUE32_6_Ress[];
+extern HDW_MAPPING gVUE32_7_Ress[];
+
 
 // Arrays of function pointers for each implementation
 FUNC_INIT gInitFunc[NB_VUE32+1] = {
@@ -66,18 +74,24 @@ FUNC_ONMSG gOnMsgFunc[NB_VUE32+1] = {
 
 
 HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
+    gVUE32_0_Ress,
+    gVUE32_1_Ress,
     gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress,
-    gVUE32_2_Ress
+    gVUE32_3_Ress,
+    gVUE32_4_Ress,
+    gVUE32_5_Ress,
+    gVUE32_6_Ress,
+    gVUE32_7_Ress
 };
 
 unsigned int gHardwareSize[NB_VUE32+1] =
 {
-    3,
-    3,3,3,3,3,3,3
+    0,  //VUE32_0
+    0,  //VUE32_1
+    3,  //VUE32_2
+    2,  //VUE32_3
+    2,  //VUE32_4
+    7,  //VUE32_5
+    3,  //VUE32_6
+    1   //VUE32_7
 };

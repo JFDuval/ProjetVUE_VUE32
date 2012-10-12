@@ -106,6 +106,10 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
         return;
 
     HDW_MAPPING *gVUE32_Ress = gHardwareMap[GetBoardID()];
+
+    if(gVUE32_Ress == 0)
+        return;
+
     unsigned int unNbResourceId = gHardwareSize[GetBoardID()];
 
 
@@ -129,6 +133,9 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
     //Load the delay between each transmetting event
     newLongPollingEvent.unDelay = 0;
     memcpy(&newLongPollingEvent.unDelay, msg->msg_data, 2);
+    //Safety feature MINIMUM TIME FOR LONG POLLING
+    if(newLongPollingEvent.unDelay <= LONG_POLLING_MINIMUM_DELAY)
+        return;
     newLongPollingEvent.ucDestinataire = msg->msg_data[2];
     newLongPollingEvent.ucResourceId = msg->msg_cmd;
 

@@ -7,6 +7,11 @@
 
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
+#include "VUE32_Utils.h"
+#include "def.h"
+
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING *gVUE32_1_Ress = NULL;
 
 /*
  * Specific Initialization

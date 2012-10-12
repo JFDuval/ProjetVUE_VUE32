@@ -13,6 +13,12 @@
 
 #include "def.h"
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING gVUE32_7_Ress[] =
+{
+    {E_ID_WHEELVELOCITYSSENSOR_BL, 4, 0x00}
+};
+
 /*
  * Specific Initialization
  */

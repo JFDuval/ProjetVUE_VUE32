@@ -15,6 +15,14 @@
 
 #include "def.h"
 
+//Hardware resources manage localy by this VUE32
+HDW_MAPPING gVUE32_6_Ress[] =
+{
+    {E_ID_LATERALACCELERATIONSENSOR, 2, 0x00},
+    {E_ID_YAWRATE, 2, 0x00},
+    {E_ID_WIPERMODECONTROL, 2, 0x00},
+};
+
 /*
  * Specific Initialization
  */
