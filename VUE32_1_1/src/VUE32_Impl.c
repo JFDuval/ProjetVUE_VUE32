@@ -2,6 +2,7 @@
 
 #include "VUE32_Impl.h"
 
+
 // Prototypes
 void InitVUE32_0(void);
 void InitVUE32_1(void);
@@ -27,6 +28,7 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg);
 void OnMsgVUE32_5(NETV_MESSAGE *msg);
 void OnMsgVUE32_6(NETV_MESSAGE *msg);
 void OnMsgVUE32_7(NETV_MESSAGE *msg);
+extern HDW_MAPPING gVUE32_2_Ress[];
 
 // Arrays of function pointers for each implementation
 FUNC_INIT gInitFunc[NB_VUE32+1] = {
@@ -60,4 +62,22 @@ FUNC_ONMSG gOnMsgFunc[NB_VUE32+1] = {
     OnMsgVUE32_5,
     OnMsgVUE32_6,
     OnMsgVUE32_7,
+};
+
+
+HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress,
+    gVUE32_2_Ress
+};
+
+unsigned int gHardwareSize[NB_VUE32+1] =
+{
+    3,
+    3,3,3,3,3,3,3
 };

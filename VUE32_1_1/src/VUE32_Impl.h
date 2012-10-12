@@ -9,6 +9,7 @@
 #define	VUE32_IMPL_H
 
 #include "NETV32_Common.h"
+#include "VUE32_Utils.h"
 
 // Number of existing VUE32
 #define NB_VUE32 7
@@ -22,6 +23,9 @@ typedef void (*FUNC_ONMSG)(NETV_MESSAGE*);
 extern FUNC_INIT gInitFunc[NB_VUE32+1];
 extern FUNC_IMPL gImplFunc[NB_VUE32+1];
 extern FUNC_ONMSG gOnMsgFunc[NB_VUE32+1];
+
+extern HDW_MAPPING *gHardwareMap[NB_VUE32+1];
+extern unsigned int gHardwareSize[NB_VUE32+1];
 
 #endif	/* VUE32_IMPL_H */
 

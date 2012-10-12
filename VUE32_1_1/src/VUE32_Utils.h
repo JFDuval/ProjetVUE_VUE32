@@ -115,7 +115,7 @@ void ActiveLongPolling(LP_PARAMS *sParams);
 void DesactivateLongPolling(unsigned char ucRessourceId);
 void RunLongPolling();
 
-void ActionStartEmettings(NETV_MESSAGE *msg, HDW_MAPPING  *gVUE32_Ress, unsigned int unNbResourceId);
+void ActionStartEmettings(NETV_MESSAGE *msg);
 
 
 #endif	/* VUE32_UTILS_H */

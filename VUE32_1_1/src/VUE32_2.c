@@ -23,7 +23,6 @@ HDW_MAPPING gVUE32_2_Ress[] =
     {E_ID_GROUNDFAULT_FREQ, 1, 0x00},
     {E_ID_WHEELVELOCITYSSENSOR_BR, 4, 0x00},
 };
-unsigned int g_unNbResourceId_VUE32_2 = 3;
 
 
 //TODO remove these define and use the interface provided by HDW_MAPPING
@@ -96,9 +95,5 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         END_OF_ACTION
     END_OF_MSG_TYPE
 
-    //Start Emetting (Long polling)
-    if(msg->msg_type == VUE32_TYPE_STARTEMETTING)
-    {
-        ActionStartEmettings(msg, (HDW_MAPPING *)gVUE32_2_Ress, g_unNbResourceId_VUE32_2);
-    }
+
 }

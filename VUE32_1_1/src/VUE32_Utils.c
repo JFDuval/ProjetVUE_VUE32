@@ -2,6 +2,7 @@
 #include "def.h"
 
 #include "VUE32_Utils.h"
+#include "VUE32_Impl.h"
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
 unsigned int g_unLpSize = 0;
@@ -24,7 +25,8 @@ void ActiveLongPolling(LP_PARAMS *sParams)
             // This ressource id is already in long polling mode, update its parameters
 
             //Determine the time when the next sensor value must be sent
-            g_sLpParams[i].unEndWait = uiTimeStamp+sParams->unDelay;
+            g_sLpParams[i].unDelay = sParams->unDelay;
+            
             //Determine when the long polling sensor must died if it never received a renew message
             g_sLpParams[i].unEndPolling = uiTimeStamp+LIFE_TIME_LONG_POLLING;
             return;
@@ -97,11 +99,15 @@ void RunLongPolling(void)
 }
 
 
-void ActionStartEmettings(NETV_MESSAGE *msg, HDW_MAPPING *gVUE32_Ress, unsigned int unNbResourceId)
+void ActionStartEmettings(NETV_MESSAGE *msg)
 {
     //Is it really a message of type VUE32_TYPE_STARTEMETTING
     if(msg->msg_type != VUE32_TYPE_STARTEMETTING)
         return;
+
+    HDW_MAPPING *gVUE32_Ress = gHardwareMap[GetBoardID()];
+    unsigned int unNbResourceId = gHardwareSize[GetBoardID()];
+
 
     //Get parameters for long polling
     LP_PARAMS newLongPollingEvent;

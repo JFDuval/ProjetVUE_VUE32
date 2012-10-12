@@ -209,7 +209,6 @@ void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler
 unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
     unsigned int i = 0;
 
-
     /* Get a pointer to the next buffer in the channel
      * check if the returned value is null. */
     CANTxMessageBuffer * msgPtr = NULL;
