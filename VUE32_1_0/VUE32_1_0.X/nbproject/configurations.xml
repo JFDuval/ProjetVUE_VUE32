@@ -91,6 +91,7 @@
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC32MX795F512H</targetDevice>
         <targetHeader></targetHeader>
+        <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>XC32</languageToolchain>
         <languageToolchainVersion>1.10</languageToolchainVersion>
@@ -121,6 +122,8 @@
       </C32-AS>
       <C32-LD>
       </C32-LD>
+      <C32CPP>
+      </C32CPP>
       <C32Global>
       </C32Global>
       <ICD3PlatformTool>

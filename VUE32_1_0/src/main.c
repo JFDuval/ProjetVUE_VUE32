@@ -13,11 +13,12 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char VUE32_ID = VUE32_GENERIC;
+unsigned char VUE32_ID = VUE32_3;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
 unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
 unsigned char user_input = 0;
+unsigned short accel = 0;
 
 //vue32_can.c
 extern unsigned short steering_angle;
@@ -31,6 +32,7 @@ extern short yaw_rate, lateral;
 //interrupts.c
 extern volatile unsigned int flag_1ms_a, flag_1ms_b;
 unsigned int flag_fsm = 0;
+extern volatile unsigned char spd1_moving, spd2_moving;
 
 //vue32_adc.c
 extern volatile unsigned char flag_adc_filter;
@@ -162,10 +164,12 @@ int main(void)
             flag_1ms_b = 0;
 
 	    //Speed sensors
-	    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_3) || (VUE32_ID == VUE32_7))
+	    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_7))
 	    {
-		//wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
-		Nop();
+		asm volatile ("di"); //Disable int
+		filter_wheel();
+		asm volatile ("ei"); //Enable int
+		wheel_spdo1_kph = wheel_period_to_kph(spdo1_mean, spd1_moving);
 	    }
 	    
 	    if(VUE32_ID == VUE32_3)
@@ -173,7 +177,8 @@ int main(void)
 		asm volatile ("di"); //Disable int
 		filter_wheel();
 		asm volatile ("ei"); //Enable int
-		wheel_spdo2_kph = wheel_period_to_kph(spdo2_mean);
+		wheel_spdo1_kph = wheel_period_to_kph(spdo1_mean, spd1_moving);
+		wheel_spdo2_kph = wheel_period_to_kph(spdo2_mean, spd2_moving);
 
 	    }
 
@@ -342,6 +347,8 @@ void update_variables(void)
     power_out(2, powerout);
     power_out(3, powerout);
     power_out(4, powerout*5);
+
+    g_globalNETVVariables.pedal_accelerator = pedal_accelerator;
 }
 
 //Config fuses

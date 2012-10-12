@@ -52,6 +52,8 @@ typedef struct
     unsigned short  spdo1_kph;          //Offset 32
     unsigned short  spdo2_kph;          //Offset 34
     unsigned char   power_out;          //Offset 36
+    unsigned char   empty;              //Offset 37 - Unused
+    unsigned short  pedal_accelerator;  //Offset 38
 
 } GlobalNETVVariables;
 

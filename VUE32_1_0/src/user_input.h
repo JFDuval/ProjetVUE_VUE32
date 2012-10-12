@@ -80,6 +80,9 @@
 #define DPRK_DPR_DRIVE      0b00010000
 #define DPRK_DPR_REVERSE    0b00100000
 
+//Accelerator pedal
+#define DEADBAND            50
+
 /////////////////////////////////////////////////////////////////////////////
 //                                                                         //
 //                         	Function prototypes                        //

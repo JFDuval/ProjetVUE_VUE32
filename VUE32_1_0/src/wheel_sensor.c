@@ -12,6 +12,7 @@ unsigned short period_spdo1[8], period_spdo2[8];
 unsigned short spdo1_mean = 0, spdo2_mean = 0;
 unsigned short time_stamp1[2] = {0,0};
 unsigned short time_stamp2[2] = {0,0};
+volatile unsigned char pulses_spd1 = 0, pulses_spd2 = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -44,8 +45,6 @@ void init_change_notification(void)
 }
 
 //Change notification ISR
-//ToDo test with 2 channels at the same time
-//ToDo update: fails if the 2 inputs are synchronized. To be fixed!
 void __ISR(_CHANGE_NOTICE_VECTOR, ipl6) CNHandler(void)
 {
     unsigned int spdo1 = 0, spdo2 = 0;
@@ -64,6 +63,9 @@ void __ISR(_CHANGE_NOTICE_VECTOR, ipl6) CNHandler(void)
 	    time_stamp1[0] = TMR4;
 	    period_spdo1[pos1] = wheel_period(time_stamp1[0], time_stamp1[1]);
 	    pos1 = (pos1 + 1) % 8;
+
+	    //Un-connected pin or stalled wheel detection
+	    pulses_spd1++;
 	}
 	last_spdo1 = 0;
     }
@@ -79,6 +81,9 @@ void __ISR(_CHANGE_NOTICE_VECTOR, ipl6) CNHandler(void)
 	    time_stamp2[0] = TMR2;
 	    period_spdo2[pos2] = wheel_period(time_stamp2[0], time_stamp2[1]);	    
 	    pos2 = (pos2 + 1) % 8;
+
+	    //Un-connected pin or stalled wheel detection
+	    pulses_spd2++;
 	}
 	last_spdo2 = 0;
     }
@@ -148,8 +153,6 @@ void filter_wheel(void)
     spdo2_mean = (sum >> 3);
 }
 
-//ToDo: no pulse should read 0, not 21824
-
 unsigned short wheel_period(unsigned short ts1, unsigned short ts2)
 {
     unsigned short period = 0, diff = 0;
@@ -165,11 +168,25 @@ unsigned short wheel_period(unsigned short ts1, unsigned short ts2)
 	period = ts1 + diff;
     }
 
+    //Too slow:
+    if(period >= 63954)
+	period = 0;
+
     return period;
 }
 
 //Speed in kph*10
-unsigned short wheel_period_to_kph(unsigned short period)
+unsigned short wheel_period_to_kph(unsigned short period, unsigned char moving)
 {
-    return (639539/period);
+    unsigned short temp;
+
+    if(period && moving)
+	temp = (639539/period);
+    else
+	temp = 0;
+
+    if(temp > 15)   //Reject speed lower than 1.5kph
+	return temp;
+    else
+	return 0;
 }

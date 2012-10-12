@@ -21,4 +21,6 @@
 	 <ModuleVariable offset="32"  description="Speed 1 (kph*10)" type="uint16" value="" name="spdo1" />
 	 <ModuleVariable offset="34"  description="Speed 2 (kph*10)" type="uint16" value="" name="spdo2" />
 	 <ModuleVariable offset="36"  description="Power Out" type="uint8" value="" name="power_out" />
+	 <ModuleVariable offset="37"  description="Unused" type="uint8" value="" name="unused1" />
+	 <ModuleVariable offset="38"  description="Accelerator" type="uint16" value="" name="ped_accel" />
 </ModuleConfiguration>

@@ -4,6 +4,7 @@
 
 volatile unsigned int flag_timer1_100us = 0;
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0;
+volatile unsigned char spd1_moving = 0, spd2_moving = 0;
 
 //power_out.c
 extern unsigned int PWR4_enable;
@@ -11,6 +12,7 @@ extern unsigned int pwr4_pwm_dc;
 
 //wheel_sensor.c
 extern unsigned int last_spdo1, last_spdo2;
+extern volatile unsigned char pulses_spd1, pulses_spd2;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -23,6 +25,8 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
     static unsigned int led_cnt = 0;
     static unsigned int tmb_a_cnt = 0, tmb_b_cnt = 4;
+    static unsigned int tmb_moving = 0;
+    static unsigned int last_pulses_spd1 = 0, last_pulses_spd2 = 0;
 
     //125ms - 8Hz
     led_cnt++;
@@ -46,6 +50,25 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     {
 	flag_1ms_b = 1;
         tmb_b_cnt = 0;
+    }
+
+    //20ms - Is the wheel moving?
+    tmb_moving++;
+    if(tmb_moving > 200)
+    {
+	if(last_pulses_spd1 == pulses_spd1)
+	    spd1_moving = 0;
+	else
+	    spd1_moving = 1;
+	if(last_pulses_spd2 == pulses_spd2)
+	    spd2_moving = 0;
+	else
+	    spd2_moving = 1;
+
+	last_pulses_spd1 = pulses_spd1;
+	last_pulses_spd2 = pulses_spd2;
+
+        tmb_moving = 0;
     }
 
     //Wheel sensors (needed for the edge detection):
