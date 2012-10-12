@@ -128,6 +128,7 @@ enum CANResourceId {
             // Ampli audio
             E_ID_AUDIOAMPLIFIER = 0x34
 
+
 } CANResourceId;
 
 /*
