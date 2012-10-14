@@ -37,6 +37,15 @@ extern HDW_MAPPING gVUE32_5_Ress[];
 extern HDW_MAPPING gVUE32_6_Ress[];
 extern HDW_MAPPING gVUE32_7_Ress[];
 
+void OnEmergencyMsgVUE32_0();
+void OnEmergencyMsgVUE32_1();
+void OnEmergencyMsgVUE32_2();
+void OnEmergencyMsgVUE32_3();
+void OnEmergencyMsgVUE32_4();
+void OnEmergencyMsgVUE32_5();
+void OnEmergencyMsgVUE32_6();
+void OnEmergencyMsgVUE32_7();
+
 
 // Arrays of function pointers for each implementation
 FUNC_INIT gInitFunc[NB_VUE32+1] = {
@@ -94,4 +103,16 @@ unsigned int gHardwareSize[NB_VUE32+1] =
     7,  //VUE32_5
     3,  //VUE32_6
     1   //VUE32_7
+};
+
+FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =
+{
+    OnEmergencyMsgVUE32_0,
+    OnEmergencyMsgVUE32_1,
+    OnEmergencyMsgVUE32_2,
+    OnEmergencyMsgVUE32_3,
+    OnEmergencyMsgVUE32_4,
+    OnEmergencyMsgVUE32_5,
+    OnEmergencyMsgVUE32_6,
+    OnEmergencyMsgVUE32_7
 };

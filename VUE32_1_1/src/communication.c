@@ -109,6 +109,11 @@ void OnMsgVUE32(NETV_MESSAGE *msg)
 #ifndef __32MX575F512H__
     // Call the ID specific message parser
     gOnMsgFunc[GetBoardID()](msg);
+
+    //Call Emergency Instruction Here
+    ON_MSG_TYPE( NETV_TYPE_EMERGENCY )
+        gOnEmergencyMsgVUE32[GetBoardID()]();
+    END_OF_MSG_TYPE
 #else
     // Call the BMS message parser
     OnMsgBMS(msg);

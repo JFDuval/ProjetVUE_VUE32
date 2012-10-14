@@ -52,3 +52,8 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 }
 
+//TODO Put emergency instructions here
+void OnEmergencyMsgVUE32_6(void)
+{
+    return;
+}
