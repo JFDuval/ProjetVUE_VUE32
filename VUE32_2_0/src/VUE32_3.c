@@ -16,6 +16,12 @@
 
 
 #include "def.h"
+//wheel_sensor.c
+extern unsigned short spdo1_mean, spdo2_mean;
+extern volatile unsigned char spd1_moving, spd2_moving;
+unsigned short wheel_spdo1_kph_VUE32_3 = 0, wheel_spdo2_kph_VUE32_3 = 0;
+
+extern volatile unsigned int flag_1ms_b;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
@@ -52,6 +58,19 @@ void InitVUE32_3(void)
  */
 void ImplVUE32_3(void)
 {
+
+    if(flag_1ms_b)
+    {
+        flag_1ms_b = 0;
+
+        asm volatile ("di"); //Disable int
+        filter_wheel();
+        asm volatile ("ei"); //Enable int
+	wheel_spdo1_kph_VUE32_3 = wheel_period_to_kph(spdo1_mean, spd1_moving);
+	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
+    }
+
+
 }
 
 /*

@@ -1,5 +1,6 @@
 #include "vue32_adc.h"
 #include "def.h"
+#include "Board.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -16,8 +17,6 @@ char board_temp = 0, current = 0;
 unsigned short board_volt = 0;
 unsigned short pedal_accelerator = 0, pedal_brake = 0;
 
-//main.c
-extern unsigned char VUE32_ID;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -146,36 +145,36 @@ void board_specific_adc_decode(void)
     board_temp = read_temp(adc_mean[ADC_FILTERED_TEMP]);
     board_volt = read_vbat(adc_mean[ADC_FILTERED_VOLT]);
 
-    if(VUE32_ID == VUE32_GENERIC)
+    if(GetBoardID() == VUE32_GENERIC)
     {
 	Nop();
     }
-    else if(VUE32_ID == VUE32_1)
+    else if(GetBoardID() == VUE32_1)
     {
 	Nop();
     }
-    else if(VUE32_ID == VUE32_2)
+    else if(GetBoardID() == VUE32_2)
     {
 	current = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
     }
-    else if(VUE32_ID == VUE32_3)
+    else if(GetBoardID() == VUE32_3)
     {
 	Nop();
     }
-    else if(VUE32_ID == VUE32_4)
+    else if(GetBoardID() == VUE32_4)
     {
 	Nop();
     }
-    else if(VUE32_ID == VUE32_5)
+    else if(GetBoardID() == VUE32_5)
     {
 	pedal_accelerator = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
 	pedal_brake = read_brake(adc_mean[ADC_FILTERED_AN2]);
     }
-    else if(VUE32_ID == VUE32_6)
+    else if(GetBoardID() == VUE32_6)
     {
 	read_yaw_lateral(adc_mean[ADC_FILTERED_AN1], adc_mean[ADC_FILTERED_AN0]);
     }
-    else if(VUE32_ID == VUE32_7)
+    else if(GetBoardID() == VUE32_7)
     {
 	Nop();
     }

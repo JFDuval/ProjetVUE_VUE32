@@ -1,5 +1,6 @@
 #include "user_input.h"
 #include "def.h"
+#include "Board.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -7,7 +8,6 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-extern unsigned char VUE32_ID;       //main.c
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -86,7 +86,7 @@ unsigned int wiper_action(unsigned char wiper_input)
     unsigned char speed = (wiper_input & 0x0F);
     unsigned char action = (wiper_input & 0xF0);
 
-    if(VUE32_ID == VUE32_4) //Wiper arm
+    if(GetBoardID() == VUE32_4) //Wiper arm
     {
         if((action == WP_RLX1) || (action == WP_ACT1))
         {
@@ -105,7 +105,7 @@ unsigned int wiper_action(unsigned char wiper_input)
             power_out(WIPER_PWR_ARMS, 0);
     }
 
-    if(VUE32_ID == VUE32_6) //Wiper fluid pump
+    if(GetBoardID() == VUE32_6) //Wiper fluid pump
     {
         if(action == WP_ACT1)
             power_out(WIPER_PWR_PUMP, WP_PUMP_MAX);
@@ -195,7 +195,7 @@ unsigned int light_action(unsigned char light_input)
     unsigned char brakes = (light_input & 0x80);
     unsigned char reverse = (light_input & 0x40);
 
-    if((VUE32_ID == VUE32_2) || (VUE32_ID == VUE32_7)) //Right lights: Reverse, Night, Brake
+    if((GetBoardID() == VUE32_2) || (GetBoardID() == VUE32_7)) //Right lights: Reverse, Night, Brake
     {
         //Night lights
         if((lights == LT_LOW) || (lights == LT_HIGH))
@@ -216,14 +216,14 @@ unsigned int light_action(unsigned char light_input)
             power_out(LT_PWR_REVERSE, 0);
 
 	//Flashers
-	if(VUE32_ID == VUE32_2)
+	if(GetBoardID() == VUE32_2)
 	{
 	    if(flashers == LT_FLASHER_RIGHT)
 		power_out(LT_PWR_FLASH_REAR_RIGHT, 1);
 	    else
 		power_out(LT_PWR_FLASH_REAR_RIGHT, 0);
 	}
-	if(VUE32_ID == VUE32_7)
+	if(GetBoardID() == VUE32_7)
 	{
 	    if(flashers == LT_FLASHER_LEFT)
 		power_out(LT_PWR_FLASH_REAR_LEFT, 1);
@@ -232,7 +232,7 @@ unsigned int light_action(unsigned char light_input)
 	}
     }
 
-    if(VUE32_ID == VUE32_4) //Flashers and low beams
+    if(GetBoardID() == VUE32_4) //Flashers and low beams
     {
         //Left flashers
         if(flashers == LT_FLASHER_LEFT)
@@ -253,7 +253,7 @@ unsigned int light_action(unsigned char light_input)
             power_out(LT_PWR_FRONT_LOW, 0);
     }
 
-    if(VUE32_ID == VUE32_6) //High beams
+    if(GetBoardID() == VUE32_6) //High beams
     {
         //Front headlights - High
         if(lights == LT_HIGH)

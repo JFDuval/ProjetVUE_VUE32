@@ -16,6 +16,10 @@
 
 #include "def.h"
 
+unsigned char user_input = 0;
+
+extern volatile unsigned int flag_1ms_a;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_4_Ress[] =
 {
@@ -36,7 +40,13 @@ void InitVUE32_4(void)
  */
 void ImplVUE32_4(void)
 {
+    if(flag_1ms_a)
+    {
+        flag_1ms_a = 0;
 
+        user_input = read_light_input();
+        light_action(user_input);
+    }
 }
 
 /*

@@ -15,6 +15,12 @@
 #include "def.h"
 #include "Board.h"
 
+unsigned short wheel_spdo1_kph_VUE32_7 = 0;
+extern unsigned short spdo1_mean;
+extern volatile unsigned char spd1_moving;
+
+extern volatile unsigned int flag_1ms_b;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
 {
@@ -34,7 +40,17 @@ void InitVUE32_7(void)
  */
 void ImplVUE32_7(void)
 {
-
+    if(flag_1ms_b)
+    {
+        flag_1ms_b = 0;
+        //Filte the wheel speed
+        //Disable interrupt during filtering
+        //TODO Implement a memcpy between SPI data and temporary variable instead of filtering during the interrupts are disabled
+        asm volatile ("di"); //Disable int
+        filter_wheel();
+        asm volatile ("ei"); //Enable int
+        wheel_spdo1_kph_VUE32_7 = wheel_period_to_kph(spdo1_mean, spd1_moving);
+    }
 }
 
 /*

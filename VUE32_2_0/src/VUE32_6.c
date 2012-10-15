@@ -17,6 +17,9 @@
 
 #include "def.h"
 
+unsigned char user_input_VUE32_6 = 0;
+extern volatile unsigned int flag_1ms_a;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_6_Ress[] =
 {
@@ -38,7 +41,16 @@ void InitVUE32_6(void)
  */
 void ImplVUE32_6(void)
 {
+    if(flag_1ms_a)
+    {
+        flag_1ms_a = 0;
 
+        user_input_VUE32_6 = read_wiper_input();
+
+        #ifdef USE_I2C
+        read_adxl345(0x32);	    //I2C Polling
+        #endif
+    }
 }
 
 /*

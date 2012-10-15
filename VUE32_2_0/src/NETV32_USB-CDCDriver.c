@@ -36,8 +36,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 
 //USB Buffers:
 #define USB_OUT_BUFFER_SIZE 64
-extern char USB_In_Buffer[64];
-extern char USB_Out_Buffer[USB_OUT_BUFFER_SIZE];
+char USB_In_Buffer[64];
+char USB_Out_Buffer[USB_OUT_BUFFER_SIZE];
 
 //memory buffer
 unsigned char g_recvDataBytes[RX_BUFFER_SIZE];

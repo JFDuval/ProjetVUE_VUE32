@@ -12,9 +12,12 @@
 #include "NETV32_Common.h"
 #include "VUE32_Impl.h"
 #include "VUE32_Utils.h"
+
+extern volatile unsigned char flag_adc_filter;
+
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000002;
+const int persistentData = 0x00000007;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0001
@@ -43,7 +46,7 @@ void InitBoard(void)
     InitTimers();
 
     // Initialize ADC
-    InitADC();
+    init_adc();
 
     // Initialize CAN buses
     CRX1_TRIS = 1;
@@ -58,7 +61,7 @@ void InitBoard(void)
     TRIS_U3ATX = 0;
     
     // Initialize I2C
-    InitI2C();
+    init_i2c();
     
     // Initialize digital IOs as inputs
     DIO_TRIS |= DIO_MASK;
@@ -141,6 +144,13 @@ void InitVUE32(VUE32_ID id)
  */
 void CallVUE32Impl(VUE32_ID id)
 {
+    //Filter ADC results
+    if(flag_adc_filter)
+    {
+        flag_adc_filter = 0;
+	filter_adc();
+	board_specific_adc_decode();
+    }
     RunLongPolling();
     gImplFunc[id]();
 }

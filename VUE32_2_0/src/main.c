@@ -18,37 +18,16 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char gfi_freq = 0;
-unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
-unsigned char user_input = 0;
 
-//vue32_can.c
-extern unsigned short steering_angle;
 
-//vue32_i2c.c
-extern short accel_x, accel_y, accel_z;
 
-//offboard_sensors.c
-extern short yaw_rate, lateral;
 
-//interrupts.c
-extern volatile unsigned int flag_1ms_a, flag_1ms_b;
-unsigned int flag_fsm = 0;
 
-//vue32_adc.c
-extern volatile unsigned char flag_adc_filter;
-extern unsigned short adc_mean[ADC_CH];
-extern char board_temp, current;
-extern unsigned short board_volt;
-extern unsigned short pedal_accelerator, pedal_brake;
 
-//wheel_sensor.c
-extern unsigned short spdo1_mean, spdo2_mean;
 
-//NetV USB-CDC
-char USB_In_Buffer[64];
-char USB_Out_Buffer[64];
-BOOL stringPrinted;
+
+
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -69,12 +48,11 @@ void update_variables(void);
 
 int main(void)
 {
-    // Get the actual board ID
     VUE32_ID id = GetBoardID();
 
     // Initialize the board (communication, timers, etc).
     InitBoard();
-	
+
     //USB setup
     InitializeSystem();
 
@@ -84,75 +62,10 @@ int main(void)
 
     // Specific VUE32 initialization
     InitVUE32(id);
-
-    //Most of the functions in the while(1) loop are timed by Timer1
+    
     while (1)
     {
-        EVERY_X_MS(125)
-           LED1 ^= 1;  //Toggle LED 4Hz
-        END_OF_EVERY
-
-	//Filter ADC results TODO: Move somewhere else (in interrupts...)
-	if(flag_adc_filter)
-	{
-	    flag_adc_filter = 0;
-	    filter_adc();
-	    board_specific_adc_decode();
-	}
-
-	//1ms timebase A
-        #ifdef NOT_TESTING
-	if(flag_1ms_a)
-	{
-	    flag_1ms_a = 0;
-
-	    if(id == VUE32_6)
-	    {
-		#ifdef USE_I2C
-		read_adxl345(0x32);	    //I2C Polling
-		#endif
-	    }
-
-	    //GFI sensor
-	    if(id == VUE32_2)
-		gfi_freq = gfi_freq_sensor();
-
-	    //User input
-	    if(id == VUE32_4)
-		user_input = read_light_input();
-	    if(id == VUE32_6)
-		user_input = read_wiper_input();
-	    if(id == VUE32_5)
-		user_input = read_dpr_key();
-	}
-
-        //1ms timebase B
-	if(flag_1ms_b)
-	{
-            flag_1ms_b = 0;
-
-	    //Speed sensors
-	    if((id == VUE32_2) || (id == VUE32_3) || (id == VUE32_7))
-	    {
-		//wheel_spdo1_kph = wheel_freq_to_kph(wheel_period_to_freq(period_spdo1));
-		Nop();
-	    }
-	    
-	    if(id == VUE32_3)
-	    {
-		asm volatile ("di"); //Disable int
-		filter_wheel();
-		asm volatile ("ei"); //Enable int
-		wheel_spdo2_kph = wheel_period_to_kph(spdo2_mean);
-
-	    }
-
-	    //ToDo Power Out
-        }
-
-        #endif
-
-	// Process USB stack
+	//NetV on USB-CDC
 	ProcessIO();
 
         // Process network stack
@@ -161,7 +74,7 @@ int main(void)
             OnMsgVUE32(&oMsgRecep);
 
         // Process state machine
-        CallVUE32Impl(id);
+        CallVUE32Impl((unsigned char)id);
     }
 
     return 0;

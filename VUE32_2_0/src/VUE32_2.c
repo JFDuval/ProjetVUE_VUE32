@@ -14,8 +14,17 @@
 #include "VUE32_Impl.h"
 
 
+
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
+
+unsigned char gfi_freq = 0;
+
+unsigned short wheel_spdo1_kph = 0;
+extern unsigned short spdo1_mean;
+extern volatile unsigned char spd1_moving;
+
+extern volatile unsigned int flag_1ms_a, flag_1ms_b;
 
 
 //Hardware resources manage localy by this VUE32
@@ -68,6 +77,27 @@ void ImplVUE32_2(void)
     {
         m_prev_gndfaultstate = GNDFAULT_STATE;
         // TODO: Send a message or do something
+    }
+
+    //TODO forward data to software interface
+    if(flag_1ms_a)
+    {
+        flag_1ms_a = 0;
+        //GFI Frequency
+        gfi_freq = gfi_freq_sensor();
+
+    }
+
+    if(flag_1ms_b)
+    {
+        flag_1ms_b = 0;
+        //Filte the wheel speed
+        //Disable interrupt during filtering
+        //TODO Implement a memcpy between SPI data and temporary variable instead of filtering during the interrupts are disabled
+        asm volatile ("di"); //Disable int
+        filter_wheel();
+        asm volatile ("ei"); //Enable int
+        wheel_spdo1_kph = wheel_period_to_kph(spdo1_mean, spd1_moving);
     }
     
 }

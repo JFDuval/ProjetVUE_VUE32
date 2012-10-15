@@ -18,6 +18,10 @@
 
 #include "def.h"
 
+unsigned char user_input_VUE32_5 = 0;
+extern volatile unsigned int flag_1ms_a;
+
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_5_Ress[] =
 {
@@ -43,7 +47,12 @@ void InitVUE32_5(void)
  */
 void ImplVUE32_5(void)
 {
+    if(flag_1ms_a)
+    {
+        flag_1ms_a = 0;
 
+        user_input_VUE32_5 = read_dpr_key();
+    }
 }
 
 /*
