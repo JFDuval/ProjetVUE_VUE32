@@ -8,6 +8,8 @@
 #ifndef VUE32_UTILS_H
 #define	VUE32_UTILS_H
 
+#include "NETV32_Common.h"
+
 // Global TimeStamp variable (do not erase!)
 extern volatile unsigned int uiTimeStamp;
 
