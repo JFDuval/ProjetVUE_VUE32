@@ -37,6 +37,15 @@ extern HDW_MAPPING gVUE32_5_Ress[];
 extern HDW_MAPPING gVUE32_6_Ress[];
 extern HDW_MAPPING gVUE32_7_Ress[];
 
+extern ROUTING_TABLE gRoutingTableVUE32_0[];
+extern ROUTING_TABLE gRoutingTableVUE32_1[];
+extern ROUTING_TABLE gRoutingTableVUE32_2[];
+extern ROUTING_TABLE gRoutingTableVUE32_3[];
+extern ROUTING_TABLE gRoutingTableVUE32_4[];
+extern ROUTING_TABLE gRoutingTableVUE32_5[];
+extern ROUTING_TABLE gRoutingTableVUE32_6[];
+extern ROUTING_TABLE gRoutingTableVUE32_7[];
+
 void OnEmergencyMsgVUE32_0();
 void OnEmergencyMsgVUE32_1();
 void OnEmergencyMsgVUE32_2();
@@ -115,4 +124,27 @@ FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =
     OnEmergencyMsgVUE32_5,
     OnEmergencyMsgVUE32_6,
     OnEmergencyMsgVUE32_7
+};
+
+ROUTING_TABLE *gRoutingTable[NB_VUE32+1] =
+{
+    gRoutingTableVUE32_0,
+    gRoutingTableVUE32_1,
+    gRoutingTableVUE32_2,
+    gRoutingTableVUE32_3,
+    gRoutingTableVUE32_4,
+    gRoutingTableVUE32_5,
+    gRoutingTableVUE32_6,
+    gRoutingTableVUE32_7
+};
+
+unsigned char gRoutingTableSize[NB_VUE32+1] =
+{
+    0,  //VUE32_0
+    0,  //VUE32_1
+    0,  //VUE32_2
+    0,  //VUE32_3
+    0,  //VUE32_4
+    0,  //VUE32_5
+    NB_BMS,  //VUE32_6
 };

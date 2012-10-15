@@ -10,8 +10,10 @@
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
+#include "VUE32_Impl.h"
 
 #include "def.h"
+#include "Board.h"
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
@@ -51,3 +53,31 @@ void OnEmergencyMsgVUE32_7(void)
 {
     return;
 }
+
+ROUTING_TABLE gRoutingTableVUE32_7[24] =
+{
+    {NETV_COMM_IFACE_CAN2, BMS_1},
+    {NETV_COMM_IFACE_CAN2, BMS_2},
+    {NETV_COMM_IFACE_CAN2, BMS_3},
+    {NETV_COMM_IFACE_CAN2, BMS_4},
+    {NETV_COMM_IFACE_CAN2, BMS_5},
+    {NETV_COMM_IFACE_CAN2, BMS_6},
+    {NETV_COMM_IFACE_CAN2, BMS_7},
+    {NETV_COMM_IFACE_CAN2, BMS_8},
+    {NETV_COMM_IFACE_CAN2, BMS_9},
+    {NETV_COMM_IFACE_CAN2, BMS_10},
+    {NETV_COMM_IFACE_CAN2, BMS_11},
+    {NETV_COMM_IFACE_CAN2, BMS_12},
+    {NETV_COMM_IFACE_CAN2, BMS_13},
+    {NETV_COMM_IFACE_CAN2, BMS_14},
+    {NETV_COMM_IFACE_CAN2, BMS_15},
+    {NETV_COMM_IFACE_CAN2, BMS_16},
+    {NETV_COMM_IFACE_CAN2, BMS_17},
+    {NETV_COMM_IFACE_CAN2, BMS_18},
+    {NETV_COMM_IFACE_CAN2, BMS_19},
+    {NETV_COMM_IFACE_CAN2, BMS_20},
+    {NETV_COMM_IFACE_CAN2, BMS_21},
+    {NETV_COMM_IFACE_CAN2, BMS_22},
+    {NETV_COMM_IFACE_CAN2, BMS_23},
+    {NETV_COMM_IFACE_CAN2, BMS_24}
+};

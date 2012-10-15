@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "NETV32_Device.h"
 #include "NETV32_Common.h"
 
+#include "VUE32_Impl.h"
+
 #include "Board.h"
 
 #include <string.h>
@@ -122,6 +124,17 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
         // The g_rMessage message wasn't intended for us, forward it
         if ( g_rMessage.msg_dest != netv_addr && GetMyAddr() != 0 )
         {
+
+            #ifdef ROUTING
+            //Get the VUE32's routing Table
+            ROUTING_TABLE oRoutingTable = netv_get_path(gRoutingTable[GetBoardID()], gRoutingTableSize[GetBoardID()], g_rMessage.msg_dest);
+            if(g_rMessage.msg_comm_iface != oRoutingTable.ucComm_iface)
+            {
+                g_rMessage.msg_comm_iface = oRoutingTable.ucComm_iface;
+            }
+
+            #endif
+
             // TODO: Implement a routing table
             // For now, we'll just broadcast it through our other interfaces
             NETV_MESSAGE sendMsg;
@@ -380,4 +393,24 @@ void netv_write_boot_config(BootConfig *config) {
 
 BootConfig* netv_get_boot_config() {
     return &g_BootConfig;
+}
+
+
+ROUTING_TABLE netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, unsigned char ucAddresDest)
+{
+    ROUTING_TABLE oOutput = {0x00,0x00};
+    
+    if(ucRoutingTableSize > 0)
+    {
+        unsigned int i= 0;
+        for(i = 0; i<ucRoutingTableSize; i++)
+        {
+            if(pRoutingTable[i].ucAddress == ucAddresDest)
+            {
+                oOutput = pRoutingTable[i];
+            }
+        }
+    }
+
+    return oOutput;
 }

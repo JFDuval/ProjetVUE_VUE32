@@ -11,6 +11,8 @@
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
+#include "VUE32_Impl.h"
+
 
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
@@ -103,3 +105,5 @@ void OnEmergencyMsgVUE32_2(void)
 {
     return;
 }
+
+ROUTING_TABLE *gRoutingTableVUE32_2 = NULL;

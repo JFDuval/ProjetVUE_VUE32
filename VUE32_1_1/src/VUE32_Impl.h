@@ -13,6 +13,8 @@
 
 // Number of existing VUE32
 #define NB_VUE32 7
+#define NB_BMS 24
+
 
 // Typedefs for the ID-specific function pointers
 typedef void (*FUNC_INIT)();
@@ -29,6 +31,10 @@ extern FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1];
 
 extern HDW_MAPPING *gHardwareMap[NB_VUE32+1];
 extern unsigned int gHardwareSize[NB_VUE32+1];
+
+extern ROUTING_TABLE *gRoutingTable[NB_VUE32+1];
+extern unsigned char gRoutingTableSize[NB_VUE32+1];
+
 
 #endif	/* VUE32_IMPL_H */
 

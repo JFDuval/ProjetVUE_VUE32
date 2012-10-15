@@ -176,6 +176,11 @@ typedef union _message{
    unsigned int raw[4];
 } NETV_MESSAGE;
 
+typedef struct{
+    unsigned char ucComm_iface;
+    unsigned char ucAddress;
+}ROUTING_TABLE;
+
 
 typedef struct _BootConfig
 {
@@ -215,5 +220,8 @@ extern void netv_proc_message(NETV_MESSAGE *message);
 BootConfig* netv_get_boot_config(void);
 void netv_read_boot_config(BootConfig *config);
 void netv_write_boot_config(BootConfig *config);
+
+//Routing function
+ROUTING_TABLE netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, unsigned char ucAddresDest);
 
 #endif

@@ -8,6 +8,8 @@
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
+#include "VUE32_Impl.h"
+
 #include "def.h"
 
 //Hardware resources manage localy by this VUE32
@@ -63,3 +65,5 @@ void OnEmergencyMsgVUE32_1(void)
 {
     return;
 }
+
+ROUTING_TABLE *gRoutingTableVUE32_1 = NULL;

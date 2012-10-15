@@ -13,6 +13,8 @@
 #include "NETV32_Common.h"
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
+#include "VUE32_Impl.h"
+
 
 #include "def.h"
 
@@ -67,3 +69,5 @@ void OnEmergencyMsgVUE32_5(void)
 {
     return;
 }
+
+ROUTING_TABLE *gRoutingTableVUE32_5 = NULL;
