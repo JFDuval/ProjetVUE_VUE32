@@ -26,12 +26,12 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 IMAGE_TYPE=debug
 OUTPUT_SUFFIX=elf
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 else
 IMAGE_TYPE=production
 OUTPUT_SUFFIX=hex
 DEBUGGABLE_SUFFIX=elf
-FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+FINAL_IMAGE=dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 endif
 
 # Object Directory
@@ -41,11 +41,11 @@ OBJECTDIR=build/${CND_CONF}/${IMAGE_TYPE}
 DISTDIR=dist/${CND_CONF}/${IMAGE_TYPE}
 
 # Object Files Quoted if spaced
-OBJECTFILES_QUOTED_IF_SPACED="${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ${OBJECTDIR}/_ext/1360937237/periph.o ${OBJECTDIR}/_ext/1360937237/power_out.o ${OBJECTDIR}/_ext/1360937237/user_input.o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ${OBJECTDIR}/_ext/1360937237/interrupts.o ${OBJECTDIR}/_ext/1360937237/Board.o ${OBJECTDIR}/_ext/1360937237/communication.o ${OBJECTDIR}/_ext/1360937237/Exception.o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ${OBJECTDIR}/_ext/265640400/usb_device.o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/memory_map.o
-POSSIBLE_DEPFILES="${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d ${OBJECTDIR}/_ext/1360937237/periph.o.d ${OBJECTDIR}/_ext/1360937237/power_out.o.d ${OBJECTDIR}/_ext/1360937237/user_input.o.d ${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d ${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d ${OBJECTDIR}/_ext/1360937237/interrupts.o.d ${OBJECTDIR}/_ext/1360937237/Board.o.d ${OBJECTDIR}/_ext/1360937237/communication.o.d ${OBJECTDIR}/_ext/1360937237/Exception.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d ${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d ${OBJECTDIR}/_ext/265640400/usb_device.o.d ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d ${OBJECTDIR}/_ext/1360937237/memory_map.o.d
+OBJECTFILES_QUOTED_IF_SPACED="${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ${OBJECTDIR}/_ext/1360937237/periph.o ${OBJECTDIR}/_ext/1360937237/power_out.o ${OBJECTDIR}/_ext/1360937237/user_input.o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ${OBJECTDIR}/_ext/1360937237/interrupts.o ${OBJECTDIR}/_ext/1360937237/Board.o ${OBJECTDIR}/_ext/1360937237/communication.o ${OBJECTDIR}/_ext/1360937237/Exception.o ${OBJECTDIR}/_ext/1360937237/memory_map.o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ${OBJECTDIR}/_ext/265640400/usb_device.o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ${OBJECTDIR}/_ext/1360937237/main.o
+POSSIBLE_DEPFILES="${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d ${OBJECTDIR}/_ext/1360937237/periph.o.d ${OBJECTDIR}/_ext/1360937237/power_out.o.d ${OBJECTDIR}/_ext/1360937237/user_input.o.d ${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d ${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d ${OBJECTDIR}/_ext/1360937237/interrupts.o.d ${OBJECTDIR}/_ext/1360937237/Board.o.d ${OBJECTDIR}/_ext/1360937237/communication.o.d ${OBJECTDIR}/_ext/1360937237/Exception.o.d ${OBJECTDIR}/_ext/1360937237/memory_map.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d ${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d ${OBJECTDIR}/_ext/265640400/usb_device.o.d ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d ${OBJECTDIR}/_ext/1360937237/main.o.d
 
 # Object Files
-OBJECTFILES=${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ${OBJECTDIR}/_ext/1360937237/periph.o ${OBJECTDIR}/_ext/1360937237/power_out.o ${OBJECTDIR}/_ext/1360937237/user_input.o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ${OBJECTDIR}/_ext/1360937237/interrupts.o ${OBJECTDIR}/_ext/1360937237/Board.o ${OBJECTDIR}/_ext/1360937237/communication.o ${OBJECTDIR}/_ext/1360937237/Exception.o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ${OBJECTDIR}/_ext/265640400/usb_device.o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ${OBJECTDIR}/_ext/1360937237/main.o ${OBJECTDIR}/_ext/1360937237/memory_map.o
+OBJECTFILES=${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ${OBJECTDIR}/_ext/1360937237/periph.o ${OBJECTDIR}/_ext/1360937237/power_out.o ${OBJECTDIR}/_ext/1360937237/user_input.o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ${OBJECTDIR}/_ext/1360937237/interrupts.o ${OBJECTDIR}/_ext/1360937237/Board.o ${OBJECTDIR}/_ext/1360937237/communication.o ${OBJECTDIR}/_ext/1360937237/Exception.o ${OBJECTDIR}/_ext/1360937237/memory_map.o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ${OBJECTDIR}/_ext/265640400/usb_device.o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ${OBJECTDIR}/_ext/1360937237/main.o
 
 
 CFLAGS=
@@ -62,7 +62,7 @@ LDLIBSOPTIONS=
 FIXDEPS=fixDeps
 
 .build-conf:  ${BUILD_SUBPROJECTS}
-	${MAKE} ${MAKE_OPTIONS} -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+	${MAKE} ${MAKE_OPTIONS} -f nbproject/Makefile-default.mk dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
 
 MP_PROCESSOR_OPTION=32MX795F512H
 MP_LINKER_FILE_OPTION=,--script="vue32app.ld"
@@ -150,6 +150,11 @@ ${OBJECTDIR}/_ext/1360937237/Exception.o: ../src/Exception.c  nbproject/Makefile
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Exception.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
+	
+${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o: ../src/NETV32_Common.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
@@ -246,11 +251,6 @@ ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CON
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
 	
-${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
-	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
-	
 else
 ${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o: ../src/offboard_sensors\ .c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
@@ -321,6 +321,11 @@ ${OBJECTDIR}/_ext/1360937237/Exception.o: ../src/Exception.c  nbproject/Makefile
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Exception.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
+	
+${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
+	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
+	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o: ../src/NETV32_Common.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
@@ -417,24 +422,19 @@ ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CON
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
 	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
 	
-${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
-	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
-	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
-	
 endif
 
 # ------------------------------------------------------------------------------------
 # Rules for buildStep: link
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
-dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PK3=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__ICD2RAM=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,-Map="mapmem.txt",--report-mem 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PK3=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__ICD2RAM=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,-Map="mapmem.txt",--report-mem 
 else
-dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
+dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),-Map="mapmem.txt",--report-mem
-	${MP_CC_DIR}\\pic32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_1_1.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),-Map="mapmem.txt",--report-mem
+	${MP_CC_DIR}\\pic32-bin2hex dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${DEBUGGABLE_SUFFIX}  
 endif
 
 
