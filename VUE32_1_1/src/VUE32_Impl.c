@@ -12,6 +12,7 @@ void InitVUE32_4(void);
 void InitVUE32_5(void);
 void InitVUE32_6(void);
 void InitVUE32_7(void);
+void InitBMS(void);
 void ImplVUE32_0(void);
 void ImplVUE32_1(void);
 void ImplVUE32_2(void);
@@ -20,6 +21,7 @@ void ImplVUE32_4(void);
 void ImplVUE32_5(void);
 void ImplVUE32_6(void);
 void ImplVUE32_7(void);
+void ImplBMS(void);
 void OnMsgVUE32_0(NETV_MESSAGE *msg);
 void OnMsgVUE32_1(NETV_MESSAGE *msg);
 void OnMsgVUE32_2(NETV_MESSAGE *msg);
@@ -28,6 +30,7 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg);
 void OnMsgVUE32_5(NETV_MESSAGE *msg);
 void OnMsgVUE32_6(NETV_MESSAGE *msg);
 void OnMsgVUE32_7(NETV_MESSAGE *msg);
+void OnMsgBMS(NETV_MESSAGE *msg);
 extern HDW_MAPPING gVUE32_0_Ress[];
 extern HDW_MAPPING gVUE32_1_Ress[];
 extern HDW_MAPPING gVUE32_2_Ress[];
@@ -36,6 +39,7 @@ extern HDW_MAPPING gVUE32_4_Ress[];
 extern HDW_MAPPING gVUE32_5_Ress[];
 extern HDW_MAPPING gVUE32_6_Ress[];
 extern HDW_MAPPING gVUE32_7_Ress[];
+extern HDW_MAPPING gBMS_Ress[];
 
 extern ROUTING_TABLE gRoutingTableVUE32_0[];
 extern ROUTING_TABLE gRoutingTableVUE32_1[];
@@ -45,6 +49,7 @@ extern ROUTING_TABLE gRoutingTableVUE32_4[];
 extern ROUTING_TABLE gRoutingTableVUE32_5[];
 extern ROUTING_TABLE gRoutingTableVUE32_6[];
 extern ROUTING_TABLE gRoutingTableVUE32_7[];
+extern ROUTING_TABLE gRoutingTableBMS[];
 
 void OnEmergencyMsgVUE32_0();
 void OnEmergencyMsgVUE32_1();
@@ -54,6 +59,7 @@ void OnEmergencyMsgVUE32_4();
 void OnEmergencyMsgVUE32_5();
 void OnEmergencyMsgVUE32_6();
 void OnEmergencyMsgVUE32_7();
+void OnEmergencyMsgBMS();
 
 
 // Arrays of function pointers for each implementation
@@ -66,9 +72,10 @@ FUNC_INIT gInitFunc[NB_VUE32+1] = {
     InitVUE32_5,
     InitVUE32_6,
     InitVUE32_7,
+    //InitBMS,
 };
 
-FUNC_IMPL gImplFunc[NB_VUE32+1] = {
+FUNC_IMPL gImplFunc[NB_VUE32+2] = {
     ImplVUE32_0,
     ImplVUE32_1,
     ImplVUE32_2,
@@ -77,9 +84,10 @@ FUNC_IMPL gImplFunc[NB_VUE32+1] = {
     ImplVUE32_5,
     ImplVUE32_6,
     ImplVUE32_7,
+    //ImplBMS,
 };
 
-FUNC_ONMSG gOnMsgFunc[NB_VUE32+1] = {
+FUNC_ONMSG gOnMsgFunc[NB_VUE32+2] = {
     OnMsgVUE32_0,
     OnMsgVUE32_1,
     OnMsgVUE32_2,
@@ -88,10 +96,11 @@ FUNC_ONMSG gOnMsgFunc[NB_VUE32+1] = {
     OnMsgVUE32_5,
     OnMsgVUE32_6,
     OnMsgVUE32_7,
+    //OnMsgBMS,
 };
 
 
-HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
+HDW_MAPPING* gHardwareMap[NB_VUE32+2] = {
     gVUE32_0_Ress,
     gVUE32_1_Ress,
     gVUE32_2_Ress,
@@ -99,10 +108,11 @@ HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
     gVUE32_4_Ress,
     gVUE32_5_Ress,
     gVUE32_6_Ress,
-    gVUE32_7_Ress
+    gVUE32_7_Ress,
+    //gBMS_Ress
 };
 
-unsigned int gHardwareSize[NB_VUE32+1] =
+unsigned int gHardwareSize[NB_VUE32+2] =
 {
     0,  //VUE32_0
     0,  //VUE32_1
@@ -111,10 +121,11 @@ unsigned int gHardwareSize[NB_VUE32+1] =
     2,  //VUE32_4
     7,  //VUE32_5
     3,  //VUE32_6
-    1   //VUE32_7
+    1,  //VUE32_7
+    //3   //BMS
 };
 
-FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =
+FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+2] =
 {
     OnEmergencyMsgVUE32_0,
     OnEmergencyMsgVUE32_1,
@@ -123,10 +134,11 @@ FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =
     OnEmergencyMsgVUE32_4,
     OnEmergencyMsgVUE32_5,
     OnEmergencyMsgVUE32_6,
-    OnEmergencyMsgVUE32_7
+    OnEmergencyMsgVUE32_7,
+    //OnEmergencyMsgBMS
 };
 
-ROUTING_TABLE *gRoutingTable[NB_VUE32+1] =
+ROUTING_TABLE *gRoutingTable[NB_VUE32+2] =
 {
     gRoutingTableVUE32_0,
     gRoutingTableVUE32_1,
