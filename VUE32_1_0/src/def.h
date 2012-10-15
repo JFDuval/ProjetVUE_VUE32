@@ -30,7 +30,7 @@
 #include "NETV32_Shared.h"
 
 //Enable/Disable high-level functions:
-#define USE_I2C
+//#define USE_I2C
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //

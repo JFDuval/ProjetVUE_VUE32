@@ -199,36 +199,36 @@ unsigned int light_action(unsigned char light_input)
     {
         //Night lights
         if((lights == LT_LOW) || (lights == LT_HIGH))
-             power_out(LT_PWR_REAR, LT_MAX);
+             power_out(LT_PWR_REAR, 1);
         else
-            power_out(LT_PWR_REAR, LT_MIN);
+            power_out(LT_PWR_REAR, 0);
 
         //Brake
         if(brakes == LT_BRAKE)
-             power_out(LT_PWR_BRAKE, LT_MAX);
+             power_out(LT_PWR_BRAKE, 1);
         else
-            power_out(LT_PWR_BRAKE, LT_MIN);
+            power_out(LT_PWR_BRAKE, 0);
 
         //Reverse
         if(reverse == LT_REVERSE)
-             power_out(LT_PWR_REVERSE, LT_MAX);
+             power_out(LT_PWR_REVERSE, 1);
         else
-            power_out(LT_PWR_REVERSE, LT_MIN);
+            power_out(LT_PWR_REVERSE, 0);
 
 	//Flashers
 	if(VUE32_ID == VUE32_2)
 	{
 	    if(flashers == LT_FLASHER_RIGHT)
-		power_out(LT_PWR_FLASH_REAR_RIGHT, LT_MAX);
+		power_out(LT_PWR_FLASH_REAR_RIGHT, 1);
 	    else
-		power_out(LT_PWR_FLASH_REAR_RIGHT, LT_MIN);
+		power_out(LT_PWR_FLASH_REAR_RIGHT, 0);
 	}
 	if(VUE32_ID == VUE32_7)
 	{
 	    if(flashers == LT_FLASHER_LEFT)
-		power_out(LT_PWR_FLASH_REAR_LEFT, LT_MAX);
+		power_out(LT_PWR_FLASH_REAR_LEFT, 1);
 	    else
-		power_out(LT_PWR_FLASH_REAR_LEFT, LT_MIN);
+		power_out(LT_PWR_FLASH_REAR_LEFT, 0);
 	}
     }
 
@@ -236,30 +236,30 @@ unsigned int light_action(unsigned char light_input)
     {
         //Left flashers
         if(flashers == LT_FLASHER_LEFT)
-             power_out(LT_PWR_FLASH_FRONT_LEFT, LT_MAX);
+             power_out(LT_PWR_FLASH_FRONT_LEFT, 1);
         else
-            power_out(LT_PWR_FLASH_FRONT_LEFT, LT_MIN);
+            power_out(LT_PWR_FLASH_FRONT_LEFT, 0);
 
 	//Right flashers
         if(flashers == LT_FLASHER_RIGHT)
-             power_out(LT_PWR_FLASH_FRONT_RIGHT, LT_MAX);
+             power_out(LT_PWR_FLASH_FRONT_RIGHT, 1);
         else
-            power_out(LT_PWR_FLASH_FRONT_RIGHT, LT_MIN);
+            power_out(LT_PWR_FLASH_FRONT_RIGHT, 0);
 
         //Low Beams
-        if(lights == LT_LOW)
-             power_out(LT_PWR_FRONT_LOW, LT_MAX);
+        if((lights & LT_LOW) == LT_LOW)
+             power_out(LT_PWR_FRONT_LOW, 1);
         else
-            power_out(LT_PWR_FRONT_LOW, LT_MIN);
+            power_out(LT_PWR_FRONT_LOW, 0);
     }
 
     if(VUE32_ID == VUE32_6) //High beams
     {
         //Front headlights - High
         if(lights == LT_HIGH)
-             power_out(LT_PWR_FRONT_HIGH, LT_MAX);
+             power_out(LT_PWR_FRONT_HIGH, 1);
         else
-            power_out(LT_PWR_FRONT_HIGH, LT_MIN);
+            power_out(LT_PWR_FRONT_HIGH, 0);
     }
 }
 

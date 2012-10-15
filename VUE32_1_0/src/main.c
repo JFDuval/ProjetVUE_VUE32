@@ -13,7 +13,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned char VUE32_ID = VUE32_3;
+unsigned char VUE32_ID = VUE32_4;
 unsigned int pb_clk_test;
 unsigned char gfi_freq = 0;
 unsigned short wheel_spdo1_kph = 0, wheel_spdo2_kph = 0;
@@ -151,7 +151,10 @@ int main(void)
 
 	    //User input
 	    if(VUE32_ID == VUE32_4)
+            {
 		user_input = read_light_input();
+                light_action(user_input);
+            }
 	    if(VUE32_ID == VUE32_6)
 		user_input = read_wiper_input();
 	    if(VUE32_ID == VUE32_5)
@@ -344,9 +347,10 @@ void update_variables(void)
 
     //Power out manual test: ToDo Remove
     powerout = g_globalNETVVariables.power_out;
+    //power_out(1, powerout);
     power_out(2, powerout);
-    power_out(3, powerout);
-    power_out(4, powerout*5);
+    //power_out(3, powerout);
+    //power_out(4, powerout*5);
 
     g_globalNETVVariables.pedal_accelerator = pedal_accelerator;
 }
