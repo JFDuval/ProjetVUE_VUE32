@@ -58,11 +58,12 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;  //Toggle LED 4Hz
     }
 
-
+#ifndef __32MX575F512H__
     //20ms - Is the wheel moving?
     tmb_moving++;
     if(tmb_moving > 200)
     {
+
 	if(last_pulses_spd1 == pulses_spd1)
 	    spd1_moving = 0;
 	else
@@ -75,12 +76,16 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 	last_pulses_spd1 = pulses_spd1;
 	last_pulses_spd2 = pulses_spd2;
 
+
+
         tmb_moving = 0;
     }
 
     //Wheel sensors (needed for the edge detection):
     last_spdo1 = SPDO1;
     last_spdo2 = SPDO2;
+
+#endif
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
