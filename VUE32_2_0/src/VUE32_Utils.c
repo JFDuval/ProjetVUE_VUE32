@@ -3,6 +3,7 @@
 
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "BMS_Impl.h"
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
 unsigned int g_unLpSize = 0;
@@ -118,13 +119,13 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
 
     if(msg->msg_source > NB_VUE32)
     {
-        gVUE32_Ress = gHardwareMap[BMS_HW_INDEX];
+        gVUE32_Ress = gHardwareMapBMS[1];
     }
 
     if(gVUE32_Ress == 0)
         return;
 
-    unsigned int unNbResourceId = gHardwareSize[BMS_HW_INDEX];
+    unsigned int unNbResourceId = gHardwareSizeBMS[1];
 
 #endif
 
