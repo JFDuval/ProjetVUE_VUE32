@@ -105,14 +105,28 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
     if(msg->msg_type != VUE32_TYPE_STARTEMETTING)
         return;
 
+    HDW_MAPPING *gVUE32_Ress;
 
-
-    HDW_MAPPING *gVUE32_Ress = gHardwareMap[GetBoardID()];
+#ifndef __32MX575F512H__
+    gVUE32_Ress = gHardwareMap[GetBoardID()];
 
     if(gVUE32_Ress == 0)
         return;
 
     unsigned int unNbResourceId = gHardwareSize[GetBoardID()];
+#else
+
+    if(msg->msg_source > NB_VUE32)
+    {
+        gVUE32_Ress = gHardwareMap[BMS_HW_INDEX];
+    }
+
+    if(gVUE32_Ress == 0)
+        return;
+
+    unsigned int unNbResourceId = gHardwareSize[BMS_HW_INDEX];
+
+#endif
 
 
     //Get parameters for long polling

@@ -120,6 +120,7 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 {
     static unsigned int diy_pwm_cnt = 0;
 
+#ifndef __32MX575F512H__
     //PWM:
     diy_pwm_cnt = (diy_pwm_cnt + 1) % 5;
 
@@ -127,6 +128,7 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 	PWR4 = 1;
     else
 	PWR4 = 0;
+#endif
 
     IFS0bits.T5IF = 0;           // Clear interrupt flag
 }
