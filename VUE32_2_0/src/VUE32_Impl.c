@@ -1,5 +1,3 @@
-
-
 #include "VUE32_Impl.h"
 
 
@@ -13,6 +11,7 @@ void InitVUE32_5(void);
 void InitVUE32_6(void);
 void InitVUE32_7(void);
 void InitBMS(void);
+
 void ImplVUE32_0(void);
 void ImplVUE32_1(void);
 void ImplVUE32_2(void);
@@ -22,6 +21,7 @@ void ImplVUE32_5(void);
 void ImplVUE32_6(void);
 void ImplVUE32_7(void);
 void ImplBMS(void);
+
 void OnMsgVUE32_0(NETV_MESSAGE *msg);
 void OnMsgVUE32_1(NETV_MESSAGE *msg);
 void OnMsgVUE32_2(NETV_MESSAGE *msg);
@@ -31,6 +31,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg);
 void OnMsgVUE32_6(NETV_MESSAGE *msg);
 void OnMsgVUE32_7(NETV_MESSAGE *msg);
 void OnMsgBMS(NETV_MESSAGE *msg);
+
 extern HDW_MAPPING gVUE32_0_Ress[];
 extern HDW_MAPPING gVUE32_1_Ress[];
 extern HDW_MAPPING gVUE32_2_Ress[];
@@ -72,7 +73,7 @@ FUNC_INIT gInitFunc[NB_VUE32+2] = {
     InitVUE32_5,
     InitVUE32_6,
     InitVUE32_7,
-    InitBMS,
+    InitBMS
 };
 
 FUNC_IMPL gImplFunc[NB_VUE32+2] = {
@@ -84,7 +85,7 @@ FUNC_IMPL gImplFunc[NB_VUE32+2] = {
     ImplVUE32_5,
     ImplVUE32_6,
     ImplVUE32_7,
-    ImplBMS,
+    ImplBMS
 };
 
 FUNC_ONMSG gOnMsgFunc[NB_VUE32+2] = {
@@ -96,7 +97,7 @@ FUNC_ONMSG gOnMsgFunc[NB_VUE32+2] = {
     OnMsgVUE32_5,
     OnMsgVUE32_6,
     OnMsgVUE32_7,
-    OnMsgBMS,
+    OnMsgBMS
 };
 
 
@@ -160,6 +161,6 @@ unsigned char gRoutingTableSize[NB_VUE32+2] =
     0,  //VUE32_4
     0,  //VUE32_5
     NB_BMS,  //VUE32_6
-    0,  //BMS
+    0  //BMS
 };
 

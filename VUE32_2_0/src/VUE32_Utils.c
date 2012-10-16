@@ -105,6 +105,8 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
     if(msg->msg_type != VUE32_TYPE_STARTEMETTING)
         return;
 
+
+
     HDW_MAPPING *gVUE32_Ress = gHardwareMap[GetBoardID()];
 
     if(gVUE32_Ress == 0)

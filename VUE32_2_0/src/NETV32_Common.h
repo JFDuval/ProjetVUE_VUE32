@@ -119,7 +119,7 @@ enum CANResourceId {
             E_ID_REVERSELIGHT_BL = 0x2e,
 
             // BMS - To verify with Max
-            E_ID_BMS_STATUS = 0x2f,
+            //E_ID_BMS_STATUS = 0x2f,
             E_ID_BMS_TENSIONS = 0x30,
             E_ID_BMS_TEMPERATURES = 0x31,
             E_ID_BMS_STATE_ERROR = 0x32,

@@ -23,17 +23,17 @@ typedef void (*FUNC_ONMSG)(NETV_MESSAGE*);
 typedef void (*FUNC_ONEMERGMSG)();
 
 // Arrays of function pointers for each implementation
-extern FUNC_INIT gInitFunc[NB_VUE32+1];
-extern FUNC_IMPL gImplFunc[NB_VUE32+1];
-extern FUNC_ONMSG gOnMsgFunc[NB_VUE32+1];
-extern FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1];
+extern FUNC_INIT gInitFunc[NB_VUE32+2];
+extern FUNC_IMPL gImplFunc[NB_VUE32+2];
+extern FUNC_ONMSG gOnMsgFunc[NB_VUE32+2];
+extern FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+2];
 
 
-extern HDW_MAPPING *gHardwareMap[NB_VUE32+1];
-extern unsigned int gHardwareSize[NB_VUE32+1];
+extern HDW_MAPPING *gHardwareMap[NB_VUE32+2];
+extern unsigned int gHardwareSize[NB_VUE32+2];
 
-extern ROUTING_TABLE *gRoutingTable[NB_VUE32+1];
-extern unsigned char gRoutingTableSize[NB_VUE32+1];
+extern ROUTING_TABLE *gRoutingTable[NB_VUE32+2];
+extern unsigned char gRoutingTableSize[NB_VUE32+2];
 
 
 #endif	/* VUE32_IMPL_H */
