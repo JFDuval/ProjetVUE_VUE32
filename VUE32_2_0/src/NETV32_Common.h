@@ -126,7 +126,9 @@ enum CANResourceId {
             E_ID_BMS_STATE_BALANCING = 0x33,
 
             // Ampli audio
-            E_ID_AUDIOAMPLIFIER = 0x34
+            E_ID_AUDIOAMPLIFIER = 0x34,
+            E_ID_SET_LIGTH_STATE = 0x35
+
 
 
 } CANResourceId;

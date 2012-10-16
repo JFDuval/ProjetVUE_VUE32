@@ -1,19 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1"/>
-    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/1">
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/offboard_sensors%20.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/onboard_sensors.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/periph.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/power_out.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/user_input.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/vue32_adc.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/vue32_can.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/vue32_i2c.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/vue32_oc_pwm.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/vue32_timers.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/wheel_sensor.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/main.c</file>
-        <file>file:/C:/Users/Sir%20Underground/svn_vue/Controle/Code_VUE32/VUE32_1_0/src/interrupts.c</file>
-    </open-files>
 </project-private>

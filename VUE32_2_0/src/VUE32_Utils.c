@@ -3,7 +3,9 @@
 
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#ifdef __32MX575F512H__
 #include "BMS_Impl.h"
+#endif
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
 unsigned int g_unLpSize = 0;

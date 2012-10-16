@@ -9,6 +9,7 @@
 #define	VUE32_UTILS_H
 
 #include "NETV32_Common.h"
+#include "def.h"
 
 // Global TimeStamp variable (do not erase!)
 extern volatile unsigned int uiTimeStamp;
@@ -112,7 +113,7 @@ typedef struct {
 typedef struct {
     unsigned char ucResourceId;
     unsigned char ucDataSize;
-    unsigned int unHardwareAddress;
+    BOOL bIsSensor;
 }HDW_MAPPING;
 
 void ActiveLongPolling(LP_PARAMS *sParams);

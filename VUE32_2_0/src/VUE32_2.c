@@ -12,27 +12,40 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "VUE32_adc.h"
 
 
 
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 
-unsigned char gfi_freq = 0;
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
 
-unsigned short wheel_spdo1_kph = 0;
+//wheel_sensor.c
 extern unsigned short spdo1_mean;
 extern volatile unsigned char spd1_moving;
 
-extern volatile unsigned int flag_1ms_a, flag_1ms_b;
+//interrupt.c
+extern volatile unsigned int flag_1ms_a, flag_1ms_b, flag_8ms;
+extern volatile unsigned char flag_adc_filter;
 
+//VUE32_adc.h
+extern unsigned short adc_mean[ADC_CH];
+
+unsigned char light_previous_state = 0;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_2_Ress[] = 
 {
-    {E_ID_BATTERYCURRENT, 2, 0x00},
-    {E_ID_GROUNDFAULT_FREQ, 1, 0x00},
-    {E_ID_WHEELVELOCITYSSENSOR_BR, 4, 0x00},
+    {E_ID_BATTERYCURRENT, 2, Sensor},
+    {E_ID_GROUNDFAULT_FREQ, 1, Sensor},
+    {E_ID_WHEELVELOCITYSSENSOR_BR, 4, Sensor},
+    {E_ID_RIGHTFLASHER, 1, Actuator},
+    {E_ID_REVERSELIGHT_BR, 1,Actuator},
+    {E_ID_NIGHTLIGHT_BR, 1,Actuator},
+    {E_ID_BRAKELIGHT_BR, 1,Actuator}
 };
 
 
@@ -72,20 +85,13 @@ void InitVUE32_2(void)
  */
 void ImplVUE32_2(void)
 {
-    // Check if a ground fault change is detected
-    if (GNDFAULT_STATE != m_prev_gndfaultstate)
-    {
-        m_prev_gndfaultstate = GNDFAULT_STATE;
-        // TODO: Send a message or do something
-    }
 
     //TODO forward data to software interface
     if(flag_1ms_a)
     {
         flag_1ms_a = 0;
         //GFI Frequency
-        gfi_freq = gfi_freq_sensor();
-
+         gResourceMemory[E_ID_GROUNDFAULT_FREQ] = (unsigned int)gfi_freq_sensor();
     }
 
     if(flag_1ms_b)
@@ -97,7 +103,24 @@ void ImplVUE32_2(void)
         asm volatile ("di"); //Disable int
         filter_wheel();
         asm volatile ("ei"); //Enable int
-        wheel_spdo1_kph = wheel_period_to_kph(spdo1_mean, spd1_moving);
+        gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR] = (unsigned int)wheel_period_to_kph(spdo1_mean, spd1_moving);
+    }
+
+    if(flag_adc_filter)
+    {
+        flag_adc_filter = 0;
+	filter_adc();
+        gResourceMemory[E_ID_BATTERYCURRENT] = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
+    }
+
+    //TODO Implement battery current sensing
+
+    //Actuator
+    //Right Light Control
+    if(light_previous_state != gResourceMemory[E_ID_SET_LIGTH_STATE])
+    {
+        light_previous_state = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
+        light_action(light_previous_state);
     }
     
 }
@@ -107,25 +130,25 @@ void ImplVUE32_2(void)
  */
 void OnMsgVUE32_2(NETV_MESSAGE *msg)
 {
-    unsigned char test;
-    unsigned short test2;
-    unsigned short test3;
-
     // Deal with GETVALUE requests
     ON_MSG_TYPE_RTR( VUE32_TYPE_GETVALUE )
-        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, 2)
-        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, 0xFF ? 0xFF : 0)
-        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, 2)
+        ANSWER1(E_ID_BATTERYCURRENT, unsigned short, gResourceMemory[E_ID_BATTERYCURRENT])
+        ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_FREQ])
+        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
         LED2 = ~LED2;
     END_OF_MSG_TYPE
             
-
     // Deal with SETVALUE requests
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
-        ACTION3(E_ID_LOWBEAM, unsigned char, test, unsigned char, test, unsigned short, test2)
-            LED2 = ~LED2;
-            ANSWER3(E_ID_LOWBEAM, unsigned char, test, unsigned char, test, unsigned short, test2)
-        END_OF_ACTION
+        ACTION1(E_ID_RIGHTFLASHER, unsigned char, gResourceMemory[E_ID_RIGHTFLASHER]) END_OF_ACTION
+        ACTION1(E_ID_REVERSELIGHT_BR, unsigned char, gResourceMemory[E_ID_REVERSELIGHT_BR]) END_OF_ACTION
+        ACTION1(E_ID_NIGHTLIGHT_BR, unsigned char, gResourceMemory[E_ID_NIGHTLIGHT_BR]) END_OF_ACTION
+        ACTION1(E_ID_BRAKELIGHT_BR, unsigned char, gResourceMemory[E_ID_BRAKELIGHT_BR]) END_OF_ACTION
+        LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
+        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
     END_OF_MSG_TYPE
 
 

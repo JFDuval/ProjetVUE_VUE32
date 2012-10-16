@@ -13,11 +13,11 @@
 #include "VUE32_Impl.h"
 #include "VUE32_Utils.h"
 
-extern volatile unsigned char flag_adc_filter;
+
 
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000007;
+const int persistentData = 0x00000002;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0001
@@ -145,12 +145,12 @@ void InitVUE32(VUE32_ID id)
 void CallVUE32Impl(VUE32_ID id)
 {
     //Filter ADC results
-    if(flag_adc_filter)
+    /*if(flag_adc_filter)
     {
         flag_adc_filter = 0;
 	filter_adc();
 	board_specific_adc_decode();
-    }
+    }*/
     RunLongPolling();
     gImplFunc[id]();
 }

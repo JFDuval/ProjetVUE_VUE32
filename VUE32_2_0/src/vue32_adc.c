@@ -155,7 +155,7 @@ void board_specific_adc_decode(void)
     }
     else if(GetBoardID() == VUE32_2)
     {
-	current = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
+        Nop();
     }
     else if(GetBoardID() == VUE32_3)
     {

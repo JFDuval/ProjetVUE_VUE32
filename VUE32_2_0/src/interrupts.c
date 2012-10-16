@@ -3,7 +3,7 @@
 #include <sys/kmem.h>
 #include "def.h"
 
-volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0;
+volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
 
 //power_out.c
@@ -55,6 +55,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     if(led_cnt > 1250)
     {
         led_cnt = 0;
+        flag_8ms = 1;
         LED1 ^= 1;  //Toggle LED 4Hz
     }
 

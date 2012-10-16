@@ -15,6 +15,8 @@
 #define NB_VUE32 7
 #define NB_BMS 24
 
+#define Sensor 1
+#define Actuator 0
 
 // Typedefs for the ID-specific function pointers
 typedef void (*FUNC_INIT)();
