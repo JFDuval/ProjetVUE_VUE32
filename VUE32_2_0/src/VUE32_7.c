@@ -92,6 +92,10 @@ void ImplVUE32_7(void)
         {
             light_flashers(gResourceMemory[E_ID_FRONTLIGHTCONTROL], flash);
         }
+        else
+        {
+            light_flashers(gResourceMemory[E_ID_FRONTLIGHTCONTROL], 0);
+        }
     }
 }
 
