@@ -72,15 +72,16 @@ unsigned int m_prev_gndfaultstate = 0;
  */
 void InitVUE32_2(void)
 {
+	light_previous_state_vue32_2 =0;
     // Set the ground fault pins as input
-    GNDFAULT_FREQ_TRIS = 1;
+    /*GNDFAULT_FREQ_TRIS = 1;
     GNDFAULT_STATE_TRIS = 1;
     WHEELVELOCITYSSENSOR_BR_TRIS = 1;
     m_prev_gndfaultstate = GNDFAULT_STATE;
 
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
-    
+    */
 
 }
 
