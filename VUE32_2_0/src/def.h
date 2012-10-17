@@ -119,12 +119,14 @@ void board_specific_config(void);
 #define TRIS_TEMP		TRISBbits.TRISB10	//AN10
 #define TRIS_VOLT		TRISBbits.TRISB11	//AN11
 
+#ifndef __32MX575F512H__
 //LEDs
 #define LED1			LATBbits.LATB12	
 #define TRIS_LED1		TRISBbits.TRISB12
 #define LED2			LATBbits.LATB13	
 #define TRIS_LED2		TRISBbits.TRISB13
 //1 = Off (PNP driver)
+#endif
 
 //Digital I/Os - Port
 #define TRIS_DIO		TRISE	

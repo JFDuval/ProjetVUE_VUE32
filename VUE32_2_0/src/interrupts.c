@@ -3,6 +3,10 @@
 #include <sys/kmem.h>
 #include "def.h"
 
+#ifndef __32MX575F512H__
+#include "BMS.c"
+#endif
+
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
 volatile unsigned int flag_flash = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
@@ -24,6 +28,8 @@ volatile unsigned int uiTimeStamp = 0;
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+
+#ifndef __32MX575F512H__
 //Timer 1 - Main timebase 100µs - 10kHz
 void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
@@ -60,6 +66,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;  //Toggle LED 4Hz
     }
 
+#ifndef __32MX575F512H__
     //Flashers
     flash_cnt++;
     if(flash_cnt > 4000)
@@ -67,8 +74,6 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         flash_cnt = 0;
         flag_flash = 1;
     }
-
-#ifndef __32MX575F512H__
     //20ms - Is the wheel moving?
     tmb_moving++;
     if(tmb_moving > 200)
@@ -95,11 +100,13 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     last_spdo1 = SPDO1;
     last_spdo2 = SPDO2;
 
-#endif
+
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
 }
+
+
 
 //Timer 2
 void __ISR(_TIMER_2_VECTOR, ipl1) isr_timer2(void)
@@ -129,8 +136,6 @@ void __ISR(_TIMER_4_VECTOR, ipl1) isr_timer4(void)
 void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 {
     static unsigned int diy_pwm_cnt = 0;
-
-#ifndef __32MX575F512H__
     //PWM:
     diy_pwm_cnt = (diy_pwm_cnt + 1) % 5;
 
@@ -138,7 +143,43 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 	PWR4 = 1;
     else
 	PWR4 = 0;
-#endif
 
     IFS0bits.T5IF = 0;           // Clear interrupt flag
 }
+
+#else
+
+//Timer 1 - Main timer
+void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
+{
+    ImplBMS();
+    //Clear flag and return
+    IFS0bits.T1IF = 0;
+}
+
+// SPI interrupt
+void __ISR(_SPI_2_VECTOR, ipl3)__SPI2Interrupt(void)
+{
+
+    char rcvTmp;
+
+    rcvTmp = getcSPI2();
+
+    switch(rcvTmp)
+    {
+        case 0:
+        {
+            // Discard
+        }
+        default:
+        {
+            // Treat data
+        }
+    }
+
+
+    // Clear interrupt flag
+    SpiChnClrRxIntFlag(2);
+}
+
+#endif
