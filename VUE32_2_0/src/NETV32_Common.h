@@ -49,11 +49,11 @@ MESSAGE TYPE DEFINITIONS
 #define NETV_TYPE_ALIVE                    0x80
 #define NETV_TYPE_EVENT                    0x88
 /** Added for Projet VUE **/
-#define VUE32_TYPE_GETVALUE                0x20
-#define VUE32_TYPE_SETVALUE                0x22
-#define VUE32_TYPE_STARTEMETTING           0x24
-#define VUE32_TYPE_STOPEMETTING            0x26
-#define VUE32_TYPE_KEEPALIVE               0x28
+#define VUE32_TYPE_GETVALUE                0x30
+#define VUE32_TYPE_SETVALUE                0x32
+#define VUE32_TYPE_STARTEMETTING           0x34
+#define VUE32_TYPE_STOPEMETTING            0x36
+#define VUE32_TYPE_KEEPALIVE               0x38
 
 /*
 EMERGENCY MESSAGE COMMANDS (TYPE_EMERGENCY)

@@ -8,6 +8,7 @@
 #include "NETV32_CANDriver.h"
 #include "Board.h"
 #include "VUE32_Impl.h"
+#include "memory_map.h"
 
 // Send the message through the selected interfaces
 unsigned char netv_send_message (NETV_MESSAGE *message)
@@ -96,7 +97,30 @@ void OnMsgVUE32(NETV_MESSAGE *msg)
                 break;
         }
     }
-
+    
+    // Add compatibility to NetworkViewerApplication
+    ON_MSG_TYPE( NETV_TYPE_REQUEST_DATA )
+        if ( msg->msg_remote && msg->msg_data_length > 3 )
+        {
+            // Read mem (4 bytes packets)
+            msg->msg_dest = msg->msg_source;
+            msg->msg_source = GetMyAddr();
+            msg->msg_remote = 0;
+            asm volatile("di"); //disable interrupts
+            msg->msg_data_length = 4;
+            ((unsigned int*)msg->msg_data)[0] = gResourceMemory[msg->msg_cmd];
+            asm volatile("ei"); //Enable interrupts
+            netv_send_message(msg);            
+        }
+        else if (  msg->msg_data_length > 3) // 4 bytes write
+        {
+            // Write mem
+            asm volatile("di"); //disable interrupts
+            gResourceMemory[msg->msg_cmd] = ((unsigned int*)msg->msg_data)[0];
+            asm volatile("ei"); //Enable interrupts
+        }
+    END_OF_MSG_TYPE
+                
     //Start Emetting (Long polling)
     ON_MSG_TYPE( VUE32_TYPE_STARTEMETTING)
         ActionStartEmettings(msg);

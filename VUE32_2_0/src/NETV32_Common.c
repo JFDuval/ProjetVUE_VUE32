@@ -193,6 +193,8 @@ void netv_send_im_alive(NETV_MESSAGE *msg_req) {
     msg.msg_comm_iface = msg_req->msg_comm_iface;
     msg.msg_source = GetMyAddr();
 
+    g_BootConfig.project_id = 103;
+
     //Copy boot config
     memcpy(msg.msg_data, (char*) netv_get_boot_config(), 8);
 

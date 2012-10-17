@@ -12,11 +12,11 @@
 #include "NETV32_Common.h"
 #include "VUE32_Impl.h"
 #include "VUE32_Utils.h"
-
+#include "memory_map.h"
 
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000002;
+const int persistentData = 0x00000001;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0001
@@ -135,6 +135,11 @@ unsigned char GetMyAddr()
  */
 void InitVUE32(VUE32_ID id)
 {
+    // Common Initialization to every VUE32
+    gResourceMemory[E_ID_VERSION] = GetFirmVersion();
+    gResourceMemory[E_ID_ADDRESS] = GetMyAddr();
+
+    // Call the specific initialization
     gInitFunc[id]();
 }
 
