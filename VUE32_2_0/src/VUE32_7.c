@@ -41,7 +41,7 @@ HDW_MAPPING gVUE32_7_Ress[] =
  */
 void InitVUE32_7(void)
 {
-
+    light_previous_state_vue32_7 =0;
 }
 
 /*
@@ -84,6 +84,11 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
                 ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
                 LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
+        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+        LED2 = ~LED2;
     END_OF_MSG_TYPE
 }
 

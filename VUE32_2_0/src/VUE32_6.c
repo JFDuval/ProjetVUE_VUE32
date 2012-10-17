@@ -23,6 +23,7 @@
 extern unsigned int gResourceMemory[256];
 
 unsigned char wiper_control_previous_state_vue32_6 = 0;
+unsigned char light_previous_state_vue32_6 = 0;
 
 extern volatile unsigned int flag_1ms_a, flag_8ms;
 
@@ -41,7 +42,9 @@ HDW_MAPPING gVUE32_6_Ress[] =
  */
 void InitVUE32_6(void)
 {
-
+    power_out(3, 0);
+    wiper_action((unsigned char)0);
+    light_previous_state_vue32_6 =0;
 }
 
 /*
@@ -67,14 +70,20 @@ void ImplVUE32_6(void)
 
         //Wiper
         //TODO Implement a general event handler
-        gResourceMemory[E_ID_FRONTLIGHTCONTROL] = read_wiper_input();
+        gResourceMemory[E_ID_WIPERMODECONTROL] = read_wiper_input();
         if(wiper_control_previous_state_vue32_6 != gResourceMemory[E_ID_WIPERMODECONTROL])
         {
             wiper_control_previous_state_vue32_6 = gResourceMemory[E_ID_WIPERMODECONTROL];
 
-            EmitAnEvent(E_ID_WIPERMODECONTROL, VUE32_4, 1, gResourceMemory[E_ID_WIPERMODECONTROL]);
+            EmitAnEvent(E_ID_WIPERMODECONTROL, VUE32_4, 1, gResourceMemory[E_ID_SET_WIPER_STATE]);
 
             wiper_action((unsigned char)gResourceMemory[E_ID_WIPERMODECONTROL]);
+        }
+
+        if(light_previous_state_vue32_6 != gResourceMemory[E_ID_SET_LIGTH_STATE])
+        {
+            light_previous_state_vue32_6 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
+            light_action(light_previous_state_vue32_6);
         }
     }
 }
@@ -89,6 +98,14 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_YAWRATE, unsigned short, 6)
                 ANSWER1(E_ID_WIPERMODECONTROL, unsigned short, 6)
                 LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
+        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
+            power_out(3, (unsigned int)msg->msg_data);
+        END_OF_ACTION
+        LED2 = ~LED2;
     END_OF_MSG_TYPE
 }
 

@@ -13,8 +13,8 @@
 unsigned char netv_send_message (NETV_MESSAGE *message)
 {
     // CAN1
-    //if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN1 )
-    //    can_netv_send_message(message, CAN1);
+    if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN1 )
+        can_netv_send_message(message, CAN1);
         
 
     // CAN2

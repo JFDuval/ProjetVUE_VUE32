@@ -348,7 +348,7 @@ void update_variables(void)
     //Power out manual test: ToDo Remove
     powerout = g_globalNETVVariables.power_out;
     //power_out(1, powerout);
-    power_out(2, powerout);
+    //power_out(2, powerout);
     //power_out(3, powerout);
     //power_out(4, powerout*5);
 

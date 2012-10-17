@@ -52,6 +52,7 @@ int main(void)
 
     // Initialize the board (communication, timers, etc).
     InitBoard();
+    define_io();
 
     //USB setup
     InitializeSystem();

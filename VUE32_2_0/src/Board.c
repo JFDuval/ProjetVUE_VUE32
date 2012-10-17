@@ -14,10 +14,9 @@
 #include "VUE32_Utils.h"
 
 
-
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000004;
+const int persistentData = 0x00000007;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0001
@@ -71,10 +70,10 @@ void InitBoard(void)
     PWR2 = 0;
     PWR3 = 0;
     PWR4 = 0;
-    PWR1_TRIS = 1;
-    PWR2_TRIS = 1;
-    PWR3_TRIS = 1;
-    PWR4_TRIS = 1;
+    PWR1_TRIS = 0;
+    PWR2_TRIS = 0;
+    PWR3_TRIS = 0;
+    PWR4_TRIS = 0;
 
     // Initialize Speed sensor
     TRIS_SPDO1 = 1;
