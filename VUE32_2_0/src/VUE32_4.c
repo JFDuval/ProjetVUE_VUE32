@@ -44,7 +44,8 @@ HDW_MAPPING gVUE32_4_Ress[] =
  */
 void InitVUE32_4(void)
 {
-
+    //Light lever
+    init_light_input();
 }
 
 /*
