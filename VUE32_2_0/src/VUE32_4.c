@@ -64,9 +64,9 @@ void ImplVUE32_4(void)
         //TODO Implement a general event handler
         if(light_previous_state_vue32_4 != gResourceMemory[E_ID_FRONTLIGHTCONTROL])
         {
-            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_2, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
-            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_6, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
-            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_7, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+            EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_2, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+            EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_6, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+            EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_7, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
 
             light_action((unsigned char)gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
         }
