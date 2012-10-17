@@ -89,6 +89,8 @@ void ImplVUE32_4(void)
     //Flashers
     if(flag_flash)
     {
+        flag_flash = 0;
+
         flash ^= 1;
 
         if(set_flashers)

@@ -84,6 +84,8 @@ void ImplVUE32_7(void)
     //Flashers
     if(flag_flash)
     {
+        flag_flash = 0;
+
         flash ^= 1;
 
         if(set_flashers)
@@ -103,10 +105,6 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
                 LED2 = ~LED2;
     END_OF_MSG_TYPE
 
-    ON_MSG_TYPE( NETV_TYPE_EVENT )
-        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-        LED2 = ~LED2;
-    END_OF_MSG_TYPE
 }
 
 //TODO Put emergency instructions here

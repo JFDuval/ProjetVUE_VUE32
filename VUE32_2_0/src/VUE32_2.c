@@ -134,6 +134,8 @@ void ImplVUE32_2(void)
     //Flashers
     if(flag_flash)
     {
+        flag_flash = 0;
+        
         flash ^= 1;
 
         if(set_flashers)
@@ -162,6 +164,11 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ACTION1(E_ID_REVERSELIGHT_BR, unsigned char, gResourceMemory[E_ID_REVERSELIGHT_BR]) END_OF_ACTION
         ACTION1(E_ID_NIGHTLIGHT_BR, unsigned char, gResourceMemory[E_ID_NIGHTLIGHT_BR]) END_OF_ACTION
         ACTION1(E_ID_BRAKELIGHT_BR, unsigned char, gResourceMemory[E_ID_BRAKELIGHT_BR]) END_OF_ACTION
+        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+        LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
