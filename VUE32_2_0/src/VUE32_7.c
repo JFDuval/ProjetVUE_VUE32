@@ -19,12 +19,16 @@
 //memory_map.h
 extern unsigned int gResourceMemory[256];
 
+//user_input.c
+extern volatile unsigned char set_flashers;
+
 unsigned char light_previous_state_vue32_7 = 0;
 unsigned short wheel_spdo1_kph_VUE32_7 = 0;
 extern unsigned short spdo1_mean;
 extern volatile unsigned char spd1_moving;
 
-extern volatile unsigned int flag_1ms_b, flag_8ms;;
+extern volatile unsigned int flag_1ms_b, flag_8ms;
+extern volatile unsigned int flag_flash;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
@@ -49,6 +53,8 @@ void InitVUE32_7(void)
  */
 void ImplVUE32_7(void)
 {
+    static unsigned char flash = 0;
+
     if(flag_1ms_b)
     {
         flag_1ms_b = 0;
@@ -72,6 +78,17 @@ void ImplVUE32_7(void)
         {
             light_previous_state_vue32_7 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
             light_action(light_previous_state_vue32_7);
+        }
+    }
+
+    //Flashers
+    if(flag_flash)
+    {
+        flash ^= 1;
+
+        if(set_flashers)
+        {
+            light_flashers(gResourceMemory[E_ID_FRONTLIGHTCONTROL], flash);
         }
     }
 }

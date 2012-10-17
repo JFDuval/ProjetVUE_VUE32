@@ -96,6 +96,7 @@ unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2);
 unsigned short read_brake(unsigned short adc_in);
 void init_light_input(void);
 unsigned char read_light_input(void);
+void light_flashers(unsigned char light_input, unsigned char flash_state);
 void init_dpr_key(void);
 unsigned char read_dpr_key(void);
 

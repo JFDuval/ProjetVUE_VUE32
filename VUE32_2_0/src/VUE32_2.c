@@ -19,6 +19,9 @@
 #include "def.h"
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 
+//user_input.c
+extern volatile unsigned char set_flashers;
+
 //Interface between hardware and communication
 //memory_map.h
 extern unsigned int gResourceMemory[256];
@@ -30,6 +33,7 @@ extern volatile unsigned char spd1_moving;
 //interrupt.c
 extern volatile unsigned int flag_1ms_a, flag_1ms_b, flag_8ms;
 extern volatile unsigned char flag_adc_filter;
+extern volatile unsigned int flag_flash;
 
 //VUE32_adc.h
 extern unsigned short adc_mean[ADC_CH];
@@ -85,6 +89,7 @@ void InitVUE32_2(void)
  */
 void ImplVUE32_2(void)
 {
+    static unsigned char flash = 0;
 
     //TODO forward data to software interface
     if(flag_1ms_a)
@@ -126,7 +131,16 @@ void ImplVUE32_2(void)
         }
     }
     
-    
+    //Flashers
+    if(flag_flash)
+    {
+        flash ^= 1;
+
+        if(set_flashers)
+        {
+            light_flashers(gResourceMemory[E_ID_FRONTLIGHTCONTROL], flash);
+        }
+    }
 }
 
 /*

@@ -42,6 +42,7 @@ HDW_MAPPING gVUE32_6_Ress[] =
  */
 void InitVUE32_6(void)
 {
+    init_wiper_input();
     power_out(3, 0);
     wiper_action((unsigned char)0);
     light_previous_state_vue32_6 =0;

@@ -4,6 +4,7 @@
 #include "def.h"
 
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
+volatile unsigned int flag_flash = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
 
 //power_out.c
@@ -28,7 +29,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
     static unsigned int time_cnt = 0;
 
-    static unsigned int led_cnt = 0;
+    static unsigned int led_cnt = 0, flash_cnt = 0;
     static unsigned int tmb_b_cnt = 4;
     static unsigned int tmb_moving = 0;
     static unsigned int last_pulses_spd1 = 0, last_pulses_spd2 = 0;
@@ -57,6 +58,14 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         led_cnt = 0;
         flag_8ms = 1;
         LED1 ^= 1;  //Toggle LED 4Hz
+    }
+
+    //Flashers
+    flash_cnt++;
+    if(flash_cnt > 4000)
+    {
+        flash_cnt = 0;
+        flag_flash = 1;
     }
 
 #ifndef __32MX575F512H__

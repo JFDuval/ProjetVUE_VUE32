@@ -22,8 +22,12 @@
 //memory_map.h
 extern unsigned int gResourceMemory[256];
 
+//user_input.c
+extern volatile unsigned char set_flashers;
+
 //Interrupt.h
 extern volatile unsigned int flag_1ms_a, flag_8ms;
+extern volatile unsigned int flag_flash;
 
 unsigned char light_previous_state_vue32_4 = 0;
 unsigned char wiper_control_previous_state_vue32_4 = 0;
@@ -53,6 +57,8 @@ void InitVUE32_4(void)
  */
 void ImplVUE32_4(void)
 {
+    static unsigned char flash = 0;
+
     if(flag_8ms)
     {
         flag_8ms = 0;
@@ -78,6 +84,17 @@ void ImplVUE32_4(void)
             wiper_action((unsigned char)gResourceMemory[E_ID_SET_WIPER_STATE]);
         }
 
+    }
+
+    //Flashers
+    if(flag_flash)
+    {
+        flash ^= 1;
+
+        if(set_flashers)
+        {
+            light_flashers(gResourceMemory[E_ID_FRONTLIGHTCONTROL], flash);
+        }
     }
 }
 

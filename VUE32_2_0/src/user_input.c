@@ -8,6 +8,7 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+volatile unsigned char set_flashers = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -219,16 +220,20 @@ unsigned int light_action(unsigned char light_input)
 	if(GetBoardID() == VUE32_2)
 	{
 	    if(flashers == LT_FLASHER_RIGHT)
-		power_out(LT_PWR_FLASH_REAR_RIGHT, 1);
+		//power_out(LT_PWR_FLASH_REAR_RIGHT, 1);
+                set_flashers = 1;
 	    else
-		power_out(LT_PWR_FLASH_REAR_RIGHT, 0);
+		//power_out(LT_PWR_FLASH_REAR_RIGHT, 0);
+                set_flashers = 0;
 	}
 	if(GetBoardID() == VUE32_7)
 	{
 	    if(flashers == LT_FLASHER_LEFT)
-		power_out(LT_PWR_FLASH_REAR_LEFT, 1);
+		//power_out(LT_PWR_FLASH_REAR_LEFT, 1);
+                set_flashers = 1;
 	    else
-		power_out(LT_PWR_FLASH_REAR_LEFT, 0);
+		//power_out(LT_PWR_FLASH_REAR_LEFT, 0);
+                set_flashers = 0;
 	}
     }
 
@@ -236,15 +241,19 @@ unsigned int light_action(unsigned char light_input)
     {
         //Left flashers
         if(flashers == LT_FLASHER_LEFT)
-             power_out(LT_PWR_FLASH_FRONT_LEFT, 1);
+            //power_out(LT_PWR_FLASH_FRONT_LEFT, 1);
+            set_flashers = 1;
         else
-            power_out(LT_PWR_FLASH_FRONT_LEFT, 0);
+            //power_out(LT_PWR_FLASH_FRONT_LEFT, 0);
+            set_flashers = 0;
 
 	//Right flashers
         if(flashers == LT_FLASHER_RIGHT)
-             power_out(LT_PWR_FLASH_FRONT_RIGHT, 1);
+            //power_out(LT_PWR_FLASH_FRONT_RIGHT, 1);
+            set_flashers = 1;
         else
-            power_out(LT_PWR_FLASH_FRONT_RIGHT, 0);
+            //power_out(LT_PWR_FLASH_FRONT_RIGHT, 0);
+            set_flashers = 0;
 
         //Low Beams
         if((lights & LT_LOW) == LT_LOW)
@@ -260,6 +269,45 @@ unsigned int light_action(unsigned char light_input)
              power_out(LT_PWR_FRONT_HIGH, 1);
         else
             power_out(LT_PWR_FRONT_HIGH, 0);
+    }
+}
+
+void light_flashers(unsigned char light_input, unsigned char flash_state)
+{
+    unsigned char flashers = (light_input & 0x30);
+
+    if((GetBoardID() == VUE32_2) || (GetBoardID() == VUE32_7))
+    {
+	//Flashers
+	if(GetBoardID() == VUE32_2)
+	{
+	    if(flashers == LT_FLASHER_RIGHT)
+		power_out(LT_PWR_FLASH_REAR_RIGHT, flash_state);
+	    else
+		power_out(LT_PWR_FLASH_REAR_RIGHT, 0);
+	}
+	if(GetBoardID() == VUE32_7)
+	{
+	    if(flashers == LT_FLASHER_LEFT)
+		power_out(LT_PWR_FLASH_REAR_LEFT, flash_state);
+	    else
+		power_out(LT_PWR_FLASH_REAR_LEFT, 0);
+	}
+    }
+
+    if(GetBoardID() == VUE32_4)
+    {
+        //Left flashers
+        if(flashers == LT_FLASHER_LEFT)
+            power_out(LT_PWR_FLASH_FRONT_LEFT, flash_state);
+        else
+            power_out(LT_PWR_FLASH_FRONT_LEFT, 0);
+
+	//Right flashers
+        if(flashers == LT_FLASHER_RIGHT)
+            power_out(LT_PWR_FLASH_FRONT_RIGHT, flash_state);
+        else
+            power_out(LT_PWR_FLASH_FRONT_RIGHT, 0);
     }
 }
 
