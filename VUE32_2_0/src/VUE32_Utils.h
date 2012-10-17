@@ -123,5 +123,8 @@ void RunLongPolling();
 void ActionStartEmettings(NETV_MESSAGE *msg);
 
 
+void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData);
+
+
 #endif	/* VUE32_UTILS_H */
 

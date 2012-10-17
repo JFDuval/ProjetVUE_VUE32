@@ -127,9 +127,8 @@ enum CANResourceId {
 
             // Ampli audio
             E_ID_AUDIOAMPLIFIER = 0x34,
-            E_ID_SET_LIGTH_STATE = 0x35
-
-
+            E_ID_SET_LIGTH_STATE = 0x35,
+            E_ID_SET_WIPER_STATE = 0x36
 
 } CANResourceId;
 
@@ -151,6 +150,7 @@ COMMUNCATION INTERFACES (flags)
 #define NETV_COMM_IFACE_CAN2 0x02
 #define NETV_COMM_IFACE_USB  0x04
 #define NETV_COMM_IFACE_UART 0x08
+#define NETV_COMM_IFAVE_ALL  0x0F
 /*
 STRUCTURES
 */

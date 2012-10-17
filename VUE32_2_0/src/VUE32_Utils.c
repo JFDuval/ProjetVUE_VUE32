@@ -3,6 +3,7 @@
 
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#
 #ifdef __32MX575F512H__
 #include "BMS_Impl.h"
 #endif
@@ -160,4 +161,21 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
 
     ActiveLongPolling(&newLongPollingEvent);
 
+}
+
+void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData)
+{
+    NETV_MESSAGE msg;
+
+    msg.msg_cmd = ucResourceId;
+    msg.msg_comm_iface = NETV_COMM_IFAVE_ALL;
+    memcpy(&msg.msg_data, &unData, ucSize);
+    msg.msg_data_length = ucSize;
+    msg.msg_dest = ucDest;
+    msg.msg_priority = NETV_PRIORITY_EVENTS;
+    msg.msg_remote = 0;
+    msg.msg_source = GetMyAddr();
+    msg.msg_type = NETV_TYPE_EVENT;
+    netv_send_message(&msg);
+    
 }

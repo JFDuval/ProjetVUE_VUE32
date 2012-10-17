@@ -15,16 +15,25 @@
 #include "def.h"
 #include "Board.h"
 
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
+unsigned char light_previous_state_vue32_7 = 0;
 unsigned short wheel_spdo1_kph_VUE32_7 = 0;
 extern unsigned short spdo1_mean;
 extern volatile unsigned char spd1_moving;
 
-extern volatile unsigned int flag_1ms_b;
+extern volatile unsigned int flag_1ms_b, flag_8ms;;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
 {
-    {E_ID_WHEELVELOCITYSSENSOR_BL, 4, 0x00}
+    {E_ID_WHEELVELOCITYSSENSOR_BL, 4, Sensor},
+    {E_ID_LEFTFLASHER, 1, Actuator},
+    {E_ID_REVERSELIGHT_BL, 1, Actuator},
+    {E_ID_NIGHTLIGHT_BL, 1, Actuator},
+    {E_ID_BRAKELIGHT_BL, 1, Actuator}
 };
 
 /*
@@ -50,6 +59,20 @@ void ImplVUE32_7(void)
         filter_wheel();
         asm volatile ("ei"); //Enable int
         wheel_spdo1_kph_VUE32_7 = wheel_period_to_kph(spdo1_mean, spd1_moving);
+    }
+
+
+    //Left Lights
+    if(flag_8ms)
+    {
+        flag_8ms = 0;
+        //Actuator
+        //Right Light Control
+        if(light_previous_state_vue32_7 != gResourceMemory[E_ID_SET_LIGTH_STATE])
+        {
+            light_previous_state_vue32_7 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
+            light_action(light_previous_state_vue32_7);
+        }
     }
 }
 

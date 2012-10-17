@@ -12,19 +12,31 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "Board.h"
 
 
 #include "def.h"
 
-unsigned char user_input = 0;
 
-extern volatile unsigned int flag_1ms_a;
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
+//Interrupt.h
+extern volatile unsigned int flag_1ms_a, flag_8ms;
+
+unsigned char light_previous_state_vue32_4 = 0;
+unsigned char wiper_control_previous_state_vue32_4 = 0;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_4_Ress[] =
 {
-    {E_ID_FRONTLIGHTCONTROL, 4, 0x00},
-    {E_ID_WIPERSENDOFCOURSE, 1, 0x00},
+    {E_ID_FRONTLIGHTCONTROL, 1, Sensor},
+    {E_ID_WIPERSENDOFCOURSE, 1, Sensor},
+    {E_ID_RIGHTFLASHER, 1, Actuator},
+    {E_ID_LEFTFLASHER, 1, Actuator},
+    {E_ID_LOWBEAM, 1, Actuator},
+    {E_ID_WIPERBLADES,1, Actuator}
 };
 
 /*
@@ -40,12 +52,31 @@ void InitVUE32_4(void)
  */
 void ImplVUE32_4(void)
 {
-    if(flag_1ms_a)
+    if(flag_8ms)
     {
-        flag_1ms_a = 0;
+        flag_8ms = 0;
 
-        user_input = read_light_input();
-        light_action(user_input);
+        //Light
+        light_previous_state_vue32_4 = gResourceMemory[E_ID_FRONTLIGHTCONTROL];
+        gResourceMemory[E_ID_FRONTLIGHTCONTROL] = read_light_input();
+
+        //TODO Implement a general event handler
+        if(light_previous_state_vue32_4 != gResourceMemory[E_ID_FRONTLIGHTCONTROL])
+        {
+            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_2, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_6, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+            EmitAnEvent(E_ID_FRONTLIGHTCONTROL, VUE32_7, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+
+            light_action((unsigned char)gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
+        }
+
+        //Wiper
+        if(wiper_control_previous_state_vue32_4  != gResourceMemory[E_ID_SET_WIPER_STATE])
+        {
+            wiper_control_previous_state_vue32_4  = gResourceMemory[E_ID_SET_WIPER_STATE];
+            wiper_action((unsigned char)gResourceMemory[E_ID_SET_WIPER_STATE]);
+        }
+
     }
 }
 
@@ -58,6 +89,10 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg)
             ANSWER1(E_ID_FRONTLIGHTCONTROL, unsigned short, 4)
             ANSWER1(E_ID_WIPERSENDOFCOURSE, unsigned char, 4)
             LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
+            ACTION1(E_ID_SET_WIPER_STATE, unsigned char, gResourceMemory[E_ID_SET_WIPER_STATE]) END_OF_ACTION
     END_OF_MSG_TYPE
 }
 

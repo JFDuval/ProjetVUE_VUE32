@@ -15,8 +15,11 @@
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
 
-
 #include "def.h"
+
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
 
 unsigned char user_input_VUE32_5 = 0;
 extern volatile unsigned int flag_1ms_a;

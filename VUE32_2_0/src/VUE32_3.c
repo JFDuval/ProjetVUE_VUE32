@@ -13,9 +13,12 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
-
-
 #include "def.h"
+
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
 //wheel_sensor.c
 extern unsigned short spdo1_mean, spdo2_mean;
 extern volatile unsigned char spd1_moving, spd2_moving;

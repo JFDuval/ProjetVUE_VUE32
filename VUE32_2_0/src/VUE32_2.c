@@ -34,7 +34,7 @@ extern volatile unsigned char flag_adc_filter;
 //VUE32_adc.h
 extern unsigned short adc_mean[ADC_CH];
 
-unsigned char light_previous_state = 0;
+unsigned char light_previous_state_vue32_2 = 0;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_2_Ress[] = 
@@ -114,14 +114,18 @@ void ImplVUE32_2(void)
     }
 
     //TODO Implement battery current sensing
-
-    //Actuator
-    //Right Light Control
-    if(light_previous_state != gResourceMemory[E_ID_SET_LIGTH_STATE])
+    if(flag_8ms)
     {
-        light_previous_state = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
-        light_action(light_previous_state);
+        flag_8ms = 0;
+        //Actuator
+        //Right Light Control
+        if(light_previous_state_vue32_2 != gResourceMemory[E_ID_SET_LIGTH_STATE])
+        {
+            light_previous_state_vue32_2 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
+            light_action(light_previous_state_vue32_2);
+        }
     }
+    
     
 }
 
@@ -138,19 +142,15 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         LED2 = ~LED2;
     END_OF_MSG_TYPE
             
-    // Deal with SETVALUE requests
+    // Deal with SETVALUE requests TODO merge light resource Id in group
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_RIGHTFLASHER, unsigned char, gResourceMemory[E_ID_RIGHTFLASHER]) END_OF_ACTION
         ACTION1(E_ID_REVERSELIGHT_BR, unsigned char, gResourceMemory[E_ID_REVERSELIGHT_BR]) END_OF_ACTION
         ACTION1(E_ID_NIGHTLIGHT_BR, unsigned char, gResourceMemory[E_ID_NIGHTLIGHT_BR]) END_OF_ACTION
         ACTION1(E_ID_BRAKELIGHT_BR, unsigned char, gResourceMemory[E_ID_BRAKELIGHT_BR]) END_OF_ACTION
+        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
-
-    ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
-        ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-    END_OF_MSG_TYPE
-
 
 }
 

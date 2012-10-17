@@ -13,19 +13,27 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "Board.h"
 
 
 #include "def.h"
 
-unsigned char user_input_VUE32_6 = 0;
-extern volatile unsigned int flag_1ms_a;
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
+unsigned char wiper_control_previous_state_vue32_6 = 0;
+
+extern volatile unsigned int flag_1ms_a, flag_8ms;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_6_Ress[] =
 {
-    {E_ID_LATERALACCELERATIONSENSOR, 2, 0x00},
-    {E_ID_YAWRATE, 2, 0x00},
-    {E_ID_WIPERMODECONTROL, 2, 0x00},
+    {E_ID_LATERALACCELERATIONSENSOR, 2, Sensor},
+    {E_ID_YAWRATE, 2, Sensor},
+    {E_ID_WIPERMODECONTROL, 2, Sensor},
+    {E_ID_HIGHBEAM, 1, Actuator},
+    {E_ID_WIPERFLUIDPUMP, 1, Actuator}
 };
 
 /*
@@ -45,11 +53,29 @@ void ImplVUE32_6(void)
     {
         flag_1ms_a = 0;
 
-        user_input_VUE32_6 = read_wiper_input();
+        
 
         #ifdef USE_I2C
         read_adxl345(0x32);	    //I2C Polling
         #endif
+    }
+
+
+    if(flag_8ms)
+    {
+        flag_8ms = 0;
+
+        //Wiper
+        //TODO Implement a general event handler
+        gResourceMemory[E_ID_FRONTLIGHTCONTROL] = read_wiper_input();
+        if(wiper_control_previous_state_vue32_6 != gResourceMemory[E_ID_WIPERMODECONTROL])
+        {
+            wiper_control_previous_state_vue32_6 = gResourceMemory[E_ID_WIPERMODECONTROL];
+
+            EmitAnEvent(E_ID_WIPERMODECONTROL, VUE32_4, 1, gResourceMemory[E_ID_WIPERMODECONTROL]);
+
+            wiper_action((unsigned char)gResourceMemory[E_ID_WIPERMODECONTROL]);
+        }
     }
 }
 
