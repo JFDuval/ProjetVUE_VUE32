@@ -135,8 +135,8 @@ void board_specific_config(void);
 //Digital I/Os - Board Specific pins
 #define DIO_GFI_FREQ            PORTEbits.RE0
 #define TRIS_DIO_GFI_FREQ       TRISEbits.TRISE0
-#define DIO_GFI_STATE           PORTEbits.RE1
-#define TRIS_DIO_GFI_STATE      TRISEbits.TRISE1
+#define DIO_GFI_STATE           PORTEbits.RE2
+#define TRIS_DIO_GFI_STATE      TRISEbits.TRISE2
 #define DIO_WIPER_SW            PORTEbits.RE6
 #define TRIS_DIO_WIPER_SW       TRISEbits.TRISE6
 #define DIO_BRAKE_SW            PORTEbits.RE0

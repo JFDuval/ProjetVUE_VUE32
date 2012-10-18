@@ -4,7 +4,7 @@
 #include "def.h"
 
 #ifndef __32MX575F512H__
-#include "BMS.c"
+#include "BMS.h"
 #endif
 
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;

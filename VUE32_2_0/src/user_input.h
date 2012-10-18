@@ -9,8 +9,8 @@
 #define WP_OUT_54       LATEbits.LATE5          //Output - 54 - Green/Blue & Green/Yellow
 #define WP_OUT_53b      LATEbits.LATE4          //Output - 53b - Yellow
 #define WP_OUT_53c      LATEbits.LATE3          //Output - 53c - Brown/Blue & Green/Blue
-#define WP_IN_15        PORTEbits.RE2           //Input - 15 - Pink/Red
-#define WP_IN_31        PORTEbits.RE1           //Input - 31 - Brown
+#define WP_IN_15        PORTEbits.RE1           //Input - 15 - Pink/Red
+#define WP_IN_31        PORTEbits.RE2           //Input - 31 - Brown
 #define WP_IN_31b       PORTEbits.RE0           //Input - 31b - Blue/Black
 
 //Wiper states:
@@ -43,8 +43,8 @@
 #define LT_IN_L         PORTEbits.RE5           //Input - L - Red/White
 #define LT_IN_R         PORTEbits.RE4           //Input - R - Brown/Black
 #define LT_IN_58        PORTEbits.RE3           //Input - 58 - Green/Blue
-#define LT_IN_56b       PORTEbits.RE2           //Input - 56b - Purple/Blue
-#define LT_IN_56a       PORTEbits.RE1           //Input - 56a - Yellow
+#define LT_IN_56b       PORTEbits.RE1           //Input - 56b - Purple/Blue
+#define LT_IN_56a       PORTEbits.RE2           //Input - 56a - Yellow
 #define LT_IN_83b       PORTEbits.RE0           //Input - 83b - Yellow/Red
 //Note: Red (30) linked to +3V3
 //Note: some functions are not cabled
