@@ -3,10 +3,6 @@
 #include <sys/kmem.h>
 #include "def.h"
 
-#ifndef __32MX575F512H__
-#include "BMS.h"
-#endif
-
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
 volatile unsigned int flag_flash = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
@@ -66,7 +62,6 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;  //Toggle LED 4Hz
     }
 
-#ifndef __32MX575F512H__
     //Flashers
     flash_cnt++;
     if(flash_cnt > 4000)
@@ -152,7 +147,6 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 //Timer 1 - Main timer
 void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
-    ImplBMS();
     //Clear flag and return
     IFS0bits.T1IF = 0;
 }
