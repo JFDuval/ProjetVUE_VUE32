@@ -228,6 +228,10 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
     buffer. In order to function correctly, it is essential that the CANUpdateChannel()
     function is called in the proper sequence for the CANGetTxMessageBuffer() function to
     return a pointer to an empty buffer. */
+#ifndef TEST
+
+#endif
+
     do {
         msgPtr = CANGetTxMessageBuffer(CANx, CAN_CHANNEL0);
     }    while (msgPtr == NULL);

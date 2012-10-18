@@ -57,7 +57,7 @@ void InitVUE32_4(void)
  */
 void ImplVUE32_4(void)
 {
-    static unsigned char flash = 0;
+    static unsigned char flash = 0, dummy = 0;
 
     if(flag_8ms)
     {
@@ -65,10 +65,11 @@ void ImplVUE32_4(void)
 
         //Light
         light_previous_state_vue32_4 = gResourceMemory[E_ID_FRONTLIGHTCONTROL];
-        gResourceMemory[E_ID_FRONTLIGHTCONTROL] = read_light_input();
+        dummy = read_light_input();
+        gResourceMemory[E_ID_FRONTLIGHTCONTROL] = dummy;
 
         //TODO Implement a general event handler
-        if(light_previous_state_vue32_4 != gResourceMemory[E_ID_FRONTLIGHTCONTROL])
+        //if(light_previous_state_vue32_4 != gResourceMemory[E_ID_FRONTLIGHTCONTROL])
         {
             EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_2, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
             EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_6, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);

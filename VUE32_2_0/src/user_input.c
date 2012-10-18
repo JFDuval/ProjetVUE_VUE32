@@ -156,6 +156,7 @@ unsigned char read_light_input(void)
     unsigned int lt_status_2 = 0;
     unsigned int lt_status_3 = 0;
     unsigned int lt_status_4 = 0;
+    unsigned int dummy = PORTE;
 
     //Are we braking?    
     if(read_brake(0))    //ToDo send proper ADC value!
@@ -239,20 +240,12 @@ unsigned int light_action(unsigned char light_input)
 
     if(GetBoardID() == VUE32_4) //Flashers and low beams
     {
-        //Left flashers
-        if(flashers == LT_FLASHER_LEFT)
+        //Flashers
+        if(flashers == LT_FLASHER_LEFT || flashers == LT_FLASHER_RIGHT)
             //power_out(LT_PWR_FLASH_FRONT_LEFT, 1);
             set_flashers = 1;
         else
             //power_out(LT_PWR_FLASH_FRONT_LEFT, 0);
-            set_flashers = 0;
-
-	//Right flashers
-        if(flashers == LT_FLASHER_RIGHT)
-            //power_out(LT_PWR_FLASH_FRONT_RIGHT, 1);
-            set_flashers = 1;
-        else
-            //power_out(LT_PWR_FLASH_FRONT_RIGHT, 0);
             set_flashers = 0;
 
         //Low Beams
