@@ -147,33 +147,31 @@ void __ISR(_TIMER_5_VECTOR, ipl4) isr_timer5(void)
 //Timer 1 - Main timer
 void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 {
-    //Clear flag and return
-    IFS0bits.T1IF = 0;
-}
+    static unsigned int time_cnt = 0;
+    static unsigned int time_cnt2 = 0;
 
-// SPI interrupt
-void __ISR(_SPI_2_VECTOR, ipl3)__SPI2Interrupt(void)
-{
-
-    char rcvTmp;
-
-    rcvTmp = getcSPI2();
-
-    switch(rcvTmp)
+    //1ms - 1000Hz (timestamp)
+    time_cnt++;
+    if(time_cnt > 10)
     {
-        case 0:
-        {
-            // Discard
-        }
-        default:
-        {
-            // Treat data
-        }
+        time_cnt = 0;
+        uiTimeStamp++;
+    }
+    
+    // Process network stack every 5 ms
+    time_cnt2++;
+    if ( time_cnt2 > 50)
+    {
+        time_cnt2 = 0;        
+        NETV_MESSAGE oMsgRecep;
+        if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
+            OnMsgBMS(&oMsgRecep); 
+
+        RunLongPolling();
     }
 
-
-    // Clear interrupt flag
-    SpiChnClrRxIntFlag(2);
+    //Clear flag and return
+    IFS0bits.T1IF = 0;
 }
 
 #endif
