@@ -14,6 +14,7 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "Board.h"
 
 #include "def.h"
 
@@ -68,6 +69,12 @@ void ImplVUE32_5(void)
 	filter_adc();
         gResourceMemory[E_ID_ACCELERATOR] = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
         gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
+
+        if(gResourceMemory[E_ID_BRAKEPEDAL])
+            Nop();
+
+        EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_2, 2, gResourceMemory[E_ID_BRAKEPEDAL]);
+        EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_7, 2, gResourceMemory[E_ID_BRAKEPEDAL]);
     }
 
     //Todo trunk switch

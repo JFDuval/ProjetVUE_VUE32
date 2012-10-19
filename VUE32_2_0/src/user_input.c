@@ -145,7 +145,7 @@ unsigned short read_brake(unsigned short adc_in)
 
     intensity = adc_in; //Todo Add processing here
 
-    return(intensity & sw);
+    return(intensity | sw);
 }
 
 void init_light_input(void)
