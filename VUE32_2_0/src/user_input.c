@@ -160,7 +160,6 @@ unsigned char read_light_input(void)
     unsigned int lt_status_2 = 0;
     unsigned int lt_status_3 = 0;
     unsigned int lt_status_4 = 0;
-    unsigned int dummy = PORTE;
 
     //Are we braking?    
     if(read_brake(0))    //ToDo send proper ADC value!

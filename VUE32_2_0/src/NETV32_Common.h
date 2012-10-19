@@ -99,6 +99,9 @@ enum CANResourceId {
             E_ID_BMS_CELL_GROUP1 = 0x16,
             E_ID_BMS_CELL_GROUP2 = 0x17,
             E_ID_BMS_OPEN_CONTACT = 0x18,
+            E_ID_LEFT_DOOR_STATE = 0x19,
+            E_ID_RIGHT_DOOR_STATE = 0x1a,
+
 
 
             // Access in Read/Write mode  (actuator)
@@ -128,7 +131,8 @@ enum CANResourceId {
             // Ampli audio
             E_ID_AUDIOAMPLIFIER = 0x34,
             E_ID_SET_LIGTH_STATE = 0x35,
-            E_ID_SET_WIPER_STATE = 0x36
+            E_ID_SET_WIPER_STATE = 0x36,
+            E_ID_SET_BRAKE_LIGTH_STATE = 0x37
 
 } CANResourceId;
 

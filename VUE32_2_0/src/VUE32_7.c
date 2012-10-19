@@ -53,7 +53,7 @@ void InitVUE32_7(void)
  */
 void ImplVUE32_7(void)
 {
-    static unsigned char flash = 0;
+    static unsigned char flash = 1;
 
     if(flag_1ms_b)
     {
@@ -74,6 +74,8 @@ void ImplVUE32_7(void)
         flag_8ms = 0;
         //Actuator
         //Right Light Control
+        //Mask with the brake ligth state
+        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_LIGTH_STATE] >> 8 & 0x80);
         if(light_previous_state_vue32_7 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
             light_previous_state_vue32_7 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
@@ -111,6 +113,7 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
 
