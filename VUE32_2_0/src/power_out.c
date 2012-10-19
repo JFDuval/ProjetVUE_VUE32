@@ -96,3 +96,13 @@ unsigned int power_out(unsigned char outx, unsigned int duty)
 
     return 0;
 }
+
+void pwr_roof_light(unsigned char on_off)
+{
+    power_out(ROOF_LIGHT, on_off);
+}
+
+void pwr_trunk_switch(unsigned char on_off)
+{
+    power_out(TRUNK_SW, on_off);
+}

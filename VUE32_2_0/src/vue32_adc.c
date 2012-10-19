@@ -172,7 +172,7 @@ void board_specific_adc_decode(void)
     }
     else if(GetBoardID() == VUE32_6)
     {
-	read_yaw_lateral(adc_mean[ADC_FILTERED_AN1], adc_mean[ADC_FILTERED_AN0]);
+	//read_yaw_lateral(adc_mean[ADC_FILTERED_AN1], adc_mean[ADC_FILTERED_AN0]);
     }
     else if(GetBoardID() == VUE32_7)
     {

@@ -22,10 +22,17 @@
 //memory_map.h
 extern unsigned int gResourceMemory[256];
 
+//interrupt.c
+extern volatile unsigned char flag_adc_filter;
+
 unsigned char wiper_control_previous_state_vue32_6 = 0;
 unsigned char light_previous_state_vue32_6 = 0;
 
 extern volatile unsigned int flag_1ms_a, flag_8ms;
+
+//VUE32_adc.h
+extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
+extern unsigned short adc_mean[ADC_CH];
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_6_Ress[] =
@@ -55,9 +62,7 @@ void ImplVUE32_6(void)
 {
     if(flag_1ms_a)
     {
-        flag_1ms_a = 0;
-
-        
+        flag_1ms_a = 0;        
 
         #ifdef USE_I2C
         read_adxl345(0x32);	    //I2C Polling
@@ -86,6 +91,14 @@ void ImplVUE32_6(void)
             light_previous_state_vue32_6 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
             light_action(light_previous_state_vue32_6);
         }
+    }
+
+    if(flag_adc_filter)
+    {
+        flag_adc_filter = 0;
+	filter_adc();
+        gResourceMemory[E_ID_YAWRATE] = read_yaw(adc_mean[ADC_FILTERED_AN1]);
+        gResourceMemory[E_ID_LATERALACCELERATIONSENSOR] = read_lateral(adc_mean[ADC_FILTERED_AN0]);
     }
 }
 

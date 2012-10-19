@@ -120,7 +120,7 @@ unsigned int wiper_action(unsigned char wiper_input)
 //Linear from 0 to ~400, then it jumps to ~500
 unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
 {
-    unsigned short accelerator = 0, mean = 0;
+    unsigned short mean = 0;
 
     //We have 2 pots in // in the pedal.
     if((adc_in1 > adc_in2 + 5) || (adc_in1 < adc_in2 - 5))
@@ -139,9 +139,13 @@ unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
 
 unsigned short read_brake(unsigned short adc_in)
 {
-    //ToDo!
+    unsigned short sw = DIO_BRAKE_SW;
+    unsigned short intensity = 0;
+    sw = (sw & 0x01) << 15;
 
-    return(0);
+    intensity = adc_in; //Todo Add processing here
+
+    return(intensity & sw);
 }
 
 void init_light_input(void)
@@ -307,23 +311,32 @@ void light_flashers(unsigned char light_input, unsigned char flash_state)
 void init_dpr_key(void)
 {
     //Configure pins as inputs:
-    TRIS_DIO_BRAKE_SW = 1;
     TRIS_DIO_DPR_SW1 = 1;
     TRIS_DIO_DPR_SW2 = 1;
-    TRIS_DIO_KEY_SW1 = 1;
 }
 
 unsigned char read_dpr_key(void)
 {
     unsigned char out = 0;
 
-    if(DIO_KEY_SW1)
-	out |= DPRK_KEY_ON;
+    if(!DIO_DPR_SW2 && DIO_DPR_SW1)
+        out = DRIVE;
+    else if(!DIO_DPR_SW1 && DIO_DPR_SW2)
+        out = REVERSE;
     else
-	out |= DPRK_KEY_OFF;
-
-    //ToDo DPR
+        out = PARK;
 
     return out;
 }
 
+//For trunk, use pin_state = DOOR_TRUNK
+//For right door, use pin_state = DOOR_RIGHT
+unsigned char read_door(unsigned char pin_state)
+{
+    if(pin_state)
+        return OPENED;
+    else
+        return CLOSED;
+
+    return;
+}

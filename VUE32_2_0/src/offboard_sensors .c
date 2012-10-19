@@ -7,8 +7,6 @@
 //                                                                                          //
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-short yaw_rate = 0, lateral = 0;
-
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                          Functions                                       //
@@ -42,9 +40,8 @@ short read_current(unsigned short adc_in, unsigned short adc_vbat)
     return (short)((float)(adc_in - offset)/gain);
 }
 
+
 //Bosch Yaw-rate and Lateral acceleration sensor
-void read_yaw_lateral(unsigned short adc_yaw, unsigned short adc_lateral)
-{
     //Supply voltage: 12VDC
     //Reference voltage: 2.5V. Span: 0.65V - 4.35V
     //Resistive divider: 10k and 3.24k, Vo = 0.755Vin. 4.35V => 3.285V
@@ -55,12 +52,24 @@ void read_yaw_lateral(unsigned short adc_yaw, unsigned short adc_lateral)
 
     //Lateral acceleration: 1.8g max, 1000mV/g, so ±1.8V*0.755 = ±1.36V = ±422bits
     //4.265e-3g/bit
+short read_yaw(unsigned short adc_yaw)
+{
+    short yaw_rate = 0;
 
     //Yaw-rate * 1000
     yaw_rate = 237*(adc_yaw - 586);
 
+    return yaw_rate;
+}
+
+short read_lateral(unsigned short adc_lateral)
+{
+    short lateral = 0;
+
     //Lateral acceleration * 100000
     lateral = 427*(adc_lateral - 586);
+
+    return lateral;
 }
 
 //IR155-3204 Isometer - Ground fault interrupt sensor

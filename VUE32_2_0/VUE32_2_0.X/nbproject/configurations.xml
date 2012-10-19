@@ -118,7 +118,6 @@
         <developmentServer>localhost</developmentServer>
         <targetDevice>PIC32MX795F512H</targetDevice>
         <targetHeader></targetHeader>
-        <targetPluginBoard></targetPluginBoard>
         <platformTool>ICD3PlatformTool</platformTool>
         <languageToolchain>C32</languageToolchain>
         <languageToolchainVersion>2.02</languageToolchainVersion>

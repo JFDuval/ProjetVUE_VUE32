@@ -83,6 +83,18 @@
 //Accelerator pedal
 #define DEADBAND            50
 
+//Brake pedal
+#define DIO_BRAKE_SW        PORTEbits.RE0
+#define TRIS_DIO_BRAKE_SW   TRISEbits.TRISE0
+
+//Door switches
+#define DOOR_TRUNK          PORTEbits.RE4
+#define TRIS_DOOR_TRUNK     TRISEbits.TRISE4
+#define DOOR_RIGHT          PORTEbits.RE0
+#define TRIS_DOOR_RIGHT     TRISEbits.TRISE0
+#define DOOR_LEFT           PORTEbits.RE2
+#define TRIS_DOOR_LEFT      TRISEbits.TRISE2
+
 /////////////////////////////////////////////////////////////////////////////
 //                                                                         //
 //                         	Function prototypes                        //
@@ -99,5 +111,6 @@ unsigned char read_light_input(void);
 void light_flashers(unsigned char light_input, unsigned char flash_state);
 void init_dpr_key(void);
 unsigned char read_dpr_key(void);
+unsigned char read_door(unsigned char pin_state);
 
 #endif

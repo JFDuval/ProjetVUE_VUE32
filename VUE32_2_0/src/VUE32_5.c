@@ -22,16 +22,20 @@
 extern unsigned int gResourceMemory[256];
 
 unsigned char user_input_VUE32_5 = 0;
-extern volatile unsigned int flag_1ms_a;
 
+//interrupt.c
+extern volatile unsigned int flag_1ms_a;
+extern volatile unsigned char flag_adc_filter;
+
+//VUE32_adc.h
+extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
+extern unsigned short adc_mean[ADC_CH];
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_5_Ress[] =
 {
-    {E_ID_BRAKEPEDALPOT, 2, 0x00},
-    {E_ID_BRAKEPEDALSWITCH, 1, 0x00},
-    {E_ID_ACCELERATORPOT1, 2, 0x00},
-    {E_ID_ACCELERATORPOT2, 2, 0x00},
+    {E_ID_BRAKEPEDAL, 2, 0x00},
+    {E_ID_ACCELERATOR, 2, 0x00},
     {E_ID_STEERINGANGLESENSOR, 4, 0x00},
     {E_ID_TRANSMISSIONCONTROL, 2, 0x00},
     {E_ID_IGNITIONKEY, 2, 0x00},
@@ -42,7 +46,8 @@ HDW_MAPPING gVUE32_5_Ress[] =
  */
 void InitVUE32_5(void)
 {
-
+    //Door sensors:
+    TRIS_DOOR_TRUNK = 1;
 }
 
 /*
@@ -56,6 +61,16 @@ void ImplVUE32_5(void)
 
         user_input_VUE32_5 = read_dpr_key();
     }
+    
+    if(flag_adc_filter)
+    {
+        flag_adc_filter = 0;
+	filter_adc();
+        gResourceMemory[E_ID_ACCELERATOR] = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
+        gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
+    }
+
+    //Todo trunk switch
 }
 
 /*
@@ -64,10 +79,8 @@ void ImplVUE32_5(void)
 void OnMsgVUE32_5(NETV_MESSAGE *msg)
 {
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
-                ANSWER1(E_ID_BRAKEPEDALPOT, unsigned short, 5)
-                ANSWER1(E_ID_BRAKEPEDALSWITCH, unsigned char, 5)
-                ANSWER1(E_ID_ACCELERATORPOT1, unsigned short, 5)
-                ANSWER1(E_ID_ACCELERATORPOT2, unsigned short, 5)
+                ANSWER1(E_ID_BRAKEPEDAL, unsigned short, 5)
+                ANSWER1(E_ID_ACCELERATOR, unsigned short, 5)
                 ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, 5)
                 ANSWER1(E_ID_TRANSMISSIONCONTROL, unsigned short, 5)
                 ANSWER1(E_ID_IGNITIONKEY, unsigned short, 5)

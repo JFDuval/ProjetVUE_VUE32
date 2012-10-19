@@ -17,7 +17,6 @@
 
 
 #include "def.h"
-extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 
 //user_input.c
 extern volatile unsigned char set_flashers;
@@ -36,6 +35,7 @@ extern volatile unsigned char flag_adc_filter;
 extern volatile unsigned int flag_flash;
 
 //VUE32_adc.h
+extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 extern unsigned short adc_mean[ADC_CH];
 
 unsigned char light_previous_state_vue32_2 = 0;
@@ -83,6 +83,9 @@ void InitVUE32_2(void)
     LED2_TRIS = 0;
     */
 
+    //Door sensors:
+    TRIS_DOOR_RIGHT = 1;
+    TRIS_DOOR_LEFT = 1;
 }
 
 /*
@@ -119,7 +122,6 @@ void ImplVUE32_2(void)
         gResourceMemory[E_ID_BATTERYCURRENT] = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
     }
 
-    //TODO Implement battery current sensing
     if(flag_8ms)
     {
         flag_8ms = 0;
@@ -148,6 +150,8 @@ void ImplVUE32_2(void)
             light_flashers(gResourceMemory[E_ID_SET_LIGTH_STATE], 0);
         }
     }
+
+    //Todo Door switch
 }
 
 /*

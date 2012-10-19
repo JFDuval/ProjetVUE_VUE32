@@ -213,7 +213,7 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * check if the returned value is null. */
     CANTxMessageBuffer * msgPtr = NULL;
 
-    if( !message || message->msg_data_length > MINIMUM_MESSAGE_SIZE )
+    if(!message || message->msg_data_length > MINIMUM_MESSAGE_SIZE )
     {
         // Invalid packet size
         // TODO: Count this error somewhere

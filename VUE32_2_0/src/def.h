@@ -90,6 +90,15 @@ void board_specific_config(void);
 #define PASS                    1
 #define FAIL                    0
 
+//D/P/R
+#define DRIVE                   1
+#define PARK                    0
+#define REVERSE                 2
+
+//Doors
+#define OPENED                  1
+#define CLOSED                  0
+
 //ADC Pins
 #define ADC_FILTERED_AN0        0
 #define ADC_FILTERED_AN1        1
@@ -145,10 +154,6 @@ void board_specific_config(void);
 #define TRIS_DIO_DPR_SW1        TRISEbits.TRISE1
 #define DIO_DPR_SW2             PORTEbits.RE2
 #define TRIS_DIO_DPR_SW2        TRISEbits.TRISE2
-#define DIO_KEY_SW1             PORTEbits.RE3
-#define TRIS_DIO_KEY_SW1        TRISEbits.TRISE3
-#define DIO_KEY_SW2             PORTEbits.RE4
-#define TRIS_DIO_KEY_SW2        TRISEbits.TRISE4
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1
