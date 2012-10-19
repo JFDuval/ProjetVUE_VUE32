@@ -13,24 +13,25 @@
 // Send the message through the selected interfaces
 unsigned char netv_send_message (NETV_MESSAGE *message)
 {
+    unsigned char success = 1;
+
     // CAN1
     if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN1 )
-        can_netv_send_message(message, CAN1);
-        
+        success &= can_netv_send_message(message, CAN1);
 
     // CAN2
 #ifdef _CAN2
-    //if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
-    //    can_netv_send_message(message, CAN2);
+    if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
+        success &= can_netv_send_message(message, CAN2);
 #endif
 
     // USB
 #ifndef __32MX575F512H__
     if ( message->msg_comm_iface & NETV_COMM_IFACE_USB )
-        usb_netv_send_message(message);
+        success &= usb_netv_send_message(message);
 #endif
 
-    return 1;
+    return success;
 }
 
 // Receive a message from any interface (and set the corresponding flag)

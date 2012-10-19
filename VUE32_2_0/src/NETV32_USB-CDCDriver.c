@@ -143,14 +143,14 @@ unsigned char usb_netv_send_message(NETV_MESSAGE *message)
     {
         // There is not enough space in the receive buffer
         // TODO: Count this error somewhere
-        return;
+        return 1;
     }
 
     if( message->msg_data_length > MINIMUM_MESSAGE_SIZE )
     {
         // Invalid packet size
         // TODO: Count this error somewhere
-        return;
+        return 1;
     }
 
     //Set fields

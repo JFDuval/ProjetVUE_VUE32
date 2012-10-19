@@ -213,11 +213,11 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * check if the returned value is null. */
     CANTxMessageBuffer * msgPtr = NULL;
 
-    if( message->msg_data_length > MINIMUM_MESSAGE_SIZE )
+    if( !message || message->msg_data_length > MINIMUM_MESSAGE_SIZE )
     {
         // Invalid packet size
         // TODO: Count this error somewhere
-        return;
+        return 1;
     }
 
     //ACTIVE WAIT ON BUFFER
@@ -232,9 +232,12 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 
 #endif
 
-    do {
-        msgPtr = CANGetTxMessageBuffer(CANx, CAN_CHANNEL0);
-    }    while (msgPtr == NULL);
+    msgPtr = CANGetTxMessageBuffer(CANx, CAN_CHANNEL0);
+    if (msgPtr == NULL)
+    {
+        // Todo: Flag this error somewhere
+        return 1;
+    }
 
     if (message && msgPtr) {
 
