@@ -46,6 +46,10 @@ void InitVUE32_1(void)
     //Door sensors:
     TRIS_DOOR_RIGHT = 1;
     TRIS_DOOR_LEFT = 1;
+
+    //Display
+    TRIS_DIO_DISP_CLK = 0;
+    TRIS_DIO_DISP_DATA = 0;
 }
 
 /*
@@ -150,9 +154,9 @@ void serial_out(unsigned short word)
 
 void refresh_display(void)
 {
-    unsigned short word1 = 0xA000;
+    unsigned short word1 = 0x6000;
     unsigned short word2 = 0x8000;
-    unsigned short word3 = 0x8000;
+    unsigned short word3 = 0xC000;
     unsigned short tmp1 = 0;
 
     //Test mode:
@@ -161,7 +165,7 @@ void refresh_display(void)
     word3 = 0b0000010100111001; //1337km
 
     //Real one:
-
+/*
     //Word 1 construction:
     word1 |= ((vehicle_spd() & 0x7F) << 6);     //Speed
     word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00010000) << 1); //Left
@@ -177,6 +181,7 @@ void refresh_display(void)
 
     //Word 3 construction:
     word3 |= (gResourceMemory[E_ID_ODOMETER] & 0xFFFF);
+*/
 
     //Clock data out
     serial_out(word1);
