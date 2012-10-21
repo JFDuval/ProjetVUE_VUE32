@@ -36,12 +36,10 @@ unsigned char wiper_control_previous_state_vue32_4 = 0;
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_4_Ress[] =
 {
-    {E_ID_FRONTLIGHTCONTROL, 1, Sensor},
-    {E_ID_WIPERSENDOFCOURSE, 1, Sensor},
-    {E_ID_RIGHTFLASHER, 1, Actuator},
-    {E_ID_LEFTFLASHER, 1, Actuator},
-    {E_ID_LOWBEAM, 1, Actuator},
-    {E_ID_WIPERBLADES,1, Actuator}
+    {E_ID_FRONTLIGHTCONTROL, sizeof(unsigned char), Sensor},
+    {E_ID_WIPERSENDOFCOURSE, sizeof(unsigned char), Sensor},
+    {E_ID_WIPERBLADES, sizeof(unsigned char), Actuator},
+    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator}
 };
 
 /*
@@ -65,9 +63,8 @@ void ImplVUE32_4(void)
         flag_8ms = 0;
 
         //Light
+        //TODO When FRONTLIGTHCONTROL changing, copy the value in (E_ID_SET_LIGTH_STATE. After read the configuration directly in E_ID_SET_LIGTH_STATE
         light_state_vue32_4 = read_light_input();
-        //TODO Implement a general event handler
-        //TODO Implement a debouncing algorithm for detecting ligth state 
         if(gResourceMemory[E_ID_FRONTLIGHTCONTROL] != light_state_vue32_4 && light_state_vue32_4 == light_previous_state_vue32_4)
         {
             gResourceMemory[E_ID_FRONTLIGHTCONTROL] = (unsigned int)light_state_vue32_4;
@@ -77,14 +74,13 @@ void ImplVUE32_4(void)
 
             light_action((unsigned char)gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
         }
-
         light_previous_state_vue32_4 = light_state_vue32_4;
 
         //Wiper
-        if(wiper_control_previous_state_vue32_4  != gResourceMemory[E_ID_SET_WIPER_STATE])
+        if(wiper_control_previous_state_vue32_4  != gResourceMemory[E_ID_WIPERBLADES])
         {
-            wiper_control_previous_state_vue32_4  = gResourceMemory[E_ID_SET_WIPER_STATE];
-            wiper_action((unsigned char)gResourceMemory[E_ID_SET_WIPER_STATE]);
+            wiper_control_previous_state_vue32_4  = gResourceMemory[E_ID_WIPERBLADES];
+            wiper_action((unsigned char)gResourceMemory[E_ID_WIPERBLADES]);
         }
 
     }
@@ -119,7 +115,14 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
-            ACTION1(E_ID_SET_WIPER_STATE, unsigned char, gResourceMemory[E_ID_SET_WIPER_STATE]) END_OF_ACTION
+            ACTION1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES]) END_OF_ACTION
+            ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+            LED2 = ~LED2;
+    END_OF_MSG_TYPE
+
+    ON_MSG_TYPE( NETV_TYPE_EVENT )
+        ACTION1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES]) END_OF_ACTION
+        LED2 = ~LED2;
     END_OF_MSG_TYPE
 }
 

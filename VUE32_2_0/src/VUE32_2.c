@@ -46,10 +46,8 @@ HDW_MAPPING gVUE32_2_Ress[] =
     {E_ID_BATTERYCURRENT, 2, Sensor},
     {E_ID_GROUNDFAULT_FREQ, 1, Sensor},
     {E_ID_WHEELVELOCITYSSENSOR_BR, 4, Sensor},
-    {E_ID_RIGHTFLASHER, 1, Actuator},
-    {E_ID_REVERSELIGHT_BR, 1,Actuator},
-    {E_ID_NIGHTLIGHT_BR, 1,Actuator},
-    {E_ID_BRAKELIGHT_BR, 1,Actuator}
+    {E_ID_SET_LIGTH_STATE, 1, Actuator},
+    {E_ID_SET_BRAKE_LIGTH_STATE, 2, Actuator},
 };
 
 
@@ -131,7 +129,7 @@ void ImplVUE32_2(void)
         //Mask with the brake ligth state
 
         gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x7F;
-        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] >> 8 & 0x80);
+        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] & 0x80);
         if(light_previous_state_vue32_2 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
             light_previous_state_vue32_2 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
@@ -174,10 +172,6 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
             
     // Deal with SETVALUE requests TODO merge light resource Id in group
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
-        ACTION1(E_ID_RIGHTFLASHER, unsigned char, gResourceMemory[E_ID_RIGHTFLASHER]) END_OF_ACTION
-        ACTION1(E_ID_REVERSELIGHT_BR, unsigned char, gResourceMemory[E_ID_REVERSELIGHT_BR]) END_OF_ACTION
-        ACTION1(E_ID_NIGHTLIGHT_BR, unsigned char, gResourceMemory[E_ID_NIGHTLIGHT_BR]) END_OF_ACTION
-        ACTION1(E_ID_BRAKELIGHT_BR, unsigned char, gResourceMemory[E_ID_BRAKELIGHT_BR]) END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE

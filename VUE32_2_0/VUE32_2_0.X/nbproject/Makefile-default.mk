@@ -84,343 +84,343 @@ ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 ${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o: ../src/offboard_sensors\ .c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" -o "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" "../src/offboard_sensors .c"  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" -o "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" "../src/offboard_sensors .c"  
 	
 ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o: ../src/onboard_sensors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" -o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ../src/onboard_sensors.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" -o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ../src/onboard_sensors.c  
 	
 ${OBJECTDIR}/_ext/1360937237/periph.o: ../src/periph.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/periph.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/periph.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/periph.o.d" -o ${OBJECTDIR}/_ext/1360937237/periph.o ../src/periph.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/periph.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/periph.o.d" -o ${OBJECTDIR}/_ext/1360937237/periph.o ../src/periph.c  
 	
 ${OBJECTDIR}/_ext/1360937237/power_out.o: ../src/power_out.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/power_out.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/power_out.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/power_out.o.d" -o ${OBJECTDIR}/_ext/1360937237/power_out.o ../src/power_out.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/power_out.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/power_out.o.d" -o ${OBJECTDIR}/_ext/1360937237/power_out.o ../src/power_out.c  
 	
 ${OBJECTDIR}/_ext/1360937237/user_input.o: ../src/user_input.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/user_input.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/user_input.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/user_input.o.d" -o ${OBJECTDIR}/_ext/1360937237/user_input.o ../src/user_input.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/user_input.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/user_input.o.d" -o ${OBJECTDIR}/_ext/1360937237/user_input.o ../src/user_input.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_adc.o: ../src/vue32_adc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ../src/vue32_adc.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ../src/vue32_adc.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o: ../src/vue32_i2c.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ../src/vue32_i2c.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ../src/vue32_i2c.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o: ../src/vue32_oc_pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ../src/vue32_oc_pwm.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ../src/vue32_oc_pwm.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_timers.o: ../src/vue32_timers.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ../src/vue32_timers.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ../src/vue32_timers.c  
 	
 ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o: ../src/wheel_sensor.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" -o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ../src/wheel_sensor.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" -o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ../src/wheel_sensor.c  
 	
 ${OBJECTDIR}/_ext/1360937237/interrupts.o: ../src/interrupts.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/interrupts.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" -o ${OBJECTDIR}/_ext/1360937237/interrupts.o ../src/interrupts.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" -o ${OBJECTDIR}/_ext/1360937237/interrupts.o ../src/interrupts.c  
 	
 ${OBJECTDIR}/_ext/1360937237/Board.o: ../src/Board.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Board.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Board.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Board.o.d" -o ${OBJECTDIR}/_ext/1360937237/Board.o ../src/Board.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Board.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Board.o.d" -o ${OBJECTDIR}/_ext/1360937237/Board.o ../src/Board.c  
 	
 ${OBJECTDIR}/_ext/1360937237/communication.o: ../src/communication.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/communication.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/communication.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/communication.o.d" -o ${OBJECTDIR}/_ext/1360937237/communication.o ../src/communication.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/communication.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/communication.o.d" -o ${OBJECTDIR}/_ext/1360937237/communication.o ../src/communication.c  
 	
 ${OBJECTDIR}/_ext/1360937237/Exception.o: ../src/Exception.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Exception.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
 	
 ${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o: ../src/NETV32_Common.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ../src/NETV32_Common.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ../src/NETV32_Common.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o: ../src/NETV32_Shared.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ../src/NETV32_Shared.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ../src/NETV32_Shared.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o: ../src/NETV32_USB-CDCDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ../src/NETV32_USB-CDCDriver.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ../src/NETV32_USB-CDCDriver.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o: ../src/NETV32_CANDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ../src/NETV32_CANDriver.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ../src/NETV32_CANDriver.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_descriptors.o: ../src/USB-CDC_Microchip/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ../src/USB-CDC_Microchip/usb_descriptors.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ../src/USB-CDC_Microchip/usb_descriptors.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_device.o: ../src/USB-CDC_Microchip/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_device.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_device.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_device.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_device.o ../src/USB-CDC_Microchip/usb_device.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_device.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_device.o ../src/USB-CDC_Microchip/usb_device.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o: ../src/USB-CDC_Microchip/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ../src/USB-CDC_Microchip/usb_function_cdc.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ../src/USB-CDC_Microchip/usb_function_cdc.c  
 	
 ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o: ../src/microchip_usb_fct.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" -o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ../src/microchip_usb_fct.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" -o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ../src/microchip_usb_fct.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_1.o: ../src/VUE32_1.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ../src/VUE32_1.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ../src/VUE32_1.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_2.o: ../src/VUE32_2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ../src/VUE32_2.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ../src/VUE32_2.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_3.o: ../src/VUE32_3.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ../src/VUE32_3.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ../src/VUE32_3.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_4.o: ../src/VUE32_4.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ../src/VUE32_4.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ../src/VUE32_4.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_5.o: ../src/VUE32_5.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ../src/VUE32_5.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ../src/VUE32_5.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_6.o: ../src/VUE32_6.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ../src/VUE32_6.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ../src/VUE32_6.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_7.o: ../src/VUE32_7.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ../src/VUE32_7.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ../src/VUE32_7.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o: ../src/VUE32_Impl.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ../src/VUE32_Impl.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ../src/VUE32_Impl.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_0.o: ../src/VUE32_0.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ../src/VUE32_0.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ../src/VUE32_0.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o: ../src/VUE32_Utils.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ../src/VUE32_Utils.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ../src/VUE32_Utils.c  
 	
 ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_ICD3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE) -g -D__DEBUG -D__MPLAB_DEBUGGER_PK3=1 -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
 	
 else
 ${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o: ../src/offboard_sensors\ .c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/offboard_sensors\ .o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" -o "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" "../src/offboard_sensors .c"  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o.d" -o "${OBJECTDIR}/_ext/1360937237/offboard_sensors .o" "../src/offboard_sensors .c"  
 	
 ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o: ../src/onboard_sensors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" -o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ../src/onboard_sensors.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/onboard_sensors.o.d" -o ${OBJECTDIR}/_ext/1360937237/onboard_sensors.o ../src/onboard_sensors.c  
 	
 ${OBJECTDIR}/_ext/1360937237/periph.o: ../src/periph.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/periph.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/periph.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/periph.o.d" -o ${OBJECTDIR}/_ext/1360937237/periph.o ../src/periph.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/periph.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/periph.o.d" -o ${OBJECTDIR}/_ext/1360937237/periph.o ../src/periph.c  
 	
 ${OBJECTDIR}/_ext/1360937237/power_out.o: ../src/power_out.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/power_out.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/power_out.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/power_out.o.d" -o ${OBJECTDIR}/_ext/1360937237/power_out.o ../src/power_out.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/power_out.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/power_out.o.d" -o ${OBJECTDIR}/_ext/1360937237/power_out.o ../src/power_out.c  
 	
 ${OBJECTDIR}/_ext/1360937237/user_input.o: ../src/user_input.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/user_input.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/user_input.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/user_input.o.d" -o ${OBJECTDIR}/_ext/1360937237/user_input.o ../src/user_input.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/user_input.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/user_input.o.d" -o ${OBJECTDIR}/_ext/1360937237/user_input.o ../src/user_input.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_adc.o: ../src/vue32_adc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ../src/vue32_adc.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_adc.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_adc.o ../src/vue32_adc.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o: ../src/vue32_i2c.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ../src/vue32_i2c.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_i2c.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_i2c.o ../src/vue32_i2c.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o: ../src/vue32_oc_pwm.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ../src/vue32_oc_pwm.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_oc_pwm.o ../src/vue32_oc_pwm.c  
 	
 ${OBJECTDIR}/_ext/1360937237/vue32_timers.o: ../src/vue32_timers.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ../src/vue32_timers.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/vue32_timers.o.d" -o ${OBJECTDIR}/_ext/1360937237/vue32_timers.o ../src/vue32_timers.c  
 	
 ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o: ../src/wheel_sensor.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" -o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ../src/wheel_sensor.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/wheel_sensor.o.d" -o ${OBJECTDIR}/_ext/1360937237/wheel_sensor.o ../src/wheel_sensor.c  
 	
 ${OBJECTDIR}/_ext/1360937237/interrupts.o: ../src/interrupts.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/interrupts.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" -o ${OBJECTDIR}/_ext/1360937237/interrupts.o ../src/interrupts.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/interrupts.o.d" -o ${OBJECTDIR}/_ext/1360937237/interrupts.o ../src/interrupts.c  
 	
 ${OBJECTDIR}/_ext/1360937237/Board.o: ../src/Board.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Board.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Board.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Board.o.d" -o ${OBJECTDIR}/_ext/1360937237/Board.o ../src/Board.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Board.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Board.o.d" -o ${OBJECTDIR}/_ext/1360937237/Board.o ../src/Board.c  
 	
 ${OBJECTDIR}/_ext/1360937237/communication.o: ../src/communication.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/communication.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/communication.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/communication.o.d" -o ${OBJECTDIR}/_ext/1360937237/communication.o ../src/communication.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/communication.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/communication.o.d" -o ${OBJECTDIR}/_ext/1360937237/communication.o ../src/communication.c  
 	
 ${OBJECTDIR}/_ext/1360937237/Exception.o: ../src/Exception.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/Exception.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/Exception.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/Exception.o.d" -o ${OBJECTDIR}/_ext/1360937237/Exception.o ../src/Exception.c  
 	
 ${OBJECTDIR}/_ext/1360937237/memory_map.o: ../src/memory_map.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/memory_map.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/memory_map.o.d" -o ${OBJECTDIR}/_ext/1360937237/memory_map.o ../src/memory_map.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o: ../src/NETV32_Common.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ../src/NETV32_Common.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Common.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Common.o ../src/NETV32_Common.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o: ../src/NETV32_Shared.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ../src/NETV32_Shared.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_Shared.o ../src/NETV32_Shared.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o: ../src/NETV32_USB-CDCDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ../src/NETV32_USB-CDCDriver.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_USB-CDCDriver.o ../src/NETV32_USB-CDCDriver.c  
 	
 ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o: ../src/NETV32_CANDriver.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ../src/NETV32_CANDriver.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o.d" -o ${OBJECTDIR}/_ext/1360937237/NETV32_CANDriver.o ../src/NETV32_CANDriver.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_descriptors.o: ../src/USB-CDC_Microchip/usb_descriptors.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ../src/USB-CDC_Microchip/usb_descriptors.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_descriptors.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_descriptors.o ../src/USB-CDC_Microchip/usb_descriptors.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_device.o: ../src/USB-CDC_Microchip/usb_device.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_device.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_device.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_device.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_device.o ../src/USB-CDC_Microchip/usb_device.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_device.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_device.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_device.o ../src/USB-CDC_Microchip/usb_device.c  
 	
 ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o: ../src/USB-CDC_Microchip/usb_function_cdc.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/265640400 
 	@${RM} ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ../src/USB-CDC_Microchip/usb_function_cdc.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/265640400/usb_function_cdc.o.d" -o ${OBJECTDIR}/_ext/265640400/usb_function_cdc.o ../src/USB-CDC_Microchip/usb_function_cdc.c  
 	
 ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o: ../src/microchip_usb_fct.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" -o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ../src/microchip_usb_fct.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o.d" -o ${OBJECTDIR}/_ext/1360937237/microchip_usb_fct.o ../src/microchip_usb_fct.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_1.o: ../src/VUE32_1.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ../src/VUE32_1.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_1.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_1.o ../src/VUE32_1.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_2.o: ../src/VUE32_2.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ../src/VUE32_2.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_2.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_2.o ../src/VUE32_2.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_3.o: ../src/VUE32_3.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ../src/VUE32_3.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_3.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_3.o ../src/VUE32_3.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_4.o: ../src/VUE32_4.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ../src/VUE32_4.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_4.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_4.o ../src/VUE32_4.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_5.o: ../src/VUE32_5.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ../src/VUE32_5.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_5.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_5.o ../src/VUE32_5.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_6.o: ../src/VUE32_6.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ../src/VUE32_6.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_6.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_6.o ../src/VUE32_6.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_7.o: ../src/VUE32_7.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ../src/VUE32_7.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_7.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_7.o ../src/VUE32_7.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o: ../src/VUE32_Impl.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ../src/VUE32_Impl.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Impl.o ../src/VUE32_Impl.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_0.o: ../src/VUE32_0.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ../src/VUE32_0.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_0.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_0.o ../src/VUE32_0.c  
 	
 ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o: ../src/VUE32_Utils.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ../src/VUE32_Utils.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o.d" -o ${OBJECTDIR}/_ext/1360937237/VUE32_Utils.o ../src/VUE32_Utils.c  
 	
 ${OBJECTDIR}/_ext/1360937237/main.o: ../src/main.c  nbproject/Makefile-${CND_CONF}.mk
 	@${MKDIR} ${OBJECTDIR}/_ext/1360937237 
 	@${RM} ${OBJECTDIR}/_ext/1360937237/main.o.d 
-	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
+	@${FIXDEPS} "${OBJECTDIR}/_ext/1360937237/main.o.d" $(SILENT) -rsi ${MP_CC_DIR}../ -c ${MP_CC} $(MP_EXTRA_CC_PRE)  -g -x c -c -mprocessor=$(MP_PROCESSOR_OPTION)  -MMD -MF "${OBJECTDIR}/_ext/1360937237/main.o.d" -o ${OBJECTDIR}/_ext/1360937237/main.o ../src/main.c  
 	
 endif
 
@@ -429,7 +429,7 @@ endif
 ifeq ($(TYPE_IMAGE), DEBUG_RUN)
 dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 
-	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_ICD3=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__ICD2RAM=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_ICD3=1,-Map="mapmem.txt",--report-mem 
+	${MP_CC} $(MP_EXTRA_LD_PRE)  -mdebugger -D__MPLAB_DEBUGGER_PK3=1 -mprocessor=$(MP_PROCESSOR_OPTION)  -o dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX} ${OBJECTFILES_QUOTED_IF_SPACED}       -Wl,--defsym=__MPLAB_BUILD=1$(MP_EXTRA_LD_POST)$(MP_LINKER_FILE_OPTION),--defsym=__MPLAB_DEBUG=1,--defsym=__ICD2RAM=1,--defsym=__DEBUG=1,--defsym=__MPLAB_DEBUGGER_PK3=1,-Map="mapmem.txt",--report-mem 
 else
 dist/${CND_CONF}/${IMAGE_TYPE}/VUE32_2_0.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}: ${OBJECTFILES}  nbproject/Makefile-${CND_CONF}.mk   
 	@${MKDIR} dist/${CND_CONF}/${IMAGE_TYPE} 

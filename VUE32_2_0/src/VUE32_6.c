@@ -25,7 +25,7 @@ extern unsigned int gResourceMemory[256];
 //interrupt.c
 extern volatile unsigned char flag_adc_filter;
 
-unsigned char wiper_control_previous_state_vue32_6 = 0;
+unsigned char wiper_control_state = 0, wiper_control_previous_state = 0;
 unsigned char light_previous_state_vue32_6 = 0;
 
 extern volatile unsigned int flag_1ms_a, flag_8ms;
@@ -37,11 +37,12 @@ extern unsigned short adc_mean[ADC_CH];
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_6_Ress[] =
 {
-    {E_ID_LATERALACCELERATIONSENSOR, 2, Sensor},
-    {E_ID_YAWRATE, 2, Sensor},
-    {E_ID_WIPERMODECONTROL, 2, Sensor},
-    {E_ID_HIGHBEAM, 1, Actuator},
-    {E_ID_WIPERFLUIDPUMP, 1, Actuator}
+    {E_ID_LATERALACCELERATIONSENSOR, sizeof(unsigned short), Sensor},
+    {E_ID_YAWRATE, sizeof(unsigned short), Sensor},
+    {E_ID_WIPERMODECONTROL, sizeof(unsigned short), Sensor},
+    {E_ID_WIPERFLUIDPUMP, sizeof(unsigned char), Actuator},
+    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
+    {E_ID_AUDIOAMPLIFIER, sizeof(unsigned char), Actuator}
 };
 
 /*
@@ -76,15 +77,15 @@ void ImplVUE32_6(void)
 
         //Wiper
         //TODO Implement a general event handler
-        gResourceMemory[E_ID_WIPERMODECONTROL] = read_wiper_input();
-        if(wiper_control_previous_state_vue32_6 != gResourceMemory[E_ID_WIPERMODECONTROL])
+        wiper_control_state = read_wiper_input();
+        if(wiper_control_state != gResourceMemory[E_ID_WIPERMODECONTROL] && wiper_control_state == wiper_control_previous_state)
         {
-            wiper_control_previous_state_vue32_6 = gResourceMemory[E_ID_WIPERMODECONTROL];
-
-            EmitAnEvent(E_ID_WIPERMODECONTROL, VUE32_4, 1, gResourceMemory[E_ID_SET_WIPER_STATE]);
-
+            gResourceMemory[E_ID_WIPERMODECONTROL] = wiper_control_state;
+            //Send the command
+            EmitAnEvent(E_ID_WIPERBLADES, VUE32_4, 1, gResourceMemory[E_ID_WIPERMODECONTROL]);
             wiper_action((unsigned char)gResourceMemory[E_ID_WIPERMODECONTROL]);
         }
+        wiper_control_previous_state = wiper_control_state;
 
         if(light_previous_state_vue32_6 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
@@ -115,14 +116,15 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
+        ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
+        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
-            power_out(3, (unsigned int)msg->msg_data);
-        END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
+        ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
+        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE

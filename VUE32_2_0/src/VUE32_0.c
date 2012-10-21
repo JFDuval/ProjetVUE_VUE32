@@ -78,13 +78,6 @@ void OnMsgVUE32_0(NETV_MESSAGE *msg)
     // On every message received, toggle the LED2
     LED2 = ~LED2;
 
-    // Deal with SETVALUE requests
-    ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
-        ACTION3(E_ID_LOWBEAM, unsigned char, ucTest, unsigned char, ucTest, unsigned short, usTest)
-            unTest = ((unsigned int)ucTest << 16) + usTest;
-            ANSWER3(E_ID_LOWBEAM, unsigned int, unTest, unsigned short, usTest, unsigned char, ucTest)
-        END_OF_ACTION
-    END_OF_MSG_TYPE
 }
 
 //TODO Put emergency instructions here

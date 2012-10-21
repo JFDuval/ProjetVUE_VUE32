@@ -18,6 +18,8 @@ extern volatile unsigned int uiTimeStamp;
 #define LIFE_TIME_LONG_POLLING 90000
 #define LONG_POLLING_MINIMUM_DELAY 5
 #define BMS_HW_INDEX 8
+#define LONG_POLLING_WITH_LIFE_TIME 0x01
+#define LONG_POLLING_WITHOUT_LIFE_TIME 0x00
 
 #define ON_MSG_TYPE(type) if (msg->msg_type == type){ unsigned char _temp;
 #define ON_MSG_TYPE_RTR(type) if (msg->msg_remote == 1 && msg->msg_type == type){ unsigned char _temp;
@@ -107,7 +109,10 @@ typedef struct {
     unsigned int unDelay;
     unsigned char ucResourceId;
     unsigned int unEndPolling;
-   unsigned char ucDestinataire;
+    unsigned char ucDestinataire;
+    unsigned char hasLifeTime;
+    unsigned char ucSizeData;
+    unsigned char ucMsgType;
 } LP_PARAMS;
 
 typedef struct {
@@ -122,6 +127,8 @@ void RunLongPolling();
 
 void ActionStartEmettings(NETV_MESSAGE *msg);
 
+//Set the value at distance on the other VUE32. Then, drivers function can use it as the sensor is local
+void CopyValueOn(unsigned char ucDest, unsigned char ucResourceId, unsigned int unDelay);
 
 void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData);
 

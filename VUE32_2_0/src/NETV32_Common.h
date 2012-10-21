@@ -85,11 +85,11 @@ enum CANResourceId {
             E_ID_GROUNDFAULT_STATE = 0x08,
             E_ID_FRONTLIGHTCONTROL = 0x09,
             E_ID_BRAKEPEDAL = 0x0a,
-            //E_ID_BRAKEPEDALSWITCH = 0x0b,
-            E_ID_ACCELERATOR = 0x0c,
-            //E_ID_ACCELERATORPOT2 = 0x0d,
-            E_ID_STEERINGANGLESENSOR = 0x0e,
-            E_ID_TRANSMISSIONCONTROL = 0x0f,
+            E_ID_ACCELERATOR = 0x0b,
+            E_ID_STEERINGANGLESENSOR = 0x0c,
+            E_ID_DPR_FORWARD = 0x0d,
+            E_ID_DPR_REVERSE = 0x0e,
+            E_ID_STATE_SWICHT_TRUNK = 0x0f,
             E_ID_IGNITIONKEY = 0x10,
             E_ID_LATERALACCELERATIONSENSOR = 0x11,
             E_ID_YAWRATE = 0x12,
@@ -101,7 +101,8 @@ enum CANResourceId {
             E_ID_BMS_OPEN_CONTACT = 0x18,
             E_ID_LEFT_DOOR_STATE = 0x19,
             E_ID_RIGHT_DOOR_STATE = 0x1a,
-
+            E_ID_MOTOR_TEMP1 = 0x1b,
+            E_ID_MOTOR_TEMP2 = 0x1c,
 
 
             // Access in Read/Write mode  (actuator)
@@ -109,30 +110,15 @@ enum CANResourceId {
             E_ID_DRIVE_R = 0x21,
             E_ID_COOLINGPUMP = 0x22,
             E_ID_WIPERFLUIDPUMP = 0x23,
-            E_ID_LOWBEAM = 0x24,
-            E_ID_HIGHBEAM = 0x25,
-            E_ID_RIGHTFLASHER = 0x26,
-            E_ID_LEFTFLASHER = 0x27,
             E_ID_WIPERBLADES = 0x28,
-            E_ID_BRAKELIGHT_BR = 0x29,
-            E_ID_BRAKELIGHT_BL = 0x2a,
-            E_ID_NIGHTLIGHT_BR = 0x2b,
-            E_ID_NIGHTLIGHT_BL = 0x2c,
-            E_ID_REVERSELIGHT_BR = 0x2d,
-            E_ID_REVERSELIGHT_BL = 0x2e,
-
-            // BMS - To verify with Max
-            //E_ID_BMS_STATUS = 0x2f,
-            E_ID_BMS_TENSIONS = 0x30,
-            E_ID_BMS_TEMPERATURES = 0x31,
-            E_ID_BMS_STATE_ERROR = 0x32,
-            E_ID_BMS_STATE_BALANCING = 0x33,
-
-            // Ampli audio
-            E_ID_AUDIOAMPLIFIER = 0x34,
-            E_ID_SET_LIGTH_STATE = 0x35,
-            E_ID_SET_WIPER_STATE = 0x36,
-            E_ID_SET_BRAKE_LIGTH_STATE = 0x37
+            E_ID_BMS_TENSIONS = 0x29,
+            E_ID_BMS_TEMPERATURES = 0x30,
+            E_ID_BMS_STATE_ERROR = 0x31,
+            E_ID_BMS_STATE_BALANCING = 0x32,
+            E_ID_AUDIOAMPLIFIER = 0x33,
+            E_ID_SET_LIGTH_STATE = 0x34,
+            E_ID_SET_BRAKE_LIGTH_STATE = 0x35,
+            E_ID_TRUNK_SIGNAL = 0x36
 
 } CANResourceId;
 
