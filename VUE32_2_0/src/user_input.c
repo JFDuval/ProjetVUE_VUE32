@@ -9,6 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 volatile unsigned char set_flashers = 0;
+extern volatile unsigned short wiper_delay = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -98,7 +99,7 @@ unsigned int wiper_action(unsigned char wiper_input)
                 else
                     state = 2;
                 break;
-            case 1:     //Active - moving
+            case 1:     //Moving non-stop
                 power_out(WIPER_PWR_ARMS,1);    //Move arms
                 if((action == WP_RLX1) || (action == WP_ACT1))
                     state = 1;

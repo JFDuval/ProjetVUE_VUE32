@@ -42,7 +42,6 @@ HDW_MAPPING gVUE32_5_Ress[] =
     {E_ID_BRAKEPEDAL, 2, 0x00},
     {E_ID_ACCELERATOR, 2, 0x00},
     {E_ID_STEERINGANGLESENSOR, 4, 0x00},
-    {E_ID_TRANSMISSIONCONTROL, 2, 0x00},
     {E_ID_IGNITIONKEY, 2, 0x00},
 };
 
@@ -84,11 +83,11 @@ void ImplVUE32_5(void)
 
         brake_state = read_brake(0);
 
-        if( gResourceMemory[E_ID_BRAKEPEDALSWITCH] !=brake_state && brake_state == previous_brake_state)
+        if( gResourceMemory[E_ID_BRAKEPEDAL] !=brake_state && brake_state == previous_brake_state)
         {
-            gResourceMemory[E_ID_BRAKEPEDALSWITCH] = (unsigned int)brake_state;
-            EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_2, 1, gResourceMemory[E_ID_BRAKEPEDALSWITCH]);
-            EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_7, 1, gResourceMemory[E_ID_BRAKEPEDALSWITCH]);
+            gResourceMemory[E_ID_BRAKEPEDAL] = (unsigned int)brake_state;
+            EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_2, 1, gResourceMemory[E_ID_BRAKEPEDAL]);
+            EmitAnEvent(E_ID_SET_BRAKE_LIGTH_STATE, VUE32_7, 1, gResourceMemory[E_ID_BRAKEPEDAL]);
         }
         previous_brake_state = brake_state;
     }
@@ -103,7 +102,6 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_BRAKEPEDAL, unsigned short, 5)
                 ANSWER1(E_ID_ACCELERATOR, unsigned short, 5)
                 ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, 5)
-                ANSWER1(E_ID_TRANSMISSIONCONTROL, unsigned short, 5)
                 ANSWER1(E_ID_IGNITIONKEY, unsigned short, 5)
                 LED2 = ~LED2;
     END_OF_MSG_TYPE

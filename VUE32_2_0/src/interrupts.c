@@ -4,7 +4,7 @@
 #include "def.h"
 
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
-volatile unsigned int flag_flash = 0;
+volatile unsigned int flag_flash = 0, flag_x100ms = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
 
 //power_out.c
@@ -17,6 +17,9 @@ extern volatile unsigned char pulses_spd1, pulses_spd2;
 
 // Global timestamp, should only be accessed with a function call (TODO)
 volatile unsigned int uiTimeStamp = 0;
+
+//user_input.c
+extern volatile unsigned short wiper_delay;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -35,6 +38,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     static unsigned int tmb_b_cnt = 4;
     static unsigned int tmb_moving = 0;
     static unsigned int last_pulses_spd1 = 0, last_pulses_spd2 = 0;
+    static unsigned int tmb_x100ms = 0;
 
     //1ms - 1000Hz (timestamp)
     time_cnt++;
@@ -62,6 +66,15 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         LED1 ^= 1;  //Toggle LED 4Hz
     }
 
+    //100ms - 10Hz (wipers)
+    tmb_x100ms++;
+    if(tmb_x100ms > wiper_delay)
+    {
+        tmb_x100ms = 0;
+
+        flag_x100ms = 1;
+    }
+
     //Flashers
     flash_cnt++;
     if(flash_cnt > 4000)
@@ -69,6 +82,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         flash_cnt = 0;
         flag_flash = 1;
     }
+
     //20ms - Is the wheel moving?
     tmb_moving++;
     if(tmb_moving > 200)
@@ -86,16 +100,12 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
 	last_pulses_spd1 = pulses_spd1;
 	last_pulses_spd2 = pulses_spd2;
 
-
-
         tmb_moving = 0;
     }
 
     //Wheel sensors (needed for the edge detection):
     last_spdo1 = SPDO1;
     last_spdo2 = SPDO2;
-
-
 
     //Clear flag and return
     IFS0bits.T1IF = 0;
