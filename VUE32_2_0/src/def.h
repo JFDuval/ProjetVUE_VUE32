@@ -154,6 +154,10 @@ void board_specific_config(void);
 #define TRIS_DIO_DPR_SW1        TRISEbits.TRISE1
 #define DIO_DPR_SW2             PORTEbits.RE2
 #define TRIS_DIO_DPR_SW2        TRISEbits.TRISE2
+#define DIO_DISP_CLK            PORTEbits.RE1
+#define TRIS_DIO_DISP_CLK       TRISEbits.TRISE1
+#define DIO_DISP_DATA           PORTEbits.RE3
+#define TRIS_DIO_DISP_DATA      TRISEbits.TRISE3
 
 //Speed sensor
 #define SPDO1			PORTCbits.RC13		//CN1

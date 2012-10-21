@@ -15,7 +15,6 @@
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
 #include "Board.h"
-
 #include "def.h"
 
 //Interface between hardware and communication
@@ -40,8 +39,7 @@ HDW_MAPPING gVUE32_5_Ress[] =
     {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},
     {E_ID_ACCELERATOR, sizeof(unsigned short), Sensor},
     {E_ID_STEERINGANGLESENSOR, sizeof(unsigned int), Sensor},
-    {E_ID_DPR_FORWARD, sizeof(unsigned char), Sensor},
-    {E_ID_DPR_REVERSE, sizeof(unsigned char), Sensor},
+    {E_ID_DPR, sizeof(unsigned char), Sensor},
     {E_ID_STATE_SWICHT_TRUNK, sizeof(unsigned char), Sensor},
     {E_ID_TRUNK_SIGNAL, sizeof(unsigned char), Actuator},
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},        //Roof ligth
@@ -101,8 +99,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_BRAKEPEDAL, unsigned short, 5)
                 ANSWER1(E_ID_ACCELERATOR, unsigned short, 5)
                 ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, 5)
-                ANSWER1(E_ID_DPR_FORWARD, unsigned char, 5)
-                ANSWER1(E_ID_DPR_REVERSE, unsigned char, 5)
+                ANSWER1(E_ID_DPR, unsigned char, 5)
                 LED2 = ~LED2;
     END_OF_MSG_TYPE
 
