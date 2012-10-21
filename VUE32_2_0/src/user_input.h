@@ -33,8 +33,8 @@
 #define WP_SLOW         2
 #define WP_FAST         3
 #define WP_SUPER_FAST   4
-#define WP_PUMP_MIN     1
-#define WP_PUMP_MAX     4
+#define WP_PUMP_MIN     0
+#define WP_PUMP_MAX     1
 
 //Assigned power output:
 #define WIPER_PWR_ARMS      2

@@ -86,24 +86,35 @@ unsigned int wiper_action(unsigned char wiper_input)
 
     unsigned char speed = (wiper_input & 0x0F);
     unsigned char action = (wiper_input & 0xF0);
+    static unsigned char state = 0;
 
     if(GetBoardID() == VUE32_4) //Wiper arm
     {
-        if((action == WP_RLX1) || (action == WP_ACT1))
+        switch(state)
         {
-            if(speed == WP_E0)
-                power_out(WIPER_PWR_ARMS, WP_SUPER_SLOW);
-            else if(speed == WP_E1)
-                power_out(WIPER_PWR_ARMS, WP_SLOW);
-            else if(speed == WP_E2)
-                power_out(WIPER_PWR_ARMS, WP_FAST);
-            else if(speed == WP_E3)
-                power_out(WIPER_PWR_ARMS, WP_SUPER_FAST);
-            else
-                power_out(WIPER_PWR_ARMS, 0);
+            case 0:     //Initial - stopped
+                if((action == WP_RLX1) || (action == WP_ACT1))
+                    state = 1;
+                else
+                    state = 2;
+                break;
+            case 1:     //Active - moving
+                power_out(WIPER_PWR_ARMS,1);    //Move arms
+                if((action == WP_RLX1) || (action == WP_ACT1))
+                    state = 1;
+                else
+                    state = 2;
+                break;
+            case 2:     //Go to rest position...
+                if(!DIO_WIPER_SW)
+                {
+                    power_out(WIPER_PWR_ARMS,0);    //Stop arms
+                    state = 0;
+                }
+                else
+                    state = 2;  //Not there yet
+                break;
         }
-        else
-            power_out(WIPER_PWR_ARMS, 0);
     }
 
     if(GetBoardID() == VUE32_6) //Wiper fluid pump

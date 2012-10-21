@@ -75,14 +75,13 @@ void ImplVUE32_4(void)
             light_action((unsigned char)gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
         }
         light_previous_state_vue32_4 = light_state_vue32_4;
+    }
 
-        //Wiper
-        if(wiper_control_previous_state_vue32_4  != gResourceMemory[E_ID_WIPERBLADES])
-        {
-            wiper_control_previous_state_vue32_4  = gResourceMemory[E_ID_WIPERBLADES];
-            wiper_action((unsigned char)gResourceMemory[E_ID_WIPERBLADES]);
-        }
-
+    if(flag_1ms_a)
+    {
+        flag_1ms_a = 0;
+        //Wiper state machine:
+        wiper_action((unsigned char)gResourceMemory[E_ID_WIPERBLADES]);
     }
 
     //Flashers
