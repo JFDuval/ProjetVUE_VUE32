@@ -10,10 +10,27 @@
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
 #include "Board.h"
+
+#include "Board.h"
 #include "def.h"
 
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
+//Interrupt.h
+extern volatile unsigned int flag_8ms;
+
+//Debouncing variables
+unsigned char previous_door_right_state = 0 , door_right_state = 0;
+unsigned char previous_door_left_state = 0 , door_left_state = 0;
+
 //Hardware resources manage localy by this VUE32
-HDW_MAPPING *gVUE32_1_Ress = NULL;
+HDW_MAPPING gVUE32_1_Ress[] =
+{
+    {E_ID_LEFT_DOOR_STATE, sizeof(unsigned char), Sensor},
+    {E_ID_RIGHT_DOOR_STATE, sizeof(unsigned char), Sensor}
+};
 
 //memory_map.h
 extern unsigned int gResourceMemory[256];
@@ -25,6 +42,10 @@ void InitVUE32_1(void)
 {
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
+
+    //Door sensors:
+    TRIS_DOOR_RIGHT = 1;
+    TRIS_DOOR_LEFT = 1;
 }
 
 /*
@@ -32,7 +53,27 @@ void InitVUE32_1(void)
  */
 void ImplVUE32_1(void)
 {
+    if(flag_8ms)
+    {
+        door_right_state = read_door(DOOR_RIGHT) == OPENED ? RIGHT_DOOR_OPENED : CLOSED;
+        door_left_state =  read_door(DOOR_LEFT) == OPENED ? LEFT_DOOR_OPENED : CLOSED;
+    }
 
+    //Deboucing RIGHT DOOR
+    if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
+    {
+        gResourceMemory[E_ID_RIGHT_DOOR_STATE] = door_right_state;
+        EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_RIGHT, VUE32_5, 1, gResourceMemory[E_ID_RIGHT_DOOR_STATE]);
+    }
+    previous_door_right_state = door_right_state;
+
+    //Deboucing LEFT DOOR
+    if(gResourceMemory[E_ID_LEFT_DOOR_STATE] != door_left_state && door_left_state == previous_door_left_state)
+    {
+        gResourceMemory[E_ID_LEFT_DOOR_STATE] = door_left_state;
+        EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_LEFT, VUE32_5, 1, gResourceMemory[E_ID_LEFT_DOOR_STATE]);
+    }
+    previous_door_left_state = door_left_state;
 }
 
 /*
@@ -40,28 +81,11 @@ void ImplVUE32_1(void)
  */
 void OnMsgVUE32_1(NETV_MESSAGE *msg)
 {
-    LED2 = ~LED2;
-
-    // Deal with GETVALUE requests ***** TEST *******
-    if ( msg->msg_remote == 1 && msg->msg_type == VUE32_TYPE_GETVALUE )
-    {
-        if ( msg->msg_cmd == E_ID_BATTERYCURRENT ) // E_ID_BATTERYCURRENT
-        {
-            msg->msg_remote = 0;
-            msg->msg_dest = msg->msg_source;
-            msg->msg_source = GetMyAddr();
-            msg->msg_data_length = 2;
-            ((unsigned short*)msg->msg_data)[0] = 0xBEEF;
-            netv_send_message(msg);
-        }
-    }
-
-    /*if ( g_unVUE3FinDelais <= gTimeStamp)
-    {
-        g_unVUE3FinDelais = gTimeStamp + duree;
-
-        // Faire ce qu'il y a à faire
-    }*/
+        ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
+                ANSWER1(E_ID_LEFT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_LEFT_DOOR_STATE])
+                ANSWER1(E_ID_RIGHT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_RIGHT_DOOR_STATE])
+                LED2 = ~LED2;
+        END_OF_MSG_TYPE
 }
 //TODO Put emergency instructions here
 void OnEmergencyMsgVUE32_1(void)

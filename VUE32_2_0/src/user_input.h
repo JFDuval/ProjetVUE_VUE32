@@ -3,6 +3,11 @@
 
 //Note: Pin names given according to the wiring convention written on the levers.
 
+//Door State MASK
+#define RIGHT_DOOR_OPENED 0b00000100
+#define LEFT_DOOR_OPENED  0b00000010
+#define TRUNK_DOOR_OPENED 0b00000001
+
 //Wiper control:
 #define WP_OUT_W        LATEbits.LATE7          //Output - W - Red/Green
 #define WP_OUT_I        LATEbits.LATE6          //Output - I - Brown/Grey
@@ -111,6 +116,8 @@ unsigned char read_light_input(void);
 void light_flashers(unsigned char light_input, unsigned char flash_state);
 void init_dpr_key(void);
 unsigned char read_dpr_key(void);
-unsigned char read_door(unsigned char pin_state);
+unsigned char read_door_trunk(unsigned char pin_state);
+unsigned char read_door_state_left();
+unsigned char read_door_state_right();
 
 #endif

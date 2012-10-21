@@ -80,10 +80,6 @@ void InitVUE32_2(void)
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
     */
-
-    //Door sensors:
-    TRIS_DOOR_RIGHT = 1;
-    TRIS_DOOR_LEFT = 1;
 }
 
 /*
