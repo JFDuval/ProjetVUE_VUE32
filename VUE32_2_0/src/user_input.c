@@ -351,9 +351,9 @@ unsigned char read_dpr_key(void)
 unsigned char read_door(unsigned char pin_state)
 {
     if(pin_state)
-        return OPENED;
-    else
         return CLOSED;
+    else
+        return OPENED;
 
     return;
 }

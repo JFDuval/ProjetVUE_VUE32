@@ -63,7 +63,7 @@ void ImplVUE32_1(void)
     {
         door_right_state = read_door(DOOR_RIGHT) == OPENED ? RIGHT_DOOR_OPENED : CLOSED;
         door_left_state =  read_door(DOOR_LEFT) == OPENED ? LEFT_DOOR_OPENED : CLOSED;
-    }
+    
         
         //Deboucing RIGHT DOOR
         if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
