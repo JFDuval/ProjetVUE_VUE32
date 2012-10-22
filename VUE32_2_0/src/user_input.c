@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////
 
 volatile unsigned char set_flashers = 0;
-extern volatile unsigned short wiper_delay = 0;
+volatile unsigned short wiper_delay = 0;
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
@@ -91,14 +91,14 @@ unsigned int wiper_action(unsigned char wiper_input)
 
     if(GetBoardID() == VUE32_4) //Wiper arm
     {
-        /*
         switch(state)
         {
             case 0:     //Initial - stopped
+                power_out(WIPER_PWR_ARMS,0);    //Stop arms
                 if((action == WP_RLX1) || (action == WP_ACT1))
                     state = 1;
                 else
-                    state = 2;
+                    state = 0;
                 break;
             case 1:     //Moving non-stop
                 power_out(WIPER_PWR_ARMS,1);    //Move arms
@@ -109,19 +109,18 @@ unsigned int wiper_action(unsigned char wiper_input)
                 break;
             case 2:     //Go to rest position...
                 if(!DIO_WIPER_SW)
-                {
-                    power_out(WIPER_PWR_ARMS,0);    //Stop arms
                     state = 0;
-                }
                 else
                     state = 2;  //Not there yet
                 break;
         }
-         */
+
+        /*
         if((action == WP_RLX1) || (action == WP_ACT1))
             power_out(WIPER_PWR_ARMS,1);
         else
             power_out(WIPER_PWR_ARMS,0);
+        */
             
     }
 
