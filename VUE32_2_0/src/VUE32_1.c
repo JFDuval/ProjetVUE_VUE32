@@ -59,25 +59,25 @@ void ImplVUE32_1(void)
 {
     if(flag_8ms)
     {
-        door_right_state = read_door(DOOR_RIGHT) == OPENED ? RIGHT_DOOR_OPENED : CLOSED;
-        door_left_state =  read_door(DOOR_LEFT) == OPENED ? LEFT_DOOR_OPENED : CLOSED;
-    }
+        door_right_state = read_door(DOOR_RIGHT);
+        door_left_state =  read_door(DOOR_LEFT);
+        
+        //Deboucing RIGHT DOOR
+        if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
+        {
+            gResourceMemory[E_ID_RIGHT_DOOR_STATE] = door_right_state;
+            EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_RIGHT, VUE32_5, 1, gResourceMemory[E_ID_RIGHT_DOOR_STATE]);
+        }
+        previous_door_right_state = door_right_state;
 
-    //Deboucing RIGHT DOOR
-    if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
-    {
-        gResourceMemory[E_ID_RIGHT_DOOR_STATE] = door_right_state;
-        EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_RIGHT, VUE32_5, 1, gResourceMemory[E_ID_RIGHT_DOOR_STATE]);
+        //Deboucing LEFT DOOR
+        if(gResourceMemory[E_ID_LEFT_DOOR_STATE] != door_left_state && door_left_state == previous_door_left_state)
+        {
+            gResourceMemory[E_ID_LEFT_DOOR_STATE] = door_left_state;
+            EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_LEFT, VUE32_5, 1, gResourceMemory[E_ID_LEFT_DOOR_STATE]);
+        }
+        previous_door_left_state = door_left_state;
     }
-    previous_door_right_state = door_right_state;
-
-    //Deboucing LEFT DOOR
-    if(gResourceMemory[E_ID_LEFT_DOOR_STATE] != door_left_state && door_left_state == previous_door_left_state)
-    {
-        gResourceMemory[E_ID_LEFT_DOOR_STATE] = door_left_state;
-        EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_LEFT, VUE32_5, 1, gResourceMemory[E_ID_LEFT_DOOR_STATE]);
-    }
-    previous_door_left_state = door_left_state;
 }
 
 /*

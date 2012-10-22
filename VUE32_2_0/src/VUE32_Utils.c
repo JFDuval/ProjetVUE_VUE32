@@ -8,6 +8,10 @@
 #include "BMS_Impl.h"
 #endif
 
+//Interface between hardware and communication
+//memory_map.h
+extern unsigned int gResourceMemory[256];
+
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
 unsigned int g_unLpSize = 0;
 
@@ -228,7 +232,7 @@ void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char
     
 }
 
-void GetDistantValue(NETV_MESSAGE *msg)
+void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
 {
     if(msg->msg_cmd < 256 && msg->msg_data_length <= sizeof(unsigned int))
     {
