@@ -14,6 +14,8 @@
 #include "Board.h"
 #include "def.h"
 
+void refresh_display(void);
+
 //Interface between hardware and communication
 //memory_map.h
 extern unsigned int gResourceMemory[256];
@@ -59,8 +61,9 @@ void ImplVUE32_1(void)
 {
     if(flag_8ms)
     {
-        door_right_state = read_door(DOOR_RIGHT);
-        door_left_state =  read_door(DOOR_LEFT);
+        door_right_state = read_door(DOOR_RIGHT) == OPENED ? RIGHT_DOOR_OPENED : CLOSED;
+        door_left_state =  read_door(DOOR_LEFT) == OPENED ? LEFT_DOOR_OPENED : CLOSED;
+    }
         
         //Deboucing RIGHT DOOR
         if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
@@ -78,6 +81,10 @@ void ImplVUE32_1(void)
         }
         previous_door_left_state = door_left_state;
     }
+
+    EVERY_X_MS(10)
+        refresh_display();
+    END_OF_EVERY
 }
 
 /*
@@ -160,9 +167,10 @@ void refresh_display(void)
     unsigned short tmp1 = 0;
 
     //Test mode:
-    word1 = 0b1011100100101010; //100kph, Left, High, Drive
+    unsigned short speed = (uiTimeStamp >> 5) % 120;
+    word1 = 0b0110000000101010 | (speed << 6); //100kph, Left, High, Drive
     word2 = 0b1001100101001011; //50%, 25C
-    word3 = 0b0000010100111001; //1337km
+    word3 = 0b1100010100111001; //1337km
 
     //Real one:
 /*
