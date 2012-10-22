@@ -41,7 +41,7 @@ unsigned char read_wiper_input(void)
 
     //ACT1 or ACT2?
     WP_OUT_W = 1;
-    ShortDelay(5*US_TO_CT_TICKS);
+    ShortDelay(6*US_TO_CT_TICKS);
     if(WP_IN_31)
         wp_status_1 = WP_ACT1;
     else if(WP_IN_15)
@@ -91,6 +91,7 @@ unsigned int wiper_action(unsigned char wiper_input)
 
     if(GetBoardID() == VUE32_4) //Wiper arm
     {
+        /*
         switch(state)
         {
             case 0:     //Initial - stopped
@@ -116,6 +117,12 @@ unsigned int wiper_action(unsigned char wiper_input)
                     state = 2;  //Not there yet
                 break;
         }
+         */
+        if((action == WP_RLX1) || (action == WP_ACT1))
+            power_out(WIPER_PWR_ARMS,1);
+        else
+            power_out(WIPER_PWR_ARMS,0);
+            
     }
 
     if(GetBoardID() == VUE32_6) //Wiper fluid pump

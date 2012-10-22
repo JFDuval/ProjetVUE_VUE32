@@ -75,13 +75,16 @@ void ImplVUE32_7(void)
         //Actuator
         //Right Light Control
         //Mask with the brake ligth state
-        gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x7F;
-        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]  & 0x80);
+        gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x3F;
+        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] >> 8 & 0x80);
+        if(gResourceMemory[E_ID_DPR] == REVERSE)
+            gResourceMemory[E_ID_SET_LIGTH_STATE] |= LT_REVERSE;
         if(light_previous_state_vue32_7 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
             light_previous_state_vue32_7 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
             light_action(light_previous_state_vue32_7);
         }
+
     }
 
     //Flashers
@@ -121,13 +124,11 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
-    NETV_MESSAGE dummy;
-    memcpy(&dummy, msg, sizeof(NETV_MESSAGE));
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
-
 }
 
 //TODO Put emergency instructions here

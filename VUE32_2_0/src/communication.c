@@ -20,7 +20,7 @@ unsigned char netv_send_message (NETV_MESSAGE *message)
         success &= can_netv_send_message(message, CAN1);
 
     // CAN2
-#ifdef _CAN2
+#ifdef _CAN21
     if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
         success &= can_netv_send_message(message, CAN2);
 #endif
@@ -130,6 +130,10 @@ void OnMsgVUE32(NETV_MESSAGE *msg)
     ON_MSG_TYPE( VUE32_TYPE_STOPEMETTING)
         DesactivateLongPolling(msg->msg_cmd);
     END_OF_MSG_TYPE
+
+    /*ON_MSG_TYPE (NETV_TYPE_EVENT)
+        GetDistantValue(msg);
+    END_OF_MSG_TYPE*/
 
 #ifndef __32MX575F512H__
     // Call the ID specific message parser

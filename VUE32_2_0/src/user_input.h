@@ -14,8 +14,8 @@
 #define WP_OUT_54       LATEbits.LATE5          //Output - 54 - Green/Blue & Green/Yellow
 #define WP_OUT_53b      LATEbits.LATE4          //Output - 53b - Yellow
 #define WP_OUT_53c      LATEbits.LATE3          //Output - 53c - Brown/Blue & Green/Blue
-#define WP_IN_15        PORTEbits.RE1           //Input - 15 - Pink/Red
-#define WP_IN_31        PORTEbits.RE2           //Input - 31 - Brown
+#define WP_IN_15        PORTEbits.RE2           //Input - 15 - Pink/Red
+#define WP_IN_31        PORTEbits.RE1           //Input - 31 - Brown
 #define WP_IN_31b       PORTEbits.RE0           //Input - 31b - Blue/Black
 
 //Wiper states:
@@ -33,8 +33,8 @@
 #define WP_SLOW         2
 #define WP_FAST         3
 #define WP_SUPER_FAST   4
-#define WP_PUMP_MIN     0
-#define WP_PUMP_MAX     1
+#define WP_PUMP_MIN     1
+#define WP_PUMP_MAX     4
 
 //Assigned power output:
 #define WIPER_PWR_ARMS      2

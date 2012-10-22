@@ -49,7 +49,7 @@ void ActiveLongPolling(LP_PARAMS *sParams)
         sParams->unEndPolling = uiTimeStamp+LIFE_TIME_LONG_POLLING;
     else
         //It will never ended
-        sParams->unEndPolling = 4294967295;
+        sParams->unEndPolling = ~0;
 
     g_sLpParams[g_unLpSize++] = *sParams;
 }
@@ -221,9 +221,18 @@ void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char
     msg.msg_data_length = ucSize;
     msg.msg_dest = ucDest;
     msg.msg_priority = NETV_PRIORITY_EVENTS;
-    msg.msg_remote = 1;
+    msg.msg_remote = 0;
     msg.msg_source = GetMyAddr();
     msg.msg_type = NETV_TYPE_EVENT;
     netv_send_message(&msg);
     
+}
+
+void GetDistantValue(NETV_MESSAGE *msg)
+{
+    if(msg->msg_cmd < 256 && msg->msg_data_length <= sizeof(unsigned int))
+    {
+        memcpy((void *)gResourceMemory[msg->msg_cmd], msg->msg_data, msg->msg_data_length);
+    }
+    Nop();
 }

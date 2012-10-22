@@ -131,6 +131,7 @@ void ActionStartEmettings(NETV_MESSAGE *msg);
 void CopyValueOn(unsigned char ucDest, unsigned char ucResourceId, unsigned int unDelay);
 
 void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData);
+void GetDistantValue(NETV_MESSAGE *msg);
 
 
 #endif	/* VUE32_UTILS_H */

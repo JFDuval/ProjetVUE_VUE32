@@ -70,7 +70,7 @@ unsigned int m_prev_gndfaultstate = 0;
  */
 void InitVUE32_2(void)
 {
-	light_previous_state_vue32_2 =0;
+    light_previous_state_vue32_2 =0;
     // Set the ground fault pins as input
     /*GNDFAULT_FREQ_TRIS = 1;
     GNDFAULT_STATE_TRIS = 1;
@@ -124,8 +124,10 @@ void ImplVUE32_2(void)
         //Right Light Control
         //Mask with the brake ligth state
 
-        gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x7F;
-        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] & 0x80);
+        gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x3F;
+        gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] >> 8 & 0x80);
+        if(gResourceMemory[E_ID_DPR] == REVERSE)
+            gResourceMemory[E_ID_SET_LIGTH_STATE] |= LT_REVERSE;
         if(light_previous_state_vue32_2 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
             light_previous_state_vue32_2 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
@@ -169,12 +171,14 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
     // Deal with SETVALUE requests TODO merge light resource Id in group
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
 
