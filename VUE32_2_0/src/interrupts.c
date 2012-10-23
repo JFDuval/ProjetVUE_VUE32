@@ -3,6 +3,10 @@
 #include <sys/kmem.h>
 #include "def.h"
 
+#ifdef __32MX575F512H__
+#include "../BMS_2_0.X/Board.h"
+#endif
+
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
 volatile unsigned int flag_flash = 0, flag_x100ms = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
@@ -176,14 +180,15 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     time_cnt2++;
     if ( time_cnt2 > 50)
     {
-        time_cnt2 = 0;        
+        time_cnt2 = 0;
         NETV_MESSAGE oMsgRecep;
         if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
         {
+            LED2 ^= 1;
             OnMsgBMS(&oMsgRecep);
         }
             
-        //RunLongPolling();
+        RunLongPolling();
     }
 
     //Clear flag and return

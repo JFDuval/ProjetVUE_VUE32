@@ -56,7 +56,9 @@ BYTE CAN2MessageFifoArea[CAN_NB_CHANNELS * CAN_FIFO_SIZE * 16];
 
 
 static int overflow_CAN1 = 0;
+#ifdef _CAN2
 static int overflow_CAN2 = 0;
+#endif
 
 void __attribute__((vector(46), interrupt(ipl4), nomips16)) CAN1InterruptHandler(void) {
     /* This is the CAN1 Interrupt Handler.
@@ -325,6 +327,8 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * the received message will indicate if
      * LED6 should be switched ON or OFF. */
     //CANRxMessageBuffer * message;
+
+    LED2 ^=1;
 
     if (CANx == CAN1 && isCAN1MsgReceived == FALSE) {
         /* CAN1 did not receive any message so

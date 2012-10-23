@@ -5,7 +5,7 @@
 #include "VUE32_Impl.h"
 #
 #ifdef __32MX575F512H__
-#include "BMS_Impl.h"
+#include "../BMS_2_0.X/BMS_Impl.h"
 #endif
 
 //Interface between hardware and communication
@@ -88,7 +88,7 @@ void RunLongPolling(void)
         //Check if it's time to send the sensor's value
         if(g_sLpParams[i].unEndWait <= uiTimeStamp)
         {
-            NETV_MESSAGE msg = {0};
+            NETV_MESSAGE msg = {{0}};
             msg.msg_priority = NETV_PRIORITY_EVENTS;
             msg.msg_type = g_sLpParams[i].ucMsgType;
             msg.msg_cmd = g_sLpParams[i].ucResourceId;

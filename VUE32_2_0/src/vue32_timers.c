@@ -96,7 +96,7 @@ void init_timer5(void)
 
 #else
 
-//BMS SPI communication timer
+//BMS main Timer
 void initTimerBMS(void)
 {
     T1CON = 0x0000;                 // clear registers
@@ -104,7 +104,7 @@ void initTimerBMS(void)
     T1CONbits.TCS = 0;              // 1 = external clock from pin T1CK
     T1CONbits.TCKPS = 1;            // 8 Prescaler
     TMR1 = 0;                       // zero timer
-    PR1 = 1000000;                     // 1000ms
+    PR1 = 1000;                     // 100µs
     IFS0bits.T1IF = 0;              // clear interrupt flag
     IPC1bits.T1IP = 3;              // interrupt priority		//ToDo
     IEC0bits.T1IE = 1;              // enable interrupt
