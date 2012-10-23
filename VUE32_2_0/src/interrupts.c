@@ -21,6 +21,10 @@ volatile unsigned int uiTimeStamp = 0;
 //user_input.c
 extern volatile unsigned short wiper_delay;
 
+//VUE32_ID GetBoardID(void);
+void OnMsgBMS(NETV_MESSAGE *msg);
+void RunLongPolling(void);
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                                          //
 //                                         Interruptions                                    //
@@ -175,9 +179,11 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         time_cnt2 = 0;        
         NETV_MESSAGE oMsgRecep;
         if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
-            OnMsgBMS(&oMsgRecep); 
-
-        RunLongPolling();
+        {
+            OnMsgBMS(&oMsgRecep);
+        }
+            
+        //RunLongPolling();
     }
 
     //Clear flag and return

@@ -51,6 +51,7 @@ READ EEPROM
  *******************************************************************/
 unsigned int netv_read_eeprom(unsigned int index) {
     //return ReadMem(index << 1);
+    return 0;
 }
 
 /*******************************************************************
@@ -137,10 +138,10 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
 
             // TODO: Implement a routing table
             // For now, we'll just broadcast it through our other interfaces
-            NETV_MESSAGE sendMsg;
+            /*NETV_MESSAGE sendMsg;
             memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
             sendMsg.msg_comm_iface = ~g_rMessage.msg_comm_iface; // Swap interfaces (avoid resending the message on the same iface it was received)
-            netv_send_message(&sendMsg);
+            netv_send_message(&sendMsg);*/
         }
 
         // If we are targeted by the message

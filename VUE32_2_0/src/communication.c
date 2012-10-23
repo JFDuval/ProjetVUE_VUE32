@@ -10,6 +10,10 @@
 #include "VUE32_Impl.h"
 #include "memory_map.h"
 
+#ifndef _CAN2
+void OnMsgBMS(NETV_MESSAGE *msg);
+#endif
+
 // Send the message through the selected interfaces
 unsigned char netv_send_message (NETV_MESSAGE *message)
 {
@@ -61,6 +65,8 @@ unsigned char netv_recv_message (NETV_MESSAGE *message)
         return 1;
     }
 #endif
+
+    return 0;
 }
 
 /*

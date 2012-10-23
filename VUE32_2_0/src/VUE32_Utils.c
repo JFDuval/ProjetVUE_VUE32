@@ -13,7 +13,7 @@
 extern unsigned int gResourceMemory[256];
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
-unsigned int g_unLpSize = 0;
+unsigned int g_unLpSize = 3;
 
 //Incremented by interrupt each 1 ms
 volatile unsigned int uiTimeStamp;
@@ -21,7 +21,7 @@ volatile unsigned int uiTimeStamp;
 //Interface between hardware and communication
 //memory_map.h
 extern unsigned int gResourceMemory[256];
-
+unsigned char GetMyAddr();
 
 void ActiveLongPolling(LP_PARAMS *sParams)
 {
@@ -127,6 +127,13 @@ void CopyValueOn(unsigned char ucDest, unsigned char ucResourceId, unsigned int 
         return;
 
     unsigned int unNbResourceId = gHardwareSize[GetBoardID()];
+#else
+    gVUE32_Ress = gHardwareMapBMS[INDEX_BMS];
+
+    if(gVUE32_Ress == 0)
+        return;
+    
+    unsigned int unNbResourceId = gHardwareSizeBMS[INDEX_BMS];
 #endif
 
     BOOL bResourceFound= 0;
@@ -172,13 +179,13 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
 
     if(msg->msg_source > NB_VUE32)
     {
-        gVUE32_Ress = gHardwareMapBMS[1];
+        gVUE32_Ress = gHardwareMapBMS[INDEX_BMS];
     }
 
     if(gVUE32_Ress == 0)
         return;
 
-    unsigned int unNbResourceId = gHardwareSizeBMS[1];
+    unsigned int unNbResourceId = gHardwareSizeBMS[INDEX_BMS];
 
 #endif
 
