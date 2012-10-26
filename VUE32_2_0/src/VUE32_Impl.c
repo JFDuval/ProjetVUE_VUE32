@@ -105,10 +105,10 @@ HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
 
 unsigned int gHardwareSize[NB_VUE32+1] =
 {
-    2,  //VUE32_0
-    0,  //VUE32_1
-    3,  //VUE32_2
-    2,  //VUE32_3
+    0,  //VUE32_0
+    2,  //VUE32_1
+    5,  //VUE32_2
+    4,  //VUE32_3
     4,  //VUE32_4
     8,  //VUE32_5
     6,  //VUE32_6
@@ -147,6 +147,7 @@ unsigned char gRoutingTableSize[NB_VUE32+1] =
     0,  //VUE32_3
     0,  //VUE32_4
     0,  //VUE32_5
-    NB_BMS,  //VUE32_6
+    0,  //VUE32_6
+    NB_BMS,  //VUE32_7
 };
 

@@ -145,11 +145,7 @@ void board_specific_adc_decode(void)
     board_temp = read_temp(adc_mean[ADC_FILTERED_TEMP]);
     board_volt = read_vbat(adc_mean[ADC_FILTERED_VOLT]);
 
-    if(GetBoardID() == VUE32_GENERIC)
-    {
-	Nop();
-    }
-    else if(GetBoardID() == VUE32_1)
+    if(GetBoardID() == VUE32_1)
     {
 	Nop();
     }

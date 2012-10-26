@@ -222,6 +222,6 @@ void netv_read_boot_config(BootConfig *config);
 void netv_write_boot_config(BootConfig *config);
 
 //Routing function
-ROUTING_TABLE netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, unsigned char ucAddresDest);
+unsigned char netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, NETV_MESSAGE *msg);
 
 #endif

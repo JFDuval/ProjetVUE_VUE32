@@ -126,17 +126,14 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
         if ( g_rMessage.msg_dest != netv_addr && GetMyAddr() != 0 )
         {
 
-            #ifdef ROUTING
             //Get the VUE32's routing Table
-            ROUTING_TABLE oRoutingTable = netv_get_path(gRoutingTable[GetBoardID()], gRoutingTableSize[GetBoardID()], g_rMessage.msg_dest);
-            if(g_rMessage.msg_comm_iface != oRoutingTable.ucComm_iface)
+            if(netv_get_path(gRoutingTable[GetBoardID()], gRoutingTableSize[GetBoardID()], &g_rMessage))
             {
-                g_rMessage.msg_comm_iface = oRoutingTable.ucComm_iface;
+                NETV_MESSAGE sendMsg;
+                memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
+                netv_send_message(&sendMsg);
             }
 
-            #endif
-
-            // TODO: Implement a routing table
             // For now, we'll just broadcast it through our other interfaces
             /*NETV_MESSAGE sendMsg;
             memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
@@ -399,21 +396,36 @@ BootConfig* netv_get_boot_config() {
 }
 
 
-ROUTING_TABLE netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, unsigned char ucAddresDest)
+unsigned char netv_get_path(ROUTING_TABLE *pRoutingTable, unsigned char ucRoutingTableSize, NETV_MESSAGE *msg)
 {
-    ROUTING_TABLE oOutput = {0x00,0x00};
-    
-    if(ucRoutingTableSize > 0)
+    unsigned  int i= 0;
+
+    if (msg->msg_comm_iface == NETV_COMM_IFACE_USB)
     {
-        unsigned int i= 0;
+        msg->msg_comm_iface = NETV_COMM_IFACE_CAN1;
+        return 1;
+    }
+
+    if (msg->msg_comm_iface == NETV_COMM_IFACE_CAN2)
+    {
+        msg->msg_comm_iface = NETV_COMM_IFACE_CAN1;
+        return 1;
+    }
+
+    if(msg->msg_comm_iface == NETV_COMM_IFACE_CAN1)
+    {
+        if(ucRoutingTableSize == 0)
+            return 0;
+
         for(i = 0; i<ucRoutingTableSize; i++)
         {
-            if(pRoutingTable[i].ucAddress == ucAddresDest)
+            if(pRoutingTable[i].ucAddress == msg->msg_dest)
             {
-                oOutput = pRoutingTable[i];
+                msg->msg_comm_iface = pRoutingTable[i].ucComm_iface;
+                return 1;
             }
         }
     }
 
-    return oOutput;
+    return 0;
 }

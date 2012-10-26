@@ -138,19 +138,21 @@ void OnMsgVUE32(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
 
-    //TODO Add a write access right
-    /*ON_MSG_TYPE( NETV_TYPE_EVENT )
-        CopyValueFromDistantVUE32(msg);
-    END_OF_MSG_TYPE*/
-
 #ifndef __32MX575F512H__
-    // Call the ID specific message parser
-    gOnMsgFunc[GetBoardID()](msg);
 
     //Call Emergency Instruction Here
     ON_MSG_TYPE( NETV_TYPE_EMERGENCY )
         gOnEmergencyMsgVUE32[GetBoardID()]();
     END_OF_MSG_TYPE
+
+    // Call the ID specific message parser
+    gOnMsgFunc[GetBoardID()](msg);
+
+    //TODO Add a write access right
+    ON_MSG_TYPE( NETV_TYPE_EVENT )
+        CopyValueFromDistantVUE32(msg);
+    END_OF_MSG_TYPE
+
 #else
     // Call the BMS message parser
     OnMsgBMS(msg);

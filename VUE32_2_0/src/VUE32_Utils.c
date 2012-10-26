@@ -241,9 +241,31 @@ void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char
 
 void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
 {
-    if(msg->msg_cmd < 256 && msg->msg_data_length <= sizeof(unsigned int))
+    HDW_MAPPING *gVUE32_Ress;
+    unsigned char i;
+    unsigned int unNbResourceId;
+    BOOL ubResourceFound = 0;
+    //Check if the resource id is located on this board
+    //If it's the case, the msg isn't analyzed from this function
+
+    gVUE32_Ress = gHardwareMap[GetBoardID()];
+    unNbResourceId = gHardwareSize[GetBoardID()];
+    if(gVUE32_Ress == 0 || unNbResourceId == 0)
+        return;
+
+    for(i = 0; i < unNbResourceId; i++)
     {
-        memcpy((void *)gResourceMemory[msg->msg_cmd], msg->msg_data, msg->msg_data_length);
+        if(gVUE32_Ress[i].ucResourceId == msg->msg_cmd)
+            ubResourceFound = 1;
     }
-    Nop();
+
+    //Return if the resource id is found on the local resource list
+    if(ubResourceFound == 1)
+        return;
+
+
+    if(msg->msg_cmd < RESOURCE_ID_MAX_NBR && msg->msg_data_length <= sizeof(unsigned int))
+    {
+        memcpy((void *)&gResourceMemory[msg->msg_cmd], msg->msg_data, msg->msg_data_length);
+    }
 }

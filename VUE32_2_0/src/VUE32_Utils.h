@@ -20,6 +20,7 @@ extern volatile unsigned int uiTimeStamp;
 #define BMS_HW_INDEX 8
 #define LONG_POLLING_WITH_LIFE_TIME 0x01
 #define LONG_POLLING_WITHOUT_LIFE_TIME 0x00
+#define RESOURCE_ID_MAX_NBR 256
 
 #define ON_MSG_TYPE(type) if (msg->msg_type == type){ unsigned char _temp;
 #define ON_MSG_TYPE_RTR(type) if (msg->msg_remote == 1 && msg->msg_type == type){ unsigned char _temp;

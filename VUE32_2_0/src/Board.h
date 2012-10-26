@@ -14,7 +14,7 @@
  */
 typedef enum
 {
-    VUE32_GENERIC = 0,
+    ODB = 0x00,
     VUE32_1,
     VUE32_2,
     VUE32_3,

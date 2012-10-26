@@ -105,7 +105,10 @@ void OnEmergencyMsgVUE32_1(void)
     return;
 }
 
-ROUTING_TABLE *gRoutingTableVUE32_1 = NULL;
+ROUTING_TABLE gRoutingTableVUE32_1[24] =
+{
+    {NETV_COMM_IFACE_USB, ODB}
+};
 
 //Display functions:
 
