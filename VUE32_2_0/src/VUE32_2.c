@@ -1,9 +1,5 @@
 /******************************************************************************
  * VUE32 #2 functions implementation
- *  - Battery current sensing
- *  - Ground Fault
- *  - Speed sensor, Rear Right
- *  - Lights: Rear Right
  *
  * by Maxime Bedard - 24/09/2012
  * ****************************************************************************/
@@ -178,6 +174,7 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
+        //Variable updated on event by a distant sensor
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE

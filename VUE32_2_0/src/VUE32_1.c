@@ -98,6 +98,7 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
                 LED2 = ~LED2;
         END_OF_MSG_TYPE
 }
+
 //TODO Put emergency instructions here
 void OnEmergencyMsgVUE32_1(void)
 {

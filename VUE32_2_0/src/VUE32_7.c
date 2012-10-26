@@ -33,11 +33,11 @@ extern volatile unsigned int flag_flash;
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
 {
-    {E_ID_WHEELVELOCITYSSENSOR_BL, 4, Sensor},
+    {E_ID_WHEELVELOCITYSSENSOR_BL, sizeof(unsigned int), Sensor},
     {E_ID_MOTOR_TEMP1, sizeof(unsigned short), Sensor},
     {E_ID_MOTOR_TEMP2, sizeof(unsigned short), Sensor},
-    {E_ID_SET_LIGTH_STATE, 1, Actuator},
-    {E_ID_SET_BRAKE_LIGTH_STATE,2, Actuator}
+    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
+    {E_ID_SET_BRAKE_LIGTH_STATE,sizeof(unsigned short), Actuator}
 };
 
 /*

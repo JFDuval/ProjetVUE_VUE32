@@ -42,10 +42,14 @@ unsigned char ucBrakeSwithRead = 0, ucPreviousBrakeSwithRead = 0, ucBrakeSwithSt
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_5_Ress[] =
 {
-    {E_ID_BRAKEPEDAL, 2, 0x00},
-    {E_ID_ACCELERATOR, 2, 0x00},
-    {E_ID_STEERINGANGLESENSOR, 4, 0x00},
-    {E_ID_IGNITIONKEY, 2, 0x00},
+    {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},
+    {E_ID_ACCELERATOR, sizeof(unsigned short), Sensor},
+    {E_ID_STEERINGANGLESENSOR, sizeof(unsigned int), Sensor},
+    {E_ID_IGNITIONKEY, sizeof(unsigned char), Sensor},
+    {E_ID_DPR, sizeof(unsigned char), Sensor},
+    {E_ID_STATE_SWICHT_TRUNK, sizeof(unsigned char), Sensor},
+    {E_ID_TRUNK_SIGNAL, sizeof(unsigned char), Actuator},
+    {E_ID_SET_ROOF_LIGTH, sizeof(unsigned char), Actuator}
 };
 
 /*
@@ -117,10 +121,20 @@ void ImplVUE32_5(void)
 void OnMsgVUE32_5(NETV_MESSAGE *msg)
 {
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
-                ANSWER1(E_ID_BRAKEPEDAL, unsigned short, 5)
-                ANSWER1(E_ID_ACCELERATOR, unsigned short, 5)
-                ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, 5)
-                ANSWER1(E_ID_IGNITIONKEY, unsigned short, 5)
+                ANSWER1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL])
+                ANSWER1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
+                ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, gResourceMemory[E_ID_STEERINGANGLESENSOR])
+                ANSWER1(E_ID_IGNITIONKEY, unsigned char, gResourceMemory[E_ID_IGNITIONKEY])
+                ANSWER1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR])
+                ANSWER1(E_ID_STATE_SWICHT_TRUNK, unsigned char, gResourceMemory[E_ID_STATE_SWICHT_TRUNK])
+                ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
+                ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
+                LED2 = ~LED2;
+    END_OF_MSG_TYPE
+            
+    ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
+                ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
+                ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
                 LED2 = ~LED2;
     END_OF_MSG_TYPE
 

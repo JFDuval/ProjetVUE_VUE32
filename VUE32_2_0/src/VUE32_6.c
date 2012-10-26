@@ -39,7 +39,7 @@ HDW_MAPPING gVUE32_6_Ress[] =
 {
     {E_ID_LATERALACCELERATIONSENSOR, sizeof(unsigned short), Sensor},
     {E_ID_YAWRATE, sizeof(unsigned short), Sensor},
-    {E_ID_WIPERMODECONTROL, sizeof(unsigned short), Sensor},
+    {E_ID_WIPERMODECONTROL, sizeof(unsigned char), Sensor},
     {E_ID_WIPERFLUIDPUMP, sizeof(unsigned char), Actuator},
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
     {E_ID_AUDIOAMPLIFIER, sizeof(unsigned char), Actuator}
@@ -108,9 +108,12 @@ void ImplVUE32_6(void)
 void OnMsgVUE32_6(NETV_MESSAGE *msg)
 {
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
-                ANSWER1(E_ID_LATERALACCELERATIONSENSOR, unsigned short, 6)
-                ANSWER1(E_ID_YAWRATE, unsigned short, 6)
-                ANSWER1(E_ID_WIPERMODECONTROL, unsigned short, 6)
+            ANSWER1(E_ID_LATERALACCELERATIONSENSOR, unsigned short, gResourceMemory[E_ID_LATERALACCELERATIONSENSOR])
+            ANSWER1(E_ID_YAWRATE, unsigned short, gResourceMemory[E_ID_YAWRATE])
+            ANSWER1(E_ID_WIPERMODECONTROL, unsigned char, gResourceMemory[E_ID_WIPERMODECONTROL])
+            ANSWER1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP])
+            ANSWER1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE])
+            ANSWER1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
                 LED2 = ~LED2;
     END_OF_MSG_TYPE
 
