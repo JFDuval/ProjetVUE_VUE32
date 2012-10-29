@@ -182,6 +182,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     {
         time_cnt2 = 0;
         NETV_MESSAGE oMsgRecep;
+        
         if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
         {
             LED2 ^= 1;
