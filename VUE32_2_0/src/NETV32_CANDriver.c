@@ -614,7 +614,7 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     if(CANx==CAN1)
     {
         INTSetVectorPriority(INT_CAN_1_VECTOR, INT_PRIORITY_LEVEL_4);
-        INTSetVectorSubPriority(INT_CAN_1_VECTOR, INT_SUB_PRIORITY_LEVEL_0);
+        //INTSetVectorSubPriority(INT_CAN_1_VECTOR, INT_SUB_PRIORITY_LEVEL_0);
         INTEnable(INT_CAN1, INT_ENABLED);
     }
 #ifdef _CAN2

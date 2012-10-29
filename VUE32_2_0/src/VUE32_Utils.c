@@ -247,7 +247,7 @@ void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
     BOOL ubResourceFound = 0;
     //Check if the resource id is located on this board
     //If it's the case, the msg isn't analyzed from this function
-
+#ifndef __32MX575F512H__
     gVUE32_Ress = gHardwareMap[GetBoardID()];
     unNbResourceId = gHardwareSize[GetBoardID()];
     if(gVUE32_Ress == 0 || unNbResourceId == 0)
@@ -268,4 +268,6 @@ void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
     {
         memcpy((void *)&gResourceMemory[msg->msg_cmd], msg->msg_data, msg->msg_data_length);
     }
+
+#endif
 }
