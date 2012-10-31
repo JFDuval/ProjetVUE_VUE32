@@ -571,8 +571,8 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
      * filter 0 should be stored in channel 1. */
 
     //Todo: Nothing filtered.
-    CANConfigureFilter(CANx, CAN_FILTER0, 0x00000000, CAN_EID);
-    CANConfigureFilter(CANx, CAN_FILTER1, 0x00000000, CAN_EID);
+    //CANConfigureFilter(CANx, CAN_FILTER0, 0x00000000, CAN_EID);
+    //CANConfigureFilter(CANx, CAN_FILTER1, 0x00000000, CAN_EID);
 
     //CANConfigureFilter(CANx, CAN_FILTER0, (unsigned long) canAddr, CAN_EID); //local node
     //CANConfigureFilter(CANx, CAN_FILTER1, 0x000000FF, CAN_EID); //broadcast

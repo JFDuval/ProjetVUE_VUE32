@@ -18,7 +18,9 @@
 #include "NETV32_Utils.h"
 #include "USB-CDC_Microchip/usb.h"
 #include "USB-CDC_Microchip/usb_function_cdc.h"
-#include "HardwareProfile.h"
+#ifndef _TODO__
+#include "../BMS_2_0.X/HardwareProfile.h"
+#endif
 #include "GenericTypeDefs.h"
 #include "USB-CDC_Microchip\Compiler.h"
 #include "USB-CDC_Microchip\usb_config.h"

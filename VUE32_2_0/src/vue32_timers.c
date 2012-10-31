@@ -1,5 +1,8 @@
 
-#include "HardwareProfile.h"
+#ifndef _TODO__
+#include "../BMS_2_0.X/HardwareProfile.h"
+#endif
+
 #include "vue32_timers.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////
@@ -104,7 +107,7 @@ void initTimerBMS(void)
     T1CONbits.TCS = 0;              // 1 = external clock from pin T1CK
     T1CONbits.TCKPS = 1;            // 8 Prescaler
     TMR1 = 0;                       // zero timer
-    PR1 = 1000;                     // 100µs
+    PR1 = 30;                      // 100µs
     IFS0bits.T1IF = 0;              // clear interrupt flag
     IPC1bits.T1IP = 3;              // interrupt priority		//ToDo
     IEC0bits.T1IE = 1;              // enable interrupt

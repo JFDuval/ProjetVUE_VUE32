@@ -2,7 +2,9 @@
 // Exceptions.c
 // Exception Handler
 //
-#include "HardwareProfile.h"
+#ifndef _TODO__
+#include "../BMS_2_0.X/HardwareProfile.h"
+#endif
 
   //    Exception handler:
   static enum {

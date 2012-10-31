@@ -174,6 +174,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     {
         time_cnt = 0;
         uiTimeStamp++;
+        LED2 ^= 1;
     }
     
     // Process network stack every 5 ms
@@ -189,7 +190,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
             OnMsgBMS(&oMsgRecep);
         }
             
-        RunLongPolling();
+        //RunLongPolling();
     }
 
     //Clear flag and return
