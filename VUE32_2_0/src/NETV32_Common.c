@@ -128,19 +128,19 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
 
             //Get the VUE32's routing Table
 #ifndef __32MX575F512H__
-            if(netv_get_path(gRoutingTable[GetBoardID()], gRoutingTableSize[GetBoardID()], &g_rMessage))
+            /*if(netv_get_path(gRoutingTable[GetBoardID()], gRoutingTableSize[GetBoardID()], &g_rMessage))
             {
                 NETV_MESSAGE sendMsg;
                 memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
                 netv_send_message(&sendMsg);
-            }
+            }*/
 #endif
 
             // For now, we'll just broadcast it through our other interfaces
-            /*NETV_MESSAGE sendMsg;
+            NETV_MESSAGE sendMsg;
             memcpy(&sendMsg, &g_rMessage, sizeof(NETV_MESSAGE));
             sendMsg.msg_comm_iface = ~g_rMessage.msg_comm_iface; // Swap interfaces (avoid resending the message on the same iface it was received)
-            netv_send_message(&sendMsg);*/
+            netv_send_message(&sendMsg);
         }
 
         // If we are targeted by the message

@@ -39,6 +39,7 @@
                 while (1) {
                 // Examine _excep_code to identify the type of exception
                 // Examine _excep_addr to find the address that caused the exception
+                _epc_code = _epc_code;
                 Nop();
                 Nop();
                 Nop();
