@@ -328,8 +328,6 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
      * LED6 should be switched ON or OFF. */
     //CANRxMessageBuffer * message;
 
-    LED2 ^=1;
-
     if (CANx == CAN1 && isCAN1MsgReceived == FALSE) {
         /* CAN1 did not receive any message so
          * exit the function. Note that the
@@ -365,7 +363,7 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         /* Check byte 0 of the data payload.
          * If it is 0 then switch off LED6 else
          * switch it on. */
-
+LED2 ^= 1;
         //Copy message...
         unsigned int SID = (msgPtr->messageWord[0]) & 0x000007FF;
         unsigned int EID = (msgPtr->messageWord[1] >> 10) & 0x0003FFFF;
@@ -631,6 +629,7 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
 
     //CANSetOperatingMode(CANx, CAN_NORMAL_OPERATION CAN_LOOPBACK);
     CANSetOperatingMode(CANx, CAN_NORMAL_OPERATION);
+
     while (CANGetOperatingMode(CANx) != CAN_NORMAL_OPERATION);
 
 }
