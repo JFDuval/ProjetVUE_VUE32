@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 //USB STUFF
 #include "USB-CDC_Microchip\usb.h"
 #include "USB-CDC_Microchip\usb_function_cdc.h"
-#ifndef _TODO__
+#ifdef __32MX575F512H__
 #include "../BMS_2_0.X/HardwareProfile.h"
 #endif
 

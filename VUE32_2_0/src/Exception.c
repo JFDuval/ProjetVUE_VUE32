@@ -2,8 +2,10 @@
 // Exceptions.c
 // Exception Handler
 //
-#ifndef _TODO__
+#ifdef __32MX575F512H__
 #include "../BMS_2_0.X/HardwareProfile.h"
+#else
+#include "HardwareProfile.h"
 #endif
 
   //    Exception handler:
