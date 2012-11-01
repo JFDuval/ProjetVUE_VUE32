@@ -174,7 +174,6 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     {
         time_cnt = 0;
         uiTimeStamp++;
-        //LED2 ^= 1;
     }
     
     // Process network stack every 5 ms
@@ -182,13 +181,13 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     if ( time_cnt2 > 50)
     {
         time_cnt2 = 0;
-        //NETV_MESSAGE oMsgRecep;
+        NETV_MESSAGE oMsgRecep;
         
-        //if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
-        //{
-       //     LED2 ^= 1;
-       //     OnMsgBMS(&oMsgRecep);
-       // }
+        if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
+        {
+            LED2 ^= 1;
+            OnMsgBMS(&oMsgRecep);
+        }
             
         //RunLongPolling();
     }
