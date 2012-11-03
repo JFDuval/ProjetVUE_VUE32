@@ -26,12 +26,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #include "NETV32_Device.h"
 
 #include "GenericTypeDefs.h"
+#include "Board.h"
 #include <p32xxxx.h>
 #include <sys/kmem.h>
 #include "plib.h"
 
 
 #define CAN_BUS_SPEED 1000000
+#define CAN_BUS_SPEED_STEERING 500000
 
 //This is the timestamp timer...
 #define CAN_TIMER_PRESCALER (SYS_XTAL_FREQ / 1000)
@@ -41,6 +43,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define CAN_NB_CHANNELS 2
 
 #define MINIMUM_MESSAGE_SIZE 8
+
+//Steering wheel angle (CAN sensor)
+unsigned short steering_angle = 0;
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
@@ -385,6 +390,12 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 
         message->msg_remote = msgPtr->msgEID.RTR;
 
+	//Decode steering wheel angle:
+	if((GetBoardID() == VUE32_5) && (CANx == CAN2))
+	{
+	    steering_angle = (msgPtr->data[0] + (msgPtr->data[1] << 8));
+	}
+
 
         /* Call the CANUpdateChannel() function to let
          * CAN 1 module know that the message processing
@@ -536,7 +547,12 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     canBitConfig.sample3Time = FALSE;
     canBitConfig.syncJumpWidth = CAN_BIT_1TQ;
 
-    CANSetSpeed(CANx, &canBitConfig, SYS_XTAL_FREQ, CAN_BUS_SPEED);
+    //On #5, CAN2 is used for the steering wheel sensor
+    if((GetBoardID() == VUE32_5) && (CANx == CAN2))
+	CANSetSpeed(CANx, &canBitConfig, SYS_XTAL_FREQ, CAN_BUS_SPEED_STEERING);
+    else
+	CANSetSpeed(CANx, &canBitConfig, SYS_XTAL_FREQ, CAN_BUS_SPEED);
+
 
     /* Step 3: Assign the buffer area to the
      * CAN module.
