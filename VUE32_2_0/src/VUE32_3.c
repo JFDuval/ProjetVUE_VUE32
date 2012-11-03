@@ -31,6 +31,9 @@ HDW_MAPPING gVUE32_3_Ress[] =
 {
     {E_ID_WHEELVELOCITYSSENSOR_FR, 4, Sensor},
     {E_ID_WHEELVELOCITYSSENSOR_FL, 4, Sensor},
+    {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},      //TO REMOVE
+    {E_ID_ACCELERATOR, sizeof(unsigned short), Sensor},     //TO REMOVE
+    {E_ID_DPR, sizeof(unsigned char), Sensor},              //TO REMOVE
     {E_ID_COOLINGPUMP, 1, Actuator},
     {E_ID_MAIN_CONTACTOR, 1, Actuator}
 };
@@ -50,6 +53,8 @@ void InitVUE32_3(void)
 
      // Set the LED2 as output (test)
      LED2_TRIS = 0;
+
+     gResourceMemory[E_ID_DPR] = 0x01;
 }
 
 /*
@@ -68,7 +73,6 @@ void ImplVUE32_3(void)
 	wheel_spdo1_kph_VUE32_3 = wheel_period_to_kph(spdo1_mean, spd1_moving);
 	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
-
 
 }
 
@@ -89,6 +93,13 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
         ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
+            LED2 = ~LED2;
+        END_OF_MSG_TYPE
+
+        ON_MSG_TYPE( NETV_TYPE_EVENT )
+            ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
+            ACTION1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR]) END_OF_ACTION
+            ACTION1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL]) END_OF_ACTION
             LED2 = ~LED2;
         END_OF_MSG_TYPE
 }

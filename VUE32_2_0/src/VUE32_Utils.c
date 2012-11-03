@@ -13,7 +13,7 @@
 extern unsigned int gResourceMemory[256];
 
 LP_PARAMS g_sLpParams[MAX_NBR_LG_PLG];
-unsigned int g_unLpSize = 3;
+unsigned int g_unLpSize = 0;
 
 //Incremented by interrupt each 1 ms
 volatile unsigned int uiTimeStamp;
@@ -200,7 +200,10 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
     for(i = 0;i<unNbResourceId; i++)
     {
         if(gVUE32_Ress[i].ucResourceId == msg->msg_cmd)
+        {
             bResourceFound = 1;
+            newLongPollingEvent.ucSizeData = gVUE32_Ress[i].ucDataSize;
+        }
     }
 
     //If this resource isn't available on this VUE32
@@ -227,7 +230,7 @@ void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char
     NETV_MESSAGE msg;
 
     msg.msg_cmd = ucResourceId;
-    msg.msg_comm_iface = NETV_COMM_IFAVE_ALL;
+    msg.msg_comm_iface = NETV_COMM_IFACE_CAN1;
     memcpy(&msg.msg_data, &unData, ucSize);
     msg.msg_data_length = ucSize;
     msg.msg_dest = ucDest;

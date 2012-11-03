@@ -74,8 +74,7 @@ void ImplVUE32_5(void)
         flag_adc_filter = 0;
 	filter_adc();
         gResourceMemory[E_ID_ACCELERATOR] = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
-        //gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
-        gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(0);
+        gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
     }
 
     //Todo trunk switch
@@ -84,7 +83,11 @@ void ImplVUE32_5(void)
     {
         flag_8ms = 0;
 
-        brake_state = gResourceMemory[E_ID_BRAKEPEDAL];
+        //Send the accelerator position to the VUE32 #5
+        EmitAnEvent(E_ID_ACCELERATOR, VUE32_3,  sizeof(unsigned short), gResourceMemory[E_ID_ACCELERATOR]);
+        EmitAnEvent(E_ID_BRAKEPEDAL, VUE32_3,  sizeof(unsigned short), gResourceMemory[E_ID_BRAKEPEDAL]);
+
+        brake_state = gResourceMemory[E_ID_BRAKEPEDAL] & 0xf0;
 
         if( brake_selected_state != brake_state && brake_state == previous_brake_state)
         {
@@ -102,6 +105,7 @@ void ImplVUE32_5(void)
             gResourceMemory[E_ID_DPR] = dpr_switch_state;
             EmitAnEvent(E_ID_DPR, VUE32_1, 1, gResourceMemory[E_ID_DPR]);
             EmitAnEvent(E_ID_DPR, VUE32_2, 1, gResourceMemory[E_ID_DPR]);
+            EmitAnEvent(E_ID_DPR, VUE32_3, 1, gResourceMemory[E_ID_DPR]);
             EmitAnEvent(E_ID_DPR, VUE32_7, 1, gResourceMemory[E_ID_DPR]);
         }
         previous_dpr_switch_state = dpr_switch_state;
