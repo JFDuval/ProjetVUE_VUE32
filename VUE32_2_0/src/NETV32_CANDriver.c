@@ -363,7 +363,7 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         /* Check byte 0 of the data payload.
          * If it is 0 then switch off LED6 else
          * switch it on. */
-LED2 ^= 1;
+
         //Copy message...
         unsigned int SID = (msgPtr->messageWord[0]) & 0x000007FF;
         unsigned int EID = (msgPtr->messageWord[1] >> 10) & 0x0003FFFF;
