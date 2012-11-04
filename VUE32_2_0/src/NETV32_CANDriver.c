@@ -391,11 +391,12 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         message->msg_remote = msgPtr->msgEID.RTR;
 
 	//Decode steering wheel angle:
+#ifdef _CAN2
 	if((GetBoardID() == VUE32_5) && (CANx == CAN2))
 	{
 	    steering_angle = (msgPtr->data[0] + (msgPtr->data[1] << 8));
 	}
-
+#endif
 
         /* Call the CANUpdateChannel() function to let
          * CAN 1 module know that the message processing
@@ -548,9 +549,11 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     canBitConfig.syncJumpWidth = CAN_BIT_1TQ;
 
     //On #5, CAN2 is used for the steering wheel sensor
+#ifdef _CAN2
     if((GetBoardID() == VUE32_5) && (CANx == CAN2))
 	CANSetSpeed(CANx, &canBitConfig, SYS_XTAL_FREQ, CAN_BUS_SPEED_STEERING);
     else
+#endif
 	CANSetSpeed(CANx, &canBitConfig, SYS_XTAL_FREQ, CAN_BUS_SPEED);
 
 

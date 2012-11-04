@@ -178,18 +178,20 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     
     // Process network stack every 5 ms
     time_cnt2++;
-    if ( time_cnt2 > 50)
+    if ( time_cnt2 > 10)
     {
         time_cnt2 = 0;
         NETV_MESSAGE oMsgRecep;
-        
-        if(netv_transceiver((unsigned char)GetBoardID(), &oMsgRecep))
+
+        asm("di");
+        if(netv_transceiver((unsigned char)GetMyAddr(), &oMsgRecep))
         {
             LED2 ^= 1;
             OnMsgBMS(&oMsgRecep);
         }
             
         //RunLongPolling();
+        asm("ei");
     }
 
     //Clear flag and return
