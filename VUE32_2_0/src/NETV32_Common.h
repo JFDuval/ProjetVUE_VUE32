@@ -126,7 +126,8 @@ enum CANResourceId {
             E_ID_SET_ROOF_LIGTH_FROM_LEFT = 0x30,
             E_ID_SET_ROOF_LIGTH_FROM_TRUNK = 0x31,
             E_ID_SET_REVERSE_LIGTH_STATE = 0x32,
-            E_ID_MAIN_CONTACTOR = 0x33
+            E_ID_MAIN_CONTACTOR = 0x33,
+            E_ID_BMS_STATE = 0x34
 
 } CANResourceId;
 
