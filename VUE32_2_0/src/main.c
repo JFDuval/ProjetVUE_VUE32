@@ -62,17 +62,6 @@ int main(void)
         NETV_MESSAGE oMsgRecep;
 	if(netv_transceiver((unsigned char)id, &oMsgRecep))
             OnMsgVUE32(&oMsgRecep);
-        
-        EVERY_X_MS(10000)
-            oMsgRecep.msg_cmd = 0;
-            oMsgRecep.msg_comm_iface = 0xFF;
-            oMsgRecep.msg_data_length = 0;
-            oMsgRecep.msg_dest = 0xFF;
-            oMsgRecep.msg_remote = 1;
-            oMsgRecep.msg_source = 0x01;
-            oMsgRecep.msg_type = 0x80;
-            netv_send_message(&oMsgRecep);
-        END_OF_EVERY
 
         // Process state machine
         CallVUE32Impl((unsigned char)id);

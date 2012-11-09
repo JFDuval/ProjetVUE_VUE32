@@ -16,10 +16,12 @@
 
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000005;
+const int persistentData = 0x00000000;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0004
+
+unsigned char m_ucAddrCAN = 0;
 
 /*
  * Initialize the board
@@ -52,6 +54,7 @@ void InitBoard(void)
     CTX1_TRIS = 0;
     CRX2_TRIS = 1;
     CTX2_TRIS = 0;
+    m_ucAddrCAN = GetBoardID();
     netv_init_can_driver(GetBoardID(),CAN1);
     netv_init_can_driver(GetBoardID(),CAN2);
 
@@ -125,7 +128,7 @@ unsigned short GetFirmVersion(void)
 // Get our network address (depending of which VUE32 card we are)
 unsigned char GetMyAddr()
 {
-    return GetBoardID();
+    return m_ucAddrCAN;
 }
 
 /*

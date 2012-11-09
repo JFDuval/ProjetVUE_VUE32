@@ -123,7 +123,7 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
     while (netv_recv_message(&g_rMessage)) {
         
         // The g_rMessage message wasn't intended for us, forward it
-        if ( g_rMessage.msg_dest != netv_addr && GetMyAddr() != 0 )
+        if ( g_rMessage.msg_dest != netv_addr && GetBoardID() != 0 )
         {
 
             //Get the VUE32's routing Table
@@ -144,7 +144,7 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
         }
 
         // If we are targeted by the message
-        if ( g_rMessage.msg_dest == netv_addr || g_rMessage.msg_dest == NETV_ADDRESS_BROADCAST || GetMyAddr() == 0 )
+        if ( g_rMessage.msg_dest == netv_addr || g_rMessage.msg_dest == NETV_ADDRESS_BROADCAST || GetBoardID() == 0 )
         {
             // This message is for us
             //TODO: Analyse for boot mode first
@@ -191,7 +191,7 @@ void netv_send_im_alive(NETV_MESSAGE *msg_req) {
     msg.msg_dest = msg_req->msg_source;
     msg.msg_data_length = 8;
     msg.msg_comm_iface = msg_req->msg_comm_iface;
-    msg.msg_source = GetMyAddr();
+    msg.msg_source = GetBoardID();
 
     g_BootConfig.project_id = 103;
 
