@@ -1,22 +1,59 @@
+/******************************************************************************
+ * drive driver
+ * by Pascal-Frédéric St-Laurent - 08/11/2012
+ * ****************************************************************************/
+
 #ifndef DRIVE_H
 #define DRIVE_H
 
 #define NBROFDRIVE 2
 
-#define DRIVE_RIGHT      16              //Passenger side
-#define DRIVE_LEFT       32              //Driver side
-
+//Frame id
 #define DRIVE_FRAME_ENABLE_DISABLE 0
 #define DRIVE_FRAME_CONTROL 1
 #define DRIVE_FRAME_INFO1 2
 #define DRIVE_FRAME_INFO2 3
-#define CAN_TORQUE_SCALING_A    10      //To define
-#define CAN_TORQUE_SCALING_B    62000   //To define
+
+//Drive CONTROL STATUS
+#define DRIVE_ENABLE 1
+#define DRIVE_DISABLE 0
 
 //Mode selector
 #define SPEED_MODE 0
 #define TORQUE_MODE 1
 #define EV_MODE 2
+
+//Base Id
+#define BASE_ID_DRIVE_RIGHT 16            //Passenger side
+#define BASE_ID_DRIVE_LEFT 32             //Driver side
+
+//Power limitation
+#define PL_NO_LIMIT 0
+#define PL_MAXIMUM_MOTOR_POWER_LIMIT 127
+#define PL_NO_GENERATOR 128
+#define PL_MAXIMUM_GENERATOR_LIMIT 255
+
+//Scaler parameters
+#define SP_MIN_POTENTIOMETER_POS 0
+#define SP_MAX_POTENTIOMETER_POS 1023
+#define SP_NEUTRAL_POTENTIOMETER_POS 512
+#define SP_POTENTIOMETER_DEAD_ZONE 1
+#define SP_POTENTIOMETER_MODE 2
+
+#define TORQUE_SCALING_K    32.7761      //Nm
+#define TORQUE_SCALING_B    32767
+
+#define SPEED_SCALING_K 3.27701         //RPM
+#define SPEED_SCALING_B 32767
+
+#define VOLTAGE_SCALING_K 100           //Volt peak
+#define VOLTAGE_SCALING_B 0
+
+#define PEAK_CURRENT_SCALING_K 77.234987    //Amp
+#define RMS_CURRENT_SCALING_B 24.61496      //Amp
+#define CURRENT_SCALING_B 32767
+
+#define TEMP_CONVERTING_OFFSET 55
 
 //Error Code
 #define NO_ERROR 0
@@ -55,6 +92,7 @@ typedef struct
 
 typedef struct
 {
+    unsigned char ucIsEnable;
     unsigned int unBaseAddr;
     unsigned short usMotorSpeed;
     unsigned short usBatteryVoltage;
@@ -65,10 +103,34 @@ typedef struct
     unsigned char ucControllerTemp;
     unsigned short usDPotentiometer;
     unsigned short usAnalogIn;
+    unsigned short usMotorCommand;          //The nature of this command depends on the drive mode which coulb be Speed, torque or EV mode
+    float ufMotorCommand;
+    unsigned char ucSelectedMode;
+    unsigned char ucPowerLimit;
+    unsigned short usScaledMotorTemp;
+    unsigned short usUnscaledMotorTemp;
+    unsigned char ucIsOnEmergency;
 }DRIVE_STATUS;
 
-void DriveSendTorque();
-void DriveDisable(unsigned char);
+
+//Index used for the drive status struct array
+enum driveIndex
+{
+    RightDrive,
+    LeftDrive,
+};
+
+
+void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
+void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
+void DriveStateMachine(DRIVE_STATUS *pDrive, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp);
+void DrivesEmergencyStop(DRIVE_STATUS *pDrives);
+void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives);
+void DriveTXCmd(DRIVE_STATUS *pDrive);
+void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS *pDrives);
+unsigned short ScaleTorqueValue(float fValue);
+unsigned short ScaleSpeedValue(float fValue);
+unsigned short ScaleMotorTempValue(unsigned short usValue);
 
 
 #endif

@@ -1,35 +1,143 @@
+/******************************************************************************
+ * drive driver
+ * by Pascal-Frédéric St-Laurent - 08/11/2012
+ * ****************************************************************************/
+
 #include "drive.h"
 
-
-void InitDrive()
+void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
-    //Field drive status
+    if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_ENABLE)
+    {
+        pDrives[ucDriveIndex].ucIsEnable = DRIVE_ENABLE;
 
-    //Send initialisation Command
+        //Safety start with a command at zero
+        pDrives[ucDriveIndex].ufMotorCommand = 0;
+
+        MSG_DRIVE driveMessage;
+        driveMessage.address =pDrives[ucDriveIndex].unBaseAddr;
+        driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
+        driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
+
+        //Send to CAN network interface TODO
+    }
+
+    return;
+}
+
+void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
+{
+    if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_DISABLE)
+    {
+        pDrives[ucDriveIndex].ucIsEnable = DRIVE_DISABLE;
+
+        //Safety stop with a command at zero
+        pDrives[ucDriveIndex].ufMotorCommand = 0;
+        DriveTXCmd(pDrives+ucDriveIndex);
+
+        MSG_DRIVE driveMessage;
+        driveMessage.address =pDrives[ucDriveIndex].unBaseAddr;
+        driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
+        driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
+
+        //Send to CAN network interface TODO
+    }
 }
 
 
-void DriveTXCmd(unsigned int unBaseId, unsigned short usCommand, unsigned char ucModeSelector, unsigned char ucPowerLimit, unsigned short usTemperatureAD)
+void DriveStateMachine(DRIVE_STATUS *pDrive, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp)
+{
+    unsigned char i = 0;
+
+    //Error Handler
+    if(pDrive[ucDriveIndex].ucIsOnEmergency)
+    {
+        DrivesEmergencyModeHandler(pDrive);
+    }
+    //Check if a new error happened
+    else if(pDrive[ucDriveIndex].usStatus != NO_ERROR)
+    {
+        //Stop each motor
+        DrivesEmergencyStop(pDrive);
+        return;
+    }
+
+    pDrive[ucDriveIndex].ufMotorCommand = fCommandMotor;
+    pDrive[ucDriveIndex].usUnscaledMotorTemp = usUnscaledTemp;
+
+    //Update cmd on the drive side
+    DriveTXCmd(pDrive+ucDriveIndex);
+}
+
+void DrivesEmergencyStop(DRIVE_STATUS *pDrives)
+{
+    unsigned i;
+
+    for(i = 0; i<NBROFDRIVE; i++)
+    {
+        //Send com pDrive[i].ufCommandMotor = 0;
+        pDrives[i].ufMotorCommand = 0;
+        DriveTXCmd(pDrives+i);
+        //Mark drive as under emergency
+        pDrives[i].ucIsOnEmergency = 1;
+    }
+    return;
+}
+
+void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives)
+{
+    unsigned char ucErrorFound = 0;
+    unsigned char i =0;
+    //Verify if the every drive hasn't an error
+    for(i = 0; i<NBROFDRIVE; i++)
+    {
+        if(pDrives[i].usStatus != NO_ERROR)
+            ucErrorFound = 1;
+    }
+
+    //If an error is recorded on a drive
+    if(ucErrorFound)
+        return;
+
+    //All drives will be released for emergency state
+    for(i = 0; i<NBROFDRIVE; i++)
+    {
+        pDrives[i].ucIsOnEmergency = 0;
+    }
+}
+void DriveTXCmd(DRIVE_STATUS *pDrive)
 {
     MSG_DRIVE driveMessage;
-    driveMessage.address = unBaseId;
+    driveMessage.address = pDrive->unBaseAddr;
     driveMessage.ucType = DRIVE_FRAME_CONTROL;
 
-    driveMessage.data[0] = (unsigned char)((usCommand >> 8) & 0x00FF);
-    driveMessage.data[1] = (unsigned char)(usCommand & 0x00FF);
+    //Scale fonct
+    if(pDrive->ucSelectedMode == TORQUE_MODE || pDrive->ucSelectedMode == EV_MODE)
+        pDrive->usMotorCommand = ScaleTorqueValue(pDrive->ufMotorCommand);
+    else if(pDrive->ucSelectedMode == SPEED_MODE)
+        pDrive->usMotorCommand = ScaleSpeedValue(pDrive->ufMotorCommand);
+    else
+        return;
+
+    driveMessage.data[0] = (unsigned char)((pDrive->usMotorCommand >> 8) & 0x00FF);
+    driveMessage.data[1] = (unsigned char)(pDrive->usMotorCommand & 0x00FF);
 
     //Motor Selector
-    driveMessage.data[2] = ucModeSelector;
+    driveMessage.data[2] = pDrive->ucSelectedMode;
 
     //Power Limit
-    driveMessage.data[4] = ucPowerLimit;
+    driveMessage.data[4] = pDrive->ucPowerLimit;
 
     //Temperature
-    driveMessage.data[5] = (unsigned char)((usTemperatureAD >> 8) & 0x00FF);
-    driveMessage.data[6] = (unsigned char)(usTemperatureAD & 0x00FF);
+    pDrive->usScaledMotorTemp = ScaleMotorTempValue(pDrive->usUnscaledMotorTemp);
+    driveMessage.data[5] = (unsigned char)((pDrive->usScaledMotorTemp >> 8) & 0x00FF);
+    driveMessage.data[6] = (unsigned char)(pDrive->usScaledMotorTemp & 0x00FF);
+
+
+    //Send to CAN network interface TODO
 }
 
-void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS * pDrive)
+void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS *pDrives)
 {
     unsigned char i = 0;
     unsigned char ucDriveIndex = 0;
@@ -37,7 +145,7 @@ void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS * pDrive)
     //Validate if there is a valid BaseID
     for(i = 0; i<NBROFDRIVE; i++)
     {
-        if(pDrive[i].unBaseAddr == pMessage->address)
+        if(pDrives[i].unBaseAddr == pMessage->address)
         {
             ucDriveIndex = i;
         }
@@ -51,29 +159,39 @@ void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS * pDrive)
     switch(pMessage->ucType)
     {
         case DRIVE_FRAME_INFO1:
-            pDrive[i].usMotorSpeed = (pMessage->data[0] << 8) & 0xFF00;
-            pDrive[i].usMotorSpeed |= (pMessage->data[1]);
-            pDrive[i].usBatteryVoltage  = (pMessage->data[2] << 8) & 0xFF00;
-            pDrive[i].usBatteryVoltage |= (pMessage->data[3]);
-            pDrive[i].usMotorCurrent = (pMessage->data[4] << 8) & 0xFF00;
-            pDrive[i].usMotorCurrent |= (pMessage->data[5]);
-            pDrive[i].usStatus = (pMessage->data[6] << 8) & 0xFF00;
-            pDrive[i].usStatus |=  (pMessage->data[7]);
+            pDrives[ucDriveIndex].usMotorSpeed = (pMessage->data[0] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usMotorSpeed |= (pMessage->data[1]);
+            pDrives[ucDriveIndex].usBatteryVoltage  = (pMessage->data[2] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usBatteryVoltage |= (pMessage->data[3]);
+            pDrives[ucDriveIndex].usMotorCurrent = (pMessage->data[4] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usMotorCurrent |= (pMessage->data[5]);
+            pDrives[ucDriveIndex].usStatus = (pMessage->data[6] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usStatus |=  (pMessage->data[7]);
             break;
         case DRIVE_FRAME_INFO2:
-            pDrive[i].ucMotorTemp = (pMessage->data[0] << 8) & 0xFF00;
-            pDrive[i].ucMotorTemp |= pMessage->data[1];
-            pDrive[i].usDPotentiometer = (pMessage->data[2] << 8) & 0xFF00;
-            pDrive[i].usDPotentiometer |= pMessage->data[3];
-            pDrive[i].usAnalogIn = (pMessage->data[4] << 8) & 0xFF00;
-            pDrive[i].usAnalogIn |= pMessage->data[5];
-            pDrive[i].usBatteryCurrent = (pMessage->data[6] << 8) & 0xFF00;
-            pDrive[i].usBatteryCurrent |= pMessage->data[7];
+            pDrives[ucDriveIndex].ucMotorTemp = pMessage->data[0];
+            pDrives[ucDriveIndex].ucControllerTemp = pMessage->data[1];
+            pDrives[ucDriveIndex].usDPotentiometer = (pMessage->data[2] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usDPotentiometer |= pMessage->data[3];
+            pDrives[ucDriveIndex].usAnalogIn = (pMessage->data[4] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usAnalogIn |= pMessage->data[5];
+            pDrives[ucDriveIndex].usBatteryCurrent = (pMessage->data[6] << 8) & 0xFF00;
+            pDrives[ucDriveIndex].usBatteryCurrent |= pMessage->data[7];
             break;
     }
 }
 
 unsigned short ScaleTorqueValue(float fValue)
 {
-        float m = (CAN_TORQUE_SCALING_B-CAN_TORQUE_SCALING_A)/65534;
+    return (unsigned short)(fValue*TORQUE_SCALING_K+TORQUE_SCALING_B);
+}
+
+unsigned short ScaleSpeedValue(float fValue)
+{
+    return (unsigned short)(fValue*SPEED_SCALING_K+SPEED_SCALING_B);
+}
+
+unsigned short ScaleMotorTempValue(unsigned short usValue)
+{
+    return  TEMP_CONVERTING_OFFSET+usValue;
 }
