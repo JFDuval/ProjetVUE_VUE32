@@ -23,12 +23,14 @@ typedef void (*FUNC_INIT)();
 typedef void (*FUNC_IMPL)();
 typedef void (*FUNC_ONMSG)(NETV_MESSAGE*);
 typedef void (*FUNC_ONEMERGMSG)();
+typedef void (*FUNC_CAN2Driver)(CANRxMessageBuffer*);
 
 // Arrays of function pointers for each implementation
 extern FUNC_INIT gInitFunc[NB_VUE32+1];
 extern FUNC_IMPL gImplFunc[NB_VUE32+1];
 extern FUNC_ONMSG gOnMsgFunc[NB_VUE32+1];
 extern FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1];
+extern FUNC_CAN2Driver gCAN2Driver[NB_VUE32+1];
 
 
 extern HDW_MAPPING *gHardwareMap[NB_VUE32+1];

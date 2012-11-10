@@ -113,3 +113,9 @@ void OnEmergencyMsgVUE32_3(void)
 
 
 ROUTING_TABLE *gRoutingTableVUE32_3 = NULL;
+
+
+/*void gCAN2DriverTX_VUE32_3(CANRxMessageBuffer*)
+{
+    return;
+}*/

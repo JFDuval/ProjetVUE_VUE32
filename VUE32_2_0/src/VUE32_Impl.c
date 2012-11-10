@@ -56,6 +56,8 @@ void OnEmergencyMsgVUE32_5();
 void OnEmergencyMsgVUE32_6();
 void OnEmergencyMsgVUE32_7();
 
+//extern void gCAN2DriverTX_VUE32_3(CANRxMessageBuffer*);
+
 
 // Arrays of function pointers for each implementation
 FUNC_INIT gInitFunc[NB_VUE32+1] = {
@@ -151,3 +153,15 @@ unsigned char gRoutingTableSize[NB_VUE32+1] =
     NB_BMS,  //VUE32_7
 };
 
+//Dynamic CAN parser
+/*FUNC_CAN2Driver gCAN2Driver[NB_VUE32+1] =
+{
+    0,  //VUE32_0
+    0,  //VUE32_1
+    0,  //VUE32_2
+    gCAN2DriverTX_VUE32_3,  //VUE32_3
+    0,  //VUE32_4
+    0,  //VUE32_5
+    0,  //VUE32_6
+    0  //VUE32_7
+};*/

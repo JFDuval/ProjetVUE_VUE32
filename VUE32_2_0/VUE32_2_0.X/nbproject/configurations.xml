@@ -19,6 +19,7 @@
         <itemPath>../src/Board.h</itemPath>
         <itemPath>../src/communication.h</itemPath>
         <itemPath>../src/memory_map.h</itemPath>
+        <itemPath>../src/drive.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="NETV32" projectFiles="true">
         <itemPath>../src/bsp.h</itemPath>
@@ -77,6 +78,7 @@
         <itemPath>../src/communication.c</itemPath>
         <itemPath>../src/Exception.c</itemPath>
         <itemPath>../src/memory_map.c</itemPath>
+        <itemPath>../src/drive.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f2" displayName="NETV32" projectFiles="true">
         <itemPath>../src/NETV32_Common.c</itemPath>

@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // Library call
 #include "NETV32_CANDriver.h"
 #include "NETV32_Device.h"
+#include "VUE32_Impl.h"
 
 #include "GenericTypeDefs.h"
 #include "Board.h"
@@ -248,48 +249,51 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 
     if (message && msgPtr) {
 
-        unsigned int ID = 0;
+        /*if(!gCAN2Driver[GetBoardID()](msgPtr, message) && CAN2)
+        {
+            unsigned int ID = 0;
 
-        //priority
-        ID |= (((unsigned int) message->msg_priority << 28) & 0x10000000);
+            //priority
+            ID |= (((unsigned int) message->msg_priority << 28) & 0x10000000);
 
-        //type
-        ID |= (((unsigned int) message->msg_type << 20) & 0x0FF00000);
+            //type
+            ID |= (((unsigned int) message->msg_type << 20) & 0x0FF00000);
 
-        //boot
-        //ID |= ((unsigned int) message->msg_eeprom_ram << 17);
-        //ID |= ((unsigned int) message->msg_read_write << 16);
-        
-        //cmd
-        ID |= (((unsigned int) message->msg_cmd << 12) & 0x000FF000);
+            //boot
+            //ID |= ((unsigned int) message->msg_eeprom_ram << 17);
+            //ID |= ((unsigned int) message->msg_read_write << 16);
 
-        //dest
-        ID |= (((unsigned int) message->msg_dest << 6) & 0x00000FC0);
+            //cmd
+            ID |= (((unsigned int) message->msg_cmd << 12) & 0x000FF000);
 
-        //source
-        ID |= (((unsigned int) message->msg_source) & 0x0000003F);
+            //dest
+            ID |= (((unsigned int) message->msg_dest << 6) & 0x00000FC0);
 
-        msgPtr->msgSID.SID = (ID >> 18);
-        msgPtr->msgEID.EID = (ID & 0x0003FFFF);
+            //source
+            ID |= (((unsigned int) message->msg_source) & 0x0000003F);
 
-        //Set extended message
-        msgPtr->msgEID.IDE = 1;
+            msgPtr->msgSID.SID = (ID >> 18);
+            msgPtr->msgEID.EID = (ID & 0x0003FFFF);
 
-        //Those bits should always be cleared
-        msgPtr->msgEID.SRR = 0;
-        msgPtr->msgEID.RB0 = 0;
-        msgPtr->msgEID.RB1 = 0;
+            //Set extended message
+            msgPtr->msgEID.IDE = 1;
 
-        //Set RTR
-        msgPtr->msgEID.RTR = message->msg_remote;
+            //Those bits should always be cleared
+            msgPtr->msgEID.SRR = 0;
+            msgPtr->msgEID.RB0 = 0;
+            msgPtr->msgEID.RB1 = 0;
 
-        //copy data length
-        msgPtr->msgEID.DLC = message->msg_data_length;
+            //Set RTR
+            msgPtr->msgEID.RTR = message->msg_remote;
 
-        //copy data
-        for (i = 0; i < MIN(8, message->msg_data_length); i++) {
-            msgPtr->data[i] = message->msg_data[i];
-        }
+            //copy data length
+            msgPtr->msgEID.DLC = message->msg_data_length;
+
+            //copy data
+            for (i = 0; i < MIN(8, message->msg_data_length); i++) {
+                msgPtr->data[i] = message->msg_data[i];
+            }
+        }*/
 
         /* This function lets the CAN module
          * know that the message processing is done
@@ -389,7 +393,6 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         }
 
         message->msg_remote = msgPtr->msgEID.RTR;
-
 	//Decode steering wheel angle:
 #ifdef _CAN2
 	if((GetBoardID() == VUE32_5) && (CANx == CAN2))
