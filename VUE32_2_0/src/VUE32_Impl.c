@@ -107,7 +107,7 @@ HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
 
 unsigned int gHardwareSize[NB_VUE32+1] =
 {
-    0,  //VUE32_0
+    38,  //VUE32_0
     2,  //VUE32_1
     5,  //VUE32_2
     7,  //VUE32_3

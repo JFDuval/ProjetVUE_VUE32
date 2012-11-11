@@ -25,6 +25,7 @@ unsigned char GetMyAddr();
 
 void ActiveLongPolling(LP_PARAMS *sParams)
 {
+    // Limit the number of simultaneous long polling variables
     if ( g_unLpSize == MAX_NBR_LG_PLG || sParams == NULL)
         return;
 
@@ -92,7 +93,7 @@ void RunLongPolling(void)
             msg.msg_priority = NETV_PRIORITY_EVENTS;
             msg.msg_type = g_sLpParams[i].ucMsgType;
             msg.msg_cmd = g_sLpParams[i].ucResourceId;
-            msg.msg_source = GetMyAddr();
+            msg.msg_source = g_sLpParams[i].ucVUE32Addr; //GetMyAddr();
             msg.msg_dest = g_sLpParams[i].ucDestinataire;
             msg.msg_comm_iface = 0xFF;
             msg.msg_data_length = g_sLpParams[i].ucSizeData;
@@ -156,6 +157,7 @@ void CopyValueOn(unsigned char ucDest, unsigned char ucResourceId, unsigned int 
     newLongPolling.ucResourceId = ucResourceId;
     newLongPolling.unDelay = unDelay;
     newLongPolling.ucMsgType = VUE32_TYPE_SETVALUE;
+    newLongPolling.ucVUE32Addr = GetMyAddr();
 
     ActiveLongPolling(&newLongPolling);
 }
@@ -220,6 +222,7 @@ void ActionStartEmettings(NETV_MESSAGE *msg)
     newLongPollingEvent.ucResourceId = msg->msg_cmd;
     newLongPollingEvent.hasLifeTime = LONG_POLLING_WITH_LIFE_TIME;
     newLongPollingEvent.ucMsgType = NETV_TYPE_EVENT;
+    newLongPollingEvent.ucVUE32Addr = msg->msg_dest;
 
     ActiveLongPolling(&newLongPollingEvent);
 

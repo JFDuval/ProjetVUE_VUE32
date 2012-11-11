@@ -14,7 +14,7 @@
 // Global TimeStamp variable (do not erase!)
 extern volatile unsigned int uiTimeStamp;
 
-#define MAX_NBR_LG_PLG 5
+#define MAX_NBR_LG_PLG 20
 #define LIFE_TIME_LONG_POLLING 90000
 #define LONG_POLLING_MINIMUM_DELAY 5
 #define BMS_HW_INDEX 8
@@ -123,6 +123,7 @@ typedef struct {
     unsigned char hasLifeTime;
     unsigned char ucSizeData;
     unsigned char ucMsgType;
+    unsigned char ucVUE32Addr;
 } LP_PARAMS;
 
 typedef struct {

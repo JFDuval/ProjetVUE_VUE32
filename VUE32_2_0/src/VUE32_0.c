@@ -73,7 +73,7 @@ END_OF_EVERY
 
 #define RANDOMSINUS(var, min, max, freq_ms) \
 EVERY_X_MS(freq_ms + __LINE__) \
-var = (sin((uiTimeStamp/freq_ms) * 0.01) * (max-min)) + min; \
+var = (sin((uiTimeStamp/freq_ms) * 0.01) * ((max-min)/2)) + ((max-min)/2) + min; \
 END_OF_EVERY
 
 /*
@@ -99,7 +99,7 @@ void ImplVUE32_0(void)
     // *** VUE #2 ***
     RANDOM(gResourceMemory[E_ID_BATTERYCURRENT], 0, 10, 250);
     RANDOM(gResourceMemory[E_ID_GROUNDFAULT_FREQ], 0, 1, 10000);
-    RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR], 0, 1100, 30); // 1 = 0.1 km/h
+    RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR], -1000, 1100, 30); // 1 = 0.1 km/h
 
     // *** VUE #3 ***
     RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR], 0, 1100, 40); // 1 = 0.1 km/h
@@ -132,7 +132,7 @@ void ImplVUE32_0(void)
     //RANDOM(gResourceMemory[E_ID_AUDIOAMPLIFIER], 1, 10000);
 
     // *** VUE #7 ***
-    RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL], 0, 1100, 36); // 1 = 0.1 km/h
+    RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL], -1000, 1100, 36); // 1 = 0.1 km/h
     RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP1], 300, 1000, 102)
     RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP2], 350, 1000, 103)
 }
