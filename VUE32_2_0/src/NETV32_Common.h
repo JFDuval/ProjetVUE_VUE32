@@ -97,7 +97,7 @@ enum CANResourceId {
             E_ID_BMS_BOARD_TEMP = 0x14,
             E_ID_BMS_CELL_GROUP1 = 0x15,
             E_ID_BMS_CELL_GROUP2 = 0x16,
-            E_ID_BMS_OPEN_CONTACT = 0x17,
+            E_ID_BMS_STATE_READONLY = 0x17,
             E_ID_LEFT_DOOR_STATE = 0x18,
             E_ID_RIGHT_DOOR_STATE = 0x19,
             E_ID_MOTOR_TEMP1 = 0x1a,

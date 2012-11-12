@@ -23,6 +23,9 @@ extern unsigned char m_ucAddrCAN;
 //memory_map.h
 extern unsigned int gResourceMemory[256];
 
+// Local variables
+short sRandomTemp, m_state, sRandomVoltage;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_0_Ress[] =
 {
@@ -135,6 +138,11 @@ void ImplVUE32_0(void)
     RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL], -1000, 1100, 36); // 1 = 0.1 km/h
     RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP1], 300, 1000, 102)
     RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP2], 350, 1000, 103)
+
+    // *** BMSs ***
+    RANDOMSINUS(sRandomTemp, 20, 110, 1000)
+    RANDOM(m_state, 2, 5, 900)
+    RANDOMSINUS(sRandomVoltage, 2100, 3700, 350)
 }
 
 /*
@@ -172,7 +180,52 @@ void OnMsgVUE32_0(NETV_MESSAGE *msg)
             OnMsgVUE32_7(msg);
             break;
         default:
-            // Do not answer
+            if ( msg->msg_dest > 0x10 && msg->msg_dest < 0x29 )
+            {
+            ON_MSG_TYPE(VUE32_TYPE_GETVALUE)
+
+                // Maximum Temperature in the resistor array
+                ANSWER1(E_ID_BMS_BOARD_TEMP, short, sRandomTemp)
+
+                // temp
+                if (m_state == 3)
+                {
+                    ANSWER3(E_ID_BMS_STATE_READONLY, short, (short)m_state, short, (short)1, unsigned short, 3600 )
+                }
+                else
+                {
+                    ANSWER1(E_ID_BMS_STATE_READONLY, short, (short)m_state)
+                }
+
+                if ( msg->msg_cmd == E_ID_BMS_CELL_GROUP1)
+                {
+                    NETV_MESSAGE oCopy = *msg;
+                    ANSWER4(E_ID_BMS_CELL_GROUP1, short, (short)0,
+                            short, (short)(sRandomVoltage+1),
+                            short, (short)(sRandomVoltage+100),
+                            short, sRandomTemp)
+
+                    *msg = oCopy; // Reset the msg structure to allow proper interpretation
+                    ANSWER3(E_ID_BMS_CELL_GROUP1, short, (short)1,
+                            short, (short)(sRandomVoltage-50),
+                            short, (short)(sRandomVoltage-100))
+                }
+
+                if ( msg->msg_cmd == E_ID_BMS_CELL_GROUP2)
+                {
+                    NETV_MESSAGE oCopy = *msg;
+                    ANSWER4(E_ID_BMS_CELL_GROUP2, short, (short)0,
+                            short, (short)(sRandomVoltage),
+                            short, (short)(sRandomVoltage+20),
+                            short, sRandomTemp)
+
+                    *msg = oCopy; // Reset the msg structure to allow proper interpretation
+                    ANSWER3(E_ID_BMS_CELL_GROUP2, short, (short)1,
+                            short, (short)(sRandomVoltage-20),
+                            short, (short)(sRandomVoltage-5))
+                }
+            END_OF_MSG_TYPE
+            }
             break;
     }
 }
