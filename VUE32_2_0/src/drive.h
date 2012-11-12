@@ -8,6 +8,10 @@
 
 #define NBROFDRIVE 2
 
+//CAN interface
+#define D_CAN1 0
+#define D_CAN2 1
+
 //Frame id
 #define DRIVE_FRAME_ENABLE_DISABLE 0
 #define DRIVE_FRAME_CONTROL 1
@@ -17,6 +21,10 @@
 //Drive CONTROL STATUS
 #define DRIVE_ENABLE 1
 #define DRIVE_DISABLE 0
+
+//Drive Emergency Status
+#define NO_EMERGENCY 0
+#define EMERGENCY 1
 
 //Mode selector
 #define SPEED_MODE 0
@@ -86,9 +94,10 @@ typedef struct
 {
     unsigned int address;
     unsigned char ucType;
+    unsigned char dataLenght;
     unsigned char data[8];
 
-}MSG_DRIVE;
+}DRIVE_MSG;
 
 typedef struct
 {
@@ -123,11 +132,11 @@ enum driveIndex
 
 void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
 void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
-void DriveStateMachine(DRIVE_STATUS *pDrive, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp);
+void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp);
 void DrivesEmergencyStop(DRIVE_STATUS *pDrives);
 void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives);
 void DriveTXCmd(DRIVE_STATUS *pDrive);
-void DriveRXCmd(MSG_DRIVE *pMessage, DRIVE_STATUS *pDrives);
+void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives);
 unsigned short ScaleTorqueValue(float fValue);
 unsigned short ScaleSpeedValue(float fValue);
 unsigned short ScaleMotorTempValue(unsigned short usValue);

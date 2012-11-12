@@ -8,6 +8,7 @@
 #endif
 
 volatile unsigned int flag_1ms_a = 0, flag_1ms_b = 0, flag_8ms = 0;
+volatile unsigned char flag_drives = 0;
 volatile unsigned int flag_flash = 0, flag_x100ms = 0;
 volatile unsigned char spd1_moving = 0, spd2_moving = 0;
 
@@ -47,6 +48,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     static unsigned int tmb_moving = 0;
     static unsigned int last_pulses_spd1 = 0, last_pulses_spd2 = 0;
     static unsigned int tmb_x100ms = 0;
+    static unsigned short usDrivesCNT = 0;
 
     //1ms - 1000Hz (timestamp)
     time_cnt++;
@@ -72,6 +74,14 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
         led_cnt = 0;
         flag_8ms = 1;
         LED1 ^= 1;  //Toggle LED 4Hz
+    }
+
+    //50ms - 20 Hz
+    usDrivesCNT++;
+    if(usDrivesCNT >= 500)
+    {
+        usDrivesCNT = 0;
+        flag_drives = 1;
     }
 
     //100ms - 10Hz (wipers)

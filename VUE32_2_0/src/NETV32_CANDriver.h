@@ -47,7 +47,6 @@ typedef struct _mask {
 void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx);
 
 unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx);
-
 unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx);
 
 #endif

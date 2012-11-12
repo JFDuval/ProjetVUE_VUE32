@@ -25,6 +25,8 @@ extern volatile unsigned char spd1_moving, spd2_moving;
 unsigned short wheel_spdo1_kph_VUE32_3 = 0, wheel_spdo2_kph_VUE32_3 = 0;
 
 extern volatile unsigned int flag_1ms_b;
+extern volatile unsigned char flag_drives;
+extern volatile unsigned int flag_8ms;
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
@@ -36,6 +38,12 @@ HDW_MAPPING gVUE32_3_Ress[] =
     {E_ID_DPR, sizeof(unsigned char), Sensor},              //TO REMOVE
     {E_ID_COOLINGPUMP, 1, Actuator},
     {E_ID_MAIN_CONTACTOR, 1, Actuator}
+};
+
+DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] =
+{
+    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_MAXIMUM_MOTOR_POWER_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_MAXIMUM_MOTOR_POWER_LIMIT, 0, 0, NO_EMERGENCY},
 };
 
 // Mapping between pins and functionnalities,
@@ -51,10 +59,14 @@ unsigned int tm_unRandom = 65000;
 void InitVUE32_3(void)
 {
 
-     // Set the LED2 as output (test)
-     LED2_TRIS = 0;
+    //TODO Manage the driver mode with the DPR switch
+    DriveEnable(gDrivesVUE32_3, RightDrive);
+    DriveEnable(gDrivesVUE32_3, LeftDrive);
+    
+    // Set the LED2 as output (test)
+    LED2_TRIS = 0;
 
-     gResourceMemory[E_ID_DPR] = 0x01;
+    gResourceMemory[E_ID_DPR] = 0x01;
 }
 
 /*
@@ -74,10 +86,32 @@ void ImplVUE32_3(void)
 	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
 
+
+    if(flag_drives)
+    {
+        flag_drives = 0;
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, 10, 75);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, 10, 75);
+    }
+
+    //Test
+    DRIVE_MSG message;
+    message.address = BASE_ID_DRIVE_RIGHT;
+    message.ucType = DRIVE_FRAME_INFO1;
+    message.data[0] = 0x0F;
+    message.data[1] = 0x3F;
+    message.data[2] = 0x0E;
+    message.data[3] = 0x2F;
+    message.data[4] = 0x0D;
+    message.data[5] = 0x1F;
+    message.data[6] = 0x00;
+    message.data[7] = 0x00;
+    DriveRXCmd(&message, gDrivesVUE32_3);
+
 }
 
 /*
- * Message Processing
+ * Message Processing for NETV stack only
  */
 void OnMsgVUE32_3(NETV_MESSAGE *msg)
 {
@@ -115,6 +149,18 @@ void OnEmergencyMsgVUE32_3(void)
 ROUTING_TABLE *gRoutingTableVUE32_3 = NULL;
 
 
+void gCAN2DriverRX_VUE32_3()
+{
+    DRIVE_MSG message;
+
+    //Extract the message from CAN2 buffer
+    if(CanNETSACRxMessage(&message, 0x01))
+        //Proccess the drives network stack
+        DriveRXCmd(&message, gDrivesVUE32_3);
+}
+
+
+//TODO
 /*void gCAN2DriverTX_VUE32_3(CANRxMessageBuffer*)
 {
     return;

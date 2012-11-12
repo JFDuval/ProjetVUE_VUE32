@@ -247,53 +247,51 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         return 1;
     }
 
-    if (message && msgPtr) {
+    if (message && msgPtr) 
+    {
+        unsigned int ID = 0;
 
-        /*if(!gCAN2Driver[GetBoardID()](msgPtr, message) && CAN2)
+        //priority
+        ID |= (((unsigned int) message->msg_priority << 28) & 0x10000000);
+
+        //type
+        ID |= (((unsigned int) message->msg_type << 20) & 0x0FF00000);
+
+        //boot
+        //ID |= ((unsigned int) message->msg_eeprom_ram << 17);
+        //ID |= ((unsigned int) message->msg_read_write << 16);
+
+        //cmd
+        ID |= (((unsigned int) message->msg_cmd << 12) & 0x000FF000);
+
+        //dest
+        ID |= (((unsigned int) message->msg_dest << 6) & 0x00000FC0);
+
+        //source
+        ID |= (((unsigned int) message->msg_source) & 0x0000003F);
+
+        msgPtr->msgSID.SID = (ID >> 18);
+        msgPtr->msgEID.EID = (ID & 0x0003FFFF);
+
+        //Set extended message
+        msgPtr->msgEID.IDE = 1;
+
+        //Those bits should always be cleared
+        msgPtr->msgEID.SRR = 0;
+        msgPtr->msgEID.RB0 = 0;
+        msgPtr->msgEID.RB1 = 0;
+
+        //Set RTR
+        msgPtr->msgEID.RTR = message->msg_remote;
+
+        //copy data length
+        msgPtr->msgEID.DLC = message->msg_data_length;
+
+        //copy data
+        for (i = 0; i < MIN(8, message->msg_data_length); i++)
         {
-            unsigned int ID = 0;
-
-            //priority
-            ID |= (((unsigned int) message->msg_priority << 28) & 0x10000000);
-
-            //type
-            ID |= (((unsigned int) message->msg_type << 20) & 0x0FF00000);
-
-            //boot
-            //ID |= ((unsigned int) message->msg_eeprom_ram << 17);
-            //ID |= ((unsigned int) message->msg_read_write << 16);
-
-            //cmd
-            ID |= (((unsigned int) message->msg_cmd << 12) & 0x000FF000);
-
-            //dest
-            ID |= (((unsigned int) message->msg_dest << 6) & 0x00000FC0);
-
-            //source
-            ID |= (((unsigned int) message->msg_source) & 0x0000003F);
-
-            msgPtr->msgSID.SID = (ID >> 18);
-            msgPtr->msgEID.EID = (ID & 0x0003FFFF);
-
-            //Set extended message
-            msgPtr->msgEID.IDE = 1;
-
-            //Those bits should always be cleared
-            msgPtr->msgEID.SRR = 0;
-            msgPtr->msgEID.RB0 = 0;
-            msgPtr->msgEID.RB1 = 0;
-
-            //Set RTR
-            msgPtr->msgEID.RTR = message->msg_remote;
-
-            //copy data length
-            msgPtr->msgEID.DLC = message->msg_data_length;
-
-            //copy data
-            for (i = 0; i < MIN(8, message->msg_data_length); i++) {
-                msgPtr->data[i] = message->msg_data[i];
-            }
-        }*/
+            msgPtr->data[i] = message->msg_data[i];
+        }
 
         /* This function lets the CAN module
          * know that the message processing is done

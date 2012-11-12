@@ -50,11 +50,17 @@ unsigned char netv_recv_message (NETV_MESSAGE *message)
 
     // CAN2
 #ifdef _CAN2
-    if ( can_netv_recv_message(message, CAN2) )
+    if(!gCAN2RXDriver[GetBoardID()])
     {
-        message->msg_comm_iface = NETV_COMM_IFACE_CAN2;
-        return 1;
+        if ( can_netv_recv_message(message, CAN2) )
+        {
+            message->msg_comm_iface = NETV_COMM_IFACE_CAN2;
+            return 1;
+        }
     }
+    //Use the non-default stack
+    else
+        gCAN2RXDriver[GetBoardID()]();
 #endif
 
     // USB

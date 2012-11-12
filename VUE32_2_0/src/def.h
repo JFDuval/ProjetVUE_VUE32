@@ -12,6 +12,7 @@
 #include "vue32_timers.h"
 #include "onboard_sensors.h"
 #include "offboard_sensors.h"
+#include "drive.h"
 #include "user_input.h"
 #include "power_out.h"
 #include "wheel_sensor.h"
