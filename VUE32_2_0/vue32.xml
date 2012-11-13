@@ -1,0 +1,46 @@
+<!DOCTYPE INTROLAB-NETWORKVIEWER>
+<ModuleConfiguration moduleState="-1" deviceID="-1" projectID="103" codeVersion="-1" processorID="-1" tableVersion="-1" configName="VUE32">
+	 <ModuleVariable offset="0"  description="Code Version" type="uint32" name="Version" />
+	 <ModuleVariable offset="1"  description="Board Address" type="uint32" name="ID" />
+	 <ModuleVariable offset="2"  description="wheel velocity Front Left" type="uint32" name="Wheel FL" />
+	 <ModuleVariable offset="3"  description="wheel velocity Front Right" type="uint32" value="" name="Wheel FR" />
+	 <ModuleVariable offset="4"  description="wheel velocity Back Left" type="uint32" value="" name="Wheel BL" />
+	 <ModuleVariable offset="5"  description="wheel velocity Back Right" type="uint32" value="" name="Wheel BR" />
+	 <ModuleVariable offset="6"  description="Battery Current" type="uint32" value="" name="Batt Current" />
+	 <ModuleVariable offset="7"  description="Ground Fault Freq" type="uint32" value="" name="GF Freq" />
+	 <ModuleVariable offset="8"  description="Ground Faul State" type="uint32" value="" name="GF State" />
+	 <ModuleVariable offset="9"  description="Front Light Control" type="uint32" value="" name="front light" />
+	 <ModuleVariable offset="10" description="Brake Pedal Pot" type="uint32" value="" name="brake pedal pot" />
+	 <ModuleVariable offset="11" description="Brake Pedal Switch" type="uint32" value="" name="brake pedal sw" />
+	 <ModuleVariable offset="12" description="Accelerator Pot 1" type="uint32" value="" name="Acc Pot1" />
+	 <ModuleVariable offset="13" description="Accelerator Pot 2" type="uint32" value="" name="Acc Pot2" />
+	 <ModuleVariable offset="14" description="Steering Angle Sensor" type="uint32" value="" name="Steering" />
+	 <ModuleVariable offset="15" description="Trasmission Control" type="uint32" value="" name="Tx Ctl" />
+	 <ModuleVariable offset="16" description="Ignition Key" type="uint32" value="" name="Key" />
+	 <ModuleVariable offset="17" description="Lateral Accel Sensor" type="uint32" value="" name="Lat Acc" />
+	 <ModuleVariable offset="18" description="Yaw Rate Sensor" type="uint32" value="" name="Yaw Rate" />
+	 <ModuleVariable offset="19" description="Wiper End of Course" type="uint32" value="" name="Wiper EOC" />
+	 <ModuleVariable offset="20" description="Wiper Mode Control" type="uint32" value="" name="Wiper Mode" />
+	 <ModuleVariable offset="21" description="BMS Board Temp" type="uint32" value="" name="Bms Board Temp" />
+	 <ModuleVariable offset="22" description="BMS Cell Group 1" type="uint32" value="" name="Bms Cell1" />
+	 <ModuleVariable offset="23" description="BMS Cell Group 2" type="uint32" value="" name="Bms Cell2" />
+	 <ModuleVariable offset="24" description="BMS Open Contactor" type="uint32" value="" name="Bms Contactor" />
+	 
+	 <ModuleVariable offset="35" description="Wiper Fluid Pump" type="uint32" name="Wiper pump" />
+	 <ModuleVariable offset="36" description="Light Low Beams" type="uint32" name="LowBeams" />
+	 <ModuleVariable offset="37" description="Light High Beams" type="uint32" name="HighBeams" />
+	 <ModuleVariable offset="38" description="Right Flashers" type="uint32" name="RightFlashers" />
+	 <ModuleVariable offset="39" description="Left Flashers" type="uint32" name="LeftFlashers" />
+	 <ModuleVariable offset="40" description="Wiper Blades" type="uint32" name="Wiper Blades" />
+	 <ModuleVariable offset="41" description="Brake Light Back Right" type="uint32" name="BrakeLightBR" />
+	 <ModuleVariable offset="42" description="Brake Light Back Left" type="uint32" name="BrakeLightBL" />
+	 <ModuleVariable offset="43" description="Night Light Back Right" type="uint32" name="NightLightBR" />
+	 <ModuleVariable offset="44" description="Night Light Back Left" type="uint32" name="NightLightBL" />
+	 <ModuleVariable offset="45" description="Reverse Light Back Right" type="uint32" name="ReverseLightBR" />
+	 <ModuleVariable offset="46" description="Reverse Light Back Left" type="uint32" name="ReverseLightBL" />
+	
+	 <ModuleVariable offset="52" description="Audio Ampli Enable" type="uint32" name="Ampli EN" />
+	 <ModuleVariable offset="53" description="Light State" type="uint32" name="Light State" />
+	 <ModuleVariable offset="54" description="Wiper State" type="uint32" name="Wiper State" />
+	 
+</ModuleConfiguration>

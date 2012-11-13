@@ -11,6 +11,7 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "../VUE32_2_0.X/BatteryPack.h"
 
 #include "def.h"
 #include "Board.h"
@@ -46,6 +47,7 @@ HDW_MAPPING gVUE32_7_Ress[] =
 void InitVUE32_7(void)
 {
     light_previous_state_vue32_7 =0;
+    InitBatteryPack();
 }
 
 /*
@@ -103,6 +105,9 @@ void ImplVUE32_7(void)
             light_flashers(gResourceMemory[E_ID_SET_LIGTH_STATE], 0);
         }
     }
+
+    // Run the battery pack state machine
+    RunBatteryPack();
 }
 
 /*
@@ -110,6 +115,9 @@ void ImplVUE32_7(void)
  */
 void OnMsgVUE32_7(NETV_MESSAGE *msg)
 {
+    // Most of the message received are for the battery pack
+    OnBatteryMsg(msg);
+
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
                 ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
                 ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)

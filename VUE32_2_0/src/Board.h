@@ -25,7 +25,7 @@ typedef enum
     VUE32_8,
     VUE32_9,
     VUE32_10,
-    BMS_1,
+    BMS_1 = 0x11,
     BMS_2,
     BMS_3,
     BMS_4,
