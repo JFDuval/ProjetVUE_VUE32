@@ -2,11 +2,11 @@
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
-static volatile BOOL isCAN1MsgReceived = FALSE;
+extern volatile BOOL isCAN1MsgReceived;
 
 /* isCAN2MsgReceived is true if CAN2 FIFO1 received
  * a message. This flag is updated in the CAN2 ISR. */
-static volatile BOOL isCAN2MsgReceived = FALSE;
+extern volatile BOOL isCAN2MsgReceived;
 
 unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
 {
@@ -58,10 +58,14 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
         //Copy message...
         unsigned int SID = (msgPtr->messageWord[0]) & 0x000007FF;   //11 bits
         unsigned int EID = (msgPtr->messageWord[1] >> 10) & 0x0003FFFF; //18 bits
+        unsigned int ID = (SID << 18) + EID;
 
         //Here convert the message buffer to a DRIVE_MESSAGE
-        message->ucType = (unsigned char)(SID & 0x0F);
-        message->address = SID & 0xFFFFFFF0;
+        message->ucType = (unsigned char)(ID & 0x0F);
+        message->address = ID & 0xFFFFFFF0;
+
+        if (message->ucType > 1)
+            Nop();
 
        //copy data length
         message->dataLenght = msgPtr->msgEID.DLC;
@@ -119,7 +123,7 @@ unsigned char CanNETSACTxMessage(DRIVE_MSG *message, CAN_MODULE CANx) {
         ID |= (((unsigned int) message->ucType) & 0x0000000F);
 
         //address
-        ID |= (((unsigned int) message->address << 4) & 0x1FFFFFF0);
+        ID |= (((unsigned int) message->address) & 0x1FFFFFF0);
 
         msgPtr->msgSID.SID = (ID >> 18);
         msgPtr->msgEID.EID = (ID & 0x0003FFFF);
@@ -133,7 +137,7 @@ unsigned char CanNETSACTxMessage(DRIVE_MSG *message, CAN_MODULE CANx) {
         msgPtr->msgEID.RB1 = 0;
 
         //Set RTR
-        msgPtr->msgEID.RTR = 0;
+        msgPtr->msgEID.RTR = message->RTR;
 
         //copy data length
         msgPtr->msgEID.DLC = message->dataLenght;

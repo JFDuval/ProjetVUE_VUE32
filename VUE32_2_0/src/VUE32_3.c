@@ -61,7 +61,7 @@ void InitVUE32_3(void)
 
     //TODO Manage the driver mode with the DPR switch
     DriveEnable(gDrivesVUE32_3, RightDrive);
-    DriveEnable(gDrivesVUE32_3, LeftDrive);
+   //DriveEnable(gDrivesVUE32_3, LeftDrive);
     
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
@@ -90,23 +90,14 @@ void ImplVUE32_3(void)
     if(flag_drives)
     {
         flag_drives = 0;
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, 10, 75);
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, 10, 75);
+        /*PoolingDrive(gDrivesVUE32_3, RightDrive, 0);
+        PoolingDrive(gDrivesVUE32_3, RightDrive, 1);
+        PoolingDrive(gDrivesVUE32_3, RightDrive, DRIVE_FRAME_INFO1);
+        PoolingDrive(gDrivesVUE32_3, RightDrive, DRIVE_FRAME_INFO2);*/
+        //DriveStateMachine(gDrivesVUE32_3, RightDrive, 10, 20);
+        //DriveStateMachine(gDrivesVUE32_3, LeftDrive, 10, 75);
     }
 
-    //Test
-    DRIVE_MSG message;
-    message.address = BASE_ID_DRIVE_RIGHT;
-    message.ucType = DRIVE_FRAME_INFO1;
-    message.data[0] = 0x0F;
-    message.data[1] = 0x3F;
-    message.data[2] = 0x0E;
-    message.data[3] = 0x2F;
-    message.data[4] = 0x0D;
-    message.data[5] = 0x1F;
-    message.data[6] = 0x00;
-    message.data[7] = 0x00;
-    DriveRXCmd(&message, gDrivesVUE32_3);
 
 }
 
@@ -151,7 +142,7 @@ ROUTING_TABLE *gRoutingTableVUE32_3 = NULL;
 
 void gCAN2DriverRX_VUE32_3()
 {
-    DRIVE_MSG message;
+    DRIVE_MSG message = {0};
 
     //Extract the message from CAN2 buffer
     if(CanNETSACRxMessage(&message, 0x01))

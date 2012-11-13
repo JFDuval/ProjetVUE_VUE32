@@ -1,4 +1,4 @@
-/******************************************************************************
+ /******************************************************************************
  * drive driver
  * by Pascal-Frédéric St-Laurent - 08/11/2012
  * ****************************************************************************/
@@ -15,9 +15,9 @@ void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         pDrives[ucDriveIndex].ufMotorCommand = 0;
 
         DRIVE_MSG driveMessage;
-        driveMessage.address =pDrives[ucDriveIndex].unBaseAddr;
+        driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
         driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
-        driveMessage.dataLenght = 1;
+        driveMessage.dataLenght = 8;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
 
         //Send to CAN network interface
@@ -40,7 +40,7 @@ void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         DRIVE_MSG driveMessage;
         driveMessage.address =pDrives[ucDriveIndex].unBaseAddr;
         driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
-        driveMessage.dataLenght = 1;
+        driveMessage.dataLenght = 8;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
 
         //Send to CAN network interface
@@ -115,7 +115,7 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
     DRIVE_MSG driveMessage;
     driveMessage.address = pDrive->unBaseAddr;
     driveMessage.ucType = DRIVE_FRAME_CONTROL;
-    driveMessage.dataLenght = 6;
+    driveMessage.dataLenght = 8;
 
     //Scale fonct
     if(pDrive->ucSelectedMode == TORQUE_MODE || pDrive->ucSelectedMode == EV_MODE)
@@ -201,4 +201,16 @@ unsigned short ScaleSpeedValue(float fValue)
 unsigned short ScaleMotorTempValue(unsigned short usValue)
 {
     return  TEMP_CONVERTING_OFFSET+usValue;
+}
+
+void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType)
+{
+    DRIVE_MSG driveMessage;
+
+    driveMessage.RTR = usCommandType > 1 ? 1 : 0 ;
+    driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
+    driveMessage.dataLenght = 8;
+    driveMessage.ucType = usCommandType;
+    
+    CanNETSACTxMessage(&driveMessage, D_CAN2);
 }

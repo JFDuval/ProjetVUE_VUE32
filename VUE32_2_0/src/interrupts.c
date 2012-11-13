@@ -73,7 +73,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     {
         led_cnt = 0;
         flag_8ms = 1;
-        LED1 ^= 1;  //Toggle LED 4Hz
+        //LED1 ^= 1;  //Toggle LED 4Hz
     }
 
     //50ms - 20 Hz

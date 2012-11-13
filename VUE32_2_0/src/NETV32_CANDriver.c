@@ -50,11 +50,11 @@ unsigned short steering_angle = 0;
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
-static volatile BOOL isCAN1MsgReceived = FALSE;
+volatile BOOL isCAN1MsgReceived = FALSE;
 
 /* isCAN2MsgReceived is true if CAN2 FIFO1 received
  * a message. This flag is updated in the CAN2 ISR. */
-static volatile BOOL isCAN2MsgReceived = FALSE;
+volatile BOOL isCAN2MsgReceived = FALSE;
 
 
 BYTE CAN1MessageFifoArea[CAN_NB_CHANNELS * CAN_FIFO_SIZE * 16];
@@ -129,7 +129,7 @@ void __attribute__((vector(46), interrupt(ipl4), nomips16)) CAN1InterruptHandler
      * base event is still present. */
 
     INTClearFlag(INT_CAN1);
-
+   
 }
 
 #ifdef _CAN2
@@ -184,6 +184,8 @@ void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler
             }
 
             isCAN2MsgReceived = TRUE;
+
+
         }
     }
 
@@ -196,7 +198,7 @@ void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler
      * base event is still present. */
 
     INTClearFlag(INT_CAN2);
-
+    LED1 ^= 1;  //Toggle LED 4Hz
 }
 #endif
 

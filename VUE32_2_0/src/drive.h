@@ -32,8 +32,8 @@
 #define EV_MODE 2
 
 //Base Id
-#define BASE_ID_DRIVE_RIGHT 16            //Passenger side
-#define BASE_ID_DRIVE_LEFT 32             //Driver side
+#define BASE_ID_DRIVE_RIGHT 32            //Passenger side
+#define BASE_ID_DRIVE_LEFT 128             //Driver side
 
 //Power limitation
 #define PL_NO_LIMIT 0
@@ -96,6 +96,7 @@ typedef struct
     unsigned char ucType;
     unsigned char dataLenght;
     unsigned char data[8];
+    unsigned char RTR;
 
 }DRIVE_MSG;
 
@@ -140,6 +141,7 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives);
 unsigned short ScaleTorqueValue(float fValue);
 unsigned short ScaleSpeedValue(float fValue);
 unsigned short ScaleMotorTempValue(unsigned short usValue);
+void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType);
 
 
 #endif
