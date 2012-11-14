@@ -42,6 +42,16 @@ void OpenContactor()
     {
         _timer = uiTimeStamp + 250;
         NETV_MESSAGE oMsg;
+        oMsg.msg_cmd = E_ID_MAIN_CONTACTOR;
+        oMsg.msg_comm_iface = NETV_COMM_IFACE_CAN1;
+        oMsg.msg_data_length = 1;
+        oMsg.msg_data[0] = 0;
+        oMsg.msg_dest = 0x03;
+        oMsg.msg_priority = NETV_PRIORITY_HIGHEST;
+        oMsg.msg_remote = 0;
+        oMsg.msg_source = GetMyAddr();
+        oMsg.msg_type = VUE32_TYPE_SETVALUE;
+        netv_send_message(&oMsg);
         /*
          TODO: Very important, we have to close the contactor here and send the error to the OdB
          */

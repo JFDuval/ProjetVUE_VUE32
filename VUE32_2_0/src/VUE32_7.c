@@ -48,6 +48,8 @@ void InitVUE32_7(void)
 {
     light_previous_state_vue32_7 =0;
     InitBatteryPack();
+    gResourceMemory[E_ID_NUM_BMS_CONNECTED] = 0;
+    gResourceMemory[E_ID_BMS_GLOBAL_STATE] = 0;
 }
 
 /*
@@ -108,6 +110,7 @@ void ImplVUE32_7(void)
 
     // Run the battery pack state machine
     RunBatteryPack();
+    gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
 }
 
 /*
@@ -119,15 +122,18 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
     OnBatteryMsg(msg);
 
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
-                ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
-                ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)
-                ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
-                LED2 = ~LED2;
+        ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
+        ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)
+        ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
+        ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, E_ID_NUM_BMS_CONNECTED)
+        LED2 = ~LED2;
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
+        E_BMS_STATES eStateCmd;
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
+        ACTION1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, eStateCmd ) SetState(eStateCmd); END_OF_ACTION
         LED2 = ~LED2;
     END_OF_MSG_TYPE
 

@@ -40,14 +40,9 @@ MESSAGE PRIORITY DEFINITIONS
 MESSAGE TYPE DEFINITIONS
 */
 #define NETV_TYPE_EMERGENCY                0x01
-#define NETV_TYPE_ACTUATOR_HIGH_PRIORITY   0x02
-#define NETV_TYPE_SENSOR_HIGH_PRIORITY     0x04
-#define NETV_TYPE_ACTUATOR_LOW_PRIORITY    0x08
-#define NETV_TYPE_SENSOR_LOW_PRIORITY      0x10
 #define NETV_TYPE_REQUEST_DATA             0x20
-#define NETV_TYPE_USER2                    0x40
-#define NETV_TYPE_ALIVE                    0x80
-#define NETV_TYPE_EVENT                    0x88
+#define NETV_TYPE_ALIVE                    0x10
+#define NETV_TYPE_EVENT                    0x11
 /** Added for Projet VUE **/
 #define VUE32_TYPE_GETVALUE                0x30
 #define VUE32_TYPE_SETVALUE                0x32
@@ -103,32 +98,33 @@ enum CANResourceId {
             E_ID_MOTOR_TEMP1 = 0x1a,
             E_ID_MOTOR_TEMP2 = 0x1b,
             E_ID_BATT_LEVEL = 0x1c,
-			E_ID_ODOMETER = 0x1d,
-			E_ID_BATT_12V = 0x1e,
+            E_ID_ODOMETER = 0x1d,
+            E_ID_BATT_12V = 0x1e,
+            E_ID_NUM_BMS_CONNECTED = 0x1F,
 
             // Access in Read/Write mode  (actuator)
-            E_ID_DRIVE_L = 0x20,   // Premier actuateur
-            E_ID_DRIVE_R = 0x21,
-            E_ID_COOLINGPUMP = 0x22,
-            E_ID_WIPERFLUIDPUMP = 0x23,
-            E_ID_WIPERBLADES = 0x24,
-            E_ID_BMS_STATE_ERROR = 0x25,
-            E_ID_BMS_STATE_BALANCING = 0x26,
-            E_ID_AUDIOAMPLIFIER = 0x27,
-            E_ID_SET_LIGTH_STATE = 0x28,
-            E_ID_SET_BRAKE_LIGTH_STATE = 0x29,
-            E_ID_TRUNK_SIGNAL = 0x2a,
-            E_ID_BMS_TENSIONS = 0x2b,
-            E_ID_BMS_TEMPERATURES = 0x2c,
-            E_ID_SET_WIPER_STATE = 0x2d,
-            E_ID_SET_ROOF_LIGTH = 0x2e,
-            E_ID_SET_ROOF_LIGTH_FROM_RIGHT = 0x2f,
-            E_ID_SET_ROOF_LIGTH_FROM_LEFT = 0x30,
-            E_ID_SET_ROOF_LIGTH_FROM_TRUNK = 0x31,
-            E_ID_SET_REVERSE_LIGTH_STATE = 0x32,
-            E_ID_MAIN_CONTACTOR = 0x33,
-            E_ID_BMS_STATE = 0x34
-
+            E_ID_DRIVE_L = 0xEA,
+            E_ID_DRIVE_R = 0xEB,
+            E_ID_COOLINGPUMP = 0xEC,
+            E_ID_WIPERFLUIDPUMP = 0xED,
+            E_ID_WIPERBLADES = 0xEE,
+            E_ID_BMS_STATE_ERROR = 0xEF,
+            E_ID_BMS_STATE_BALANCING = 0xF0,
+            E_ID_AUDIOAMPLIFIER = 0xF1,
+            E_ID_SET_LIGTH_STATE = 0xF2,
+            E_ID_SET_BRAKE_LIGTH_STATE = 0xF3,
+            E_ID_TRUNK_SIGNAL = 0xF4,
+            E_ID_BMS_TENSIONS = 0xF5,
+            E_ID_BMS_TEMPERATURES = 0xF6,
+            E_ID_SET_WIPER_STATE = 0xF7,
+            E_ID_SET_ROOF_LIGTH = 0xF8,
+            E_ID_SET_ROOF_LIGTH_FROM_RIGHT = 0xF9,
+            E_ID_SET_ROOF_LIGTH_FROM_LEFT = 0xFA,
+            E_ID_SET_ROOF_LIGTH_FROM_TRUNK = 0xFB,
+            E_ID_SET_REVERSE_LIGTH_STATE = 0xFC,
+            E_ID_MAIN_CONTACTOR = 0xFD,
+            E_ID_BMS_GLOBAL_STATE = 0xFE,
+            E_ID_RESERVED_MAX = 0xFF // Dernier actuateur
 } CANResourceId;
 
 /*
@@ -140,7 +136,7 @@ EVENTS MESSAGE COMMANDS (TYPE EVENTS)
 /*
 CAN ADDRESS DEFINITIONS
 */
-#define NETV_ADDRESS_BROADCAST 0x3F
+#define NETV_ADDRESS_BROADCAST 0xFF
 
 /*
 COMMUNCATION INTERFACES (flags)
