@@ -103,8 +103,8 @@ enum CANResourceId {
             E_ID_MOTOR_TEMP1 = 0x1a,
             E_ID_MOTOR_TEMP2 = 0x1b,
             E_ID_BATT_LEVEL = 0x1c,
-	    E_ID_ODOMETER = 0x1d,
-
+			E_ID_ODOMETER = 0x1d,
+			E_ID_BATT_12V = 0x1e,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0x20,   // Premier actuateur
