@@ -24,10 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 // Library call
 #include "NETV32_CANDriver.h"
 #include "NETV32_Device.h"
-#include "VUE32_Impl.h"
 
 #include "GenericTypeDefs.h"
+#ifdef _CAN2
 #include "Board.h"
+#include "VUE32_Impl.h"
+#endif
 #include <p32xxxx.h>
 #include <sys/kmem.h>
 #include "plib.h"
@@ -50,11 +52,11 @@ unsigned short steering_angle = 0;
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
-volatile BOOL isCAN1MsgReceived = FALSE;
+static volatile BOOL isCAN1MsgReceived = FALSE;
 
 /* isCAN2MsgReceived is true if CAN2 FIFO1 received
  * a message. This flag is updated in the CAN2 ISR. */
-volatile BOOL isCAN2MsgReceived = FALSE;
+static volatile BOOL isCAN2MsgReceived = FALSE;
 
 
 BYTE CAN1MessageFifoArea[CAN_NB_CHANNELS * CAN_FIFO_SIZE * 16];
@@ -73,6 +75,7 @@ void __attribute__((vector(46), interrupt(ipl4), nomips16)) CAN1InterruptHandler
      * events are enabled by the  CANEnableModuleEvent()
      * function. In this example, only the RX_EVENT
      * is enabled. */
+     asm("di");
 
 
     /* Check if the source of the interrupt is
@@ -129,6 +132,7 @@ void __attribute__((vector(46), interrupt(ipl4), nomips16)) CAN1InterruptHandler
      * base event is still present. */
 
     INTClearFlag(INT_CAN1);
+    asm("ei");
    
 }
 

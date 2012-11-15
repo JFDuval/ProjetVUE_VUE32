@@ -111,7 +111,7 @@ void RunBatteryPack()
     }
     if ( minTension < TENSION_MIN_CELL || maxTension > TENSION_MAX_OPEN_CONTACTOR)
     {
-        
+        OpenContactor();
     }
 
     // Refresh all data every second
@@ -123,7 +123,7 @@ void RunBatteryPack()
         _timer = uiTimeStamp + 250;
         switch(rotation)
         {
-        case 0:
+        case 0: // TOdo: mettre des defines
             oMsg.msg_cmd = 0x14;
             break;
         case 1:
