@@ -95,7 +95,7 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
         ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
                 ANSWER1(E_ID_LEFT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_LEFT_DOOR_STATE])
                 ANSWER1(E_ID_RIGHT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_RIGHT_DOOR_STATE])
-                LED2 = ~LED2;
+                com_led_toggle();
         END_OF_MSG_TYPE
 }
 

@@ -55,6 +55,11 @@ int main(void)
     
     while (1)
     {
+        // Toggle Alive LED
+        EVERY_X_MS(250)
+        LED1 ^= 1;  //Toggle LED 4Hz
+        END_OF_EVERY
+
 	//NetV on USB-CDC
 	ProcessIO();
 

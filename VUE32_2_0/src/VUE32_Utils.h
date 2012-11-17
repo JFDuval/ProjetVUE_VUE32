@@ -114,6 +114,11 @@ _timer = uiTimeStamp + period;
 
 #define END_OF_EVERY }}
 
+#define BLOCK_X_MS(delay) \
+{ unsigned int _timer = uiTimeStamp + delay; \
+while (uiTimeStamp < _timer); \
+}
+
 typedef struct {
     unsigned int unEndWait;
     unsigned int unDelay;

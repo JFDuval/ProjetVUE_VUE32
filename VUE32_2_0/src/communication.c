@@ -25,8 +25,11 @@ unsigned char netv_send_message (NETV_MESSAGE *message)
 
     // CAN2
 #ifdef _CAN2
-    if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
-        success &= can_netv_send_message(message, CAN2);
+    if(!gCAN2RXDriver[GetBoardID()])
+    {
+        if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
+            success &= can_netv_send_message(message, CAN2);
+    }
 #endif
 
     // USB

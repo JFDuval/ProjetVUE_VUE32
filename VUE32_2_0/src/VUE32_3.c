@@ -28,6 +28,12 @@ extern volatile unsigned int flag_1ms_b;
 extern volatile unsigned char flag_drives;
 extern volatile unsigned int flag_8ms;
 
+extern volatile unsigned int uiTimeStamp;
+
+unsigned int usStartedTime;
+unsigned char ucReady = 0;
+unsigned char drives = 1;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
 {
@@ -58,11 +64,10 @@ unsigned int tm_unRandom = 65000;
  */
 void InitVUE32_3(void)
 {
+    power_out(MISC_PWR_COOLING,1);
+    power_out(MISC_PWR_CONTACTOR,1);
 
-    //TODO Manage the driver mode with the DPR switch
-    DriveEnable(gDrivesVUE32_3, RightDrive);
-   //DriveEnable(gDrivesVUE32_3, LeftDrive);
-    
+    usStartedTime = uiTimeStamp+5000;
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
@@ -74,7 +79,6 @@ void InitVUE32_3(void)
  */
 void ImplVUE32_3(void)
 {
-
     if(flag_1ms_b)
     {
         flag_1ms_b = 0;
@@ -86,16 +90,44 @@ void ImplVUE32_3(void)
 	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
 
+    if(usStartedTime < uiTimeStamp  && drives)
+    {
+        drives = 0;
+        DriveEnable(gDrivesVUE32_3, RightDrive);
+        //DriveEnable(gDrivesVUE32_3, LeftDrive);
+    }
 
     if(flag_drives)
     {
+        
         flag_drives = 0;
-        /*PoolingDrive(gDrivesVUE32_3, RightDrive, 0);
-        PoolingDrive(gDrivesVUE32_3, RightDrive, 1);
-        PoolingDrive(gDrivesVUE32_3, RightDrive, DRIVE_FRAME_INFO1);
-        PoolingDrive(gDrivesVUE32_3, RightDrive, DRIVE_FRAME_INFO2);*/
-        //DriveStateMachine(gDrivesVUE32_3, RightDrive, 10, 20);
-        //DriveStateMachine(gDrivesVUE32_3, LeftDrive, 10, 75);
+        DRIVE_MSG driveMessage;
+        driveMessage.address = 0x20;
+        driveMessage.RTR = 0;
+        driveMessage.ucType = DRIVE_FRAME_CONTROL;
+        driveMessage.dataLenght = 8;
+        
+        //speed
+        if(gResourceMemory[E_ID_ACCELERATOR])
+            Nop();
+
+        unsigned short usSpeed = ScaleSpeedValue((float)gResourceMemory[E_ID_ACCELERATOR]*0.6);
+        //unsigned short usSpeed = ScaleSpeedValue(150);
+        driveMessage.data[0] = (unsigned char)((usSpeed >> 8) & 0x00FF);;
+        driveMessage.data[1] = (unsigned char)(usSpeed & 0x00FF);
+
+        //Motor Selector
+        driveMessage.data[2] = SPEED_MODE;
+
+        //Power Limit
+        driveMessage.data[3] = PL_MAXIMUM_MOTOR_POWER_LIMIT;
+
+        //Temperature
+        unsigned short fTemp = ScaleMotorTempValue(35);
+        driveMessage.data[4] = 0;
+        driveMessage.data[5] = 85;
+        CanNETSACTxMessage(&driveMessage, D_CAN2);
+
     }
 
 
@@ -112,20 +144,23 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL])
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
-            LED2 = ~LED2;
+            com_led_toggle();
         END_OF_MSG_TYPE
 
         ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
-            LED2 = ~LED2;
+            com_led_toggle();
         END_OF_MSG_TYPE
 
         ON_MSG_TYPE( NETV_TYPE_EVENT )
+            unsigned char temp;
+            /*ACTION1(E_ID_GROUNDFAULT_FREQ, unsigned char, temp)
+            END_OF_ACTION*/
             ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
             ACTION1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR]) END_OF_ACTION
             ACTION1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL]) END_OF_ACTION
-            LED2 = ~LED2;
+            com_led_toggle();
         END_OF_MSG_TYPE
 }
 
@@ -143,11 +178,33 @@ ROUTING_TABLE *gRoutingTableVUE32_3 = NULL;
 void gCAN2DriverRX_VUE32_3()
 {
     DRIVE_MSG message = {0};
+    unsigned int i = 0;
 
     //Extract the message from CAN2 buffer
     if(CanNETSACRxMessage(&message, 0x01))
-        //Proccess the drives network stack
+    {
+        //Proccess the drives network stack          
         DriveRXCmd(&message, gDrivesVUE32_3);
+
+        NETV_MESSAGE messageUSB;
+        messageUSB.msg_comm_iface = NETV_COMM_IFACE_USB;
+        messageUSB.msg_source = 0;
+        messageUSB.msg_priority = 0;
+        messageUSB.msg_dest = 0;
+        messageUSB.msg_data_length = 8;
+        messageUSB.msg_cmd = (unsigned char)message.address;
+        messageUSB.msg_type = (unsigned char)message.ucType;
+        messageUSB.msg_remote = 0;
+
+        unsigned int i = 0;
+
+        for(i = 0; i<8; i++)
+        {
+            messageUSB.msg_data[i] = message.data[i];
+        }
+
+        usb_netv_send_message(&messageUSB);
+    }
 }
 
 
@@ -156,3 +213,4 @@ void gCAN2DriverRX_VUE32_3()
 {
     return;
 }*/
+

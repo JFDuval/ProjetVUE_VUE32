@@ -50,15 +50,15 @@ HDW_MAPPING gVUE32_2_Ress[] =
 //TODO remove these define and use the interface provided by HDW_MAPPING
 //Mapping between pins and functionnalities
 #define GNDFAULT_FREQ DIO0
-#define GNDFAULT_STATE DIO1
+#define GNDFAULT_STATE DIO2
 #define BATTERYCURRENT TRIS_AN0
 #define WHEELVELOCITYSSENSOR_BR SPDO1
 #define WHEELVELOCITYSSENSOR_BR_TRIS SPDO1_TRIS
 #define GNDFAULT_FREQ_TRIS DIO0_TRIS
-#define GNDFAULT_STATE_TRIS DIO1_TRIS
+#define GNDFAULT_STATE_TRIS DIO2_TRIS
 
 // Local variables
-unsigned int m_prev_gndfaultstate = 0;
+unsigned int m_prev_gndfaultstate = 1;
 
 
 /*
@@ -68,10 +68,12 @@ void InitVUE32_2(void)
 {
     light_previous_state_vue32_2 =0;
     // Set the ground fault pins as input
-    /*GNDFAULT_FREQ_TRIS = 1;
+    //GNDFAULT_FREQ_TRIS = 1;
     GNDFAULT_STATE_TRIS = 1;
-    WHEELVELOCITYSSENSOR_BR_TRIS = 1;
     m_prev_gndfaultstate = GNDFAULT_STATE;
+    gResourceMemory[E_ID_GROUNDFAULT_FREQ] = 0x80;
+    /*WHEELVELOCITYSSENSOR_BR_TRIS = 1;
+    
 
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
@@ -84,14 +86,33 @@ void InitVUE32_2(void)
 void ImplVUE32_2(void)
 {
     static unsigned char flash = 1;
+    
+    // GROUND FAULT DETECTION
+    if ( GNDFAULT_STATE == 0 )
+    {
+        m_prev_gndfaultstate = GNDFAULT_STATE;
+        EVERY_X_MS(100)
+            NETV_MESSAGE oMsg;
+            oMsg.msg_cmd = E_ID_GROUNDFAULT_STATE;
+            oMsg.msg_data[0] = 0xFF;
+            oMsg.msg_data_length = 1;
+            oMsg.msg_dest = 0xFF;
+            oMsg.msg_remote = 0;
+            oMsg.msg_priority = 0;
+            oMsg.msg_source = GetMyAddr();
+            oMsg.msg_type = NETV_TYPE_EVENT;
+            oMsg.msg_comm_iface = 0xFF;
+            netv_send_message(&oMsg);
+            LED2 = 1;
+        END_OF_EVERY
+    }
 
     //TODO forward data to software interface
-    if(flag_1ms_a)
-    {
+    EVERY_X_MS(250)
         flag_1ms_a = 0;
         //GFI Frequency
          gResourceMemory[E_ID_GROUNDFAULT_FREQ] = (unsigned int)gfi_freq_sensor();
-    }
+    END_OF_EVERY
 
     if(flag_1ms_b)
     {
@@ -161,14 +182,14 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ANSWER1(E_ID_BATTERYCURRENT, unsigned short, gResourceMemory[E_ID_BATTERYCURRENT])
         ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_FREQ])
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
-        LED2 = ~LED2;
+        //com_led_toggle();
     END_OF_MSG_TYPE
             
     // Deal with SETVALUE requests TODO merge light resource Id in group
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        LED2 = ~LED2;
+        //com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
@@ -176,7 +197,7 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
         //Variable updated on event by a distant sensor
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
-        LED2 = ~LED2;
+        //com_led_toggle();
     END_OF_MSG_TYPE
 
 }

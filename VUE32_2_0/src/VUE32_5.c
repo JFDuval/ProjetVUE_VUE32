@@ -25,6 +25,7 @@ extern unsigned int gResourceMemory[256];
 unsigned char user_input_VUE32_5 = 0;
 unsigned char roof_light;
 extern volatile unsigned int flag_1ms_a, flag_8ms;
+extern volatile unsigned int flag_x100ms;
 
 //interrupt.c
 extern volatile unsigned int flag_1ms_a;
@@ -79,9 +80,9 @@ void ImplVUE32_5(void)
 
     //Todo trunk switch
 
-    if(flag_8ms)
+    if(flag_x100ms)
     {
-        flag_8ms = 0;
+        flag_x100ms = 0;
 
         //Send the accelerator position to the VUE32 #5
         EmitAnEvent(E_ID_ACCELERATOR, VUE32_3,  sizeof(unsigned short), gResourceMemory[E_ID_ACCELERATOR]);
@@ -112,10 +113,10 @@ void ImplVUE32_5(void)
 
         roof_light = gResourceMemory[E_ID_SET_ROOF_LIGTH_FROM_RIGHT] | gResourceMemory[E_ID_SET_ROOF_LIGTH_FROM_LEFT] | gResourceMemory[E_ID_SET_ROOF_LIGTH_FROM_TRUNK];
 
-        if(roof_light)
+        /*if(roof_light)
             pwr_roof_light(1);
         else
-            pwr_roof_light(0);
+            pwr_roof_light(0);*/
     }
 }
 
@@ -133,19 +134,19 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_STATE_SWICHT_TRUNK, unsigned char, gResourceMemory[E_ID_STATE_SWICHT_TRUNK])
                 ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
                 ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
-                LED2 = ~LED2;
+                com_led_toggle();
     END_OF_MSG_TYPE
             
     ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
                 ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
                 ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
-                LED2 = ~LED2;
+                com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_ROOF_LIGTH_FROM_RIGHT, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH_FROM_RIGHT]) END_OF_ACTION
         ACTION1(E_ID_SET_ROOF_LIGTH_FROM_LEFT, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH_FROM_LEFT]) END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 
 }

@@ -1,4 +1,5 @@
 #include "NETSAC_CANDriver.h"
+#include "NETV32_Common.h"
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
@@ -64,9 +65,6 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
         message->ucType = (unsigned char)(ID & 0x0F);
         message->address = ID & 0xFFFFFFF0;
 
-        if (message->ucType > 1)
-            Nop();
-
        //copy data length
         message->dataLenght = msgPtr->msgEID.DLC;
 
@@ -93,7 +91,26 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
 }
 
 unsigned char CanNETSACTxMessage(DRIVE_MSG *message, CAN_MODULE CANx) {
-    unsigned int i = 0;
+
+        NETV_MESSAGE messageUSB;
+        messageUSB.msg_comm_iface = 0x04;
+        messageUSB.msg_source = 0;
+        messageUSB.msg_priority = 0;
+        messageUSB.msg_data_length = 8;
+        messageUSB.msg_dest = 1;
+        messageUSB.msg_cmd = (unsigned char)message->address;
+        messageUSB.msg_type = (unsigned char)message->ucType;
+        messageUSB.msg_remote = 0;
+
+        unsigned int i = 0;
+
+        for(i = 0; i<8; i++)
+        {
+            messageUSB.msg_data[i] = message->data[i];
+        }
+
+        usb_netv_send_message(&messageUSB);
+    //unsigned int i = 0;
 
     /* Get a pointer to the next buffer in the channel
      * check if the returned value is null. */

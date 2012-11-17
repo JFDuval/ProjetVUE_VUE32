@@ -52,11 +52,11 @@ unsigned short steering_angle = 0;
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
-static volatile BOOL isCAN1MsgReceived = FALSE;
+volatile BOOL isCAN1MsgReceived = FALSE;
 
 /* isCAN2MsgReceived is true if CAN2 FIFO1 received
  * a message. This flag is updated in the CAN2 ISR. */
-static volatile BOOL isCAN2MsgReceived = FALSE;
+volatile BOOL isCAN2MsgReceived = FALSE;
 
 
 BYTE CAN1MessageFifoArea[CAN_NB_CHANNELS * CAN_FIFO_SIZE * 16];
@@ -202,7 +202,6 @@ void __attribute__((vector(47), interrupt(ipl4), nomips16)) CAN2InterruptHandler
      * base event is still present. */
 
     INTClearFlag(INT_CAN2);
-    LED1 ^= 1;  //Toggle LED 4Hz
 }
 #endif
 
@@ -416,7 +415,12 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_NOT_EMPTY, TRUE);
         CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_OVERFLOW, TRUE);
 
-        return 1;
+        if((GetBoardID() == VUE32_5) && (CANx == CAN2))
+	{
+            return 0;
+        }
+        else
+            return 1;
     }
 
     return 0;

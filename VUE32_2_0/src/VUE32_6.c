@@ -114,21 +114,21 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP])
             ANSWER1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE])
             ANSWER1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
-                LED2 = ~LED2;
+                com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
         ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
         ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 }
 

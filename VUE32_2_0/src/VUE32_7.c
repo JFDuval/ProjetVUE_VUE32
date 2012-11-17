@@ -127,7 +127,7 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
         ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, E_ID_NUM_BMS_CONNECTED)
         ANSWER1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
@@ -138,14 +138,14 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
             SetState(eStateCmd);
             gResourceMemory[E_ID_BMS_GLOBAL_STATE] = eStateCmd;
         END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 }
 

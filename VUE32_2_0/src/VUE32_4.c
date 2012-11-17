@@ -112,18 +112,18 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WIPERSENDOFCOURSE, unsigned char, gResourceMemory[E_ID_WIPERSENDOFCOURSE])
             ANSWER1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES])
             ANSWER1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE])
-            LED2 = ~LED2;
+            com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
             ACTION1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES]) END_OF_ACTION
             ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
-            LED2 = ~LED2;
+            com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES]) END_OF_ACTION
-        LED2 = ~LED2;
+        com_led_toggle();
     END_OF_MSG_TYPE
 }
 

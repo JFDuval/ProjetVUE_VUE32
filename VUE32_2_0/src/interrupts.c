@@ -50,6 +50,7 @@ void __ISR(_TIMER_1_VECTOR, ipl3) isr_timer1(void)
     static unsigned int tmb_x100ms = 0;
     static unsigned short usDrivesCNT = 0;
 
+
     //1ms - 1000Hz (timestamp)
     time_cnt++;
     if(time_cnt > 10)

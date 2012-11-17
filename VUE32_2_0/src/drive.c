@@ -7,8 +7,8 @@
 
 void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
-    if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_ENABLE)
-    {
+    /*if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_ENABLE)
+    {*/
         pDrives[ucDriveIndex].ucIsEnable = DRIVE_ENABLE;
 
         //Safety start with a command at zero
@@ -18,19 +18,30 @@ void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
         driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
         driveMessage.dataLenght = 8;
+        driveMessage.RTR = 0;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
+        driveMessage.data[1] = 0;
+        driveMessage.data[2] = 0;
+        driveMessage.data[3] = 0;
+        driveMessage.data[4] = 0;
+        driveMessage.data[5] = 0;
+        driveMessage.data[6] = 0;
+        driveMessage.data[7] = 0;
+
+
+
 
         //Send to CAN network interface
         CanNETSACTxMessage(&driveMessage, D_CAN2);
-    }
+    /*}*/
 
-    return;
+    //return;
 }
 
 void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
-    if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_DISABLE)
-    {
+    /*if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_DISABLE)
+    {*/
         pDrives[ucDriveIndex].ucIsEnable = DRIVE_DISABLE;
 
         //Safety stop with a command at zero
@@ -45,7 +56,7 @@ void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 
         //Send to CAN network interface
         CanNETSACTxMessage(&driveMessage, D_CAN2);
-    }
+    //}
 }
 
 /* fCommandMotor unit depends on the drive configuration. Basically, this funtion must received torque command in Newton/Meter or speed command in rotation per minute (RPM)*/
@@ -132,12 +143,12 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
     driveMessage.data[2] = pDrive->ucSelectedMode;
 
     //Power Limit
-    driveMessage.data[4] = pDrive->ucPowerLimit;
+    driveMessage.data[3] = pDrive->ucPowerLimit;
 
     //Temperature
     pDrive->usScaledMotorTemp = ScaleMotorTempValue(pDrive->usUnscaledMotorTemp);
-    driveMessage.data[5] = (unsigned char)((pDrive->usScaledMotorTemp >> 8) & 0x00FF);
-    driveMessage.data[6] = (unsigned char)(pDrive->usScaledMotorTemp & 0x00FF);
+    driveMessage.data[4] = (unsigned char)((pDrive->usScaledMotorTemp >> 8) & 0x00FF);
+    driveMessage.data[5] = (unsigned char)(pDrive->usScaledMotorTemp & 0x00FF);
 
 
     //Send to CAN network interface
@@ -207,7 +218,7 @@ void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned ch
 {
     DRIVE_MSG driveMessage;
 
-    driveMessage.RTR = usCommandType > 1 ? 1 : 0 ;
+    driveMessage.RTR = 1;
     driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
     driveMessage.dataLenght = 8;
     driveMessage.ucType = usCommandType;

@@ -1,5 +1,6 @@
 #include "periph.h"
 #include "def.h"
+#include "VUE32_Utils.h"
 
 extern unsigned int adc_raw[8][8];
 
@@ -119,12 +120,7 @@ unsigned int test_code1_adc_and_dio(void)
 //ToDo call this function from CAN too
 void com_led_toggle(void)
 {
-    static unsigned short led2_cnt = 0;
-
-    led2_cnt++;
-    if(led2_cnt > 25)
-    {
-	led2_cnt = 0;
+    EVERY_X_MS(100)
 	LED2 ^= 1;  //Toggle LED
-    } 
+    END_OF_EVERY
 }
