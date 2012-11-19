@@ -107,6 +107,9 @@ enum CANResourceId {
             E_ID_BATT_12V = 0x1e,
             E_ID_NUM_BMS_CONNECTED = 0x1F,
             E_ID_BMS_MINMAX_TENSION = 0x20,
+            E_ID_3AXES_ACCEL_X = 0x21,
+            E_ID_3AXES_ACCEL_Y = 0x22,
+            E_ID_3AXES_ACCEL_Z = 0x23,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0xEA,

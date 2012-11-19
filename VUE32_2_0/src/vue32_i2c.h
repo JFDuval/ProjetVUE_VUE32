@@ -50,7 +50,9 @@ void init_i2c(void);
 void i2c_putc(unsigned char c);
 unsigned char i2c_readc(unsigned char ackstate);
 void init_adxl345(void);
-void read_adxl345(char reg_adr);
+void read_adxl345();
+
+extern short accel_x, accel_y, accel_z;
 
 #endif
 

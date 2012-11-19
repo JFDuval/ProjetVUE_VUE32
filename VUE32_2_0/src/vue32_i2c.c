@@ -117,9 +117,10 @@ void init_adxl345(void)
 }
 
 //Read all 6 registers - Polling
-void read_adxl345(char reg_adr)
+void read_adxl345()
 {
     short data[6], i = 0;
+    char reg_adr = 0x32;
 
     //Start communication
     while(!I2CBusIsIdle(I2C1));		    //Bus ready?

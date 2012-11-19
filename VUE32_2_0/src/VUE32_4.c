@@ -13,6 +13,7 @@
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
 #include "Board.h"
+#include "vue32_i2c.h"
 
 
 #include "def.h"
@@ -39,7 +40,10 @@ HDW_MAPPING gVUE32_4_Ress[] =
     {E_ID_FRONTLIGHTCONTROL, sizeof(unsigned char), Sensor},
     {E_ID_WIPERSENDOFCOURSE, sizeof(unsigned char), Sensor},
     {E_ID_WIPERBLADES, sizeof(unsigned char), Actuator},
-    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator}
+    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
+    {E_ID_3AXES_ACCEL_X, sizeof(short), Sensor},
+    {E_ID_3AXES_ACCEL_Y, sizeof(short), Sensor},
+    {E_ID_3AXES_ACCEL_Z, sizeof(short), Sensor}
 };
 
 /*
@@ -49,6 +53,12 @@ void InitVUE32_4(void)
 {
     //Light lever
     init_light_input();
+
+    // Setup I2C
+    init_i2c();
+
+    // Init 3-axis sensor
+    init_adxl345();
 }
 
 /*
@@ -57,6 +67,14 @@ void InitVUE32_4(void)
 void ImplVUE32_4(void)
 {
     static unsigned char flash = 1, dummy = 0;
+
+    // Process the I2C sensor, result is put in the global variables (accel_x, accel_y and accel_z)
+    EVERY_X_MS(1)
+        read_adxl345();
+        gResourceMemory[E_ID_3AXES_ACCEL_X] = (int)accel_x;
+        gResourceMemory[E_ID_3AXES_ACCEL_Y] = (int)accel_y;
+        gResourceMemory[E_ID_3AXES_ACCEL_Z] = (int)accel_z;
+    END_OF_EVERY
 
     if(flag_8ms)
     {
@@ -112,6 +130,9 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WIPERSENDOFCOURSE, unsigned char, gResourceMemory[E_ID_WIPERSENDOFCOURSE])
             ANSWER1(E_ID_WIPERBLADES, unsigned char, gResourceMemory[E_ID_WIPERBLADES])
             ANSWER1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE])
+            ANSWER1(E_ID_3AXES_ACCEL_X, short, gResourceMemory[E_ID_3AXES_ACCEL_X])
+            ANSWER1(E_ID_3AXES_ACCEL_Y, short, gResourceMemory[E_ID_3AXES_ACCEL_Y])
+            ANSWER1(E_ID_3AXES_ACCEL_Z, short, gResourceMemory[E_ID_3AXES_ACCEL_Z])
             com_led_toggle();
     END_OF_MSG_TYPE
 

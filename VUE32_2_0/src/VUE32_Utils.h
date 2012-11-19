@@ -112,6 +112,11 @@ var4 = ((type4*)(msg->msg_data+sizeof(type1)+sizeof(type2)+sizeof(type3)))[0];
 if ( _timer < uiTimeStamp ) { \
 _timer = uiTimeStamp + period;
 
+#define EVERY_X_MS2(period, offset) \
+{static unsigned int _timer = offset; \
+if ( _timer < uiTimeStamp ) { \
+_timer = uiTimeStamp + period;
+
 #define END_OF_EVERY }}
 
 #define BLOCK_X_MS(delay) \
