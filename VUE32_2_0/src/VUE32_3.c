@@ -48,8 +48,8 @@ HDW_MAPPING gVUE32_3_Ress[] =
 
 DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] =
 {
-    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_MAXIMUM_MOTOR_POWER_LIMIT, 0, 0, NO_EMERGENCY},
-    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_MAXIMUM_MOTOR_POWER_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
 };
 
 // Mapping between pins and functionnalities,
@@ -94,26 +94,26 @@ void ImplVUE32_3(void)
     {
         drives = 0;
         DriveEnable(gDrivesVUE32_3, RightDrive);
-        //DriveEnable(gDrivesVUE32_3, LeftDrive);
+        DriveEnable(gDrivesVUE32_3, LeftDrive);
     }
 
     if(flag_drives)
-    {
-        
+    { 
         flag_drives = 0;
-        DRIVE_MSG driveMessage;
+
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*6, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*6, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
+        
+        /*DRIVE_MSG driveMessage;
         driveMessage.address = 0x20;
         driveMessage.RTR = 0;
         driveMessage.ucType = DRIVE_FRAME_CONTROL;
         driveMessage.dataLenght = 8;
         
         //speed
-        if(gResourceMemory[E_ID_ACCELERATOR])
-            Nop();
-
         unsigned short usSpeed = ScaleSpeedValue((float)gResourceMemory[E_ID_ACCELERATOR]*0.6);
         //unsigned short usSpeed = ScaleSpeedValue(150);
-        driveMessage.data[0] = (unsigned char)((usSpeed >> 8) & 0x00FF);;
+        driveMessage.data[0] = (unsigned char)((usSpeed >> 8) & 0x00FF);
         driveMessage.data[1] = (unsigned char)(usSpeed & 0x00FF);
 
         //Motor Selector
@@ -126,8 +126,7 @@ void ImplVUE32_3(void)
         unsigned short fTemp = ScaleMotorTempValue(35);
         driveMessage.data[4] = 0;
         driveMessage.data[5] = 85;
-        CanNETSACTxMessage(&driveMessage, D_CAN2);
-
+        CanNETSACTxMessage(&driveMessage, D_CAN2);*/
     }
 
 
@@ -160,6 +159,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
             ACTION1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR]) END_OF_ACTION
             ACTION1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL]) END_OF_ACTION
+            ACTION1(E_ID_MOTOR_TEMP1, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP1]) END_OF_ACTION
+            ACTION1(E_ID_MOTOR_TEMP2, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP2]) END_OF_ACTION
             com_led_toggle();
         END_OF_MSG_TYPE
 }

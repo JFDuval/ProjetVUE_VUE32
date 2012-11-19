@@ -15,8 +15,8 @@
 //Frame id
 #define DRIVE_FRAME_ENABLE_DISABLE 0
 #define DRIVE_FRAME_CONTROL 1
-#define DRIVE_FRAME_INFO1 2
-#define DRIVE_FRAME_INFO2 3
+#define DRIVE_FRAME_INFO1 0
+#define DRIVE_FRAME_INFO2 1
 
 //Drive CONTROL STATUS
 #define DRIVE_ENABLE 1
@@ -32,8 +32,10 @@
 #define EV_MODE 2
 
 //Base Id
-#define BASE_ID_DRIVE_RIGHT 32            //Passenger side
-#define BASE_ID_DRIVE_LEFT 128             //Driver side
+#define BASE_ID_DRIVE_RIGHT_READ 32             //Passenger side
+#define BASE_ID_DRIVE_RIGHT_WRITE 64            //Passenger side
+#define BASE_ID_DRIVE_LEFT_READ 128             //Driver side
+#define BASE_ID_DRIVE_LEFT_WRITE 256             //Driver side
 
 //Power limitation
 #define PL_NO_LIMIT 0
@@ -103,7 +105,8 @@ typedef struct
 typedef struct
 {
     unsigned char ucIsEnable;
-    unsigned int unBaseAddr;
+    unsigned int unBaseAddrRead;
+    unsigned int unBaseAddrWrite;
     unsigned short usMotorSpeed;
     unsigned short usBatteryVoltage;
     unsigned short usBatteryCurrent;
@@ -118,7 +121,7 @@ typedef struct
     unsigned char ucSelectedMode;
     unsigned char ucPowerLimit;
     unsigned short usScaledMotorTemp;
-    unsigned short usUnscaledMotorTemp;
+    unsigned short usMotorTempADC;
     unsigned char ucIsOnEmergency;
 }DRIVE_STATUS;
 
@@ -134,8 +137,7 @@ enum driveIndex
 void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
 void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex);
 void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp);
-void DrivesEmergencyStop(DRIVE_STATUS *pDrives);
-void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives);
+char DrivesError(DRIVE_STATUS *pDrives);
 void DriveTXCmd(DRIVE_STATUS *pDrive);
 void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives);
 unsigned short ScaleTorqueValue(float fValue);

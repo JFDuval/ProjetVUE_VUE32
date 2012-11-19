@@ -15,9 +15,10 @@ void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         pDrives[ucDriveIndex].ufMotorCommand = 0;
 
         DRIVE_MSG driveMessage;
-        driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
+        driveMessage.address = pDrives[ucDriveIndex].unBaseAddrRead;
         driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
         driveMessage.dataLenght = 8;
+        //Must be always set to zero
         driveMessage.RTR = 0;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
         driveMessage.data[1] = 0;
@@ -28,14 +29,8 @@ void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         driveMessage.data[6] = 0;
         driveMessage.data[7] = 0;
 
-
-
-
         //Send to CAN network interface
         CanNETSACTxMessage(&driveMessage, D_CAN2);
-    /*}*/
-
-    //return;
 }
 
 void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
@@ -49,8 +44,9 @@ void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         DriveTXCmd(pDrives+ucDriveIndex);
 
         DRIVE_MSG driveMessage;
-        driveMessage.address =pDrives[ucDriveIndex].unBaseAddr;
+        driveMessage.address =pDrives[ucDriveIndex].unBaseAddrRead;
         driveMessage.ucType = DRIVE_FRAME_ENABLE_DISABLE;
+        driveMessage.RTR = 0;
         driveMessage.dataLenght = 8;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
 
@@ -66,41 +62,17 @@ void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float 
         return;
     
     //Error Handler
-    if(pDrives[ucDriveIndex].ucIsOnEmergency)
-    {
-        DrivesEmergencyModeHandler(pDrives);
-    }
-    //Check if a new error happened
-    else if(pDrives[ucDriveIndex].usStatus != NO_ERROR)
-    {
-        //Stop each motor
-        DrivesEmergencyStop(pDrives);
-        return;
-    }
+    if(DrivesError(pDrives))
+            return;
 
     pDrives[ucDriveIndex].ufMotorCommand = fCommandMotor;
-    pDrives[ucDriveIndex].usUnscaledMotorTemp = usUnscaledTemp;
+    pDrives[ucDriveIndex].usMotorTempADC = usUnscaledTemp;
 
     //Update cmd on the drive side
     DriveTXCmd(pDrives+ucDriveIndex);
 }
 
-void DrivesEmergencyStop(DRIVE_STATUS *pDrives)
-{
-    unsigned i;
-
-    for(i = 0; i<NBROFDRIVE; i++)
-    {
-        //Send com pDrive[i].ufCommandMotor = 0;
-        pDrives[i].ufMotorCommand = 0;
-        DriveTXCmd(pDrives+i);
-        //Mark drive as under emergency
-        pDrives[i].ucIsOnEmergency = 1;
-    }
-    return;
-}
-
-void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives)
+char DrivesError(DRIVE_STATUS *pDrives)
 {
     unsigned char ucErrorFound = 0;
     unsigned char i =0;
@@ -108,25 +80,29 @@ void DrivesEmergencyModeHandler(DRIVE_STATUS *pDrives)
     for(i = 0; i<NBROFDRIVE; i++)
     {
         if(pDrives[i].usStatus != NO_ERROR)
+        {
             ucErrorFound = 1;
+        }
+    }
+
+    for(i = 0; i<NBROFDRIVE; i++)
+    {
+        pDrives[i].ucIsOnEmergency = ucErrorFound;
     }
 
     //If an error is recorded on a drive
     if(ucErrorFound)
-        return;
-
-    //All drives will be released for emergency state
-    for(i = 0; i<NBROFDRIVE; i++)
-    {
-        pDrives[i].ucIsOnEmergency = 0;
-    }
+        return 1;
+    //Release system
+    return 0;
 }
 void DriveTXCmd(DRIVE_STATUS *pDrive)
 {
     DRIVE_MSG driveMessage;
-    driveMessage.address = pDrive->unBaseAddr;
+    driveMessage.address = pDrive->unBaseAddrRead;
     driveMessage.ucType = DRIVE_FRAME_CONTROL;
     driveMessage.dataLenght = 8;
+    driveMessage.RTR = 0;
 
     //Scale fonct
     if(pDrive->ucSelectedMode == TORQUE_MODE || pDrive->ucSelectedMode == EV_MODE)
@@ -146,9 +122,10 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
     driveMessage.data[3] = pDrive->ucPowerLimit;
 
     //Temperature
-    pDrive->usScaledMotorTemp = ScaleMotorTempValue(pDrive->usUnscaledMotorTemp);
     driveMessage.data[4] = (unsigned char)((pDrive->usScaledMotorTemp >> 8) & 0x00FF);
     driveMessage.data[5] = (unsigned char)(pDrive->usScaledMotorTemp & 0x00FF);
+    driveMessage.data[6] = 0;
+    driveMessage.data[7] = 0;
 
 
     //Send to CAN network interface
@@ -163,7 +140,7 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
     //Validate if there is a valid BaseID
     for(i = 0; i<NBROFDRIVE; i++)
     {
-        if(pDrives[i].unBaseAddr == pMessage->address)
+        if(pDrives[i].unBaseAddrWrite == pMessage->address)
         {
             ucDriveIndex = i;
         }
@@ -219,7 +196,7 @@ void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned ch
     DRIVE_MSG driveMessage;
 
     driveMessage.RTR = 1;
-    driveMessage.address = pDrives[ucDriveIndex].unBaseAddr;
+    driveMessage.address = pDrives[ucDriveIndex].unBaseAddrWrite;
     driveMessage.dataLenght = 8;
     driveMessage.ucType = usCommandType;
     

@@ -28,8 +28,14 @@ unsigned short wheel_spdo1_kph_VUE32_7 = 0;
 extern unsigned short spdo1_mean;
 extern volatile unsigned char spd1_moving;
 
+//interupt.c
 extern volatile unsigned int flag_1ms_b, flag_8ms;
+extern volatile unsigned int flag_x100ms;
 extern volatile unsigned int flag_flash;
+extern volatile unsigned char flag_adc_filter;
+
+//VUE32_adc.h
+extern unsigned short adc_mean[ADC_CH];
 
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
@@ -56,6 +62,18 @@ void InitVUE32_7(void)
 void ImplVUE32_7(void)
 {
     static unsigned char flash = 1;
+
+    if(flag_adc_filter)
+    {
+        flag_adc_filter = 0;
+        filter_adc();
+        // left side motor (driver-side)
+        gResourceMemory[E_ID_MOTOR_TEMP1]= adc_mean[ADC_FILTERED_AN0];
+        // rigth side motor (passenger-side)
+        gResourceMemory[E_ID_MOTOR_TEMP2]= adc_mean[ADC_FILTERED_AN1];
+
+
+    }
 
     if(flag_1ms_b)
     {
@@ -106,6 +124,14 @@ void ImplVUE32_7(void)
         }
     }
 
+    if(flag_x100ms)
+    {
+        flag_x100ms = 0;
+
+        EmitAnEvent(E_ID_MOTOR_TEMP1, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_MOTOR_TEMP1]);
+        EmitAnEvent(E_ID_MOTOR_TEMP2, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_MOTOR_TEMP2]);
+    }
+
     // Run the battery pack state machine
     RunBatteryPack();
     gResourceMemory[E_ID_BMS_GLOBAL_STATE] = (unsigned int) GetBmsGlobalState();
@@ -133,8 +159,8 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
     ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        ACTION1(E_ID_BMS_GLOBAL_STATE, unsigned int, eStateCmd )
-            SetState(eStateCmd);
+        ACTION1(E_ID_BMS_GLOBAL_STATE, unsigned int, gResourceMemory[E_ID_BMS_GLOBAL_STATE] )
+            //SetState(eStateCmd);
         END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE
