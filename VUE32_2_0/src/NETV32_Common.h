@@ -40,9 +40,14 @@ MESSAGE PRIORITY DEFINITIONS
 MESSAGE TYPE DEFINITIONS
 */
 #define NETV_TYPE_EMERGENCY                0x01
+#define NETV_TYPE_ACTUATOR_HIGH_PRIORITY   0x02
+#define NETV_TYPE_SENSOR_HIGH_PRIORITY     0x04
+#define NETV_TYPE_ACTUATOR_LOW_PRIORITY    0x08
+#define NETV_TYPE_SENSOR_LOW_PRIORITY      0x10
 #define NETV_TYPE_REQUEST_DATA             0x20
-#define NETV_TYPE_ALIVE                    0x10
-#define NETV_TYPE_EVENT                    0x11
+#define NETV_TYPE_USER2                    0x40
+#define NETV_TYPE_ALIVE                    0x80
+#define NETV_TYPE_EVENT                    0x88
 /** Added for Projet VUE **/
 #define VUE32_TYPE_GETVALUE                0x30
 #define VUE32_TYPE_SETVALUE                0x32
@@ -101,6 +106,7 @@ enum CANResourceId {
             E_ID_ODOMETER = 0x1d,
             E_ID_BATT_12V = 0x1e,
             E_ID_NUM_BMS_CONNECTED = 0x1F,
+            E_ID_BMS_MINMAX_TENSION = 0x20,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0xEA,
@@ -136,7 +142,7 @@ EVENTS MESSAGE COMMANDS (TYPE EVENTS)
 /*
 CAN ADDRESS DEFINITIONS
 */
-#define NETV_ADDRESS_BROADCAST 0xFF
+#define NETV_ADDRESS_BROADCAST 0x3F
 
 /*
 COMMUNCATION INTERFACES (flags)

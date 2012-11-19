@@ -32,6 +32,7 @@ unsigned short usMaxResTemp;
 unsigned short usMaxCellTemp;
 unsigned short usNumberConnectedBMS;
 unsigned char fBMSError;
+unsigned short usBMSMinTension, usBMSMaxTension;
 
 // Local function for openning the contactor
 void OpenContactor()
@@ -75,13 +76,21 @@ void InitBatteryPack()
     usNumberConnectedBMS = 0;
     fBMSError = 0;
     eCurrentReqState = Monitor;
+    usBMSMinTension = 0;
+    usBMSMaxTension = 0;
 }
 
 // Run the battery pack state machine
 void RunBatteryPack()
 {
+    // Check for error state
+    if (fBMSError)
+        OpenContactor();
+
     // Check for Comm Lost event
-    unsigned int i, j, numConnBMS = 0, minTension = 0xFFFF, maxTension = 0;
+    unsigned int i, j, numConnBMS = 0;
+    usBMSMinTension = 0xFFFF;
+    usBMSMaxTension = 0;
     for ( i=0; i<NUMBER_OF_BMS; i++ )
     {
         if( eBMSState[i] != noComm && unTimestampLastMsg[i] + BMS_TIMEOUT_COMM_MS < uiTimeStamp )
@@ -103,13 +112,13 @@ void RunBatteryPack()
     {
         for ( j=0; j<NUMBER_OF_CELLS; j++ )
         {
-            if ( minTension > usCellTension[i][j] )
-                minTension = usCellTension[i][j];
-            if ( maxTension < usCellTension[i][j] )
-                maxTension = usCellTension[i][j];
+            if ( usBMSMinTension > usCellTension[i][j] )
+                usBMSMinTension = usCellTension[i][j];
+            if ( usBMSMaxTension < usCellTension[i][j] )
+                usBMSMaxTension = usCellTension[i][j];
         }
     }
-    if ( minTension < TENSION_MIN_CELL || maxTension > TENSION_MAX_OPEN_CONTACTOR)
+    if ( usBMSMinTension < TENSION_MIN_CELL || usBMSMaxTension > TENSION_MAX_OPEN_CONTACTOR)
     {
         OpenContactor();
     }
@@ -134,6 +143,7 @@ void RunBatteryPack()
             break;
         case 3:
             oMsg.msg_cmd = 0x17;
+            break;
         }
 
         rotation += 1;
@@ -211,7 +221,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 6;
-                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)Balance;
+                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)1;
                     ((unsigned short*)oMsg.msg_data)[1] = (unsigned short)1;
                     ((unsigned short*)oMsg.msg_data)[2] = usReqTension;
                     netv_send_message(&oMsg);
@@ -220,7 +230,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 2;
-                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)Monitor;
+                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)0;
                     netv_send_message(&oMsg);
                 }
             }
@@ -336,5 +346,20 @@ void SetState(E_BMS_STATES eState)
 unsigned short GetNumConnectedBMS()
 {
     return usNumberConnectedBMS;
+}
+
+// Get BMS global state
+E_BMS_STATES GetBmsGlobalState()
+{
+    if ( fBMSError)
+        return ProblemDetected;
+    else
+        return eCurrentReqState;
+}
+
+// Get minimum and maximum (higher 16bits) cell tension
+unsigned int GetBmsMinMaxTension()
+{
+    return usBMSMinTension | (usBMSMaxTension << 16);
 }
 

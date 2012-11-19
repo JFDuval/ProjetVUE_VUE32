@@ -28,5 +28,11 @@ void SetState(E_BMS_STATES eState);
 // Get number of currently connected BMS
 unsigned short GetNumConnectedBMS();
 
+// Get bms global state
+E_BMS_STATES GetBmsGlobalState();
+
+// Get minimum and maximum (higher 16bits) cell tension
+unsigned int GetBmsMinMaxTension();
+
 #endif	/* BATTERYPACK_H */
 

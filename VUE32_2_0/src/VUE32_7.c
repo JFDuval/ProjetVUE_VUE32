@@ -48,8 +48,6 @@ void InitVUE32_7(void)
 {
     light_previous_state_vue32_7 =0;
     InitBatteryPack();
-    gResourceMemory[E_ID_NUM_BMS_CONNECTED] = 0;
-    gResourceMemory[E_ID_BMS_GLOBAL_STATE] = 0;
 }
 
 /*
@@ -110,7 +108,8 @@ void ImplVUE32_7(void)
 
     // Run the battery pack state machine
     RunBatteryPack();
-    gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
+    gResourceMemory[E_ID_BMS_GLOBAL_STATE] = (unsigned int) GetBmsGlobalState();
+    gResourceMemory[E_ID_BMS_MINMAX_TENSION] = GetBmsMinMaxTension();
 }
 
 /*
@@ -126,17 +125,16 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)
         ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
         ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, E_ID_NUM_BMS_CONNECTED)
-        ANSWER1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
+        ANSWER1(E_ID_BMS_GLOBAL_STATE, unsigned int, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
+        ANSWER1(E_ID_BMS_MINMAX_TENSION, unsigned int, gResourceMemory[E_ID_BMS_MINMAX_TENSION])
         com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
-        E_BMS_STATES eStateCmd;
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        ACTION1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, eStateCmd )
+        ACTION1(E_ID_BMS_GLOBAL_STATE, unsigned int, eStateCmd )
             SetState(eStateCmd);
-            gResourceMemory[E_ID_BMS_GLOBAL_STATE] = eStateCmd;
         END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE

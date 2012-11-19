@@ -259,15 +259,15 @@ unsigned char can_netv_send_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         //priority
         ID |= (((unsigned int) message->msg_priority << 28) & 0x10000000);
 
-        //cmd
-        ID |= (((unsigned int) message->msg_cmd << 20) & 0x0FF00000);
+        //type
+        ID |= (((unsigned int) message->msg_type << 20) & 0x0FF00000);
 
         //boot
         //ID |= ((unsigned int) message->msg_eeprom_ram << 17);
         //ID |= ((unsigned int) message->msg_read_write << 16);
 
-        //type
-        ID |= (((unsigned int) message->msg_type << 12) & 0x000FF000);
+        //cmd
+        ID |= (((unsigned int) message->msg_cmd << 12) & 0x000FF000);
 
         //dest
         ID |= (((unsigned int) message->msg_dest << 6) & 0x00000FC0);
@@ -382,10 +382,10 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 
         //Here convert the message buffer to a NETV_CAN message
         message->msg_priority = (SID >> 10) & 0x01;
-        message->msg_cmd = ((SID) >> 2) & 0x0FF;
+        message->msg_type = ((SID) >> 2) & 0x0FF;
         //message->msg_eeprom_ram = (EID >> 17) & 0x01;
         //message->msg_read_write = (EID >> 16) & 0x01;
-        message->msg_type = ((SID & 0x0003) << 6) | ((EID >> 12) & 0x3F);
+        message->msg_cmd = ((SID & 0x0003) << 6) | ((EID >> 12) & 0x3F);
         message->msg_dest = (EID & 0x00FC0) >> 6;
         message->msg_source = (EID) & 0x3F;
         message->msg_data_length = msgPtr->msgEID.DLC;
