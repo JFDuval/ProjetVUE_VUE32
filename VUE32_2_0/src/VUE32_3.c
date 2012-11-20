@@ -48,8 +48,8 @@ HDW_MAPPING gVUE32_3_Ress[] =
 
 DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] =
 {
-    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
-    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, SPEED_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
 };
 
 // Mapping between pins and functionnalities,
@@ -66,12 +66,15 @@ void InitVUE32_3(void)
 {
     power_out(MISC_PWR_COOLING,1);
     power_out(MISC_PWR_CONTACTOR,1);
+    gDrivesVUE32_3[0].ucSelectedMode = TORQUE_MODE;
+    gDrivesVUE32_3[1].ucSelectedMode = TORQUE_MODE;
 
     usStartedTime = uiTimeStamp+5000;
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
     gResourceMemory[E_ID_DPR] = 0x01;
+    gResourceMemory[E_ID_MOTOR_TEMP2] = 0x8034;
 }
 
 /*
@@ -93,16 +96,18 @@ void ImplVUE32_3(void)
     if(usStartedTime < uiTimeStamp  && drives)
     {
         drives = 0;
-        DriveEnable(gDrivesVUE32_3, RightDrive);
         DriveEnable(gDrivesVUE32_3, LeftDrive);
+        DriveEnable(gDrivesVUE32_3, RightDrive);
+        
     }
 
     if(flag_drives)
     { 
         flag_drives = 0;
-
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*6, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*6, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
+        
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
+        
         
         /*DRIVE_MSG driveMessage;
         driveMessage.address = 0x20;
@@ -111,7 +116,7 @@ void ImplVUE32_3(void)
         driveMessage.dataLenght = 8;
         
         //speed
-        unsigned short usSpeed = ScaleSpeedValue((float)gResourceMemory[E_ID_ACCELERATOR]*0.6);
+        unsigned short usSpeed = ScaleSpeedValue((float)gResourceMemory[E_ID_ACCELERATOR]*6);
         //unsigned short usSpeed = ScaleSpeedValue(150);
         driveMessage.data[0] = (unsigned char)((usSpeed >> 8) & 0x00FF);
         driveMessage.data[1] = (unsigned char)(usSpeed & 0x00FF);
@@ -120,7 +125,7 @@ void ImplVUE32_3(void)
         driveMessage.data[2] = SPEED_MODE;
 
         //Power Limit
-        driveMessage.data[3] = PL_MAXIMUM_MOTOR_POWER_LIMIT;
+        driveMessage.data[3] = PL_NO_LIMIT;
 
         //Temperature
         unsigned short fTemp = ScaleMotorTempValue(35);
