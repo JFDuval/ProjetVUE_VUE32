@@ -92,25 +92,7 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
 
 unsigned char CanNETSACTxMessage(DRIVE_MSG *message, CAN_MODULE CANx) {
 
-        NETV_MESSAGE messageUSB;
-        messageUSB.msg_comm_iface = 0x04;
-        messageUSB.msg_source = 0;
-        messageUSB.msg_priority = 0;
-        messageUSB.msg_data_length = 8;
-        messageUSB.msg_dest = 1;
-        messageUSB.msg_cmd = (unsigned char)message->address;
-        messageUSB.msg_type = (unsigned char)message->ucType;
-        messageUSB.msg_remote = 0;
-
-        unsigned int i = 0;
-
-        for(i = 0; i<8; i++)
-        {
-            messageUSB.msg_data[i] = message->data[i];
-        }
-
-        usb_netv_send_message(&messageUSB);
-    //unsigned int i = 0;
+    unsigned int i = 0;
 
     /* Get a pointer to the next buffer in the channel
      * check if the returned value is null. */

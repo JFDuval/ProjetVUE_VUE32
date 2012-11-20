@@ -27,6 +27,7 @@ unsigned short wheel_spdo1_kph_VUE32_3 = 0, wheel_spdo2_kph_VUE32_3 = 0;
 extern volatile unsigned int flag_1ms_b;
 extern volatile unsigned char flag_drives;
 extern volatile unsigned int flag_8ms;
+extern volatile unsigned int flag_x100ms;
 
 extern volatile unsigned int uiTimeStamp;
 
@@ -107,34 +108,14 @@ void ImplVUE32_3(void)
         
         DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
         DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
-        
-        
-        /*DRIVE_MSG driveMessage;
-        driveMessage.address = 0x20;
-        driveMessage.RTR = 0;
-        driveMessage.ucType = DRIVE_FRAME_CONTROL;
-        driveMessage.dataLenght = 8;
-        
-        //speed
-        unsigned short usSpeed = ScaleSpeedValue((float)gResourceMemory[E_ID_ACCELERATOR]*6);
-        //unsigned short usSpeed = ScaleSpeedValue(150);
-        driveMessage.data[0] = (unsigned char)((usSpeed >> 8) & 0x00FF);
-        driveMessage.data[1] = (unsigned char)(usSpeed & 0x00FF);
-
-        //Motor Selector
-        driveMessage.data[2] = SPEED_MODE;
-
-        //Power Limit
-        driveMessage.data[3] = PL_NO_LIMIT;
-
-        //Temperature
-        unsigned short fTemp = ScaleMotorTempValue(35);
-        driveMessage.data[4] = 0;
-        driveMessage.data[5] = 85;
-        CanNETSACTxMessage(&driveMessage, D_CAN2);*/
     }
 
-
+    /*if(drives)
+    {
+        flag_x100ms = 0;
+        drives = 0;
+        PoolingDrives(gDrivesVUE32_3);
+    }*/
 }
 
 /*
@@ -191,25 +172,6 @@ void gCAN2DriverRX_VUE32_3()
     {
         //Proccess the drives network stack          
         DriveRXCmd(&message, gDrivesVUE32_3);
-
-        NETV_MESSAGE messageUSB;
-        messageUSB.msg_comm_iface = NETV_COMM_IFACE_USB;
-        messageUSB.msg_source = 0;
-        messageUSB.msg_priority = 0;
-        messageUSB.msg_dest = 0;
-        messageUSB.msg_data_length = 8;
-        messageUSB.msg_cmd = (unsigned char)message.address;
-        messageUSB.msg_type = (unsigned char)message.ucType;
-        messageUSB.msg_remote = 0;
-
-        unsigned int i = 0;
-
-        for(i = 0; i<8; i++)
-        {
-            messageUSB.msg_data[i] = message.data[i];
-        }
-
-        usb_netv_send_message(&messageUSB);
     }
 }
 

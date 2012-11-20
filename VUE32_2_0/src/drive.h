@@ -143,7 +143,9 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives);
 unsigned short ScaleTorqueValue(float fValue);
 unsigned short ScaleSpeedValue(float fValue);
 unsigned short ScaleMotorTempValue(unsigned short usValue);
+unsigned int UnScaleTemp(unsigned char ucValue);
 void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType);
+void PoolingDrives(DRIVE_STATUS *pDrives);
 
 
 #endif

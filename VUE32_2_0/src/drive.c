@@ -191,6 +191,13 @@ unsigned short ScaleMotorTempValue(unsigned short usValue)
     return  TEMP_CONVERTING_OFFSET+usValue;
 }
 
+unsigned int UnScaleTemp(unsigned char ucValue)
+{
+    return ucValue-TEMP_CONVERTING_OFFSET;
+}
+
+//unsigned int UnScaleCurrent()
+
 void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType)
 {
     DRIVE_MSG driveMessage;
@@ -201,4 +208,14 @@ void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned ch
     driveMessage.ucType = usCommandType;
     
     CanNETSACTxMessage(&driveMessage, D_CAN2);
+}
+
+void PoolingDrives(DRIVE_STATUS *pDrives)
+{
+    unsigned char i = 0;
+    for(i = 0 ; i<NBROFDRIVE; i++)
+    {
+        PoolingDrive(pDrives, i, DRIVE_FRAME_INFO1);
+        PoolingDrive(pDrives, i, DRIVE_FRAME_INFO2);
+    }
 }
