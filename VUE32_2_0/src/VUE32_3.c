@@ -35,6 +35,10 @@ unsigned int usStartedTime;
 unsigned char ucReady = 0;
 unsigned char drives = 1;
 
+//
+unsigned int dpr_previous_state = 0;
+float fDirectionMode = 0;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
 {
@@ -93,29 +97,34 @@ void ImplVUE32_3(void)
 	wheel_spdo1_kph_VUE32_3 = wheel_period_to_kph(spdo1_mean, spd1_moving);
 	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
-
-    if(usStartedTime < uiTimeStamp  && drives)
+    
+    if(gResourceMemory[E_ID_DPR]  != dpr_previous_state && gResourceMemory[E_ID_DPR] == PARK)
     {
-        drives = 0;
-        DriveEnable(gDrivesVUE32_3, LeftDrive);
-        DriveEnable(gDrivesVUE32_3, RightDrive);
-        
+        dpr_previous_state = gResourceMemory[E_ID_DPR];
+        DriveDisable(gDrivesVUE32_3, LeftDrive);
+        DriveDisable(gDrivesVUE32_3, RightDrive);
     }
 
-    if(flag_drives)
+    if(gResourceMemory[E_ID_DPR]  != dpr_previous_state && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
+    {
+        dpr_previous_state = gResourceMemory[E_ID_DPR];
+        DriveEnable(gDrivesVUE32_3, LeftDrive);
+        DriveEnable(gDrivesVUE32_3, RightDrive);
+
+        if(gResourceMemory[E_ID_DPR] == REVERSE)
+            fDirectionMode = -1;
+        else
+            fDirectionMode = 1;
+
+    }
+
+    if(flag_drives && gResourceMemory[E_ID_DPR] != PARK)
     { 
         flag_drives = 0;
         
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.16, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
     }
-
-    /*if(drives)
-    {
-        flag_x100ms = 0;
-        drives = 0;
-        PoolingDrives(gDrivesVUE32_3);
-    }*/
 }
 
 /*
