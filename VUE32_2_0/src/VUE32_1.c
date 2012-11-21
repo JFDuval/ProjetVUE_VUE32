@@ -31,7 +31,9 @@ unsigned char previous_door_left_state = 0 , door_left_state = 0;
 HDW_MAPPING gVUE32_1_Ress[] =
 {
     {E_ID_LEFT_DOOR_STATE, sizeof(unsigned char), Sensor},
-    {E_ID_RIGHT_DOOR_STATE, sizeof(unsigned char), Sensor}
+    {E_ID_RIGHT_DOOR_STATE, sizeof(unsigned char), Sensor},
+    {E_ID_GLOBAL_CAR_SPEED, sizeof(unsigned short), Sensor},
+    {E_ID_ODOMETER, sizeof(unsigned short), Sensor}
 };
 
 //memory_map.h

@@ -41,6 +41,7 @@ HDW_MAPPING gVUE32_2_Ress[] =
 {
     {E_ID_BATTERYCURRENT, 2, Sensor},
     {E_ID_GROUNDFAULT_FREQ, 1, Sensor},
+    {E_ID_GROUNDFAULT_STATE, 1, Sensor},
     {E_ID_WHEELVELOCITYSSENSOR_BR, 4, Sensor},
     {E_ID_SET_LIGTH_STATE, 1, Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE, 2, Actuator},

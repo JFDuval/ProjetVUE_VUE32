@@ -113,6 +113,7 @@ void ImplVUE32_7(void)
     // Run the battery pack state machine
     RunBatteryPack();
     gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
+    gResourceMemory[E_ID_BMS_GLOBAL_STATE] = GetBmsGlobalState();
 }
 
 /*
