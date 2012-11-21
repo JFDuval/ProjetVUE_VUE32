@@ -168,8 +168,8 @@ unsigned short wheel_period(unsigned short ts1, unsigned short ts2)
 	period = ts1 + diff;
     }
 
-    //Too slow:
-    if(period >= 63954)
+    //Too slow (<2kph):
+    if(period >= 64795)
 	period = 0;
 
     return period;
@@ -181,11 +181,11 @@ unsigned short wheel_period_to_kph(unsigned short period, unsigned char moving)
     unsigned short temp;
 
     if(period && moving)
-	temp = (639539/period);
+	temp = (647950/period);
     else
 	temp = 0;
 
-    if(temp > 15)   //Reject speed lower than 1.5kph
+    if(temp > 20)   //Reject speed lower than 2kph
 	return temp;
     else
 	return 0;
