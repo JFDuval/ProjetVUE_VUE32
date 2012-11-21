@@ -95,6 +95,11 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
         ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
                 ANSWER1(E_ID_LEFT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_LEFT_DOOR_STATE])
                 ANSWER1(E_ID_RIGHT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_RIGHT_DOOR_STATE])
+                ANSWER1(E_ID_GLOBAL_CAR_SPEED, unsigned short, gResourceMemory[E_ID_GLOBAL_CAR_SPEED])
+                ANSWER1(E_ID_ODOMETER, unsigned short, gResourceMemory[E_ID_ODOMETER])
+                ANSWER1(E_ID_BATT_12V, unsigned short, gResourceMemory[E_ID_BATT_12V])
+                ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+                ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
                 com_led_toggle();
         END_OF_MSG_TYPE
 }
@@ -171,15 +176,15 @@ void refresh_display(void)
     unsigned short tmp1 = 0;
 
     //Test mode:
-    unsigned short speed = (uiTimeStamp >> 5) % 120;
+/*  unsigned short speed = (uiTimeStamp >> 5) % 120;
     word1 = 0b0110000000101010 | (speed << 6); //100kph, Left, High, Drive
     word2 = 0b1001100101001011; //50%, 25C
-    word3 = 0b1100010100111001; //1337km
+    word3 = 0b1100010100111001; //1337km*/
 
     //Real one:
-/*
     //Word 1 construction:
-    word1 |= ((vehicle_spd() & 0x7F) << 6);     //Speed
+    gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = vehicle_spd();
+    word1 |= ((gResourceMemory[E_ID_GLOBAL_CAR_SPEED] & 0x7F) << 6);     //Speed
     word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00010000) << 1); //Left
     word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00100000) >> 1); //Right
     word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00000011));      //Beams
@@ -193,7 +198,6 @@ void refresh_display(void)
 
     //Word 3 construction:
     word3 |= (gResourceMemory[E_ID_ODOMETER] & 0xFFFF);
-*/
 
     //Clock data out
     serial_out(word1);

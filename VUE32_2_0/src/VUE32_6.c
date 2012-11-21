@@ -134,7 +134,9 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
             ANSWER1(E_ID_3AXES_ACCEL_X, short, gResourceMemory[E_ID_3AXES_ACCEL_X])
             ANSWER1(E_ID_3AXES_ACCEL_Y, short, gResourceMemory[E_ID_3AXES_ACCEL_Y])
             ANSWER1(E_ID_3AXES_ACCEL_Z, short, gResourceMemory[E_ID_3AXES_ACCEL_Z])
-                com_led_toggle();
+            ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+            ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+            com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )

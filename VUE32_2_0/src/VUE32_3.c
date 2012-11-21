@@ -129,6 +129,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL])
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
+            ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+            ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
             com_led_toggle();
         END_OF_MSG_TYPE
 

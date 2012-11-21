@@ -37,6 +37,8 @@ HDW_MAPPING gVUE32_7_Ress[] =
     {E_ID_WHEELVELOCITYSSENSOR_BL, sizeof(unsigned int), Sensor},
     {E_ID_MOTOR_TEMP1, sizeof(unsigned short), Sensor},
     {E_ID_MOTOR_TEMP2, sizeof(unsigned short), Sensor},
+    {E_ID_NUM_BMS_CONNECTED, sizeof(unsigned short), Sensor},
+    {E_ID_BMS_GLOBAL_STATE, sizeof(unsigned short), Sensor},
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE,sizeof(unsigned short), Actuator}
 };
@@ -125,8 +127,10 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
         ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)
         ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
-        ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, E_ID_NUM_BMS_CONNECTED)
-        ANSWER1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
+        ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, gResourceMemory[E_ID_NUM_BMS_CONNECTED])
+        ANSWER1(E_ID_BMS_GLOBAL_STATE, unsigned short, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
+        ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+        ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
         com_led_toggle();
     END_OF_MSG_TYPE
 
@@ -134,7 +138,7 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         unsigned int eStateCmd;
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        ACTION1(E_ID_BMS_GLOBAL_STATE, E_BMS_STATES, eStateCmd )
+        ACTION1(E_ID_BMS_GLOBAL_STATE, unsigned short, eStateCmd )
             SetState(eStateCmd);
             gResourceMemory[E_ID_BMS_GLOBAL_STATE] = eStateCmd;
         END_OF_ACTION

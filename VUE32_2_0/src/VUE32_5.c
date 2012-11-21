@@ -134,6 +134,8 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_STATE_SWICHT_TRUNK, unsigned char, gResourceMemory[E_ID_STATE_SWICHT_TRUNK])
                 ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
                 ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
+                ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+                ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
                 com_led_toggle();
     END_OF_MSG_TYPE
             

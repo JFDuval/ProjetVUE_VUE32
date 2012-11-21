@@ -73,10 +73,6 @@ void InitVUE32_2(void)
     m_prev_gndfaultstate = GNDFAULT_STATE;
     gResourceMemory[E_ID_GROUNDFAULT_FREQ] = 0x80;
     /*WHEELVELOCITYSSENSOR_BR_TRIS = 1;
-    
-
-    // Set the LED2 as output (test)
-    LED2_TRIS = 0;
     */
 }
 
@@ -103,7 +99,6 @@ void ImplVUE32_2(void)
             oMsg.msg_type = NETV_TYPE_EVENT;
             oMsg.msg_comm_iface = 0xFF;
             netv_send_message(&oMsg);
-            LED2 = 1;
         END_OF_EVERY
     }
 
@@ -112,6 +107,7 @@ void ImplVUE32_2(void)
         flag_1ms_a = 0;
         //GFI Frequency
          gResourceMemory[E_ID_GROUNDFAULT_FREQ] = (unsigned int)gfi_freq_sensor();
+         gResourceMemory[E_ID_GROUNDFAULT_STATE] = GNDFAULT_STATE;
     END_OF_EVERY
 
     if(flag_1ms_b)
@@ -181,15 +177,18 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
     ON_MSG_TYPE_RTR( VUE32_TYPE_GETVALUE )
         ANSWER1(E_ID_BATTERYCURRENT, unsigned short, gResourceMemory[E_ID_BATTERYCURRENT])
         ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_FREQ])
+        ANSWER1(E_ID_GROUNDFAULT_STATE, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_STATE])
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
-        //com_led_toggle();
+        ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
+        ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+        com_led_toggle();
     END_OF_MSG_TYPE
             
     // Deal with SETVALUE requests TODO merge light resource Id in group
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        //com_led_toggle();
+        com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
@@ -197,7 +196,7 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
         //Variable updated on event by a distant sensor
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
-        //com_led_toggle();
+        com_led_toggle();
     END_OF_MSG_TYPE
 
 }

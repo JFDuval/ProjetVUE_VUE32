@@ -110,6 +110,9 @@ enum CANResourceId {
             E_ID_3AXES_ACCEL_X = 0x21,
             E_ID_3AXES_ACCEL_Y = 0x22,
             E_ID_3AXES_ACCEL_Z = 0x23,
+            E_ID_GLOBAL_CAR_SPEED = 0x24,
+            E_ID_PORT_E = 0x25,
+            E_ID_TRIS_E = 0x26,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0xEA,
