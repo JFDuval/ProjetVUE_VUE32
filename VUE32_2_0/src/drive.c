@@ -62,8 +62,8 @@ void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float 
         return;
     
     //Error Handler
-    if(DrivesError(pDrives))
-            return;
+   /* if(DrivesError(pDrives))
+            return;*/
 
     pDrives[ucDriveIndex].ufMotorCommand = fCommandMotor;
     pDrives[ucDriveIndex].usMotorTempADC = usUnscaledTemp;

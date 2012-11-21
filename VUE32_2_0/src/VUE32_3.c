@@ -29,14 +29,8 @@ extern volatile unsigned char flag_drives;
 extern volatile unsigned int flag_8ms;
 extern volatile unsigned int flag_x100ms;
 
-extern volatile unsigned int uiTimeStamp;
 
-unsigned int usStartedTime;
-unsigned char ucReady = 0;
-unsigned char drives = 1;
-
-//
-unsigned int dpr_previous_state = 0;
+unsigned int unDPRPreviousState = 0;
 float fDirectionMode = 0;
 
 //Hardware resources manage localy by this VUE32
@@ -73,13 +67,10 @@ void InitVUE32_3(void)
     power_out(MISC_PWR_CONTACTOR,1);
     gDrivesVUE32_3[0].ucSelectedMode = TORQUE_MODE;
     gDrivesVUE32_3[1].ucSelectedMode = TORQUE_MODE;
-
-    usStartedTime = uiTimeStamp+5000;
+    
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
-    gResourceMemory[E_ID_DPR] = 0x01;
-    gResourceMemory[E_ID_MOTOR_TEMP2] = 0x8034;
 }
 
 /*
@@ -97,34 +88,46 @@ void ImplVUE32_3(void)
 	wheel_spdo1_kph_VUE32_3 = wheel_period_to_kph(spdo1_mean, spd1_moving);
 	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
-    
-    if(gResourceMemory[E_ID_DPR]  != dpr_previous_state && gResourceMemory[E_ID_DPR] == PARK)
+
+
+    if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && gResourceMemory[E_ID_DPR] == PARK)
     {
-        dpr_previous_state = gResourceMemory[E_ID_DPR];
+        unDPRPreviousState = gResourceMemory[E_ID_DPR];
         DriveDisable(gDrivesVUE32_3, LeftDrive);
         DriveDisable(gDrivesVUE32_3, RightDrive);
+        fDirectionMode = 0;
     }
 
-    if(gResourceMemory[E_ID_DPR]  != dpr_previous_state && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
+
+
+    if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
     {
-        dpr_previous_state = gResourceMemory[E_ID_DPR];
+
+        unDPRPreviousState = gResourceMemory[E_ID_DPR];
         DriveEnable(gDrivesVUE32_3, LeftDrive);
         DriveEnable(gDrivesVUE32_3, RightDrive);
 
         if(gResourceMemory[E_ID_DPR] == REVERSE)
             fDirectionMode = -1;
-        else
+        else if(gResourceMemory[E_ID_DPR] == DRIVE)
             fDirectionMode = 1;
-
+        
     }
 
-    if(flag_drives && gResourceMemory[E_ID_DPR] != PARK)
+    if(flag_drives)
     { 
         flag_drives = 0;
         
         DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
         DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
     }
+
+    /*if(drives)
+    {
+        flag_x100ms = 0;
+        drives = 0;
+        PoolingDrives(gDrivesVUE32_3);
+    }*/
 }
 
 /*
@@ -138,6 +141,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL])
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
+            ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP1])
+            ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP2])
             ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
             ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
             com_led_toggle();

@@ -37,6 +37,7 @@ unsigned char dpr_switch_state = 0, previous_dpr_switch_state = 0;
 //VUE32_adc.h
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 extern unsigned short adc_mean[ADC_CH];
+extern unsigned short steering_angle;
 
 unsigned char ucBrakeSwithRead = 0, ucPreviousBrakeSwithRead = 0, ucBrakeSwithState =0;
 
@@ -63,6 +64,9 @@ void InitVUE32_5(void)
 
     TRIS_DIO_DPR_SW1 = 1;
     TRIS_DIO_DPR_SW2 = 1;
+    
+    // Init
+    gResourceMemory[E_ID_STEERINGANGLESENSOR] = 0;
 }
 
 /*
@@ -78,12 +82,11 @@ void ImplVUE32_5(void)
         gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
     }
 
+    gResourceMemory[E_ID_STEERINGANGLESENSOR] =(unsigned int) steering_angle;
+
     //Todo trunk switch
 
-    if(flag_x100ms)
-    {
-        flag_x100ms = 0;
-
+    EVERY_X_MS(100)
         //Send the accelerator position to the VUE32 #5
         EmitAnEvent(E_ID_ACCELERATOR, VUE32_3,  sizeof(unsigned short), gResourceMemory[E_ID_ACCELERATOR]);
         EmitAnEvent(E_ID_BRAKEPEDAL, VUE32_3,  sizeof(unsigned short), gResourceMemory[E_ID_BRAKEPEDAL]);
@@ -117,7 +120,7 @@ void ImplVUE32_5(void)
             pwr_roof_light(1);
         else
             pwr_roof_light(0);*/
-    }
+        END_OF_EVERY
 }
 
 /*

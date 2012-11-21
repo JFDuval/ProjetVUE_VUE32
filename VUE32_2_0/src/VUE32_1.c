@@ -99,7 +99,6 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_RIGHT_DOOR_STATE, unsigned char, gResourceMemory[E_ID_RIGHT_DOOR_STATE])
                 ANSWER1(E_ID_GLOBAL_CAR_SPEED, unsigned short, gResourceMemory[E_ID_GLOBAL_CAR_SPEED])
                 ANSWER1(E_ID_ODOMETER, unsigned short, gResourceMemory[E_ID_ODOMETER])
-                ANSWER1(E_ID_BATT_12V, unsigned short, gResourceMemory[E_ID_BATT_12V])
                 ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
                 ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
                 com_led_toggle();

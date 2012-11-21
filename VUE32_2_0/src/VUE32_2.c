@@ -43,6 +43,7 @@ HDW_MAPPING gVUE32_2_Ress[] =
     {E_ID_GROUNDFAULT_FREQ, 1, Sensor},
     {E_ID_GROUNDFAULT_STATE, 1, Sensor},
     {E_ID_WHEELVELOCITYSSENSOR_BR, 4, Sensor},
+    {E_ID_BATT_12V, sizeof(unsigned short), Sensor},
     {E_ID_SET_LIGTH_STATE, 1, Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE, 2, Actuator},
 };
@@ -88,19 +89,6 @@ void ImplVUE32_2(void)
     if ( GNDFAULT_STATE == 0 )
     {
         m_prev_gndfaultstate = GNDFAULT_STATE;
-        EVERY_X_MS(100)
-            NETV_MESSAGE oMsg;
-            oMsg.msg_cmd = E_ID_GROUNDFAULT_STATE;
-            oMsg.msg_data[0] = 0xFF;
-            oMsg.msg_data_length = 1;
-            oMsg.msg_dest = 0xFF;
-            oMsg.msg_remote = 0;
-            oMsg.msg_priority = 0;
-            oMsg.msg_source = GetMyAddr();
-            oMsg.msg_type = NETV_TYPE_EVENT;
-            oMsg.msg_comm_iface = 0xFF;
-            netv_send_message(&oMsg);
-        END_OF_EVERY
     }
 
     //TODO forward data to software interface
@@ -128,6 +116,7 @@ void ImplVUE32_2(void)
         flag_adc_filter = 0;
 	filter_adc();
         gResourceMemory[E_ID_BATTERYCURRENT] = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
+        gResourceMemory[E_ID_BATT_12V] = (unsigned short)read_vbat(adc_mean[ADC_FILTERED_VOLT]);
     }
 
     if(flag_8ms)
@@ -180,6 +169,7 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ANSWER1(E_ID_GROUNDFAULT_FREQ, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_FREQ])
         ANSWER1(E_ID_GROUNDFAULT_STATE, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_STATE])
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
+        ANSWER1(E_ID_BATT_12V, unsigned short, gResourceMemory[E_ID_BATT_12V])
         ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
         ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
         com_led_toggle();
