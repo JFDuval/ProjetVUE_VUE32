@@ -130,8 +130,8 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
         ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, gResourceMemory[E_ID_NUM_BMS_CONNECTED])
         ANSWER1(E_ID_BMS_GLOBAL_STATE, unsigned short, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
-        ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
-        ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+        ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
+        ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
         com_led_toggle();
     END_OF_MSG_TYPE
 

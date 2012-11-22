@@ -108,13 +108,13 @@ HDW_MAPPING* gHardwareMap[NB_VUE32+1] = {
 unsigned int gHardwareSize[NB_VUE32+1] =
 {
     38,  //VUE32_0
-    2,  //VUE32_1
-    5,  //VUE32_2
+    4,  //VUE32_1
+    7,  //VUE32_2
     7,  //VUE32_3
-    4,  //VUE32_4
+    7,  //VUE32_4
     8,  //VUE32_5
-    6,  //VUE32_6
-    5,  //VUE32_7
+    9,  //VUE32_6
+    7,  //VUE32_7
 };
 
 FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =

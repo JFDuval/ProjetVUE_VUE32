@@ -170,8 +170,8 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
         ANSWER1(E_ID_GROUNDFAULT_STATE, unsigned char, gResourceMemory[E_ID_GROUNDFAULT_STATE])
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
         ANSWER1(E_ID_BATT_12V, unsigned short, gResourceMemory[E_ID_BATT_12V])
-        ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
-        ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+        ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
+        ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
         com_led_toggle();
     END_OF_MSG_TYPE
             

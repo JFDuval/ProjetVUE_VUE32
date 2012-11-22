@@ -143,8 +143,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
             ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP1])
             ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP2])
-            ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
-            ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+            ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
+            ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
             com_led_toggle();
         END_OF_MSG_TYPE
 

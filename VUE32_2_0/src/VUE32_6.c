@@ -40,12 +40,12 @@ HDW_MAPPING gVUE32_6_Ress[] =
     {E_ID_LATERALACCELERATIONSENSOR, sizeof(short), Sensor},
     {E_ID_YAWRATE, sizeof(short), Sensor},
     {E_ID_WIPERMODECONTROL, sizeof(unsigned char), Sensor},
-    {E_ID_WIPERFLUIDPUMP, sizeof(unsigned char), Actuator},
-    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
-    {E_ID_AUDIOAMPLIFIER, sizeof(unsigned char), Actuator},
     {E_ID_3AXES_ACCEL_X, sizeof(short), Sensor},
     {E_ID_3AXES_ACCEL_Y, sizeof(short), Sensor},
-    {E_ID_3AXES_ACCEL_Z, sizeof(short), Sensor}
+    {E_ID_3AXES_ACCEL_Z, sizeof(short), Sensor},
+    {E_ID_WIPERFLUIDPUMP, sizeof(unsigned char), Actuator},
+    {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
+    {E_ID_AUDIOAMPLIFIER, sizeof(unsigned char), Actuator}
 };
 
 /*
@@ -134,8 +134,8 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
             ANSWER1(E_ID_3AXES_ACCEL_X, short, gResourceMemory[E_ID_3AXES_ACCEL_X])
             ANSWER1(E_ID_3AXES_ACCEL_Y, short, gResourceMemory[E_ID_3AXES_ACCEL_Y])
             ANSWER1(E_ID_3AXES_ACCEL_Z, short, gResourceMemory[E_ID_3AXES_ACCEL_Z])
-            ANSWER1(E_ID_PORT_E, unsigned short, DIO_PORT)
-            ANSWER1(E_ID_TRIS_E, unsigned short, DIO_TRIS)
+            ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
+            ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
             com_led_toggle();
     END_OF_MSG_TYPE
 
