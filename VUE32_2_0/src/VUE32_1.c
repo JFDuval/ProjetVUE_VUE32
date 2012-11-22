@@ -193,7 +193,7 @@ void refresh_display(void)
     word1 |= ((gResourceMemory[E_ID_DPR] & 0b00100000) >> 3);               //Reverse
 
     //Word 2 construction:
-    tmp1 = ((gResourceMemory[E_ID_MOTOR_TEMP1] + gResourceMemory[E_ID_MOTOR_TEMP1]) >> 1);
+    tmp1 = ((gResourceMemory[E_ID_LEFT_MOTOR_TEMP] + gResourceMemory[E_ID_LEFT_MOTOR_TEMP]) >> 1);
     word2 |= (tmp1 & 0x7F);                                                 //Temp
     word2 |= ((E_ID_BATT_LEVEL & 0x7F) << 7);
 

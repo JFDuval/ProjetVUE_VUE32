@@ -33,22 +33,33 @@ extern volatile unsigned int flag_x100ms;
 unsigned int unDPRPreviousState = 0;
 float fDirectionMode = 0;
 
-//Hardware resources manage localy by this VUE32
+//Hardware resources which are managed localy on this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
 {
     {E_ID_WHEELVELOCITYSSENSOR_FR, 4, Sensor},
     {E_ID_WHEELVELOCITYSSENSOR_FL, 4, Sensor},
-    {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},      //TO REMOVE
-    {E_ID_ACCELERATOR, sizeof(unsigned short), Sensor},     //TO REMOVE
-    {E_ID_DPR, sizeof(unsigned char), Sensor},              //TO REMOVE
+    {E_ID_LEFT_DRIVE_STATUS, sizeof(unsigned char), Sensor},
+    {E_ID_RIGHT_DRIVE_STATUS, sizeof(unsigned char), Sensor},
+    {E_ID_LEFT_MOTOR_SPEED, sizeof(unsigned int), Sensor},
+    {E_ID_RIGHT_MOTOR_SPEED, sizeof(unsigned int), Sensor},
+    {E_ID_LEFT_MOTOR_CURRENT, sizeof(unsigned int), Sensor},
+    {E_ID_RIGHT_MOTOR_CURRENT, sizeof(unsigned int), Sensor},
+    {E_ID_LEFT_MOTOR_TEMP, sizeof(unsigned char), Sensor},
+    {E_ID_RIGHT_MOTOR_TEMP, sizeof(unsigned char), Sensor},
+    {E_ID_LEFT_CONTROLLER_TEMP, sizeof(unsigned char), Sensor},
+    {E_ID_RIGHT_CONTROLLER_TEMP, sizeof(unsigned char), Sensor},
+    {E_ID_LEFT_DRIVE_BATTERY_CURRENT, sizeof(unsigned int), Sensor},
+    {E_ID_RIGHT_DRIVE_BATTERY_CURRENT, sizeof(unsigned int), Sensor},
+    {E_ID_LEFT_DRIVE_BATTERY_VOLTAGE, sizeof(unsigned int), Sensor},
+    {E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE, sizeof(unsigned int), Sensor},
     {E_ID_COOLINGPUMP, 1, Actuator},
     {E_ID_MAIN_CONTACTOR, 1, Actuator}
 };
 
 DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] = 
 {
-    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY, NotInverted},
-    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY, Inverted},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, NO_EMERGENCY, NotInverted},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, NO_EMERGENCY, Inverted},
 };
 
 // Mapping between pins and functionnalities,
@@ -110,13 +121,15 @@ void ImplVUE32_3(void)
             fDirectionMode = 1;
     }
 
-    if(flag_drives)
-    { 
-        flag_drives = 0;
-        
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
-    }
+    EVERY_X_MS(20)
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
+    END_OF_EVERY
+                
+    EVERY_X_MS(250)
+        ReturnDriveInformation(gDrivesVUE32_3, LeftDrive, &gResourceMemory[E_ID_LEFT_MOTOR_SPEED], &gResourceMemory[E_ID_LEFT_MOTOR_CURRENT], &gResourceMemory[E_ID_LEFT_MOTOR_TEMP], &gResourceMemory[E_ID_LEFT_CONTROLLER_TEMP], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_LEFT_DRIVE_STATUS]);
+        ReturnDriveInformation(gDrivesVUE32_3, RightDrive, &gResourceMemory[E_ID_RIGHT_MOTOR_SPEED], &gResourceMemory[E_ID_RIGHT_MOTOR_CURRENT], &gResourceMemory[E_ID_RIGHT_MOTOR_TEMP], &gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_RIGHT_DRIVE_STATUS]);
+    END_OF_EVERY
 }
 
 /*
@@ -128,10 +141,23 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
         ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR])
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL])
+            ANSWER1(E_ID_LEFT_DRIVE_STATUS, unsigned char, gResourceMemory[E_ID_LEFT_DRIVE_STATUS])
+            ANSWER1(E_ID_RIGHT_DRIVE_STATUS, unsigned char, gResourceMemory[E_ID_RIGHT_DRIVE_STATUS])
+            ANSWER1(E_ID_LEFT_MOTOR_SPEED, unsigned int, gResourceMemory[E_ID_LEFT_MOTOR_SPEED])
+            ANSWER1(E_ID_RIGHT_MOTOR_SPEED, unsigned int, gResourceMemory[E_ID_RIGHT_MOTOR_SPEED])
+            ANSWER1(E_ID_LEFT_MOTOR_CURRENT, unsigned int, gResourceMemory[E_ID_LEFT_MOTOR_CURRENT])
+            ANSWER1(E_ID_RIGHT_MOTOR_CURRENT, unsigned int, gResourceMemory[E_ID_RIGHT_MOTOR_CURRENT])
+            ANSWER1(E_ID_LEFT_MOTOR_TEMP, unsigned char, gResourceMemory[E_ID_LEFT_MOTOR_TEMP])
+            ANSWER1(E_ID_RIGHT_MOTOR_TEMP, unsigned char, gResourceMemory[E_ID_RIGHT_MOTOR_TEMP])
+            ANSWER1(E_ID_LEFT_CONTROLLER_TEMP, unsigned char, gResourceMemory[E_ID_LEFT_CONTROLLER_TEMP])
+            ANSWER1(E_ID_RIGHT_CONTROLLER_TEMP, unsigned char, gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP])
+            ANSWER1(E_ID_RIGHT_CONTROLLER_TEMP, unsigned char, gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP])
+            ANSWER1(E_ID_LEFT_DRIVE_BATTERY_CURRENT, unsigned int, gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_CURRENT])
+            ANSWER1(E_ID_RIGHT_DRIVE_BATTERY_CURRENT, unsigned int, gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_CURRENT])
+            ANSWER1(E_ID_LEFT_DRIVE_BATTERY_VOLTAGE, unsigned int, gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_VOLTAGE])
+            ANSWER1(E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE, unsigned int, gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE])
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
-            ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP1])
-            ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP2])
             ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
             ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
             com_led_toggle();
@@ -150,8 +176,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
             ACTION1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR]) END_OF_ACTION
             ACTION1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL]) END_OF_ACTION
-            ACTION1(E_ID_MOTOR_TEMP1, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP1]) END_OF_ACTION
-            ACTION1(E_ID_MOTOR_TEMP2, unsigned short, gResourceMemory[E_ID_MOTOR_TEMP2]) END_OF_ACTION
+            ACTION1(E_ID_LEFT_MOTOR_TEMP_ADC, unsigned short, gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]) END_OF_ACTION
+            ACTION1(E_ID_RIGHT_MOTOR_TEMP_ADC, unsigned short, gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]) END_OF_ACTION
             com_led_toggle();
         END_OF_MSG_TYPE
 }

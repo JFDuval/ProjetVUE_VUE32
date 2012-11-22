@@ -64,10 +64,13 @@
 #define VOLTAGE_SCALING_B 0
 
 #define PEAK_CURRENT_SCALING_K 77.234987    //Amp
-#define RMS_CURRENT_SCALING_B 24.61496      //Amp
+#define RMS_CURRENT_SCALING_K 24.61496      //Amp
 #define CURRENT_SCALING_B 32767
 
 #define TEMP_CONVERTING_OFFSET 55
+
+//Data Resolution read by ODB
+#define DATA_RESOLUTION 1000
 
 //Error Code
 #define NO_ERROR 0
@@ -111,11 +114,11 @@ typedef struct
     unsigned char ucIsEnable;
     unsigned int unBaseAddrRead;
     unsigned int unBaseAddrWrite;
-    unsigned short usMotorSpeed;
-    unsigned short usBatteryVoltage;
-    unsigned short usBatteryCurrent;
-    unsigned short usMotorCurrent;
-    unsigned short usStatus;
+    int nMotorSpeed;
+    unsigned int unBatteryVoltage;
+    unsigned int unBatteryCurrent;
+    unsigned int unMotorCurrent;
+    unsigned char ucStatus;
     unsigned char ucMotorTemp;
     unsigned char ucControllerTemp;
     unsigned short usDPotentiometer;
@@ -124,7 +127,6 @@ typedef struct
     float ufMotorCommand;
     unsigned char ucSelectedMode;
     unsigned char ucPowerLimit;
-    unsigned short usScaledMotorTemp;
     unsigned short usMotorTempADC;
     unsigned char ucIsOnEmergency;
     unsigned char ucIsInvert;
@@ -145,10 +147,18 @@ void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float 
 char DrivesError(DRIVE_STATUS *pDrives);
 void DriveTXCmd(DRIVE_STATUS *pDrive);
 void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives);
-unsigned short ScaleTorqueValue(float fValue);
-unsigned short ScaleSpeedValue(float fValue);
-unsigned short ScaleMotorTempValue(unsigned short usValue);
+void ReturnDriveInformation(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned int *unMotorSpeed, unsigned int *unMotorCurrent, unsigned int *unMotorTemp, unsigned int *unControllerTemp, unsigned int *unBatteryCurrent, unsigned int *unBatteryVoltage, unsigned int *unDriveStatus);
+
+unsigned short ScaleTorque(float fValue);
+unsigned short ScaleSpeed(float fValue);
+unsigned short ScaleTemp(unsigned short usValue);
 unsigned int UnScaleTemp(unsigned char ucValue);
+unsigned int UnScalePeakCurrent(unsigned short usValue);
+unsigned int UnScaleRMSCurrent(unsigned short usValue);
+unsigned int UnScaleVoltage(unsigned short usValue);
+int UnScaleSpeed(unsigned short usValue);
+
+
 void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType);
 void PoolingDrives(DRIVE_STATUS *pDrives);
 

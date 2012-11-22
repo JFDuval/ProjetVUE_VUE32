@@ -89,7 +89,7 @@ char DrivesError(DRIVE_STATUS *pDrives)
     //Verify if the every drive hasn't an error
     for(i = 0; i<NBROFDRIVE; i++)
     {
-        if(pDrives[i].usStatus != NO_ERROR)
+        if(pDrives[i].ucStatus != NO_ERROR)
         {
             ucErrorFound = 1;
         }
@@ -116,9 +116,9 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
 
     //Scale fonct
     if(pDrive->ucSelectedMode == TORQUE_MODE || pDrive->ucSelectedMode == EV_MODE)
-        pDrive->usMotorCommand = ScaleTorqueValue(pDrive->ufMotorCommand);
+        pDrive->usMotorCommand = ScaleTorque(pDrive->ufMotorCommand);
     else if(pDrive->ucSelectedMode == SPEED_MODE)
-        pDrive->usMotorCommand = ScaleSpeedValue(pDrive->ufMotorCommand);
+        pDrive->usMotorCommand = ScaleSpeed(pDrive->ufMotorCommand);
     else
         return;
 
@@ -132,8 +132,8 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
     driveMessage.data[3] = pDrive->ucPowerLimit;
 
     //Temperature
-    driveMessage.data[4] = (unsigned char)((pDrive->usScaledMotorTemp >> 8) & 0x00FF);
-    driveMessage.data[5] = (unsigned char)(pDrive->usScaledMotorTemp & 0x00FF);
+    driveMessage.data[4] = (unsigned char)((pDrive->usMotorTempADC >> 8) & 0x00FF);
+    driveMessage.data[5] = (unsigned char)(pDrive->usMotorTempADC & 0x00FF);
     driveMessage.data[6] = 0;
     driveMessage.data[7] = 0;
 
@@ -164,14 +164,10 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
     switch(pMessage->ucType)
     {
         case DRIVE_FRAME_INFO1:
-            pDrives[ucDriveIndex].usMotorSpeed = (pMessage->data[0] << 8) & 0xFF00;
-            pDrives[ucDriveIndex].usMotorSpeed |= (pMessage->data[1]);
-            pDrives[ucDriveIndex].usBatteryVoltage  = (pMessage->data[2] << 8) & 0xFF00;
-            pDrives[ucDriveIndex].usBatteryVoltage |= (pMessage->data[3]);
-            pDrives[ucDriveIndex].usMotorCurrent = (pMessage->data[4] << 8) & 0xFF00;
-            pDrives[ucDriveIndex].usMotorCurrent |= (pMessage->data[5]);
-            pDrives[ucDriveIndex].usStatus = (pMessage->data[6] << 8) & 0xFF00;
-            pDrives[ucDriveIndex].usStatus |=  (pMessage->data[7]);
+            pDrives[ucDriveIndex].nMotorSpeed = UnScaleSpeed(((pMessage->data[0] << 8) & 0xFF00)| pMessage->data[1]);
+            pDrives[ucDriveIndex].unBatteryVoltage = UnScaleVoltage(((pMessage->data[2] << 8) & 0xFF00)| pMessage->data[3]);
+            pDrives[ucDriveIndex].unMotorCurrent = UnScaleRMSCurrent(((pMessage->data[4] << 8) & 0xFF00)| pMessage->data[5]);
+            pDrives[ucDriveIndex].ucStatus =  pMessage->data[7];
             break;
         case DRIVE_FRAME_INFO2:
             pDrives[ucDriveIndex].ucMotorTemp = pMessage->data[0];
@@ -180,33 +176,72 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
             pDrives[ucDriveIndex].usDPotentiometer |= pMessage->data[3];
             pDrives[ucDriveIndex].usAnalogIn = (pMessage->data[4] << 8) & 0xFF00;
             pDrives[ucDriveIndex].usAnalogIn |= pMessage->data[5];
-            pDrives[ucDriveIndex].usBatteryCurrent = (pMessage->data[6] << 8) & 0xFF00;
-            pDrives[ucDriveIndex].usBatteryCurrent |= pMessage->data[7];
+            pDrives[ucDriveIndex].unBatteryCurrent = UnScalePeakCurrent(((pMessage->data[6] << 8) & 0xFF00)| pMessage->data[7]);
             break;
     }
 }
 
-unsigned short ScaleTorqueValue(float fValue)
+void ReturnDriveInformation(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned int *unMotorSpeed, unsigned int *unMotorCurrent, unsigned int *unMotorTemp, unsigned int *unControllerTemp, unsigned int *unBatteryCurrent, unsigned int *unBatteryVoltage, unsigned int *unDriveStatus)
+{
+    if(NBROFDRIVE <= ucDriveIndex)
+        return;
+
+    //Motor Speed
+    unMotorSpeed[0] = pDrives[ucDriveIndex].nMotorSpeed;
+    //Motor Current (RMS)
+    unMotorCurrent[0] = pDrives[ucDriveIndex].unMotorCurrent;
+    //Motor Temperature
+    unMotorTemp[0] = pDrives[ucDriveIndex].ucMotorTemp;
+    //Controller Temperature
+    unControllerTemp[0] = pDrives[ucDriveIndex].ucControllerTemp;
+    //Battery Current
+    unBatteryCurrent[0] = pDrives[ucDriveIndex].unBatteryCurrent;
+    //Battery Voltage
+    unBatteryVoltage[0] = pDrives[ucDriveIndex].unBatteryVoltage;
+    //Drive status
+    unDriveStatus[0] = pDrives[ucDriveIndex].ucStatus;
+}
+
+unsigned short ScaleTorque(float fValue)
 {
     return (unsigned short)(fValue*TORQUE_SCALING_K+TORQUE_SCALING_B);
 }
 
-unsigned short ScaleSpeedValue(float fValue)
+unsigned short ScaleSpeed(float fValue)
 {
     return (unsigned short)(fValue*SPEED_SCALING_K+SPEED_SCALING_B);
 }
 
-unsigned short ScaleMotorTempValue(unsigned short usValue)
+unsigned short ScaleTemp(unsigned short usValue)
 {
     return  TEMP_CONVERTING_OFFSET+usValue;
 }
 
 unsigned int UnScaleTemp(unsigned char ucValue)
 {
-    return ucValue-TEMP_CONVERTING_OFFSET;
+    return (unsigned int)(ucValue-TEMP_CONVERTING_OFFSET);
 }
 
-//unsigned int UnScaleCurrent()
+int UnScaleSpeed(unsigned short usValue)
+{
+    return (int)(((usValue-SPEED_SCALING_B)/SPEED_SCALING_K)*DATA_RESOLUTION);
+}
+
+unsigned int UnScaleVoltage(unsigned short usValue)
+{
+    return (unsigned int)(((usValue-VOLTAGE_SCALING_B)/VOLTAGE_SCALING_K)*DATA_RESOLUTION);
+}
+
+unsigned int UnScaleRMSCurrent(unsigned short usValue)
+{
+    return(unsigned int)(((usValue-CURRENT_SCALING_B)/RMS_CURRENT_SCALING_K)*DATA_RESOLUTION);
+}
+
+unsigned int UnScalePeakCurrent(unsigned short usValue)
+{
+    return(unsigned int)(((usValue-CURRENT_SCALING_B)/PEAK_CURRENT_SCALING_K)*DATA_RESOLUTION);
+}
+
 
 void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType)
 {

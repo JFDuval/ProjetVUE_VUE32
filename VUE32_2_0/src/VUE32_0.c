@@ -62,8 +62,8 @@ HDW_MAPPING gVUE32_0_Ress[] =
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
     {E_ID_AUDIOAMPLIFIER, sizeof(unsigned char), Actuator},
     {E_ID_WHEELVELOCITYSSENSOR_BL, sizeof(unsigned int), Sensor},
-    {E_ID_MOTOR_TEMP1, sizeof(unsigned short), Sensor},
-    {E_ID_MOTOR_TEMP2, sizeof(unsigned short), Sensor},
+    {E_ID_LEFT_MOTOR_TEMP, sizeof(unsigned short), Sensor},
+    {E_ID_RIGHT_MOTOR_TEMP, sizeof(unsigned short), Sensor},
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE,sizeof(unsigned short), Actuator}
 };
@@ -136,8 +136,8 @@ void ImplVUE32_0(void)
 
     // *** VUE #7 ***
     RANDOMSINUS(gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL], -1000, 1100, 36); // 1 = 0.1 km/h
-    RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP1], 300, 1000, 102)
-    RANDOMSINUS(gResourceMemory[E_ID_MOTOR_TEMP2], 350, 1000, 103)
+    RANDOMSINUS(gResourceMemory[E_ID_LEFT_MOTOR_TEMP], 300, 1000, 102)
+    RANDOMSINUS(gResourceMemory[E_ID_RIGHT_MOTOR_TEMP], 350, 1000, 103)
 
     // *** BMSs ***
     RANDOMSINUS(sRandomTemp, 20, 110, 1000)

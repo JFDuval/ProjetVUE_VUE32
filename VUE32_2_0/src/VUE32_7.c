@@ -35,8 +35,8 @@ extern volatile unsigned int flag_flash;
 HDW_MAPPING gVUE32_7_Ress[] =
 {
     {E_ID_WHEELVELOCITYSSENSOR_BL, sizeof(unsigned int), Sensor},
-    {E_ID_MOTOR_TEMP1, sizeof(unsigned short), Sensor},
-    {E_ID_MOTOR_TEMP2, sizeof(unsigned short), Sensor},
+    {E_ID_LEFT_MOTOR_TEMP_ADC, sizeof(unsigned short), Sensor},
+    {E_ID_RIGHT_MOTOR_TEMP_ADC, sizeof(unsigned short), Sensor},
     {E_ID_NUM_BMS_CONNECTED, sizeof(unsigned short), Sensor},
     {E_ID_BMS_GLOBAL_STATE, sizeof(unsigned short), Sensor},
     {E_ID_BMS_MINMAX_TENSION, sizeof(unsigned int), Sensor},
@@ -111,6 +111,11 @@ void ImplVUE32_7(void)
         }
     }
 
+    EVERY_X_MS(250)
+        EmitAnEvent(E_ID_LEFT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+        EmitAnEvent(E_ID_RIGHT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
+    END_OF_EVERY
+
     // Run the battery pack state machine
     RunBatteryPack();
     gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
@@ -128,8 +133,8 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
 
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
         ANSWER1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, 7)
-        ANSWER1(E_ID_MOTOR_TEMP1, unsigned short, 7)
-        ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
+        ANSWER1(E_ID_LEFT_MOTOR_TEMP, unsigned short, 7)
+        ANSWER1(E_ID_RIGHT_MOTOR_TEMP, unsigned short, 7)
         ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, gResourceMemory[E_ID_NUM_BMS_CONNECTED])
         ANSWER1(E_ID_BMS_GLOBAL_STATE, unsigned short, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
         ANSWER1(E_ID_BMS_MINMAX_TENSION, unsigned int, gResourceMemory[E_ID_BMS_MINMAX_TENSION])

@@ -100,8 +100,8 @@ enum CANResourceId {
             E_ID_BMS_STATE_READONLY = 0x17,
             E_ID_LEFT_DOOR_STATE = 0x18,
             E_ID_RIGHT_DOOR_STATE = 0x19,
-            E_ID_MOTOR_TEMP1 = 0x1a,
-            E_ID_MOTOR_TEMP2 = 0x1b,
+            E_ID_LEFT_MOTOR_TEMP_ADC = 0x1a,
+            E_ID_RIGHT_MOTOR_TEMP_ADC = 0x1b,
             E_ID_BATT_LEVEL = 0x1c,
             E_ID_ODOMETER = 0x1d,
             E_ID_BATT_12V = 0x1e,
@@ -125,6 +125,8 @@ enum CANResourceId {
             E_ID_RIGHT_DRIVE_BATTERY_CURRENT = 0x30,
             E_ID_LEFT_DRIVE_BATTERY_VOLTAGE = 0x31,
             E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE = 0x32,
+            E_ID_LEFT_MOTOR_TEMP = 0x33,
+            E_ID_RIGHT_MOTOR_TEMP = 0x34,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0xEA,
