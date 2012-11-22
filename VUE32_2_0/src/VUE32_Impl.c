@@ -114,7 +114,7 @@ unsigned int gHardwareSize[NB_VUE32+1] =
     7,  //VUE32_4
     8,  //VUE32_5
     9,  //VUE32_6
-    7,  //VUE32_7
+    8,  //VUE32_7
 };
 
 FUNC_ONEMERGMSG gOnEmergencyMsgVUE32[NB_VUE32+1] =

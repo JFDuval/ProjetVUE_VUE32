@@ -39,6 +39,7 @@ HDW_MAPPING gVUE32_7_Ress[] =
     {E_ID_MOTOR_TEMP2, sizeof(unsigned short), Sensor},
     {E_ID_NUM_BMS_CONNECTED, sizeof(unsigned short), Sensor},
     {E_ID_BMS_GLOBAL_STATE, sizeof(unsigned short), Sensor},
+    {E_ID_BMS_MINMAX_TENSION, sizeof(unsigned int), Sensor},
     {E_ID_SET_LIGTH_STATE, sizeof(unsigned char), Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE,sizeof(unsigned short), Actuator}
 };
@@ -114,6 +115,7 @@ void ImplVUE32_7(void)
     RunBatteryPack();
     gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
     gResourceMemory[E_ID_BMS_GLOBAL_STATE] = GetBmsGlobalState();
+    gResourceMemory[E_ID_BMS_MINMAX_TENSION] = GetBmsMinMaxTension();
 }
 
 /*
@@ -130,6 +132,7 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ANSWER1(E_ID_MOTOR_TEMP2, unsigned short, 7)
         ANSWER1(E_ID_NUM_BMS_CONNECTED, unsigned short, gResourceMemory[E_ID_NUM_BMS_CONNECTED])
         ANSWER1(E_ID_BMS_GLOBAL_STATE, unsigned short, gResourceMemory[E_ID_BMS_GLOBAL_STATE])
+        ANSWER1(E_ID_BMS_MINMAX_TENSION, unsigned int, gResourceMemory[E_ID_BMS_MINMAX_TENSION])
         ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
         ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
         com_led_toggle();

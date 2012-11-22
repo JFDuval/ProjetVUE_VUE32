@@ -124,7 +124,7 @@ void RunBatteryPack()
     }
 
     // Refresh all data every second
-    static unsigned int _timer = 0;
+    static unsigned int _timer = 5;
     static unsigned short rotation = 0;
     if ( _timer < uiTimeStamp ) 
     {
@@ -132,17 +132,17 @@ void RunBatteryPack()
         _timer = uiTimeStamp + 250;
         switch(rotation)
         {
-        case 0: // TOdo: mettre des defines
-            oMsg.msg_cmd = 0x14;
+        case 0:
+            oMsg.msg_cmd = E_ID_BMS_BOARD_TEMP;
             break;
         case 1:
-            oMsg.msg_cmd = 0x15;
+            oMsg.msg_cmd = E_ID_BMS_CELL_GROUP1;
             break;
         case 2:
-            oMsg.msg_cmd = 0x16;
+            oMsg.msg_cmd = E_ID_BMS_CELL_GROUP2;
             break;
         case 3:
-            oMsg.msg_cmd = 0x17;
+            oMsg.msg_cmd = E_ID_BMS_STATE_READONLY;
             break;
         }
 
@@ -159,7 +159,6 @@ void RunBatteryPack()
         oMsg.msg_type = VUE32_TYPE_GETVALUE;
         netv_send_message(&oMsg);
     }
-
 }
 
 // Interpretation of BMS messages
@@ -171,7 +170,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
 
         unTimestampLastMsg[bmsId] = uiTimeStamp;
 
-        if ( msg->msg_cmd == 0x14 && msg->msg_data_length >= 2 ) // E_ID_BMS_BOARD_TEMP
+        if ( msg->msg_cmd == E_ID_BMS_BOARD_TEMP && msg->msg_data_length >= 2 ) // E_ID_BMS_BOARD_TEMP
         {
             unsigned short temp = *((unsigned short*)msg->msg_data);
             if ( usMaxResTemp < temp)
@@ -190,7 +189,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                 }
             }
         }
-        else if ( (msg->msg_cmd == 0x17 ||  msg->msg_cmd == 0x1E) && msg->msg_data_length >= 2 ) // State
+        else if ( (msg->msg_cmd == E_ID_BMS_STATE_READONLY ||  msg->msg_cmd == 0x1E) && msg->msg_data_length >= 2 ) // State
         {
             // Read the BMS State
             unsigned short temp = *((unsigned short*)msg->msg_data);
@@ -207,7 +206,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
             }
             
             // Make sure the right state is setted
-            if ( (eCurrentReqState == Monitor && eBMSState[bmsId] == Balance) || (eCurrentReqState == Balance && eBMSState[bmsId] == Monitor) )
+            if ( (eCurrentReqState == Monitor && eBMSState[bmsId] == Balance) || (eCurrentReqState == Balance && eBMSState[bmsId] == Monitor) || (eCurrentReqState == Sleep && eBMSState[bmsId] == InitSleep) )
             {
                 NETV_MESSAGE oMsg;
                 oMsg.msg_cmd = E_ID_BMS_STATE_READONLY;
@@ -221,21 +220,28 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 6;
-                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)1;
+                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)Balance;
                     ((unsigned short*)oMsg.msg_data)[1] = (unsigned short)1;
                     ((unsigned short*)oMsg.msg_data)[2] = usReqTension;
                     netv_send_message(&oMsg);
                 }
-                else
+                else if ( eCurrentReqState== Monitor)
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 2;
-                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)0;
+                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitBQ;
+                    netv_send_message(&oMsg);
+                }
+                else if ( eCurrentReqState == Sleep )
+                {
+                    // Send the command right now
+                    oMsg.msg_data_length = 2;
+                    ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitSleep;
                     netv_send_message(&oMsg);
                 }
             }
         }
-        else if ( msg->msg_cmd == 0x15 && msg->msg_data_length >= 6 ) // E_ID_BMS_CELL_GROUP1
+        else if ( msg->msg_cmd == E_ID_BMS_CELL_GROUP1 && msg->msg_data_length >= 6 ) // E_ID_BMS_CELL_GROUP1
         {
             unsigned short temp = *((unsigned short*)msg->msg_data);
             if ( temp == 0)
@@ -258,7 +264,7 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                 usCellTension[bmsId][3] = *((unsigned short*)(msg->msg_data+4)); //cellTension[3]
             }
         }
-        else if ( msg->msg_cmd == 0x16 && msg->msg_data_length >= 2 ) // E_ID_BMS_CELL_GROUP2
+        else if ( msg->msg_cmd == E_ID_BMS_CELL_GROUP2 && msg->msg_data_length >= 2 ) // E_ID_BMS_CELL_GROUP2
         {
             unsigned short temp = *((unsigned short*)msg->msg_data);
             if ( temp == 0)
@@ -332,7 +338,23 @@ void SetState(E_BMS_STATES eState)
         oMsg.msg_type = VUE32_TYPE_SETVALUE;
         oMsg.msg_comm_iface = NETV_COMM_IFACE_CAN2;
         oMsg.msg_data_length = 2;
-        ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)Monitor;
+        ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitBQ;
+        oMsg.msg_remote = 0;
+        oMsg.msg_source = GetMyAddr();
+        oMsg.msg_dest = 0xFF;
+        netv_send_message(&oMsg);
+
+        eCurrentReqState = eState;
+    }
+    else if ( eState == Sleep )
+    {
+        // Send the command right now
+        NETV_MESSAGE oMsg;
+        oMsg.msg_cmd = E_ID_BMS_STATE_READONLY;
+        oMsg.msg_type = VUE32_TYPE_SETVALUE;
+        oMsg.msg_comm_iface = NETV_COMM_IFACE_CAN2;
+        oMsg.msg_data_length = 2;
+        ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitSleep;
         oMsg.msg_remote = 0;
         oMsg.msg_source = GetMyAddr();
         oMsg.msg_dest = 0xFF;
