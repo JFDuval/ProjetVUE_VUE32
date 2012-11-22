@@ -49,6 +49,13 @@ void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         driveMessage.RTR = 0;
         driveMessage.dataLenght = 8;
         driveMessage.data[0] = pDrives[ucDriveIndex].ucIsEnable;
+        driveMessage.data[1] = 0;
+        driveMessage.data[2] = 0;
+        driveMessage.data[3] = 0;
+        driveMessage.data[4] = 0;
+        driveMessage.data[5] = 0;
+        driveMessage.data[6] = 0;
+        driveMessage.data[7] = 0;
 
         //Send to CAN network interface
         CanNETSACTxMessage(&driveMessage, D_CAN2);
@@ -62,10 +69,13 @@ void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float 
         return;
     
     //Error Handler
-   /* if(DrivesError(pDrives))
-            return;*/
+    if(DrivesError(pDrives))
+            return;
 
-    pDrives[ucDriveIndex].ufMotorCommand = fCommandMotor;
+    if(pDrives[ucDriveIndex].ucIsInvert)
+        pDrives[ucDriveIndex].ufMotorCommand = -fCommandMotor;
+    else
+        pDrives[ucDriveIndex].ufMotorCommand = fCommandMotor;
     pDrives[ucDriveIndex].usMotorTempADC = usUnscaledTemp;
 
     //Update cmd on the drive side

@@ -12,6 +12,10 @@
 #define D_CAN1 0
 #define D_CAN2 1
 
+//motor direction
+#define NotInverted 0
+#define Inverted 1
+
 //Frame id
 #define DRIVE_FRAME_ENABLE_DISABLE 0
 #define DRIVE_FRAME_CONTROL 1
@@ -123,6 +127,7 @@ typedef struct
     unsigned short usScaledMotorTemp;
     unsigned short usMotorTempADC;
     unsigned char ucIsOnEmergency;
+    unsigned char ucIsInvert;
 }DRIVE_STATUS;
 
 

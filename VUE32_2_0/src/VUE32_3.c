@@ -45,10 +45,10 @@ HDW_MAPPING gVUE32_3_Ress[] =
     {E_ID_MAIN_CONTACTOR, 1, Actuator}
 };
 
-DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] =
+DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] = 
 {
-    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
-    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY, NotInverted},
+    {DRIVE_DISABLE, BASE_ID_DRIVE_LEFT_READ, BASE_ID_DRIVE_LEFT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, 0, NO_EMERGENCY, Inverted},
 };
 
 // Mapping between pins and functionnalities,
@@ -65,9 +65,7 @@ void InitVUE32_3(void)
 {
     power_out(MISC_PWR_COOLING,1);
     power_out(MISC_PWR_CONTACTOR,1);
-    gDrivesVUE32_3[0].ucSelectedMode = TORQUE_MODE;
-    gDrivesVUE32_3[1].ucSelectedMode = TORQUE_MODE;
-    
+  
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
@@ -102,7 +100,6 @@ void ImplVUE32_3(void)
 
     if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
     {
-
         unDPRPreviousState = gResourceMemory[E_ID_DPR];
         DriveEnable(gDrivesVUE32_3, LeftDrive);
         DriveEnable(gDrivesVUE32_3, RightDrive);
@@ -111,23 +108,15 @@ void ImplVUE32_3(void)
             fDirectionMode = -1;
         else if(gResourceMemory[E_ID_DPR] == DRIVE)
             fDirectionMode = 1;
-        
     }
 
     if(flag_drives)
     { 
         flag_drives = 0;
         
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*-0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP1]);
         DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_MOTOR_TEMP2]);
     }
-
-    /*if(drives)
-    {
-        flag_x100ms = 0;
-        drives = 0;
-        PoolingDrives(gDrivesVUE32_3);
-    }*/
 }
 
 /*

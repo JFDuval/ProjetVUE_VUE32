@@ -113,6 +113,18 @@ enum CANResourceId {
             E_ID_GLOBAL_CAR_SPEED = 0x24,
             E_ID_PORT_E = 0x25,
             E_ID_TRIS_E = 0x26,
+            E_ID_LEFT_DRIVE_STATUS = 0x27,
+            E_ID_RIGHT_DRIVE_STATUS = 0x28,
+            E_ID_LEFT_MOTOR_SPEED = 0x29,
+            E_ID_RIGHT_MOTOR_SPEED = 0x2a,
+            E_ID_LEFT_MOTOR_CURRENT = 0x2b,
+            E_ID_RIGHT_MOTOR_CURRENT = 0x2c,
+            E_ID_LEFT_CONTROLLER_TEMP = 0x2d,
+            E_ID_RIGHT_CONTROLLER_TEMP = 0x2e,
+            E_ID_LEFT_DRIVE_BATTERY_CURRENT = 0x2f,
+            E_ID_RIGHT_DRIVE_BATTERY_CURRENT = 0x30,
+            E_ID_LEFT_DRIVE_BATTERY_VOLTAGE = 0x31,
+            E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE = 0x32,
 
             // Access in Read/Write mode  (actuator)
             E_ID_DRIVE_L = 0xEA,
