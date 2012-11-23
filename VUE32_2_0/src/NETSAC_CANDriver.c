@@ -20,21 +20,21 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
      * LED6 should be switched ON or OFF. */
     //CANRxMessageBuffer * message;
 
-    if (CANx == CAN1 && isCAN1MsgReceived == FALSE) {
+    //if (CANx == CAN1 && isCAN1MsgReceived == FALSE) {
         /* CAN1 did not receive any message so
          * exit the function. Note that the
          * isCAN1MsgReceived flag is updated
          * by the CAN1 ISR. */
-        return 0;
-    }
+        //return 0;
+    //}
 #ifdef _CAN2
-    else if (CANx == CAN2 && isCAN2MsgReceived == FALSE) {
+    //else if (CANx == CAN2 && isCAN2MsgReceived == FALSE) {
         /* CAN1 did not receive any message so
          * exit the function. Note that the
          * isCAN1MsgReceived flag is updated
          * by the CAN1 ISR. */
-        return 0;
-    }
+        //return 0;
+    //}
 #endif
 
     /* Message was received. Reset message received flag to catch
@@ -43,9 +43,10 @@ unsigned char CanNETSACRxMessage(DRIVE_MSG *message, CAN_MODULE CANx)
      * return value for null to check if a message has
      * been received. */
 
-    if(CANx == CAN1) isCAN1MsgReceived = FALSE;
+    //if(CANx == CAN1) isCAN1MsgReceived = FALSE;
 #ifdef _CAN2
-    if(CANx == CAN2) isCAN2MsgReceived = FALSE;
+    // TODO
+    //if(CANx == CAN2) isCAN2MsgReceived = FALSE;
 #endif
 
     CANRxMessageBuffer *msgPtr = (CANRxMessageBuffer *) CANGetRxMessage(CANx, CAN_CHANNEL1);

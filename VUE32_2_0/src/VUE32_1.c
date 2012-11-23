@@ -103,6 +103,7 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
                 com_led_toggle();
         END_OF_MSG_TYPE
+
 }
 
 //TODO Put emergency instructions here

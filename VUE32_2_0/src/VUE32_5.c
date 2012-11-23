@@ -154,6 +154,11 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
         com_led_toggle();
     END_OF_MSG_TYPE
 
+    ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
+        SYNC1(E_ID_ACCELERATOR, short, gResourceMemory[E_ID_ACCELERATOR])
+        SYNC1(E_ID_STEERINGANGLESENSOR, unsigned int, gResourceMemory[E_ID_STEERINGANGLESENSOR])
+    END_OF_MSG_TYPE
+
 }
 
 //TODO Put emergency instructions here

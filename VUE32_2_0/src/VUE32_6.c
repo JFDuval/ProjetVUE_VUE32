@@ -152,6 +152,13 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE
+
+    ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
+        SYNC1(E_ID_YAWRATE, short, gResourceMemory[E_ID_YAWRATE])
+        SYNC1(E_ID_3AXES_ACCEL_X, short, gResourceMemory[E_ID_3AXES_ACCEL_X])
+        SYNC1(E_ID_3AXES_ACCEL_Y, short, gResourceMemory[E_ID_3AXES_ACCEL_Y])
+        SYNC1(E_ID_3AXES_ACCEL_Z, short, gResourceMemory[E_ID_3AXES_ACCEL_Z])
+    END_OF_MSG_TYPE
 }
 
 //TODO Put emergency instructions here

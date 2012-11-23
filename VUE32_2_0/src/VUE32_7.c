@@ -160,6 +160,10 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE
+
+    ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
+        SYNC1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL])
+    END_OF_MSG_TYPE
 }
 
 //TODO Put emergency instructions here

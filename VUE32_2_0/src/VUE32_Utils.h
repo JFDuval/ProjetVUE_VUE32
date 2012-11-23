@@ -78,6 +78,18 @@ msg->msg_data_length = sizeof(type1)+sizeof(type2)+sizeof(type3)+sizeof(type4); 
 netv_send_message(msg);                     \
 }
 
+#define SYNC1(ressid, type1, var1)        \
+{              \
+msg->msg_type = msg->msg_type + 1;          \
+msg->msg_remote = 0;                        \
+_temp = msg->msg_dest;                      \
+msg->msg_dest = msg->msg_source;            \
+    msg->msg_source = GetMyAddr();          \
+msg->msg_data_length = sizeof(type1);       \
+((type1*)msg->msg_data)[0] = var1;          \
+netv_send_message(msg);                     \
+}
+
 #define ACTION0(ressid) \
 if ( msg->msg_cmd == ressid) {
 
