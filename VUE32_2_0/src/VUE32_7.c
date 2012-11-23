@@ -117,7 +117,7 @@ void ImplVUE32_7(void)
     END_OF_EVERY
 
     // Run the battery pack state machine
-    RunBatteryPack();
+    //RunBatteryPack();
     gResourceMemory[E_ID_NUM_BMS_CONNECTED] = GetNumConnectedBMS();
     gResourceMemory[E_ID_BMS_GLOBAL_STATE] = GetBmsGlobalState();
     gResourceMemory[E_ID_BMS_MINMAX_TENSION] = GetBmsMinMaxTension();

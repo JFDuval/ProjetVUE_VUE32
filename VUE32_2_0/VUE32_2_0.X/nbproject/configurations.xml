@@ -55,7 +55,6 @@
       <logicalFolder name="f4" displayName="VUE32s" projectFiles="true">
         <itemPath>../src/VUE32_Impl.h</itemPath>
         <itemPath>../src/VUE32_Utils.h</itemPath>
-        <itemPath>Compensation.h</itemPath>
       </logicalFolder>
       <itemPath>../src/def.h</itemPath>
     </logicalFolder>
@@ -113,7 +112,6 @@
         <itemPath>../src/VUE32_Impl.c</itemPath>
         <itemPath>../src/VUE32_0.c</itemPath>
         <itemPath>../src/VUE32_Utils.c</itemPath>
-        <itemPath>Compensation.c</itemPath>
       </logicalFolder>
       <itemPath>../src/main.c</itemPath>
     </logicalFolder>

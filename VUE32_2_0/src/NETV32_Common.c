@@ -143,8 +143,10 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
             sendMsg.msg_comm_iface = ~g_rMessage.msg_comm_iface; // Swap interfaces (avoid resending the message on the same iface it was received)            
             
             // Quick hack to prevent the BMSs from overflowing the CAN1 network
-            if ( sendMsg.msg_cmd >= E_ID_BMS_BOARD_TEMP && sendMsg.msg_cmd <= E_ID_BMS_STATE_READONLY )
-                sendMsg.msg_comm_iface &= 0xFE;
+            //if ( sendMsg.msg_cmd >= E_ID_BMS_BOARD_TEMP && sendMsg.msg_cmd <= E_ID_BMS_STATE_READONLY )
+            //    sendMsg.msg_comm_iface &= 0xFE;
+            if ( (sendMsg.msg_dest < 0x11 || sendMsg.msg_dest > (0x11 + 24)) && !(sendMsg.msg_source == 0 && ((sendMsg.msg_cmd > 0x13 && sendMsg.msg_cmd < 0x17)|| sendMsg.msg_cmd==0x1e) ))
+                sendMsg.msg_comm_iface &= 0xFD;
             
             netv_send_message(&sendMsg);
         }

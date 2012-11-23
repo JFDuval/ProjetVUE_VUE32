@@ -47,7 +47,7 @@ void OpenContactor()
         oMsg.msg_comm_iface = NETV_COMM_IFACE_CAN1;
         oMsg.msg_data_length = 1;
         oMsg.msg_data[0] = 0;
-        oMsg.msg_dest = 0x03;
+        oMsg.msg_dest = 0x00;//0x03;
         oMsg.msg_priority = NETV_PRIORITY_HIGHEST;
         oMsg.msg_remote = 0;
         oMsg.msg_source = GetMyAddr();
@@ -75,7 +75,7 @@ void InitBatteryPack()
     usMaxCellTemp = 0;
     usNumberConnectedBMS = 0;
     fBMSError = 0;
-    eCurrentReqState = Monitor;
+    eCurrentReqState = Sleep;
     usBMSMinTension = 0;
     usBMSMaxTension = 0;
 }

@@ -415,11 +415,13 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
         CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_NOT_EMPTY, TRUE);
         CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_OVERFLOW, TRUE);
 
+#ifdef _CAN2
         if((GetBoardID() == VUE32_5) && (CANx == CAN2))
 	{
             return 0;
         }
         else
+#endif
             return 1;
     }
 
