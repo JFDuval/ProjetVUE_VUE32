@@ -76,7 +76,7 @@ void InitVUE32_3(void)
 {
     power_out(MISC_PWR_COOLING,1);
     power_out(MISC_PWR_CONTACTOR,1);
-  
+    power_out(3, 1);
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
@@ -122,8 +122,8 @@ void ImplVUE32_3(void)
     }
 
     EVERY_X_MS(20)
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.07*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
     END_OF_EVERY
                 
     EVERY_X_MS(250)
@@ -170,7 +170,6 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
         END_OF_MSG_TYPE
 
         ON_MSG_TYPE( NETV_TYPE_EVENT )
-            unsigned char temp;
             /*ACTION1(E_ID_GROUNDFAULT_FREQ, unsigned char, temp)
             END_OF_ACTION*/
             ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION

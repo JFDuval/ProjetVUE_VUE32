@@ -112,6 +112,7 @@ void ImplVUE32_7(void)
     }
 
     EVERY_X_MS(250)
+        unsigned int dummy = gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC];
         EmitAnEvent(E_ID_LEFT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
         EmitAnEvent(E_ID_RIGHT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
     END_OF_EVERY

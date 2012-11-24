@@ -166,12 +166,12 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
         case DRIVE_FRAME_INFO1:
             pDrives[ucDriveIndex].nMotorSpeed = UnScaleSpeed(((pMessage->data[0] << 8) & 0xFF00)| pMessage->data[1]);
             pDrives[ucDriveIndex].unBatteryVoltage = UnScaleVoltage(((pMessage->data[2] << 8) & 0xFF00)| pMessage->data[3]);
-            pDrives[ucDriveIndex].unMotorCurrent = UnScaleRMSCurrent(((pMessage->data[4] << 8) & 0xFF00)| pMessage->data[5]);
+            pDrives[ucDriveIndex].unMotorCurrent = UnScalePeakCurrent(((pMessage->data[4] << 8) & 0xFF00)| pMessage->data[5]);
             pDrives[ucDriveIndex].ucStatus =  pMessage->data[7];
             break;
         case DRIVE_FRAME_INFO2:
-            pDrives[ucDriveIndex].ucMotorTemp = pMessage->data[0];
-            pDrives[ucDriveIndex].ucControllerTemp = pMessage->data[1];
+            pDrives[ucDriveIndex].ucMotorTemp = UnScaleTemp(pMessage->data[0]);
+            pDrives[ucDriveIndex].ucControllerTemp = UnScaleTemp(pMessage->data[1]);
             pDrives[ucDriveIndex].usDPotentiometer = (pMessage->data[2] << 8) & 0xFF00;
             pDrives[ucDriveIndex].usDPotentiometer |= pMessage->data[3];
             pDrives[ucDriveIndex].usAnalogIn = (pMessage->data[4] << 8) & 0xFF00;
@@ -224,22 +224,22 @@ unsigned int UnScaleTemp(unsigned char ucValue)
 
 int UnScaleSpeed(unsigned short usValue)
 {
-    return (int)(((usValue-SPEED_SCALING_B)/SPEED_SCALING_K)*DATA_RESOLUTION);
+    return (int)((((float)usValue-SPEED_SCALING_B)/SPEED_SCALING_K));
 }
 
 unsigned int UnScaleVoltage(unsigned short usValue)
 {
-    return (unsigned int)(((usValue-VOLTAGE_SCALING_B)/VOLTAGE_SCALING_K)*DATA_RESOLUTION);
+    return (unsigned int)((((float)usValue-VOLTAGE_SCALING_B)/VOLTAGE_SCALING_K)*DATA_RESOLUTION);
 }
 
 unsigned int UnScaleRMSCurrent(unsigned short usValue)
 {
-    return(unsigned int)(((usValue-CURRENT_SCALING_B)/RMS_CURRENT_SCALING_K)*DATA_RESOLUTION);
+    return(unsigned int)((((float)usValue-CURRENT_SCALING_B)/RMS_CURRENT_SCALING_K)*DATA_RESOLUTION);
 }
 
 unsigned int UnScalePeakCurrent(unsigned short usValue)
 {
-    return(unsigned int)(((usValue-CURRENT_SCALING_B)/PEAK_CURRENT_SCALING_K)*DATA_RESOLUTION);
+    return(unsigned int)((((float)usValue-CURRENT_SCALING_B)/PEAK_CURRENT_SCALING_K)*DATA_RESOLUTION);
 }
 
 
