@@ -57,7 +57,7 @@ short read_yaw(unsigned short adc_yaw)
     short yaw_rate = 0;
 
     //Yaw-rate * 1000
-    yaw_rate = 237*((short)adc_yaw - 486);
+    yaw_rate = 237*((short)adc_yaw - 490);
 
     return yaw_rate;
 }
@@ -67,7 +67,7 @@ short read_lateral(unsigned short adc_lateral)
     short lateral = 0;
 
     //Lateral acceleration * 100000
-    lateral = 427*((short)adc_lateral - 486);
+    lateral = 427*((short)adc_lateral - 490);
 
     return lateral;
 }
