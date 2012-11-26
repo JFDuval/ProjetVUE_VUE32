@@ -39,6 +39,9 @@ void OpenContactor()
 {
     static unsigned int _timer = 0;
     fBMSError = 1;
+
+    if (!_timer) return; ////////////// WARNING, REMOVE THIS
+
     if ( _timer < uiTimeStamp )  // Throttle the error messages, no more than 10/s (the first one is instantaneous)
     {
         _timer = uiTimeStamp + 250;
@@ -223,21 +226,21 @@ void OnBatteryMsg(NETV_MESSAGE *msg)
                     ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)Balance;
                     ((unsigned short*)oMsg.msg_data)[1] = (unsigned short)1;
                     ((unsigned short*)oMsg.msg_data)[2] = usReqTension;
-                    netv_send_message(&oMsg);
+                    //netv_send_message(&oMsg);
                 }
                 else if ( eCurrentReqState== Monitor)
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 2;
                     ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitBQ;
-                    netv_send_message(&oMsg);
+                    //netv_send_message(&oMsg);
                 }
                 else if ( eCurrentReqState == Sleep )
                 {
                     // Send the command right now
                     oMsg.msg_data_length = 2;
                     ((unsigned short*)oMsg.msg_data)[0] = (unsigned short)InitSleep;
-                    netv_send_message(&oMsg);
+                    //netv_send_message(&oMsg);
                 }
             }
         }
