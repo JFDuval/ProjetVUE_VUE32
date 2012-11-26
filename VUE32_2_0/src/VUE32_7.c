@@ -24,7 +24,6 @@ extern unsigned int gResourceMemory[256];
 extern volatile unsigned char set_flashers;
 
 unsigned char light_previous_state_vue32_7 = 0;
-unsigned short wheel_spdo1_kph_VUE32_7 = 0;
 extern unsigned short spdo1_mean;
 extern volatile unsigned char spd1_moving;
 
@@ -76,7 +75,7 @@ void ImplVUE32_7(void)
         asm volatile ("di"); //Disable int
         filter_wheel();
         asm volatile ("ei"); //Enable int
-        wheel_spdo1_kph_VUE32_7 = wheel_period_to_kph(spdo1_mean, spd1_moving);
+        gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BL] = wheel_period_to_kph(spdo1_mean, spd1_moving);
     }
 
     if(flag_adc_filter)

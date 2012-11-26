@@ -23,7 +23,6 @@ extern unsigned int gResourceMemory[256];
 //wheel_sensor.c
 extern unsigned short spdo1_mean, spdo2_mean;
 extern volatile unsigned char spd1_moving, spd2_moving;
-unsigned short wheel_spdo1_kph_VUE32_3 = 0, wheel_spdo2_kph_VUE32_3 = 0;
 
 extern volatile unsigned int flag_1ms_b;
 extern volatile unsigned char flag_drives;
@@ -96,8 +95,8 @@ void ImplVUE32_3(void)
         asm volatile ("di"); //Disable int
         filter_wheel();
         asm volatile ("ei"); //Enable int
-	wheel_spdo1_kph_VUE32_3 = wheel_period_to_kph(spdo1_mean, spd1_moving);
-	wheel_spdo2_kph_VUE32_3 = wheel_period_to_kph(spdo2_mean, spd2_moving);
+	gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR] = wheel_period_to_kph(spdo1_mean, spd1_moving);
+	gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL] = wheel_period_to_kph(spdo2_mean, spd2_moving);
     }
 
 
