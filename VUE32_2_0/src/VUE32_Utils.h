@@ -165,6 +165,7 @@ void CopyValueOn(unsigned char ucDest, unsigned char ucResourceId, unsigned int 
 
 void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData);
 void CopyValueFromDistantVUE32(NETV_MESSAGE *msg);
+void SetResourceValue(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData);
 
 
 #endif	/* VUE32_UTILS_H */

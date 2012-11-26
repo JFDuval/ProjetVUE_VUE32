@@ -86,6 +86,7 @@ void ImplVUE32_4(void)
         if(gResourceMemory[E_ID_FRONTLIGHTCONTROL] != light_state_vue32_4 && light_state_vue32_4 == light_previous_state_vue32_4)
         {
             gResourceMemory[E_ID_FRONTLIGHTCONTROL] = (unsigned int)light_state_vue32_4;
+            EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_1, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
             EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_2, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
             EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_6, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);
             EmitAnEvent(E_ID_SET_LIGTH_STATE, VUE32_7, 1, gResourceMemory[E_ID_FRONTLIGHTCONTROL]);

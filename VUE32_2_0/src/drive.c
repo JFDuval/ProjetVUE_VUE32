@@ -166,7 +166,7 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
         case DRIVE_FRAME_INFO1:
             pDrives[ucDriveIndex].nMotorSpeed = UnScaleSpeed(((pMessage->data[0] << 8) & 0xFF00)| pMessage->data[1]);
             pDrives[ucDriveIndex].unBatteryVoltage = UnScaleVoltage(((pMessage->data[2] << 8) & 0xFF00)| pMessage->data[3]);
-            pDrives[ucDriveIndex].unMotorCurrent = UnScalePeakCurrent(((pMessage->data[4] << 8) & 0xFF00)| pMessage->data[5]);
+            pDrives[ucDriveIndex].unMotorCurrent = UnScaleRMSCurrent(((pMessage->data[4] << 8) & 0xFF00)| pMessage->data[5]);
             pDrives[ucDriveIndex].ucStatus =  pMessage->data[7];
             break;
         case DRIVE_FRAME_INFO2:

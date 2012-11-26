@@ -13,6 +13,7 @@
 #include "HardwareProfile.h"
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
+#include "Board.h"
 #include "def.h"
 
 //Interface between hardware and communication
@@ -52,6 +53,7 @@ HDW_MAPPING gVUE32_3_Ress[] =
     {E_ID_RIGHT_DRIVE_BATTERY_CURRENT, sizeof(unsigned int), Sensor},
     {E_ID_LEFT_DRIVE_BATTERY_VOLTAGE, sizeof(unsigned int), Sensor},
     {E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE, sizeof(unsigned int), Sensor},
+    {E_ID_GLOBAL_CAR_SPEED, sizeof(unsigned short), Sensor},
     {E_ID_COOLINGPUMP, 1, Actuator},
     {E_ID_MAIN_CONTACTOR, 1, Actuator}
 };
@@ -76,7 +78,7 @@ void InitVUE32_3(void)
 {
     power_out(MISC_PWR_COOLING,1);
     power_out(MISC_PWR_CONTACTOR,1);
-    power_out(3, 1);
+    //power_out(3, 1);
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
@@ -125,11 +127,18 @@ void ImplVUE32_3(void)
         DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
         DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
     END_OF_EVERY
-                
+
     EVERY_X_MS(250)
         ReturnDriveInformation(gDrivesVUE32_3, LeftDrive, &gResourceMemory[E_ID_LEFT_MOTOR_SPEED], &gResourceMemory[E_ID_LEFT_MOTOR_CURRENT], &gResourceMemory[E_ID_LEFT_MOTOR_TEMP], &gResourceMemory[E_ID_LEFT_CONTROLLER_TEMP], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_LEFT_DRIVE_STATUS]);
         ReturnDriveInformation(gDrivesVUE32_3, RightDrive, &gResourceMemory[E_ID_RIGHT_MOTOR_SPEED], &gResourceMemory[E_ID_RIGHT_MOTOR_CURRENT], &gResourceMemory[E_ID_RIGHT_MOTOR_TEMP], &gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_RIGHT_DRIVE_STATUS]);
+        
+        //Compute mean between both speed motor
+        gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = (gDrivesVUE32_3[RightDrive].nMotorSpeed-gDrivesVUE32_3[LeftDrive].nMotorSpeed)/2;
+        SetResourceValue(E_ID_GLOBAL_CAR_SPEED, VUE32_1, sizeof(unsigned short), gResourceMemory[E_ID_GLOBAL_CAR_SPEED]);
     END_OF_EVERY
+
+
+
 }
 
 /*

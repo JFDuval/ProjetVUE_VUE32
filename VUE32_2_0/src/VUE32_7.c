@@ -31,6 +31,11 @@ extern volatile unsigned char spd1_moving;
 extern volatile unsigned int flag_1ms_b, flag_8ms;
 extern volatile unsigned int flag_flash;
 
+//VUE32_adc.h
+extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
+extern unsigned short adc_mean[ADC_CH];
+extern volatile unsigned char flag_adc_filter;
+
 //Hardware resources manage localy by this VUE32
 HDW_MAPPING gVUE32_7_Ress[] =
 {
@@ -74,6 +79,13 @@ void ImplVUE32_7(void)
         wheel_spdo1_kph_VUE32_7 = wheel_period_to_kph(spdo1_mean, spd1_moving);
     }
 
+    if(flag_adc_filter)
+    {   flag_adc_filter = 0;
+        filter_adc();
+        gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC] = adc_mean[ADC_FILTERED_AN0];
+        gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC] = adc_mean[ADC_FILTERED_AN1];
+    }
+
 
     //Left Lights
     if(flag_8ms)
@@ -112,7 +124,6 @@ void ImplVUE32_7(void)
     }
 
     EVERY_X_MS(250)
-        unsigned int dummy = gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC];
         EmitAnEvent(E_ID_LEFT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
         EmitAnEvent(E_ID_RIGHT_MOTOR_TEMP_ADC, VUE32_3, sizeof(unsigned short), gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
     END_OF_EVERY

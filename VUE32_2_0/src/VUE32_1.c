@@ -10,8 +10,6 @@
 #include "VUE32_Utils.h"
 #include "VUE32_Impl.h"
 #include "Board.h"
-
-#include "Board.h"
 #include "def.h"
 
 void refresh_display(void);
@@ -84,6 +82,9 @@ void ImplVUE32_1(void)
         previous_door_left_state = door_left_state;
     }
 
+    if(gResourceMemory[E_ID_FRONTLIGHTCONTROL] != 0 )
+        Nop();
+    
     EVERY_X_MS(10)
         refresh_display();
     END_OF_EVERY
@@ -103,6 +104,18 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
                 com_led_toggle();
         END_OF_MSG_TYPE
+
+        ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
+            ACTION1(E_ID_GLOBAL_CAR_SPEED, unsigned short, gResourceMemory[E_ID_GLOBAL_CAR_SPEED]) END_OF_ACTION
+            com_led_toggle();
+        END_OF_MSG_TYPE
+
+        ON_MSG_TYPE( NETV_TYPE_EVENT )
+            ACTION1(E_ID_FRONTLIGHTCONTROL, unsigned char, gResourceMemory[E_ID_FRONTLIGHTCONTROL]) END_OF_ACTION
+            ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
+        END_OF_MSG_TYPE
+
+
 
 }
 
@@ -187,8 +200,8 @@ void refresh_display(void)
     //Word 1 construction:
     gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = vehicle_spd();
     word1 |= ((gResourceMemory[E_ID_GLOBAL_CAR_SPEED] & 0x7F) << 6);     //Speed
-    word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00010000) << 1); //Left
-    word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00100000) >> 1); //Right
+    word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & LT_FLASHER_LEFT) << 1);  //Left
+    word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & LT_FLASHER_RIGHT) >> 1); //Right
     word1 |= ((gResourceMemory[E_ID_FRONTLIGHTCONTROL] & 0b00000011));      //Beams
     word1 |= ((gResourceMemory[E_ID_DPR] & 0b00010000) >> 1);               //Drive
     word1 |= ((gResourceMemory[E_ID_DPR] & 0b00100000) >> 3);               //Reverse

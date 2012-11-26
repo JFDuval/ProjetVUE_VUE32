@@ -277,3 +277,20 @@ void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
 
 #endif
 }
+
+void SetResourceValue(unsigned char ucResourceId, unsigned char ucDest, unsigned char ucSize, unsigned int unData)
+{
+    NETV_MESSAGE msg;
+
+    msg.msg_cmd = ucResourceId;
+    msg.msg_comm_iface = NETV_COMM_IFACE_CAN1;
+    memcpy(&msg.msg_data, &unData, ucSize);
+    msg.msg_data_length = ucSize;
+    msg.msg_dest = ucDest;
+    msg.msg_priority = NETV_PRIORITY_EVENTS;
+    msg.msg_remote = 0;
+    msg.msg_source = GetMyAddr();
+    msg.msg_type = VUE32_TYPE_SETVALUE;
+    netv_send_message(&msg);
+
+}
