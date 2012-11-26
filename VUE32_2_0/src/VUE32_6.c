@@ -57,6 +57,10 @@ void InitVUE32_6(void)
     power_out(3, 0);
     light_previous_state_vue32_6 =0;
 
+    // Initialize ampli out (off by default)
+    gResourceMemory[E_ID_AUDIOAMPLIFIER] = 0;
+    power_out(3, 0);
+
     // Setup I2C
     init_i2c();
 
@@ -114,8 +118,8 @@ void ImplVUE32_6(void)
     {
         flag_adc_filter = 0;
 	filter_adc();
-        gResourceMemory[E_ID_YAWRATE] = adc_mean[ADC_FILTERED_AN1]; //read_yaw(adc_mean[ADC_FILTERED_AN1]);
-        gResourceMemory[E_ID_LATERALACCELERATIONSENSOR] = adc_mean[ADC_FILTERED_AN0]; //read_lateral(adc_mean[ADC_FILTERED_AN0]);
+        gResourceMemory[E_ID_YAWRATE] = read_yaw(adc_mean[ADC_FILTERED_AN1]);
+        gResourceMemory[E_ID_LATERALACCELERATIONSENSOR] = read_lateral(adc_mean[ADC_FILTERED_AN0]);
     }
 }
 
@@ -141,14 +145,18 @@ void OnMsgVUE32_6(NETV_MESSAGE *msg)
 
     ON_MSG_TYPE( VUE32_TYPE_SETVALUE )
         ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
-        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
+        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
+            power_out(3, gResourceMemory[E_ID_AUDIOAMPLIFIER] ? 1 : 0);
+        END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
         ACTION1(E_ID_WIPERFLUIDPUMP, unsigned char, gResourceMemory[E_ID_WIPERFLUIDPUMP]) END_OF_ACTION
-        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER]) END_OF_ACTION
+        ACTION1(E_ID_AUDIOAMPLIFIER, unsigned char, gResourceMemory[E_ID_AUDIOAMPLIFIER])
+            power_out(3, gResourceMemory[E_ID_AUDIOAMPLIFIER] ? 1 : 0);
+        END_OF_ACTION
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE

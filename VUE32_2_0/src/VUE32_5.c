@@ -46,7 +46,7 @@ HDW_MAPPING gVUE32_5_Ress[] =
 {
     {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},
     {E_ID_ACCELERATOR, sizeof(unsigned short), Sensor},
-    {E_ID_STEERINGANGLESENSOR, sizeof(unsigned int), Sensor},
+    {E_ID_STEERINGANGLESENSOR, sizeof(short), Sensor},
     {E_ID_IGNITIONKEY, sizeof(unsigned char), Sensor},
     {E_ID_DPR, sizeof(unsigned char), Sensor},
     {E_ID_STATE_SWICHT_TRUNK, sizeof(unsigned char), Sensor},
@@ -131,7 +131,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
     ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
                 ANSWER1(E_ID_BRAKEPEDAL, unsigned short, gResourceMemory[E_ID_BRAKEPEDAL])
                 ANSWER1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
-                ANSWER1(E_ID_STEERINGANGLESENSOR, unsigned int, gResourceMemory[E_ID_STEERINGANGLESENSOR])
+                ANSWER1(E_ID_STEERINGANGLESENSOR, short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
                 ANSWER1(E_ID_IGNITIONKEY, unsigned char, gResourceMemory[E_ID_IGNITIONKEY])
                 ANSWER1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR])
                 ANSWER1(E_ID_STATE_SWICHT_TRUNK, unsigned char, gResourceMemory[E_ID_STATE_SWICHT_TRUNK])
@@ -156,7 +156,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
 
     ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
         SYNC1(E_ID_ACCELERATOR, short, gResourceMemory[E_ID_ACCELERATOR])
-        SYNC1(E_ID_STEERINGANGLESENSOR, unsigned int, gResourceMemory[E_ID_STEERINGANGLESENSOR])
+        SYNC1(E_ID_STEERINGANGLESENSOR, short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
     END_OF_MSG_TYPE
 
 }
