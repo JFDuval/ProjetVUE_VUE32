@@ -67,6 +67,9 @@ void InitVUE32_5(void)
     
     // Init
     gResourceMemory[E_ID_STEERINGANGLESENSOR] = 0;
+
+    // Init speed sensors
+    init_change_notification();
 }
 
 /*

@@ -81,6 +81,8 @@ void InitVUE32_3(void)
     // Set the LED2 as output (test)
     LED2_TRIS = 0;
 
+    // Init speed sensors
+    init_change_notification();
 }
 
 /*

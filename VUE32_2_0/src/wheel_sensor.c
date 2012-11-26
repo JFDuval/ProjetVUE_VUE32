@@ -35,6 +35,8 @@ void init_change_notification(void)
     CNENbits.CNEN1 = 1;
 
     //Read port to clear past interrupts:
+    TRIS_SPDO1 = 1;
+    TRIS_SPDO2 = 1;
     dummy = SPDO1;
     dummy = SPDO2;
 
