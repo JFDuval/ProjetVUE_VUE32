@@ -57,6 +57,9 @@ void InitVUE32_7(void)
     InitBatteryPack();
     gResourceMemory[E_ID_NUM_BMS_CONNECTED] = 0;
     gResourceMemory[E_ID_BMS_GLOBAL_STATE] = 0;
+
+    // Init speed sensors
+    init_change_notification();
 }
 
 /*

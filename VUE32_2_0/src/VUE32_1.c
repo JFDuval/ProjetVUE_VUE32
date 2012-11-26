@@ -106,7 +106,7 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
         END_OF_MSG_TYPE
 
         ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
-            ACTION1(E_ID_GLOBAL_CAR_SPEED, unsigned short, gResourceMemory[E_ID_GLOBAL_CAR_SPEED]) END_OF_ACTION
+            //ACTION1(E_ID_GLOBAL_CAR_SPEED, unsigned short, gResourceMemory[E_ID_GLOBAL_CAR_SPEED]) END_OF_ACTION
             com_led_toggle();
         END_OF_MSG_TYPE
 
@@ -141,7 +141,7 @@ unsigned char vehicle_spd(void)
             gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL] + \
             gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL] + \
             gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL];
-    temp >>= 4;
+    temp >>= 2;
 
     return (temp/10);
 }
