@@ -247,13 +247,14 @@ void EmitAnEvent(unsigned char ucResourceId, unsigned char ucDest, unsigned char
 
 void CopyValueFromDistantVUE32(NETV_MESSAGE *msg)
 {
+    #ifndef __32MX575F512H__
     HDW_MAPPING *gVUE32_Ress;
     unsigned char i;
     unsigned int unNbResourceId;
     BOOL ubResourceFound = 0;
     //Check if the resource id is located on this board
     //If it's the case, the msg isn't analyzed from this function
-#ifndef __32MX575F512H__
+
     gVUE32_Ress = gHardwareMap[GetBoardID()];
     unNbResourceId = gHardwareSize[GetBoardID()];
     if(gVUE32_Ress == 0 || unNbResourceId == 0)
