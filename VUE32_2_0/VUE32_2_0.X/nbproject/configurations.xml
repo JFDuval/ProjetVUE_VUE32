@@ -21,6 +21,7 @@
         <itemPath>../src/memory_map.h</itemPath>
         <itemPath>../src/drive.h</itemPath>
         <itemPath>BatteryPack.h</itemPath>
+        <itemPath>../src/Compensation.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="NETSAC" projectFiles="true">
         <itemPath>../src/NETSAC_CANDriver.h</itemPath>
@@ -84,6 +85,7 @@
         <itemPath>../src/memory_map.c</itemPath>
         <itemPath>../src/drive.c</itemPath>
         <itemPath>BatteryPack.c</itemPath>
+        <itemPath>../src/Compensation.c</itemPath>
       </logicalFolder>
       <logicalFolder name="f5" displayName="NETSAC" projectFiles="true">
         <itemPath>../src/NETSAC_CANDriver.c</itemPath>

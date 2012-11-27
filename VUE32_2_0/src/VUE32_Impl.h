@@ -38,6 +38,8 @@ extern unsigned int gHardwareSize[NB_VUE32+1];
 
 extern ROUTING_TABLE *gRoutingTable[NB_VUE32+1];
 extern unsigned char gRoutingTableSize[NB_VUE32+1];
+void ReinitFlagsArray();
+
 
 
 #endif	/* VUE32_IMPL_H */

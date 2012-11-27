@@ -204,4 +204,7 @@ void board_specific_config(void);
 #define TRIS_U3ARX		TRISFbits.TRISF4
 #define TRIS_U3ATX		TRISFbits.TRISF5
 
+#define DATAFLAGSSIZE           11
+#define MAXCOMMANDTORQUE        100 //MAX 200 N*m
+
 #endif
