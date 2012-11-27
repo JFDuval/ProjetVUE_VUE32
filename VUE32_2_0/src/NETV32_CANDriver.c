@@ -413,7 +413,7 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 
         CANUpdateChannel(CANx, CAN_CHANNEL1);
         CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_NOT_EMPTY, TRUE);
-        CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_OVERFLOW, TRUE);
+        //CANEnableChannelEvent(CANx, CAN_CHANNEL1, CAN_RX_CHANNEL_OVERFLOW, TRUE);
 
 #ifdef _CAN2
         if((GetBoardID() == VUE32_5) && (CANx == CAN2))
@@ -604,18 +604,18 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     //CANConfigureFilter(CANx, CAN_FILTER0, 0x00000000, CAN_EID);
     //CANConfigureFilter(CANx, CAN_FILTER1, 0x00000000, CAN_EID);
 
-    //CANConfigureFilter(CANx, CAN_FILTER0, (unsigned long) canAddr, CAN_EID); //local node
-    //CANConfigureFilter(CANx, CAN_FILTER1, 0x000000FF, CAN_EID); //broadcast
+    CANConfigureFilter(CANx, CAN_FILTER0, (unsigned long) canAddr<<6, CAN_EID); //local node
+    CANConfigureFilter(CANx, CAN_FILTER1, 0x00000FC0, CAN_EID); //broadcast
 #ifdef NETV_MASTER_NODE
     CANConfigureFilterMask(CANx, CAN_FILTER_MASK0, 0x00000000, CAN_EID, CAN_FILTER_MASK_IDE_TYPE);
 #else
-    CANConfigureFilterMask(CANx, CAN_FILTER_MASK0, 0x000000FF, CAN_EID, CAN_FILTER_MASK_IDE_TYPE);
+    CANConfigureFilterMask(CANx, CAN_FILTER_MASK0, 0x00000FC0, CAN_EID, CAN_FILTER_MASK_IDE_TYPE);
 #endif
     CANLinkFilterToChannel(CANx, CAN_FILTER0, CAN_FILTER_MASK0, CAN_CHANNEL1);
     CANLinkFilterToChannel(CANx, CAN_FILTER1, CAN_FILTER_MASK0, CAN_CHANNEL1);
     CANEnableFilter(CANx, CAN_FILTER0, TRUE);
     CANEnableFilter(CANx, CAN_FILTER1, TRUE);
-
+/*
         //ToDo debug only
     C1RXM0 = 0x00000000;
     C1RXM1 = 0x00000000;
@@ -627,7 +627,7 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     C2RXM2 = 0x00000000;
     C2RXM3 = 0x00000000;
 #endif
-
+*/
     /* Step 6: Enable interrupt and events. Enable the receive
      * channel not empty  event (channel event) and the receive
      * channel event (module event).

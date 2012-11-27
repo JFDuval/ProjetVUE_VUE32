@@ -99,7 +99,7 @@ void InitVUE32_3(void)
     // Init speed sensors
     init_change_notification();
 
-	// Initialisation des valeurs de compensation à 0
+    // Initialisation des valeurs de compensation à 0
 
     carState.ax1 = 0;
     carState.ay1 = 0;
