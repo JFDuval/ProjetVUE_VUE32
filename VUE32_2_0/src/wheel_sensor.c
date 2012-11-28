@@ -170,25 +170,33 @@ unsigned short wheel_period(unsigned short ts1, unsigned short ts2)
 	period = ts1 + diff;
     }
 
-    //Too slow (<2kph):
-    if(period >= 64795)
+    //Too slow (<3kph):
+    if(period >= 65000)
 	period = 0;
 
     return period;
 }
 
-//Speed in kph*10
+//Returns the speed in kph*10
 unsigned short wheel_period_to_kph(unsigned short period, unsigned char moving)
 {
-    unsigned short temp;
+    /* Explanation for the magic number (1860119)
+     * Test case: 25kph/3.6 = 6.94m/s
+     * Wheel's diameter: D = 0.55m, so pi*D = 1.7279 m/turn
+     * 6.94m/s / 1.7279 m/turn = 4 t/s
+     * We have 42 poles on the sensor, 4 t/s * 42 = 168Hz
+     * Period of 5.95ms, clock of 800ns => 7440 counts
+     * In kph*10, we want 250, 250*7440 = 1860119
+     */
+    unsigned long temp;
 
     if(period && moving)
-	temp = (647950/period);
+	temp = (1860119/(unsigned long)period);
     else
 	temp = 0;
 
     if(temp > 20)   //Reject speed lower than 2kph
-	return temp;
+	return (unsigned short)temp;
     else
 	return 0;
 }
