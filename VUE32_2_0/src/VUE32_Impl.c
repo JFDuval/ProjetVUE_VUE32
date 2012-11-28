@@ -112,7 +112,7 @@ unsigned int gHardwareSize[NB_VUE32+1] =
     7,  //VUE32_2
     18, //VUE32_3
     7,  //VUE32_4
-    8,  //VUE32_5
+    9,  //VUE32_5
     9,  //VUE32_6
     8,  //VUE32_7
 };

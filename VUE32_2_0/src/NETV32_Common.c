@@ -147,7 +147,7 @@ char netv_transceiver(unsigned char netv_addr, NETV_MESSAGE *pMsgRecep) {
             //    sendMsg.msg_comm_iface &= 0xFE;
 
             // Hack to filter messages useless to the BMSs
-            if ( (sendMsg.msg_dest < 0x11 || sendMsg.msg_dest > (0x11 + 24)) && !(sendMsg.msg_source == 0 && ((sendMsg.msg_cmd > 0x13 && sendMsg.msg_cmd < 0x17)|| sendMsg.msg_cmd==0x1e) ))
+            if ( (sendMsg.msg_dest < 0x11 || sendMsg.msg_dest > (0x11 + 24)) && !(sendMsg.msg_source == 0 && ((sendMsg.msg_cmd > 0x13 && sendMsg.msg_cmd < 0x17)|| sendMsg.msg_cmd==0x1e || sendMsg.msg_cmd==E_ID_BMS_STATE_BALANCING) ))
                 sendMsg.msg_comm_iface &= 0xFD;
             
             netv_send_message(&sendMsg);

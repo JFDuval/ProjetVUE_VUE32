@@ -132,6 +132,7 @@ enum CANResourceId {
             E_ID_RIGHT_MOTOR_TEMP = 0x34,
 
             // Access in Read/Write mode  (actuator)
+            E_ID_BMS_FANS = 0xE9,
             E_ID_DRIVE_L = 0xEA,
             E_ID_DRIVE_R = 0xEB,
             E_ID_COOLINGPUMP = 0xEC,

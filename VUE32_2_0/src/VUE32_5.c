@@ -50,6 +50,7 @@ HDW_MAPPING gVUE32_5_Ress[] =
     {E_ID_IGNITIONKEY, sizeof(unsigned char), Sensor},
     {E_ID_DPR, sizeof(unsigned char), Sensor},
     {E_ID_STATE_SWICHT_TRUNK, sizeof(unsigned char), Sensor},
+    {E_ID_BMS_FANS, sizeof(unsigned char), Sensor},
     {E_ID_TRUNK_SIGNAL, sizeof(unsigned char), Actuator},
     {E_ID_SET_ROOF_LIGTH, sizeof(unsigned char), Actuator}
 };
@@ -70,6 +71,9 @@ void InitVUE32_5(void)
 
     // Init speed sensors
     init_change_notification();
+
+    // BMS fans
+    power_out(3, 0);
 }
 
 /*
@@ -140,14 +144,21 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
                 ANSWER1(E_ID_STATE_SWICHT_TRUNK, unsigned char, gResourceMemory[E_ID_STATE_SWICHT_TRUNK])
                 ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
                 ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
+                ANSWER1(E_ID_BMS_FANS, unsigned char, gResourceMemory[E_ID_BMS_FANS])
                 ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
                 ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
                 com_led_toggle();
     END_OF_MSG_TYPE
             
-    ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
-                ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
-                ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
+    ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
+                unsigned char temp;
+                // TODO: I commented these two lines because it didn't made sense
+                //ANSWER1(E_ID_TRUNK_SIGNAL, unsigned char, gResourceMemory[E_ID_TRUNK_SIGNAL])
+                //ANSWER1(E_ID_SET_ROOF_LIGTH, unsigned char, gResourceMemory[E_ID_SET_ROOF_LIGTH])
+                ACTION1(E_ID_BMS_FANS , unsigned char, temp)
+                    gResourceMemory[E_ID_BMS_FANS] = temp ? 1 : 0;
+                    power_out(3, temp ? 1 : 0);
+                END_OF_ACTION
                 com_led_toggle();
     END_OF_MSG_TYPE
 
