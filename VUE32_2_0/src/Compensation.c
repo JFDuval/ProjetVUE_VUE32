@@ -296,13 +296,14 @@ void matrixMultiplication(float first[3][3], float second[3][1], float (*multipl
     }
 }
 
-motorCommand comp(carMonitor carState)
+motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
 {
     /////////////////////////////////////////////////
     //        Building internal representation     //
     /////////////////////////////////////////////////
 
     BOOL badData = FALSE;
+    float delta, meanSpeed;
 
     // Security check for bad sensors data
 
@@ -311,14 +312,6 @@ motorCommand comp(carMonitor carState)
         badData = TRUE;
     }
     else if(carState.w2 >= WHEELSPEEDMAX || carState.w2 <= WHEELSPEEDMIN)
-    {
-        badData = TRUE;
-    }
-    else if(carState.w3 >= WHEELSPEEDMAX || carState.w3 <= WHEELSPEEDMIN)
-    {
-        badData = TRUE;
-    }
-    else if(carState.w4 >= WHEELSPEEDMAX || carState.w4 <= WHEELSPEEDMIN)
     {
         badData = TRUE;
     }
@@ -333,19 +326,32 @@ motorCommand comp(carMonitor carState)
 
     motorCommand command;
 
+    meanSpeed = (carState.w3 + carState.w4)/2;
+
     // Compensation systems
 
+    delta = gainCorrection * GAIN * sin(carState.stWh / REDFACT) / (meanSpeed);
 
+    if (carState.stWh < 0)
+    {
+        command.tmWh3 = userCommand - delta;
+        command.tmWh4 = userCommand + delta;
+    }
+    else
+    {
+        command.tmWh3 = userCommand + delta;
+        command.tmWh4 = userCommand - delta;
+    }
 
     // Torque command saturation
     if (command.tmWh3 > MAXTO)
         command.tmWh3 = MAXTO;
-    else if (command.tmWh3 < -MAXTO)
-        command.tmWh3 = -MAXTO;
+    else if (command.tmWh3 < 0)
+        command.tmWh3 = 0;
     if (command.tmWh4 > MAXTO)
         command.tmWh4 = MAXTO;
-    else if (command.tmWh4 < -MAXTO)
-        command.tmWh4 = -MAXTO;
+    else if (command.tmWh4 < 0)
+        command.tmWh4 = 0;
 
     if(badData)
     {

@@ -14,7 +14,7 @@
 #define REDFACT     22.75
 #define PI          3.1416
 #define TIMESTEP    0.05
-#define MAXTO       180
+#define MAXTO       100
 #define MASS        940
 #define A           1.053
 #define B           0.814
@@ -24,6 +24,7 @@
 #define T           1.333
 #define MS          846
 #define HCOMMA      0.2
+#define GAIN        400
 
 // Max sensor values
 #define ACCMAX             1
@@ -64,7 +65,7 @@ extern float olduEst;
 extern float oldax;
 
 //motorCommand comp(carMonitor carState, float uThr , float slThr, int gainPp , int gainPr, int rollCompThr, int userCommand, BOOL otherComp);
-motorCommand comp(carMonitor carState);
+motorCommand comp(carMonitor carState, float userCommand, float gainCorrection);
 //float derivative(float []);
 //void meanFilter(float [], int , float []);
 void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1]);

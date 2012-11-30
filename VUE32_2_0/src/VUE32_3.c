@@ -47,7 +47,8 @@ float slThr;
 int gainPp;
 int gainPr;
 int rollCompThr;
-int userCommand;
+float userCommand;
+float gainCorrection;
 BOOL otherComp;
 
 float leftOffset;
@@ -145,7 +146,8 @@ void InitVUE32_3(void)
 
     leftOffset = 0;
     heightOffset = 0;
-    gain = 0;
+    gain = 400;
+    gainCorrection = 1;
 
     ReinitFlagsArray();
 }
@@ -288,7 +290,7 @@ void ImplVUE32_3(void)
                 }
             }
 
-            command = comp(carState);
+            command = comp(carState, userCommand, gainCorrection);
 
             ReinitFlagsArray();
         }
@@ -383,7 +385,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             }
             else if(msg->msg_cmd == E_ID_COMP_GAIN)
             {
-                gain = conv.val;
+                gainCorrection = conv.val;
             }
 
             com_led_toggle();
@@ -406,8 +408,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             {
                 dataFlags[0] = 1;
                 ACTION1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, carState.w4) END_OF_ACTION
-                carState.w1 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL];
-                carState.w2 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR];
+                carState.w1 = (((float)gResourceMemory[E_ID_RIGHT_MOTOR_SPEED]/3)*60)*(2*3.1416*(0.55/2))/1000;
+                carState.w2 = (((float)gResourceMemory[E_ID_LEFT_MOTOR_SPEED]/3)*60)*(2*3.1416*(0.55/2))/1000;
             }
             else if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BL)
             {
