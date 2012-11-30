@@ -326,11 +326,19 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
 
     motorCommand command;
 
-    meanSpeed = (carState.w3 + carState.w4)/2;
+    meanSpeed = ((carState.w3 + carState.w4)/2)/3.6;
 
     // Compensation systems
 
-    delta = gainCorrection * GAIN * sin(carState.stWh / REDFACT) / (meanSpeed);
+    if(meanSpeed > (10/3.6))
+    {
+        delta = gainCorrection * GAIN * sin(((carState.stWh*3.1416)/180) / REDFACT) / (meanSpeed);
+    }
+    else
+    {
+        delta = 0;
+    }
+
 
     if (carState.stWh < 0)
     {
@@ -346,12 +354,12 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
     // Torque command saturation
     if (command.tmWh3 > MAXTO)
         command.tmWh3 = MAXTO;
-    else if (command.tmWh3 < 0)
-        command.tmWh3 = 0;
+    else if (command.tmWh3 < (-1*MAXTO))
+        command.tmWh3 = (-1*MAXTO);
     if (command.tmWh4 > MAXTO)
         command.tmWh4 = MAXTO;
-    else if (command.tmWh4 < 0)
-        command.tmWh4 = 0;
+    else if (command.tmWh4 < (-1*MAXTO))
+        command.tmWh4 = (-1*MAXTO);
 
     if(badData)
     {

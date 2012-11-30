@@ -262,38 +262,40 @@ void ImplVUE32_3(void)
     END_OF_EVERY
      */
 
-     EVERY_X_MS(TIMESTEP * 1000)
+     EVERY_X_MS(500)
 
         NETV_MESSAGE msg = {{0}};
 
         msg.msg_priority = NETV_PRIORITY_HIGHEST;
         msg.msg_type = NETV_TYPE_SYNCHRONIZE;
-        msg.msg_cmd = 0;
+        msg.msg_cmd = E_ID_VERSION;
         msg.msg_source = GetMyAddr(); //GetMyAddr();
-        msg.msg_dest = NETV_ADDRESS_BROADCAST;
+        msg.msg_dest = 0x05;
         msg.msg_comm_iface = NETV_COMM_IFACE_ALL;
         msg.msg_data_length = 0;
         msg.msg_remote = 1;
 
+        netv_send_message(&msg);
+
     END_OF_EVERY
 
-    EVERY_X_MS(TIMESTEP * 1000)
+    EVERY_X_MS(50)
         // Drive mode
-        if (fDirectionMode == 1)
-        {
-            while(sum<DATAFLAGSSIZE)
-            {
-                sum = 0;
-                for(i=0;i<DATAFLAGSSIZE;i++)
-                {
-                    sum = sum + dataFlags[i];
-                }
-            }
+        //if (fDirectionMode == 1)
+        //{
+            //while(sum<2)
+            //{
+                //sum = 0;
+                //for(i=0;i<DATAFLAGSSIZE;i++)
+                //{
+                    //sum = sum + dataFlags[i];
+                //}
+            //}
 
             command = comp(carState, userCommand, gainCorrection);
 
-            ReinitFlagsArray();
-        }
+            //ReinitFlagsArray();
+        /*}
         // Reverse mode
         else if (fDirectionMode == -1)
         {
@@ -305,7 +307,7 @@ void ImplVUE32_3(void)
         {
             command.tmWh3 = 0;
             command.tmWh4 = 0;
-        }
+        }*/
 
     END_OF_EVERY
 }
@@ -315,7 +317,8 @@ void ImplVUE32_3(void)
  */
 void OnMsgVUE32_3(NETV_MESSAGE *msg)
 {
-        // Deal with GETVALUE requests
+        // Deal with GETVALUE request
+
         ON_MSG_TYPE_RTR(VUE32_TYPE_GETVALUE)
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR])
             ANSWER1(E_ID_WHEELVELOCITYSSENSOR_FL, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL])
@@ -351,11 +354,11 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
 
             conv.raw = ((unsigned int*)(msg->msg_data))[0];
 
-            if(msg->msg_cmd == E_ID_COMP_UTHR)
+            /*if(msg->msg_cmd == E_ID_COMP_UTHR)
             {
                 uThr = conv.val;
             }
-            else if(msg->msg_cmd == E_ID_COMP_SLTHR)
+            else */if(msg->msg_cmd == E_ID_COMP_SLTHR)
             {
                 slThr = conv.val;
             }
@@ -402,7 +405,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             com_led_toggle();
         END_OF_MSG_TYPE
 
-        ON_MSG_TYPE(NETV_TYPE_SYNCHRONIZE_ANSWER)
+        if(msg->msg_type == NETV_TYPE_SYNCHRONIZE_ANSWER)
+        {
 
             if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BR)
             {
@@ -469,7 +473,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
                     ACTION1(E_ID_3AXES_ACCEL_Z, short, carState.az1) END_OF_ACTION
                 }
             }
-        END_OF_MSG_TYPE
+        }
 }
 
 

@@ -212,7 +212,7 @@ unsigned char usb_netv_recv_message(NETV_MESSAGE *message)
     unsigned char i = 0;
     NETVSerialMessage buf;
 
-	if(serial_bytes_available() >= MINIMUM_MESSAGE_SIZE)
+            if(serial_bytes_available() >= MINIMUM_MESSAGE_SIZE)
 	{
 		//Fill NETVSerialMessage with available bytes
 		//TODO Memory boundaries verification?
