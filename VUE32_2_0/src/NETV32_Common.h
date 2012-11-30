@@ -141,9 +141,8 @@ enum CANResourceId {
             E_ID_COMP_LEFT_OFFSET = 0x3B,
             E_ID_COMP_HEIGHT_OFFSET = 0x3C,
             E_ID_COMP_GAIN = 0x3D,
-
-
-
+            E_ID_COMP_MOTOR_COMMAND_1 = 0x3E,
+            E_ID_COMP_MOTOR_COMMAND_2 = 0x3F,
 
             // Access in Read/Write mode  (actuator)
             E_ID_BMS_FANS = 0xE9,

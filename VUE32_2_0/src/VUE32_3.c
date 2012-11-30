@@ -17,6 +17,10 @@
 #include "def.h"
 #include "Compensation.h"
 
+// Wheels : Right = Passenger side, Left = Driver side
+// Wheels compensation : 1 = Front driver side, 2 = Front passenger side, 3 = Rear driver side, 4 = Rear passenger side
+// Motors : 1 = Driver side, 2 = Passenger side
+
 //Interface between hardware and communication
 //memory_map.h
 extern unsigned int gResourceMemory[256];
@@ -79,7 +83,9 @@ HDW_MAPPING gVUE32_3_Ress[] =
     {E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE, sizeof(unsigned int), Sensor},
     {E_ID_GLOBAL_CAR_SPEED, sizeof(unsigned short), Sensor},
     {E_ID_COOLINGPUMP, 1, Actuator},
-    {E_ID_MAIN_CONTACTOR, 1, Actuator}
+    {E_ID_MAIN_CONTACTOR, 1, Actuator},
+    {E_ID_COMP_MOTOR_COMMAND_1, sizeof(unsigned int), Sensor},
+    {E_ID_COMP_MOTOR_COMMAND_2, sizeof(unsigned int), Sensor}
 };
 
 DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] = 
@@ -254,7 +260,7 @@ void ImplVUE32_3(void)
     END_OF_EVERY
      */
 
-     /*EVERY_X_MS(TIMESTEP * 1000)
+     EVERY_X_MS(TIMESTEP * 1000)
 
         NETV_MESSAGE msg = {{0}};
 
@@ -283,6 +289,7 @@ void ImplVUE32_3(void)
             }
 
             command = comp(carState);
+
             ReinitFlagsArray();
         }
         // Reverse mode
@@ -298,7 +305,7 @@ void ImplVUE32_3(void)
             command.tmWh4 = 0;
         }
 
-    END_OF_EVERY*/
+    END_OF_EVERY
 }
 
 /*
@@ -329,6 +336,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
             ANSWER1(E_ID_PORT_E, unsigned char, DIO_PORT)
             ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
+            ANSWER1(E_ID_COMP_MOTOR_COMMAND_1, unsigned int, command.tmWh3)
+            ANSWER1(E_ID_COMP_MOTOR_COMMAND_2, unsigned int, command.tmWh4)
             com_led_toggle();
         END_OF_MSG_TYPE
 
@@ -396,14 +405,14 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BR)
             {
                 dataFlags[0] = 1;
-                ACTION1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, carState.w3) END_OF_ACTION
-                carState.w1 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR];
-                carState.w2 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL];
+                ACTION1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, carState.w4) END_OF_ACTION
+                carState.w1 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FL];
+                carState.w2 = (unsigned int)gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_FR];
             }
             else if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BL)
             {
                 dataFlags[1] = 1;
-                ACTION1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, carState.w4) END_OF_ACTION
+                ACTION1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, carState.w3) END_OF_ACTION
             }
             else if(msg->msg_cmd == E_ID_ACCELERATOR)
             {

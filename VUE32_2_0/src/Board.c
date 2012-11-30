@@ -16,7 +16,7 @@
 
 // Persistent data
 #pragma romdata reserved_section=0x1D07FFF0
-const int persistentData = 0x00000003;
+const int persistentData = 0x00000007;
 #pragma romdata
 
 #define FIRMWARE_VERSION 0x0004

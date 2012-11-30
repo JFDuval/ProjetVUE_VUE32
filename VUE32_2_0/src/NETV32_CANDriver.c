@@ -616,12 +616,12 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     CANEnableFilter(CANx, CAN_FILTER0, TRUE);
     CANEnableFilter(CANx, CAN_FILTER1, TRUE);
 
-        //ToDo debug only
+#ifdef _CAN2
     C1RXM0 = 0x00000000;
     C1RXM1 = 0x00000000;
     C1RXM2 = 0x00000000;
     C1RXM3 = 0x00000000;
-#ifdef _CAN2
+
     C2RXM0 = 0x00000000;
     C2RXM1 = 0x00000000;
     C2RXM2 = 0x00000000;
