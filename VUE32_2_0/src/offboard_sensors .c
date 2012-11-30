@@ -33,11 +33,13 @@ short read_current(unsigned short adc_in, unsigned short adc_vbat)
     //Offset = ((0.272/2)*Vbatt)/3300mV)*1024bits
     //Test: Vbat = 11.85V, Offset = (0.136*11850)/3300)*1024 = 500
     //Equivalent to 0.0422*Vbatt
-    offset = (unsigned short)((float)batt_volt * 0.0422);
+    offset = (unsigned short)((float)batt_volt * 0.04278);
     //1.523mV/A = 0.473A/bit
     gain = ((float)batt_volt/12000)*0.473;
 
-    return (short)((float)(adc_in - offset)/gain);
+    adc_in = (adc_in*24)/10;
+    float dummy = (((float)adc_in - offset)/gain);
+    return (short)dummy;
 }
 
 

@@ -143,6 +143,7 @@ enum CANResourceId {
             E_ID_COMP_GAIN = 0x3D,
             E_ID_COMP_MOTOR_COMMAND_1 = 0x3E,
             E_ID_COMP_MOTOR_COMMAND_2 = 0x3F,
+            E_ID_CURRENT_ADC_VUE2 = 0x40,
 
             // Access in Read/Write mode  (actuator)
             E_ID_BMS_FANS = 0xE9,

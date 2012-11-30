@@ -46,6 +46,7 @@ HDW_MAPPING gVUE32_2_Ress[] =
     {E_ID_BATT_12V, sizeof(unsigned short), Sensor},
     {E_ID_SET_LIGTH_STATE, 1, Actuator},
     {E_ID_SET_BRAKE_LIGTH_STATE, 2, Actuator},
+    {E_ID_CURRENT_ADC_VUE2, 2, Sensor},
 };
 
 
@@ -119,6 +120,7 @@ void ImplVUE32_2(void)
         gResourceMemory[E_ID_BATTERYCURRENT] = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
         gResourceMemory[E_ID_BATT_12V] = (unsigned short)read_vbat(adc_mean[ADC_FILTERED_VOLT]);
     }
+
 
     if(flag_8ms)
     {
