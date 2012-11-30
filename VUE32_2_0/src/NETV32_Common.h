@@ -130,6 +130,20 @@ enum CANResourceId {
             E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE = 0x32,
             E_ID_LEFT_MOTOR_TEMP = 0x33,
             E_ID_RIGHT_MOTOR_TEMP = 0x34,
+            
+            // Compensation specific IDs
+            E_ID_COMP_UTHR = 0x35,
+            E_ID_COMP_SLTHR = 0x36,
+            E_ID_COMP_GAIN_PP = 0x37,
+            E_ID_COMP_GAIN_PR = 0x38,
+            E_ID_COMP_ROLLCOMPTHR = 0x39,
+            E_ID_COMP_OTHER_COMP = 0x3A,
+            E_ID_COMP_LEFT_OFFSET = 0x3B,
+            E_ID_COMP_HEIGHT_OFFSET = 0x3C,
+            E_ID_COMP_GAIN = 0x3D,
+
+
+
 
             // Access in Read/Write mode  (actuator)
             E_ID_BMS_FANS = 0xE9,

@@ -175,3 +175,18 @@ void board_specific_adc_decode(void)
 	Nop();
     }
 }
+void filter_sensor_data(void)
+{
+    unsigned short i = 0, j = 0;
+    unsigned long sum = 0;
+
+    for ( i = 0; i < ADC_CH; i++)
+    {
+        sum = 0;
+        for ( j = 0; j < ADC_FILTER; j++)
+        {
+            sum += adc_raw[i][j];
+        }
+        adc_mean[i] = (sum >> ADC_FILTER_SHIFT);
+    }
+}

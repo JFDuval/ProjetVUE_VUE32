@@ -46,7 +46,17 @@ int rollCompThr;
 int userCommand;
 BOOL otherComp;
 
+float leftOffset;
+float heightOffset;
+float gain;
+
 int dataFlags[DATAFLAGSSIZE];
+
+typedef union
+{
+    float val;
+    unsigned int raw;
+} FloatToInt;
 
 //Hardware resources which are managed localy on this VUE32
 HDW_MAPPING gVUE32_3_Ress[] =
@@ -126,6 +136,10 @@ void InitVUE32_3(void)
     userCommand = 0;
 
     otherComp = TRUE;
+
+    leftOffset = 0;
+    heightOffset = 0;
+    gain = 0;
 
     ReinitFlagsArray();
 }
@@ -239,6 +253,52 @@ void ImplVUE32_3(void)
 
     END_OF_EVERY
      */
+
+     /*EVERY_X_MS(TIMESTEP * 1000)
+
+        NETV_MESSAGE msg = {{0}};
+
+        msg.msg_priority = NETV_PRIORITY_HIGHEST;
+        msg.msg_type = NETV_TYPE_SYNCHRONIZE;
+        msg.msg_cmd = 0;
+        msg.msg_source = GetMyAddr(); //GetMyAddr();
+        msg.msg_dest = NETV_ADDRESS_BROADCAST;
+        msg.msg_comm_iface = NETV_COMM_IFACE_ALL;
+        msg.msg_data_length = 0;
+        msg.msg_remote = 1;
+
+    END_OF_EVERY
+
+    EVERY_X_MS(TIMESTEP * 1000)
+        // Drive mode
+        if (fDirectionMode == 1)
+        {
+            while(sum<DATAFLAGSSIZE)
+            {
+                sum = 0;
+                for(i=0;i<DATAFLAGSSIZE;i++)
+                {
+                    sum = sum + dataFlags[i];
+                }
+            }
+
+            command = comp(carState);
+            ReinitFlagsArray();
+        }
+        // Reverse mode
+        else if (fDirectionMode == -1)
+        {
+            command.tmWh3 = userCommand;
+            command.tmWh4 = userCommand;
+        }
+        // Park mode
+        else if (fDirectionMode == 0)
+        {
+            command.tmWh3 = 0;
+            command.tmWh4 = 0;
+        }
+
+    END_OF_EVERY*/
 }
 
 /*
@@ -272,9 +332,51 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             com_led_toggle();
         END_OF_MSG_TYPE
 
-        ON_MSG_TYPE_RTR(VUE32_TYPE_SETVALUE)
+        ON_MSG_TYPE(VUE32_TYPE_SETVALUE)
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
+            
+            FloatToInt conv;
+
+            conv.raw = ((unsigned int*)(msg->msg_data))[0];
+
+            if(msg->msg_cmd == E_ID_COMP_UTHR)
+            {
+                uThr = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_SLTHR)
+            {
+                slThr = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_GAIN_PP)
+            {
+                gainPp = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_GAIN_PR)
+            {
+                gainPr = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_ROLLCOMPTHR)
+            {
+                rollCompThr = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_OTHER_COMP)
+            {
+                otherComp = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_LEFT_OFFSET)
+            {
+                leftOffset = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_HEIGHT_OFFSET)
+            {
+                heightOffset = conv.val;
+            }
+            else if(msg->msg_cmd == E_ID_COMP_GAIN)
+            {
+                gain = conv.val;
+            }
+
             com_led_toggle();
         END_OF_MSG_TYPE
 

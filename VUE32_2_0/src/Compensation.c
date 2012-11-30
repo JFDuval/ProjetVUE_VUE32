@@ -40,7 +40,7 @@ Inputs:
 Output:
     motorCommand structure as define in this file
 */
-motorCommand comp(carMonitor carState, float uThr , float slThr, int gainPp , int gainPr, int rollCompThr, int userCommand, BOOL otherComp)
+/*motorCommand comp(carMonitor carState, float uThr , float slThr, int gainPp , int gainPr, int rollCompThr, int userCommand, BOOL otherComp)
 {
     /////////////////////////////////////////////////
     //        Building internal representation     //
@@ -270,7 +270,7 @@ motorCommand comp(carMonitor carState, float uThr , float slThr, int gainPp , in
     oldax = ax;
     return command;
 }
-
+*/
 void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1])
 {
 
@@ -294,4 +294,65 @@ void matrixMultiplication(float first[3][3], float second[3][1], float (*multipl
         sum = 0;
       }
     }
+}
+
+motorCommand comp(carMonitor carState)
+{
+    /////////////////////////////////////////////////
+    //        Building internal representation     //
+    /////////////////////////////////////////////////
+
+    BOOL badData = FALSE;
+
+    // Security check for bad sensors data
+
+    if(carState.w1 >= WHEELSPEEDMAX || carState.w1 <= WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+    else if(carState.w2 >= WHEELSPEEDMAX || carState.w2 <= WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+    else if(carState.w3 >= WHEELSPEEDMAX || carState.w3 <= WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+    else if(carState.w4 >= WHEELSPEEDMAX || carState.w4 <= WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+    else if(carState.stWh >= STEERINGMAX || carState.stWh <= STEERINGMIN)
+    {
+        badData = TRUE;
+    }
+
+    /////////////////////////////////////////////////
+    //        Calculating compensation values      //
+    /////////////////////////////////////////////////
+
+    motorCommand command;
+
+    // Compensation systems
+
+
+
+    // Torque command saturation
+    if (command.tmWh3 > MAXTO)
+        command.tmWh3 = MAXTO;
+    else if (command.tmWh3 < -MAXTO)
+        command.tmWh3 = -MAXTO;
+    if (command.tmWh4 > MAXTO)
+        command.tmWh4 = MAXTO;
+    else if (command.tmWh4 < -MAXTO)
+        command.tmWh4 = -MAXTO;
+
+    if(badData)
+    {
+        //TODO : Send error message
+        command.tmWh3 = 0;
+        command.tmWh3 = 0;
+    }
+
+    return command;
 }
