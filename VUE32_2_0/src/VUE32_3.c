@@ -36,7 +36,7 @@ extern volatile unsigned int flag_x100ms;
 
 
 unsigned int unDPRPreviousState = 0;
-float fDirectionMode = 0;
+float fDirectionMode = 0.0;
 
 // Struct for compensation
 motorCommand command;
@@ -50,10 +50,6 @@ int rollCompThr;
 float userCommand;
 float gainCorrection;
 BOOL otherComp;
-
-float leftOffset;
-float heightOffset;
-float gain;
 
 int dataFlags[DATAFLAGSSIZE];
 
@@ -125,31 +121,28 @@ void InitVUE32_3(void)
     carState.ay2 = 0;
     carState.az2 = 0;
     carState.r = 0;
-    carState.stWh = 0;
-    carState.w1 = 0;
-    carState.w2 = 0;
-    carState.w3 = 0;
-    carState.w4 = 0;
+    carState.stWh = 0.0;
+    carState.w1 = 0.0;
+    carState.w2 = 0.0;
+    carState.w3 = 0.0;
+    carState.w4 = 0.0;
 
 
-    command.tmWh3 = 0;
-    command.tmWh4 = 0;
+    command.tmWh3 = 0.0;
+    command.tmWh4 = 0.0;
 
     uThr = 0.05;
     slThr = 0.2;
     gainPp = 150;
     gainPr = 400;
     rollCompThr = 40;
-    userCommand = 0;
+    userCommand = 0.0;
 
     otherComp = TRUE;
 
-    leftOffset = 0;
-    heightOffset = 0;
-    gain = 400;
-    gainCorrection = 1;
+    gainCorrection = 1.0;
 
-    ReinitFlagsArray();
+    //ReinitFlagsArray();
 }
 
 /*
@@ -159,8 +152,6 @@ void ImplVUE32_3(void)
 {
     int i = 0;
     int sum = 0;
-
-    userCommand = (float)gResourceMemory[E_ID_ACCELERATOR] * (MAXCOMMANDTORQUE/500);
 
     if(flag_1ms_b)
     {
@@ -179,7 +170,7 @@ void ImplVUE32_3(void)
         unDPRPreviousState = gResourceMemory[E_ID_DPR];
         DriveDisable(gDrivesVUE32_3, LeftDrive);
         DriveDisable(gDrivesVUE32_3, RightDrive);
-        fDirectionMode = 0;
+        fDirectionMode = 0.0;
     }
 
     if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
@@ -189,14 +180,14 @@ void ImplVUE32_3(void)
         DriveEnable(gDrivesVUE32_3, RightDrive);
 
         if(gResourceMemory[E_ID_DPR] == REVERSE)
-            fDirectionMode = -1;
+            fDirectionMode = -1.0;
         else if(gResourceMemory[E_ID_DPR] == DRIVE)
-            fDirectionMode = 1;
+            fDirectionMode = 1.0;
     }
 
     EVERY_X_MS(20)
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.2*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
+        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
     END_OF_EVERY
 
     EVERY_X_MS(250)
@@ -204,9 +195,10 @@ void ImplVUE32_3(void)
         ReturnDriveInformation(gDrivesVUE32_3, RightDrive, &gResourceMemory[E_ID_RIGHT_MOTOR_SPEED], &gResourceMemory[E_ID_RIGHT_MOTOR_CURRENT], &gResourceMemory[E_ID_RIGHT_MOTOR_TEMP], &gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_RIGHT_DRIVE_STATUS]);
         
         //Compute mean between both speed motor
+        // TODO : Fix sign error
         gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = (gDrivesVUE32_3[RightDrive].nMotorSpeed-gDrivesVUE32_3[LeftDrive].nMotorSpeed)/2;
         SetResourceValue(E_ID_GLOBAL_CAR_SPEED, VUE32_1, sizeof(unsigned short), gResourceMemory[E_ID_GLOBAL_CAR_SPEED]);
-    END_OF_EVERY
+    END_OF_EVERY //*********************************
 
 
     /*
@@ -292,9 +284,21 @@ void ImplVUE32_3(void)
                 //}
             //}
 
+            userCommand = (float)gResourceMemory[E_ID_ACCELERATOR]*0.13;
+            carState.w3 = (((float)abs(gResourceMemory[E_ID_RIGHT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
+            carState.w4 = (((float)abs(gResourceMemory[E_ID_LEFT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
+            FloatToInt conv;
+            conv.val = carState.w3;
+            gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED1] = conv.raw;
+            conv.val = carState.w4;
+            gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED2] = conv.raw;
+
             command = comp(carState, userCommand, gainCorrection);
-    gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
-    gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
+            gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
+            gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
+
+            //DriveStateMachine(gDrivesVUE32_3, LeftDrive, command.tmWh3*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+            //DriveStateMachine(gDrivesVUE32_3, RightDrive, command.tmWh4*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
             //ReinitFlagsArray();
         /*}
         // Reverse mode
@@ -344,6 +348,8 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_TRIS_E, unsigned char, DIO_TRIS)
             ANSWER1(E_ID_COMP_MOTOR_COMMAND_1, unsigned int, command.tmWh3)
             ANSWER1(E_ID_COMP_MOTOR_COMMAND_2, unsigned int, command.tmWh4)
+            ANSWER1(E_ID_TEST_ALEX_MOTORSPEED1, unsigned int, gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED1])
+            ANSWER1(E_ID_TEST_ALEX_MOTORSPEED2, unsigned int, gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED2])
             com_led_toggle();
         END_OF_MSG_TYPE
 
@@ -359,7 +365,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             {
                 uThr = conv.val;
             }
-            else */if(msg->msg_cmd == E_ID_COMP_SLTHR)
+            else if(msg->msg_cmd == E_ID_COMP_SLTHR)
             {
                 slThr = conv.val;
             }
@@ -379,15 +385,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             {
                 otherComp = conv.val;
             }
-            else if(msg->msg_cmd == E_ID_COMP_LEFT_OFFSET)
-            {
-                leftOffset = conv.val;
-            }
-            else if(msg->msg_cmd == E_ID_COMP_HEIGHT_OFFSET)
-            {
-                heightOffset = conv.val;
-            }
-            else if(msg->msg_cmd == E_ID_COMP_GAIN)
+            else*/ if(msg->msg_cmd == E_ID_COMP_GAIN)
             {
                 gainCorrection = conv.val;
             }
@@ -408,32 +406,31 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
 
         if(msg->msg_type == NETV_TYPE_SYNCHRONIZE_ANSWER)
         {
-
-            if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BR)
+            
+            /*f(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BR)
             {
                 dataFlags[0] = 1;
                 ACTION1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, carState.w4) END_OF_ACTION
-                carState.w1 = (((float)gResourceMemory[E_ID_RIGHT_MOTOR_SPEED]/3)*60)*(2*3.1416*(0.55/2))/1000;
-                carState.w2 = (((float)gResourceMemory[E_ID_LEFT_MOTOR_SPEED]/3)*60)*(2*3.1416*(0.55/2))/1000;
+                
             }
             else if(msg->msg_cmd == E_ID_WHEELVELOCITYSSENSOR_BL)
             {
                 dataFlags[1] = 1;
                 ACTION1(E_ID_WHEELVELOCITYSSENSOR_BL, unsigned int, carState.w3) END_OF_ACTION
-            }
-            else if(msg->msg_cmd == E_ID_ACCELERATOR)
+            }*/
+            /*if(msg->msg_cmd == E_ID_ACCELERATOR)
             {
-                dataFlags[2] = 1;
+                //dataFlags[2] = 1;
                 ACTION1(E_ID_ACCELERATOR, short, userCommand) END_OF_ACTION
-            }
-            else if(msg->msg_cmd == E_ID_STEERINGANGLESENSOR)
+            }*/
+            if(msg->msg_cmd == E_ID_STEERINGANGLESENSOR)
             {
-                dataFlags[3] = 1;
+                //dataFlags[3] = 1;
                 ACTION1(E_ID_STEERINGANGLESENSOR, short, carState.stWh)
                     carState.stWh *= 0.04388772058151229770503794459175;
                 END_OF_ACTION
             }
-            else if(msg->msg_cmd == E_ID_YAWRATE)
+            /*else if(msg->msg_cmd == E_ID_YAWRATE)
             {
                 dataFlags[4] = 1;
                 ACTION1(E_ID_YAWRATE, short, carState.r) END_OF_ACTION
@@ -475,7 +472,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
                     dataFlags[10] = 1;
                     ACTION1(E_ID_3AXES_ACCEL_Z, short, carState.az1) END_OF_ACTION
                 }
-            }
+            }*/
         }
 }
 

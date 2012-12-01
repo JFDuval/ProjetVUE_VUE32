@@ -4,6 +4,7 @@
  * ****************************************************************************/
 
 #include "drive.h"
+#include <math.h>
 
 void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
@@ -187,7 +188,7 @@ void ReturnDriveInformation(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, u
         return;
 
     //Motor Speed
-    unMotorSpeed[0] = pDrives[ucDriveIndex].nMotorSpeed;
+    unMotorSpeed[0] = abs(pDrives[ucDriveIndex].nMotorSpeed);
     //Motor Current (RMS)
     unMotorCurrent[0] = pDrives[ucDriveIndex].unMotorCurrent;
     //Motor Temperature

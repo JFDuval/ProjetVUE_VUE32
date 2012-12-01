@@ -2,6 +2,7 @@
 #include "NETV32_Common.h"
 #include "def.h"
 #include "VUE32_Utils.h"
+#include "Compensation.h"
 
 //#define NOT_TESTING
 
@@ -38,8 +39,24 @@ void update_variables(void);
 int main(void)
 {
     VUE32_ID id = GetBoardID();
-
     // Initialize the board (communication, timers, etc).
+
+    /*motorCommand command;
+    carMonitor carState;
+
+    float gainCorrection = 1.0;
+    float userCommand;
+
+    userCommand = 500*.13;;
+
+    carState.w3 = ((500.0/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
+    carState.w4 = ((500.0/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
+    carState.stWh = 345.0;
+    command = comp(carState, userCommand, gainCorrection);
+
+    Nop();*/
+
+
     InitBoard();
     define_io();
 

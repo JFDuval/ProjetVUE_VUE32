@@ -307,7 +307,7 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
 
     // Security check for bad sensors data
 
-    if(carState.w1 >= WHEELSPEEDMAX || carState.w1 <= WHEELSPEEDMIN)
+    /*if(carState.w1 >= WHEELSPEEDMAX || carState.w1 <= WHEELSPEEDMIN)
     {
         badData = TRUE;
     }
@@ -318,7 +318,7 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
     else if(carState.stWh >= STEERINGMAX || carState.stWh <= STEERINGMIN)
     {
         badData = TRUE;
-    }
+    }*/
 
     /////////////////////////////////////////////////
     //        Calculating compensation values      //
@@ -326,21 +326,27 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
 
     motorCommand command;
 
-    meanSpeed = ((carState.w3 + carState.w4)/2)/3.6;
+    meanSpeed = ((carState.w3 + carState.w4)/2.0)/3.6;
+
+    //meanSpeed = (30/3.6);
 
     // Compensation systems
 
-    if(meanSpeed > (10/3.6))
+    if(meanSpeed > (5.0/3.6))
     {
-        delta = gainCorrection * GAIN * sin(((carState.stWh*3.1416)/180) / REDFACT) / (meanSpeed);
+        delta = abs(gainCorrection * GAIN * sinf(((carState.stWh*PI)/180.0) / REDFACT) / (meanSpeed));
     }
     else
     {
-        delta = 0;
+        delta = 0.0;
     }
 
-
-    if (carState.stWh < 0)
+    if(delta > 15.0)
+    {
+        delta = 15.0;
+    }
+    
+    if (carState.stWh > 0.0)
     {
         command.tmWh3 = userCommand - delta;
         command.tmWh4 = userCommand + delta;
@@ -353,20 +359,29 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
 
     // Torque command saturation
     if (command.tmWh3 > MAXTO)
+    {
         command.tmWh3 = MAXTO;
-    else if (command.tmWh3 < (-1*MAXTO))
-        command.tmWh3 = (-1*MAXTO);
-    if (command.tmWh4 > MAXTO)
-        command.tmWh4 = MAXTO;
-    else if (command.tmWh4 < (-1*MAXTO))
-        command.tmWh4 = (-1*MAXTO);
+    }
+    else if (command.tmWh3 < 0.0)
+    {
+        command.tmWh3 = 0.0;
+    }
 
-    if(badData)
+    if (command.tmWh4 > MAXTO)
+    {
+        command.tmWh4 = MAXTO;
+    }
+    else if (command.tmWh4 < 0.0)
+    {
+        command.tmWh4 = 0.0;
+    }
+
+    /*if(badData)
     {
         //TODO : Send error message
         command.tmWh3 = 0;
         command.tmWh3 = 0;
-    }
+    }*/
 
     return command;
 }

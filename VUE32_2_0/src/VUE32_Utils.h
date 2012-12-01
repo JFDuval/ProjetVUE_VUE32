@@ -84,8 +84,8 @@ msg->msg_type = 0x02;          \
 msg->msg_remote = 0;                        \
 msg->msg_cmd = ressid;                      \
 _temp = msg->msg_dest;                      \
-msg->msg_dest = 0x05;            \
-    msg->msg_source = GetMyAddr();          \
+msg->msg_dest = 0x03;            \
+msg->msg_source = GetMyAddr();          \
 msg->msg_data_length = sizeof(type1);       \
 ((type1*)msg->msg_data)[0] = var1;          \
 netv_send_message(msg);                     \

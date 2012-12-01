@@ -87,7 +87,7 @@ void ImplVUE32_5(void)
 	filter_adc();
         gResourceMemory[E_ID_ACCELERATOR] = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
 
-        if(gResourceMemory[E_ID_ACCELERATOR] > 550)
+        if(gResourceMemory[E_ID_ACCELERATOR] > 750)
         {
             gResourceMemory[E_ID_ACCELERATOR] = 0;
 
@@ -175,7 +175,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
-        SYNC1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
+        //SYNC1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
         SYNC1(E_ID_STEERINGANGLESENSOR, short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
     END_OF_MSG_TYPE
 

@@ -14,7 +14,7 @@
 #define REDFACT     22.75
 #define PI          3.1416
 #define TIMESTEP    0.05
-#define MAXTO       100
+#define MAXTO       100.0
 #define MASS        940
 #define A           1.053
 #define B           0.814
@@ -24,15 +24,15 @@
 #define T           1.333
 #define MS          846
 #define HCOMMA      0.2
-#define GAIN        400
+#define GAIN        400.0
 
 // Max sensor values
 #define ACCMAX             1
 #define ACCMIN             -1
-#define WHEELSPEEDMAX      120
-#define WHEELSPEEDMIN      -2
-#define STEERINGMAX        1000
-#define STEERINGMIN        -1
+#define WHEELSPEEDMAX      120.0
+#define WHEELSPEEDMIN      -2.0
+#define STEERINGMAX        1000.0
+#define STEERINGMIN        -1000.0
 // TODO: Verify with Seb and convert to deg/s
 #define YAWMAX             4 //RAD
 #define YAWMIN             -4 //RAD
@@ -41,8 +41,8 @@
 
 typedef struct
 {
-    int tmWh3; //torque motor on wheel 3 (couple)
-    int tmWh4;
+    float tmWh3; //torque motor on wheel 3 (couple)
+    float tmWh4;
 }motorCommand;
 
 typedef struct
