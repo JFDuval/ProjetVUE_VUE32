@@ -86,6 +86,12 @@ void ImplVUE32_5(void)
         flag_adc_filter = 0;
 	filter_adc();
         gResourceMemory[E_ID_ACCELERATOR] = read_accelerator(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_AN1]);
+
+        if(gResourceMemory[E_ID_ACCELERATOR] > 550)
+        {
+            gResourceMemory[E_ID_ACCELERATOR] = 0;
+
+        }
         gResourceMemory[E_ID_BRAKEPEDAL] = read_brake(adc_mean[ADC_FILTERED_AN2]);
     }
 

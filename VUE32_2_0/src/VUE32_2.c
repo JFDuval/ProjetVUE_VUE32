@@ -117,6 +117,7 @@ void ImplVUE32_2(void)
     {
         flag_adc_filter = 0;
 	filter_adc();
+        gResourceMemory[E_ID_CURRENT_ADC_VUE2] = adc_mean[ADC_FILTERED_AN0];
         gResourceMemory[E_ID_BATTERYCURRENT] = read_current(adc_mean[ADC_FILTERED_AN0], adc_mean[ADC_FILTERED_VOLT]);
         gResourceMemory[E_ID_BATT_12V] = (unsigned short)read_vbat(adc_mean[ADC_FILTERED_VOLT]);
     }
