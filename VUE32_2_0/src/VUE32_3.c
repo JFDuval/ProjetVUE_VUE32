@@ -262,7 +262,7 @@ void ImplVUE32_3(void)
     END_OF_EVERY
      */
 
-     EVERY_X_MS(500)
+     EVERY_X_MS(50)
 
         NETV_MESSAGE msg = {{0}};
 
@@ -293,7 +293,8 @@ void ImplVUE32_3(void)
             //}
 
             command = comp(carState, userCommand, gainCorrection);
-
+    gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
+    gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
             //ReinitFlagsArray();
         /*}
         // Reverse mode
@@ -428,7 +429,9 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             else if(msg->msg_cmd == E_ID_STEERINGANGLESENSOR)
             {
                 dataFlags[3] = 1;
-                ACTION1(E_ID_STEERINGANGLESENSOR, unsigned int, carState.stWh) END_OF_ACTION
+                ACTION1(E_ID_STEERINGANGLESENSOR, short, carState.stWh)
+                    carState.stWh *= 0.04388772058151229770503794459175;
+                END_OF_ACTION
             }
             else if(msg->msg_cmd == E_ID_YAWRATE)
             {

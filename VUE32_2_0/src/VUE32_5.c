@@ -37,7 +37,7 @@ unsigned char dpr_switch_state = 0, previous_dpr_switch_state = 0;
 //VUE32_adc.h
 extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 extern unsigned short adc_mean[ADC_CH];
-extern unsigned short steering_angle;
+extern short steering_angle;
 
 unsigned char ucBrakeSwithRead = 0, ucPreviousBrakeSwithRead = 0, ucBrakeSwithState =0;
 

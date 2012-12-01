@@ -48,7 +48,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 #define MINIMUM_MESSAGE_SIZE 8
 
 //Steering wheel angle (CAN sensor)
-unsigned short steering_angle = 0;
+unsigned short steering_angle_temp = 0;
+short steering_angle = 0;
 
 /* isCAN1MsgReceived is true if CAN1 FIFO1 received
  * a message. This flag is updated in the CAN1 ISR. */
@@ -400,7 +401,11 @@ unsigned char can_netv_recv_message(NETV_MESSAGE *message, CAN_MODULE CANx) {
 #ifdef _CAN2
 	if((GetBoardID() == VUE32_5) && (CANx == CAN2))
 	{
-	    steering_angle = (msgPtr->data[0] + (msgPtr->data[1] << 8));
+	    steering_angle_temp = (msgPtr->data[0] + (msgPtr->data[1] << 8)) & 0x7FFF;
+            if ( msgPtr->data[1] & 0x80)
+                steering_angle = -steering_angle_temp;
+            else
+                steering_angle = steering_angle_temp;
 	}
 #endif
 
