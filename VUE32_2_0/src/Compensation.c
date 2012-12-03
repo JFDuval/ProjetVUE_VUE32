@@ -8,7 +8,7 @@
 #include <math.h>
 #include "Compensation.h"
 
-// Local Variables
+/*// Local Variables
 float olduEst = 0;
 float oldax = 0;
 
@@ -21,11 +21,133 @@ float transpositionRightMat[3][3]= {{0.0499, -0.9064, -0.2879},{0.9612, 0.004, 0
 float carStateMatLeft[3][1] = {{0},{0},{0}};
 float carStateMatRight[3][1] = {{0},{0},{0}};
 float carStateMatTemp1[3][1] = {{0},{0},{0}};
-float carStateMatTemp2[3][1] = {{0},{0},{0}};
+float carStateMatTemp2[3][1] = {{0},{0},{0}};*/
 
 /*
  * 
  */
+motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
+{
+    /////////////////////////////////////////////////
+    //        Building internal representation     //
+    /////////////////////////////////////////////////
+
+    BOOL badData = FALSE;
+    float delta, meanSpeed;
+
+    // Security check for bad sensors data
+
+    if(carState.stWh >= STEERINGMAX || carState.stWh <= STEERINGMIN)
+    {
+        badData = TRUE;
+    }
+    else if (carState.w3 > WHEELSPEEDMAX || carState.w3 < WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+    else if (carState.w4 > WHEELSPEEDMAX || carState.w4 < WHEELSPEEDMIN)
+    {
+        badData = TRUE;
+    }
+
+    /////////////////////////////////////////////////
+    //        Calculating compensation values      //
+    /////////////////////////////////////////////////
+
+    motorCommand command;
+
+    if (gainCorrection == 0)
+    {
+
+        meanSpeed = ((carState.w3 + carState.w4)/2.0)/3.6;
+
+        // Compensation systems
+
+        if(meanSpeed > (5.0/3.6))
+        {
+            delta = abs(gainCorrection * GAIN * sinf(((carState.stWh*PI)/180.0) / REDFACT) / (meanSpeed));
+        }
+        else
+        {
+            delta = 0.0;
+        }
+
+        if(delta > 15.0)
+        {
+            delta = 15.0;
+        }
+
+        if (carState.stWh > 0.0)
+        {
+            command.tmWh3 = userCommand - delta;
+            command.tmWh4 = userCommand + delta;
+        }
+        else
+        {
+            command.tmWh3 = userCommand + delta;
+            command.tmWh4 = userCommand - delta;
+        }
+
+    }
+    else
+    {
+        command.tmWh3 = userCommand;
+        command.tmWh4 = userCommand;
+    }
+
+    // Torque command saturation
+    if (command.tmWh3 > MAXTO)
+    {
+        command.tmWh3 = MAXTO;
+    }
+    else if (command.tmWh3 < 0.0)
+    {
+        command.tmWh3 = 0.0;
+    }
+
+    if (command.tmWh4 > MAXTO)
+    {
+        command.tmWh4 = MAXTO;
+    }
+    else if (command.tmWh4 < 0.0)
+    {
+        command.tmWh4 = 0.0;
+    }
+
+    /*if(badData)
+    {
+        //TODO : Send error message
+        command.tmWh3 = 0;
+        command.tmWh3 = 0;
+    }*/
+
+    return command;
+}
+
+void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1])
+{
+
+    int m, p, q, c, d, k;
+    float sum = 0;
+
+    m = 3;
+    p = 3;
+    q = 1;
+
+    for ( c = 0 ; c < m ; c++ )
+    {
+      for ( d = 0 ; d < q ; d++ )
+      {
+        for ( k = 0 ; k < p ; k++ )
+        {
+          sum = sum + first[c][k] * second[k][d];
+        }
+
+        (*multiply)[c][d] = sum;
+        sum = 0;
+      }
+    }
+}
 
 /* Compensation main function; to call as soon as the motor drives are ready:
 Inputs:
@@ -72,7 +194,7 @@ Output:
     float maxS1 = 0;
 
     BOOL badData = FALSE;
-    
+
     int i =0;
 
     // Correcting acceleration sensors
@@ -271,117 +393,3 @@ Output:
     return command;
 }
 */
-void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1])
-{
-
-    int m, p, q, c, d, k;
-    float sum = 0;
-
-    m = 3;
-    p = 3;
-    q = 1;
-
-    for ( c = 0 ; c < m ; c++ )
-    {
-      for ( d = 0 ; d < q ; d++ )
-      {
-        for ( k = 0 ; k < p ; k++ )
-        {
-          sum = sum + first[c][k] * second[k][d];
-        }
-
-        (*multiply)[c][d] = sum;
-        sum = 0;
-      }
-    }
-}
-
-motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
-{
-    /////////////////////////////////////////////////
-    //        Building internal representation     //
-    /////////////////////////////////////////////////
-
-    BOOL badData = FALSE;
-    float delta, meanSpeed;
-
-    // Security check for bad sensors data
-
-    /*if(carState.w1 >= WHEELSPEEDMAX || carState.w1 <= WHEELSPEEDMIN)
-    {
-        badData = TRUE;
-    }
-    else if(carState.w2 >= WHEELSPEEDMAX || carState.w2 <= WHEELSPEEDMIN)
-    {
-        badData = TRUE;
-    }
-    else if(carState.stWh >= STEERINGMAX || carState.stWh <= STEERINGMIN)
-    {
-        badData = TRUE;
-    }*/
-
-    /////////////////////////////////////////////////
-    //        Calculating compensation values      //
-    /////////////////////////////////////////////////
-
-    motorCommand command;
-
-    meanSpeed = ((carState.w3 + carState.w4)/2.0)/3.6;
-
-    //meanSpeed = (30/3.6);
-
-    // Compensation systems
-
-    if(meanSpeed > (5.0/3.6))
-    {
-        delta = abs(gainCorrection * GAIN * sinf(((carState.stWh*PI)/180.0) / REDFACT) / (meanSpeed));
-    }
-    else
-    {
-        delta = 0.0;
-    }
-
-    if(delta > 15.0)
-    {
-        delta = 15.0;
-    }
-    
-    if (carState.stWh > 0.0)
-    {
-        command.tmWh3 = userCommand - delta;
-        command.tmWh4 = userCommand + delta;
-    }
-    else
-    {
-        command.tmWh3 = userCommand + delta;
-        command.tmWh4 = userCommand - delta;
-    }
-
-    // Torque command saturation
-    if (command.tmWh3 > MAXTO)
-    {
-        command.tmWh3 = MAXTO;
-    }
-    else if (command.tmWh3 < 0.0)
-    {
-        command.tmWh3 = 0.0;
-    }
-
-    if (command.tmWh4 > MAXTO)
-    {
-        command.tmWh4 = MAXTO;
-    }
-    else if (command.tmWh4 < 0.0)
-    {
-        command.tmWh4 = 0.0;
-    }
-
-    /*if(badData)
-    {
-        //TODO : Send error message
-        command.tmWh3 = 0;
-        command.tmWh3 = 0;
-    }*/
-
-    return command;
-}

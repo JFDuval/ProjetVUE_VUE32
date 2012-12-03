@@ -30,7 +30,7 @@
 #define ACCMAX             1
 #define ACCMIN             -1
 #define WHEELSPEEDMAX      120.0
-#define WHEELSPEEDMIN      -2.0
+#define WHEELSPEEDMIN      -120.0
 #define STEERINGMAX        1000.0
 #define STEERINGMIN        -1000.0
 // TODO: Verify with Seb and convert to deg/s
