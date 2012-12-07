@@ -33,7 +33,8 @@ short read_current(unsigned short adc_in, unsigned short adc_vbat)
     //Offset = ((0.272/2)*Vbatt)/3300mV)*1024bits
     //Test: Vbat = 11.85V, Offset = (0.136*11850)/3300)*1024 = 500
     //Equivalent to 0.0422*Vbatt
-    offset = (unsigned short)((float)batt_volt * 0.04278);
+    //Correction => @3.12v VCC
+    offset = (unsigned short)((float)batt_volt * 0.04463);
     //1.523mV/A = 0.473A/bit
     gain = ((float)batt_volt/12000)*0.473;
 
