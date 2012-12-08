@@ -50,6 +50,7 @@ int rollCompThr;
 float userCommand;
 float gainCorrection;
 BOOL otherComp;
+float threshold;
 
 typedef union
 {
@@ -139,6 +140,7 @@ void InitVUE32_3(void)
     otherComp = TRUE;
 
     gainCorrection = 1.0;
+    threshold = 15.0;
 }
 
 /*
@@ -227,7 +229,7 @@ void ImplVUE32_3(void)
             conv.val = carState.w4;
             gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED2] = conv.raw;
 
-            command = comp(carState, userCommand, gainCorrection);
+            command = comp(carState, userCommand, gainCorrection, threshold);
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
 
@@ -296,7 +298,11 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
 
             if(msg->msg_cmd == E_ID_COMP_GAIN)
             {
-                gainCorrection = conv.val;
+                gainCorrection = conv.val/10;
+            }
+            if(msg->msg_cmd == E_ID_COMP_UTHR)
+            {
+                threshold = conv.val;
             }
 
             com_led_toggle();

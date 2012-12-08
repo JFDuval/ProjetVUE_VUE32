@@ -26,7 +26,7 @@ float carStateMatTemp2[3][1] = {{0},{0},{0}};*/
 /*
  * 
  */
-motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
+motorCommand comp(carMonitor carState, float userCommand, float gainCorrection, float threshold)
 {
     /////////////////////////////////////////////////
     //        Building internal representation     //
@@ -72,9 +72,9 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection)
             delta = 0.0;
         }
 
-        if(delta > 15.0)
+        if(delta > threshold)
         {
-            delta = 15.0;
+            delta = threshold;
         }
 
         if (carState.stWh > 0.0)

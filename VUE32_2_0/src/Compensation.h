@@ -65,7 +65,7 @@ extern float olduEst;
 extern float oldax;
 
 //motorCommand comp(carMonitor carState, float uThr , float slThr, int gainPp , int gainPr, int rollCompThr, int userCommand, BOOL otherComp);
-motorCommand comp(carMonitor carState, float userCommand, float gainCorrection);
+motorCommand comp(carMonitor carState, float userCommand, float gainCorrection, float threshold);
 //float derivative(float []);
 //void meanFilter(float [], int , float []);
 void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1]);
