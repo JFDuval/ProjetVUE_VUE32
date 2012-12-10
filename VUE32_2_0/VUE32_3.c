@@ -214,7 +214,6 @@ void ImplVUE32_3(void)
         netv_send_message(&msg);
 
     END_OF_EVERY
-
     EVERY_X_MS(50)
         // Drive mode
         //if (fDirectionMode == 1)
@@ -232,7 +231,7 @@ void ImplVUE32_3(void)
             command = comp(carState, userCommand, gainCorrection, threshold);
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
-
+            
             //***********Uncomment the two following lines to activate the torque vectoring********
             //DriveStateMachine(gDrivesVUE32_3, LeftDrive, command.tmWh3*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
             //DriveStateMachine(gDrivesVUE32_3, RightDrive, command.tmWh4*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
