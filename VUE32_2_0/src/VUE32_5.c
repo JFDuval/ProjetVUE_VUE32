@@ -97,6 +97,7 @@ void ImplVUE32_5(void)
 
     gResourceMemory[E_ID_STEERINGANGLESENSOR] =(unsigned int) steering_angle;
 
+
     //Todo trunk switch
 
     EVERY_X_MS(100)
@@ -176,7 +177,7 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
 
     ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
         //SYNC1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
-        SYNC1(E_ID_STEERINGANGLESENSOR, short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
+        SYNC1(E_ID_STEERINGANGLESENSOR, unsigned short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
     END_OF_MSG_TYPE
 
 }

@@ -14,7 +14,7 @@
 #define REDFACT     22.75
 #define PI          3.1416
 #define TIMESTEP    0.05
-#define MAXTO       100.0
+#define MAXTO       200.0
 #define MASS        940
 #define A           1.053
 #define B           0.814

@@ -620,7 +620,7 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     CANLinkFilterToChannel(CANx, CAN_FILTER1, CAN_FILTER_MASK0, CAN_CHANNEL1);
     CANEnableFilter(CANx, CAN_FILTER0, TRUE);
     CANEnableFilter(CANx, CAN_FILTER1, TRUE);
-/*
+
 #ifdef _CAN2
     C1RXM0 = 0x00000000;
     C1RXM1 = 0x00000000;
@@ -632,7 +632,7 @@ void netv_init_can_driver(unsigned char canAddr, CAN_MODULE CANx) {
     C2RXM2 = 0x00000000;
     C2RXM3 = 0x00000000;
 #endif
-*/
+
     /* Step 6: Enable interrupt and events. Enable the receive
      * channel not empty  event (channel event) and the receive
      * channel event (module event).

@@ -183,10 +183,10 @@ void ImplVUE32_3(void)
             fDirectionMode = 1.0;
     }
 
-    EVERY_X_MS(20)
+    /*EVERY_X_MS(50)
         DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
         DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
-    END_OF_EVERY
+    END_OF_EVERY*/
 
     EVERY_X_MS(250)
         ReturnDriveInformation(gDrivesVUE32_3, LeftDrive, &gResourceMemory[E_ID_LEFT_MOTOR_SPEED], &gResourceMemory[E_ID_LEFT_MOTOR_CURRENT], &gResourceMemory[E_ID_LEFT_MOTOR_TEMP], &gResourceMemory[E_ID_LEFT_CONTROLLER_TEMP], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_LEFT_DRIVE_STATUS]);
@@ -220,7 +220,7 @@ void ImplVUE32_3(void)
         //if (fDirectionMode == 1)
         //{
 
-            userCommand = (float)gResourceMemory[E_ID_ACCELERATOR]*0.13;
+            userCommand = (float)gResourceMemory[E_ID_ACCELERATOR]*0.31;
             carState.w3 = (((float)abs(gResourceMemory[E_ID_RIGHT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
             carState.w4 = (((float)abs(gResourceMemory[E_ID_LEFT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
             FloatToInt conv;
@@ -234,8 +234,8 @@ void ImplVUE32_3(void)
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
 
             //***********Uncomment the two following lines to activate the torque vectoring********
-            //DriveStateMachine(gDrivesVUE32_3, LeftDrive, command.tmWh3*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
-            //DriveStateMachine(gDrivesVUE32_3, RightDrive, command.tmWh4*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
+            DriveStateMachine(gDrivesVUE32_3, LeftDrive, command.tmWh3*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
+            DriveStateMachine(gDrivesVUE32_3, RightDrive, command.tmWh4*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
             //*************************************************************
         /*}
         // Reverse mode

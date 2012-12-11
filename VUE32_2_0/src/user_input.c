@@ -143,14 +143,13 @@ unsigned short read_accelerator(unsigned short adc_in1, unsigned short adc_in2)
     //We have 2 pots in // in the pedal.
     /*if((adc_in1 > adc_in2 + 10) || (adc_in1 < adc_in2 - 10))
 	return 0;*/   //Problem, we don't want to move!
-
-    mean = 5*(((adc_in1 + adc_in2) >> 1)-620);
+    mean = 2*(adc_in1-500);
 
     //The zero is 42 to 46. We add a small dead band.
-    if(mean < DEADBAND)
+    if(mean < DEADBAND*2)
 	return 0;
     else
-	return (mean - DEADBAND); 
+	return (mean); 
 
     return 0;
 }

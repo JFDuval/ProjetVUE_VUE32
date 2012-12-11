@@ -16,6 +16,9 @@
 #include "def.h"
 #include "Board.h"
 
+#define RIGHT_TEMP_MOTOR_OFFSET 26
+#define LEFT_TEMP_MOTOR_OFFSET 28
+
 //Interface between hardware and communication
 //memory_map.h
 extern unsigned int gResourceMemory[256];
@@ -84,8 +87,8 @@ void ImplVUE32_7(void)
     if(flag_adc_filter)
     {   flag_adc_filter = 0;
         filter_adc();
-        gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC] = adc_mean[ADC_FILTERED_AN0];
-        gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC] = adc_mean[ADC_FILTERED_AN1];
+        gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC] = read_motor_temp(adc_mean[ADC_FILTERED_AN0])+LEFT_TEMP_MOTOR_OFFSET;
+        gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC] = read_motor_temp(adc_mean[ADC_FILTERED_AN1])+RIGHT_TEMP_MOTOR_OFFSET;
     }
 
 

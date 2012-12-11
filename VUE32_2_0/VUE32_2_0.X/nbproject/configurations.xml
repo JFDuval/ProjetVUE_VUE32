@@ -279,8 +279,6 @@
         <property key="programoptions.uselvpprogramming" value="false"/>
         <property key="voltagevalue" value="3.25"/>
       </PICkit3PlatformTool>
-      <Simulator>
-      </Simulator>
     </conf>
   </confs>
 </configurationDescriptor>

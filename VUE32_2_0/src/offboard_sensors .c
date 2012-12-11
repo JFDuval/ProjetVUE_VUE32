@@ -140,3 +140,11 @@ unsigned char gfi_freq_sensor(void)
 
     return result;
 }
+
+short read_motor_temp(unsigned short adc_in)
+{
+    float gainBC = 0.9283;      // bit/celcius
+    float offset = -134.604;
+
+    return (short)((float)(adc_in)*gainBC+offset);
+}

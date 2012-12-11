@@ -29,6 +29,6 @@ short read_current(unsigned short adc_in, unsigned short adc_vbat);
 short read_yaw(unsigned short adc_yaw);
 short read_lateral(unsigned short adc_lateral);
 unsigned char gfi_freq_sensor(void);
-
+short read_motor_temp(unsigned short adc_in);
 #endif
 

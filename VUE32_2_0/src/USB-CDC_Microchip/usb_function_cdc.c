@@ -344,8 +344,7 @@ void CDCInitEP(void)
 BYTE getsUSBUSART(char *buffer, BYTE len)
 {
     cdc_rx_len = 0;
-    
-    if(!USBHandleBusy(CDCDataOutHandle))
+        if(!USBHandleBusy(CDCDataOutHandle))
     {
         /*
          * Adjust the expected number of BYTEs to equal
