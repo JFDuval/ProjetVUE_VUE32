@@ -41,7 +41,11 @@ extern short steering_angle;
 
 unsigned char ucBrakeSwithRead = 0, ucPreviousBrakeSwithRead = 0, ucBrakeSwithState =0;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_5_Ress[] =
 {
     {E_ID_BRAKEPEDAL, sizeof(unsigned short), Sensor},
@@ -182,10 +186,19 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
 
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_5(void)
 {
     return;
 }
 
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE *gRoutingTableVUE32_5 = NULL;

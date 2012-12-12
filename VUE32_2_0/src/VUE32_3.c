@@ -58,7 +58,11 @@ typedef union
     unsigned int raw;
 } FloatToInt;
 
-//Hardware resources which are managed localy on this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_3_Ress[] =
 {
     {E_ID_WHEELVELOCITYSSENSOR_FR, 4, Sensor},
@@ -84,6 +88,8 @@ HDW_MAPPING gVUE32_3_Ress[] =
     {E_ID_COMP_MOTOR_COMMAND_2, sizeof(unsigned int), Sensor}
 };
 
+//Declare drives configuration
+//See drive.h
 DRIVE_STATUS gDrivesVUE32_3[NBROFDRIVE] = 
 {
     {DRIVE_DISABLE, BASE_ID_DRIVE_RIGHT_READ, BASE_ID_DRIVE_RIGHT_WRITE, 0, 0, 0, 0, NO_ERROR, 0,0,0,0,0,0, TORQUE_MODE, PL_NO_LIMIT, 0, NO_EMERGENCY, NotInverted},
@@ -149,9 +155,7 @@ void InitVUE32_3(void)
  */
 void ImplVUE32_3(void)
 {
-    int i = 0;
-    int sum = 0;
-
+    
     if(flag_1ms_b)
     {
         flag_1ms_b = 0;
@@ -164,6 +168,8 @@ void ImplVUE32_3(void)
     }
 
 
+    /* Manage motor command sign and drive enabler acconding to DPR switch state*/
+    //Car state is on Park, then drives have to be disabled
     if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && gResourceMemory[E_ID_DPR] == PARK)
     {
         unDPRPreviousState = gResourceMemory[E_ID_DPR];
@@ -172,30 +178,29 @@ void ImplVUE32_3(void)
         fDirectionMode = 0.0;
     }
 
+    //Car state is on Drive or Reverse, then the drives have to be enabled
     if(unDPRPreviousState != gResourceMemory[E_ID_DPR] && (gResourceMemory[E_ID_DPR] == REVERSE || gResourceMemory[E_ID_DPR] == DRIVE))
     {
         unDPRPreviousState = gResourceMemory[E_ID_DPR];
         DriveEnable(gDrivesVUE32_3, LeftDrive);
         DriveEnable(gDrivesVUE32_3, RightDrive);
 
+        //Negative sign
         if(gResourceMemory[E_ID_DPR] == REVERSE)
             fDirectionMode = -1.0;
+        //Positive sign
         else if(gResourceMemory[E_ID_DPR] == DRIVE)
             fDirectionMode = 1.0;
     }
 
-    /*EVERY_X_MS(50)
-        DriveStateMachine(gDrivesVUE32_3, LeftDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
-        DriveStateMachine(gDrivesVUE32_3, RightDrive, (float)gResourceMemory[E_ID_ACCELERATOR]*0.13*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
-    END_OF_EVERY*/
-
     EVERY_X_MS(250)
+
+        //Copy drives informations to the VUE32 application layer
         ReturnDriveInformation(gDrivesVUE32_3, LeftDrive, &gResourceMemory[E_ID_LEFT_MOTOR_SPEED], &gResourceMemory[E_ID_LEFT_MOTOR_CURRENT], &gResourceMemory[E_ID_LEFT_MOTOR_TEMP], &gResourceMemory[E_ID_LEFT_CONTROLLER_TEMP], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_LEFT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_LEFT_DRIVE_STATUS]);
         ReturnDriveInformation(gDrivesVUE32_3, RightDrive, &gResourceMemory[E_ID_RIGHT_MOTOR_SPEED], &gResourceMemory[E_ID_RIGHT_MOTOR_CURRENT], &gResourceMemory[E_ID_RIGHT_MOTOR_TEMP], &gResourceMemory[E_ID_RIGHT_CONTROLLER_TEMP], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_CURRENT], &gResourceMemory[E_ID_RIGHT_DRIVE_BATTERY_VOLTAGE], &gResourceMemory[E_ID_RIGHT_DRIVE_STATUS]);
         
-        //Compute mean between both speed motor
-        // TODO : Fix sign error
-        gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = (gDrivesVUE32_3[RightDrive].nMotorSpeed-gDrivesVUE32_3[LeftDrive].nMotorSpeed)/2;
+        //TODO Add the transfert function for to get the exact speed car in Kph
+        gResourceMemory[E_ID_GLOBAL_CAR_SPEED] = (gDrivesVUE32_3[RightDrive].nMotorSpeed+gDrivesVUE32_3[LeftDrive].nMotorSpeed)/2;
         SetResourceValue(E_ID_GLOBAL_CAR_SPEED, VUE32_1, sizeof(unsigned short), gResourceMemory[E_ID_GLOBAL_CAR_SPEED]);
     END_OF_EVERY
 
@@ -329,13 +334,21 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
 }
 
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_3(void)
 {
     return;
 }
 
-
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE *gRoutingTableVUE32_3 = NULL;
 
 

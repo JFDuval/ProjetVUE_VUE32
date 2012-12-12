@@ -4,12 +4,13 @@
  * ****************************************************************************/
 
 #include "drive.h"
-#include <math.h>
 
+/*Build the message for enabling the concerned drive
+ * parameters:
+ * pDrives: refers to drive information structure
+ * ucDriveIndex: index of structure array to access to the concerned drive*/
 void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
-    /*if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_ENABLE)
-    {*/
         pDrives[ucDriveIndex].ucIsEnable = DRIVE_ENABLE;
 
         //Safety start with a command at zero
@@ -33,7 +34,10 @@ void DriveEnable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
         //Send to CAN network interface
         CanNETSACTxMessage(&driveMessage, D_CAN2);
 }
-
+/*Build the message for disabling the concerned drive
+ * parameters:
+ * pDrives: refers to drive information structure
+ * ucDriveIndex: index of structure array to access to the concerned drive*/
 void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
 {
     /*if(pDrives[ucDriveIndex].ucIsEnable != DRIVE_DISABLE)
@@ -63,7 +67,14 @@ void DriveDisable(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex)
     //}
 }
 
-/* fCommandMotor unit depends on the drive configuration. Basically, this funtion must received torque command in Newton/Meter or speed command in rotation per minute (RPM)*/
+/* fCommandMotor unit depends on the drive configuration.
+ * Basically, this funtion must received torque command
+ * in Newton/Meter or speed command in rotation per minute (RPM).
+ *  The command type is declared in the pDrives struct at pDrives->usMotorCommand
+ * pDrives: refers to drive information structure
+ * ucDriveIndex: index of structure array to access to the concerned drive
+ * fCommandMotor: motor command
+ * usUnscaledTemp: Measured thermistor ADC value from the concerned motor*/
 void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float fCommandMotor, short usUnscaledTemp)
 {
     if(!pDrives[ucDriveIndex].ucIsEnable)
@@ -83,10 +94,14 @@ void DriveStateMachine(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, float 
     DriveTXCmd(pDrives+ucDriveIndex);
 }
 
+/*Check if an error has been declared by one of every drives.
+ * If there is the case, all drives will be marked under emergency
+ * pDrives: refers to drive information structure */
 char DrivesError(DRIVE_STATUS *pDrives)
 {
     unsigned char ucErrorFound = 0;
     unsigned char i =0;
+
     //Verify if the every drive hasn't an error
     for(i = 0; i<NBROFDRIVE; i++)
     {
@@ -107,6 +122,9 @@ char DrivesError(DRIVE_STATUS *pDrives)
     //Release system
     return 0;
 }
+/* Send drive command in copying information from pDrive structure
+ * pDrive: refers to drive information structure
+ */
 void DriveTXCmd(DRIVE_STATUS *pDrive)
 {
     DRIVE_MSG driveMessage;
@@ -142,7 +160,9 @@ void DriveTXCmd(DRIVE_STATUS *pDrive)
     //Send to CAN network interface
     CanNETSACTxMessage(&driveMessage, D_CAN2);
 }
-
+/* Read received frame and copy information to the concerned drive struct
+ * pMessage: received message
+ * pDrives: refers to drive information structure*/
 void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
 {
     unsigned char i = 0;
@@ -181,7 +201,16 @@ void DriveRXCmd(DRIVE_MSG *pMessage, DRIVE_STATUS *pDrives)
             break;
     }
 }
-
+/* Return drive information to another software layer
+ * pDrives: refers to drive information structure
+ * ucDriveIndex: index of structure array to access to the concerned drive
+ * unMotorSpeed: motor speed
+ * unMotorCurrent
+ * unMotorTemp
+ * unControllerTemp
+ * unBatteryCurrent
+ * unBatteryVoltage
+ * unDriveStatus*/
 void ReturnDriveInformation(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned int *unMotorSpeed, unsigned int *unMotorCurrent, unsigned int *unMotorTemp, unsigned int *unControllerTemp, unsigned int *unBatteryCurrent, unsigned int *unBatteryVoltage, unsigned int *unDriveStatus)
 {
     if(NBROFDRIVE <= ucDriveIndex)
@@ -203,6 +232,8 @@ void ReturnDriveInformation(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, u
     unDriveStatus[0] = pDrives[ucDriveIndex].ucStatus;
 }
 
+/* Functions convert decimal or floating value to fixed point value according to Piktronik
+ * See drive manual*/
 unsigned short ScaleTorque(float fValue)
 {
     return (unsigned short)(fValue*TORQUE_SCALING_K+TORQUE_SCALING_B);
@@ -217,7 +248,8 @@ unsigned short ScaleTemp(unsigned short usValue)
 {
     return  TEMP_CONVERTING_OFFSET+usValue;
 }
-
+/* Functions convert fixed point value comming from drive to floating or decimal value according to Piktronik
+ * See drive manual*/
 unsigned int UnScaleTemp(unsigned char ucValue)
 {
     return (unsigned int)(ucValue-TEMP_CONVERTING_OFFSET);
@@ -241,27 +273,4 @@ unsigned int UnScaleRMSCurrent(unsigned short usValue)
 unsigned int UnScalePeakCurrent(unsigned short usValue)
 {
     return(unsigned int)((((float)usValue-CURRENT_SCALING_B)/PEAK_CURRENT_SCALING_K)*DATA_RESOLUTION);
-}
-
-
-void PoolingDrive(DRIVE_STATUS *pDrives, unsigned char ucDriveIndex, unsigned char usCommandType)
-{
-    DRIVE_MSG driveMessage;
-
-    driveMessage.RTR = 1;
-    driveMessage.address = pDrives[ucDriveIndex].unBaseAddrWrite;
-    driveMessage.dataLenght = 8;
-    driveMessage.ucType = usCommandType;
-    
-    CanNETSACTxMessage(&driveMessage, D_CAN2);
-}
-
-void PoolingDrives(DRIVE_STATUS *pDrives)
-{
-    unsigned char i = 0;
-    for(i = 0 ; i<NBROFDRIVE; i++)
-    {
-        PoolingDrive(pDrives, i, DRIVE_FRAME_INFO1);
-        PoolingDrive(pDrives, i, DRIVE_FRAME_INFO2);
-    }
 }

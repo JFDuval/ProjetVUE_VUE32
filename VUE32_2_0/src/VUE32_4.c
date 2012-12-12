@@ -34,7 +34,11 @@ unsigned char light_previous_state_vue32_4 = 0;
 unsigned char light_state_vue32_4 = 0;
 unsigned char wiper_control_previous_state_vue32_4 = 0;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_4_Ress[] =
 {
     {E_ID_FRONTLIGHTCONTROL, sizeof(unsigned char), Sensor},
@@ -157,11 +161,19 @@ void OnMsgVUE32_4(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_4(void)
 {
     return;
 }
 
-
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE *gRoutingTableVUE32_4 = NULL;

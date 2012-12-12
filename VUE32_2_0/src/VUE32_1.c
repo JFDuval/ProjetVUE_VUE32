@@ -25,7 +25,11 @@ extern volatile unsigned int flag_8ms;
 unsigned char previous_door_right_state = 0 , door_right_state = 0;
 unsigned char previous_door_left_state = 0 , door_left_state = 0;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_1_Ress[] =
 {
     {E_ID_LEFT_DOOR_STATE, sizeof(unsigned char), Sensor},
@@ -59,13 +63,13 @@ void InitVUE32_1(void)
  */
 void ImplVUE32_1(void)
 {
-    if(flag_8ms)
-    {
+    EVERY_X_MS(8)
+        //Read door status
         door_right_state = read_door(DOOR_RIGHT) == OPENED ? RIGHT_DOOR_OPENED : CLOSED;
         door_left_state =  read_door(DOOR_LEFT) == OPENED ? LEFT_DOOR_OPENED : CLOSED;
     
         
-        //Deboucing RIGHT DOOR
+        //Deboucing RIGHT DOOR to avoid spamming network
         if(gResourceMemory[E_ID_RIGHT_DOOR_STATE] != door_right_state && door_right_state == previous_door_right_state)
         {
             gResourceMemory[E_ID_RIGHT_DOOR_STATE] = door_right_state;
@@ -73,18 +77,17 @@ void ImplVUE32_1(void)
         }
         previous_door_right_state = door_right_state;
 
-        //Deboucing LEFT DOOR
+        //Deboucing LEFT DOOR to avoid spamming network
         if(gResourceMemory[E_ID_LEFT_DOOR_STATE] != door_left_state && door_left_state == previous_door_left_state)
         {
             gResourceMemory[E_ID_LEFT_DOOR_STATE] = door_left_state;
             EmitAnEvent(E_ID_SET_ROOF_LIGTH_FROM_LEFT, VUE32_5, 1, gResourceMemory[E_ID_LEFT_DOOR_STATE]);
         }
         previous_door_left_state = door_left_state;
-    }
-
-    if(gResourceMemory[E_ID_FRONTLIGHTCONTROL] != 0 )
-        Nop();
-    
+        
+    END_OF_EVERY
+                
+    //Call small screen driver
     EVERY_X_MS(10)
         refresh_display();
     END_OF_EVERY
@@ -119,12 +122,21 @@ void OnMsgVUE32_1(NETV_MESSAGE *msg)
 
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_1(void)
 {
     return;
 }
 
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE gRoutingTableVUE32_1[24] =
 {
     {NETV_COMM_IFACE_USB, ODB}

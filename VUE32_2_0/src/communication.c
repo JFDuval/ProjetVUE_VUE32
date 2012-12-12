@@ -25,6 +25,7 @@ unsigned char netv_send_message (NETV_MESSAGE *message)
 
     // CAN2
 #ifdef _CAN2
+    /*Quick hack which disables NETV32 stack if thhis VUE32 uses another network stack on the CAN port #2*/
     if(!gCAN2RXDriver[GetBoardID()])
     {
         if ( message->msg_comm_iface & NETV_COMM_IFACE_CAN2 )
@@ -53,6 +54,7 @@ unsigned char netv_recv_message (NETV_MESSAGE *message)
 
     // CAN2
 #ifdef _CAN2
+    //Quick hack allow to use another network stack on CAN 2 when the personalized VUE32 file has a gCAN2RXDriver defined (VUE32_X.c)
     if(!gCAN2RXDriver[GetBoardID()])
     {
         if ( can_netv_recv_message(message, CAN2) )

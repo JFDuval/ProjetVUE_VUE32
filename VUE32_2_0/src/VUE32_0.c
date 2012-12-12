@@ -26,7 +26,11 @@ extern unsigned int gResourceMemory[256];
 // Local variables
 short sRandomTemp, m_state, sRandomVoltage;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c 
+ * gHardwareSize contents size of every gVUE32_X_Ress 
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_0_Ress[] =
 {
     {E_ID_LEFT_DOOR_STATE, sizeof(unsigned char), Sensor},
@@ -230,10 +234,19 @@ void OnMsgVUE32_0(NETV_MESSAGE *msg)
     }
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_0(void)
 {
     return;
 }
 
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE *gRoutingTableVUE32_0 = NULL;

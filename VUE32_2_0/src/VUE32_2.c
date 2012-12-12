@@ -36,7 +36,11 @@ extern unsigned short adc_mean[ADC_CH];
 
 unsigned char light_previous_state_vue32_2 = 0;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_2_Ress[] = 
 {
     {E_ID_BATTERYCURRENT, 2, Sensor},
@@ -93,7 +97,6 @@ void ImplVUE32_2(void)
         m_prev_gndfaultstate = GNDFAULT_STATE;
     }
 
-    //TODO forward data to software interface
     EVERY_X_MS(250)
         flag_1ms_a = 0;
         //GFI Frequency
@@ -104,7 +107,7 @@ void ImplVUE32_2(void)
     if(flag_1ms_b)
     {
         flag_1ms_b = 0;
-        //Filte the wheel speed
+        //Filter the wheel speed
         //Disable interrupt during filtering
         //TODO Implement a memcpy between SPI data and temporary variable instead of filtering during the interrupts are disabled
         asm volatile ("di"); //Disable int
@@ -123,24 +126,24 @@ void ImplVUE32_2(void)
     }
 
 
-    if(flag_8ms)
-    {
-        flag_8ms = 0;
-        unsigned int dummy;
-        //Actuator
-        //Right Light Control
-        //Mask with the brake ligth state
+    EVERY_X_MS(8)
 
+        //Merge all receveid command from the ligth controllers (brake pedal and user ligth controller)
         gResourceMemory[E_ID_SET_LIGTH_STATE] &= 0x3F;
         gResourceMemory[E_ID_SET_LIGTH_STATE] = gResourceMemory[E_ID_SET_LIGTH_STATE] | (unsigned char)(gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE] >> 8 & 0x80);
+
+        //If DPR switch is set on reverse, turn on the white ligth
         if(gResourceMemory[E_ID_DPR] == REVERSE)
             gResourceMemory[E_ID_SET_LIGTH_STATE] |= LT_REVERSE;
+
+        //Set ligth state
         if(light_previous_state_vue32_2 != gResourceMemory[E_ID_SET_LIGTH_STATE])
         {
             light_previous_state_vue32_2 = (unsigned char)gResourceMemory[E_ID_SET_LIGTH_STATE];
             light_action(light_previous_state_vue32_2);
         }
-    }
+        
+    END_OF_EVERY
     
     //Flashers
     if(flag_flash)
@@ -159,7 +162,7 @@ void ImplVUE32_2(void)
         }
     }
 
-    //Todo Door switch
+    //Todo back door trunk
 }
 
 /*
@@ -187,23 +190,33 @@ void OnMsgVUE32_2(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 
     ON_MSG_TYPE( NETV_TYPE_EVENT )
+        //Variable updated on event by a distant sensor
         ACTION1(E_ID_SET_LIGTH_STATE, unsigned char, gResourceMemory[E_ID_SET_LIGTH_STATE]) END_OF_ACTION
         ACTION1(E_ID_SET_BRAKE_LIGTH_STATE, unsigned short, gResourceMemory[E_ID_SET_BRAKE_LIGTH_STATE]) END_OF_ACTION
-        //Variable updated on event by a distant sensor
         ACTION1(E_ID_DPR, unsigned char, gResourceMemory[E_ID_DPR]) END_OF_ACTION
         com_led_toggle();
     END_OF_MSG_TYPE
 
+    
     ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
         SYNC1(E_ID_WHEELVELOCITYSSENSOR_BR, unsigned int, gResourceMemory[E_ID_WHEELVELOCITYSSENSOR_BR])
     END_OF_MSG_TYPE
 
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_2(void)
 {
     return;
 }
 
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE *gRoutingTableVUE32_2 = NULL;

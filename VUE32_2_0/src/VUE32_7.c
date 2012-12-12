@@ -38,7 +38,11 @@ extern unsigned short adc_raw[ADC_CH][ADC_FILTER];
 extern unsigned short adc_mean[ADC_CH];
 extern volatile unsigned char flag_adc_filter;
 
-//Hardware resources manage localy by this VUE32
+/*Hardware resources manage localy by this VUE32
+ * The HDW_MAPPING size has to be set in VUE32_Impl.c
+ * gHardwareSize contents size of every gVUE32_X_Ress
+ * Note this array is used by long pooling functionnality
+ */
 HDW_MAPPING gVUE32_7_Ress[] =
 {
     {E_ID_WHEELVELOCITYSSENSOR_BL, sizeof(unsigned int), Sensor},
@@ -183,12 +187,21 @@ void OnMsgVUE32_7(NETV_MESSAGE *msg)
     END_OF_MSG_TYPE
 }
 
-//TODO Put emergency instructions here
+/* Put emergency instructions here
+ * Every device manage by this VUE32 and has to be
+ * manage differently in emergency mode
+ * must be manage in this function
+ */
 void OnEmergencyMsgVUE32_7(void)
 {
     return;
 }
 
+/*
+ * Not used
+ * Do a static routing between to different network
+ * without an network address translation
+ */
 ROUTING_TABLE gRoutingTableVUE32_7[24] =
 {
     {NETV_COMM_IFACE_CAN2, BMS_1},
