@@ -175,8 +175,8 @@ void OnMsgVUE32_5(NETV_MESSAGE *msg)
         com_led_toggle();
     END_OF_MSG_TYPE
 
+    // On compensation synchronize request
     ON_MSG_TYPE_RTR(NETV_TYPE_SYNCHRONIZE)
-        //SYNC1(E_ID_ACCELERATOR, unsigned short, gResourceMemory[E_ID_ACCELERATOR])
         SYNC1(E_ID_STEERINGANGLESENSOR, unsigned short, gResourceMemory[E_ID_STEERINGANGLESENSOR])
     END_OF_MSG_TYPE
 

@@ -8,7 +8,7 @@
 #include <math.h>
 #include "Compensation.h"
 
-/*// Local Variables
+/*// Local Variables used for complete compensation only
 float olduEst = 0;
 float oldax = 0;
 
@@ -62,7 +62,7 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection, 
         meanSpeed = ((carState.w3 + carState.w4)/2.0)/3.6;
 
         // Compensation systems
-
+        // if mean car speed is over 5 km/h
         if(meanSpeed > (5.0/3.6))
         {
             delta = abs(gainCorrection * GAIN * sinf(((carState.stWh*PI)/180.0) / REDFACT) / (meanSpeed));
@@ -72,11 +72,13 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection, 
             delta = 0.0;
         }
 
+        //Saturation of the delta command
         if(delta > threshold)
         {
             delta = threshold;
         }
 
+        //Verifying the steering wheel position to know which torque comand to apply to each motors
         if (carState.stWh > 0.0)
         {
             command.tmWh3 = userCommand - delta;
@@ -124,6 +126,7 @@ motorCommand comp(carMonitor carState, float userCommand, float gainCorrection, 
     return command;
 }
 
+// Matrix multiplication fonction - Only used for complete compensation
 void matrixMultiplication(float first[3][3], float second[3][1], float (*multiply)[3][1])
 {
 
@@ -149,6 +152,7 @@ void matrixMultiplication(float first[3][3], float second[3][1], float (*multipl
     }
 }
 
+// Complete compensation
 /* Compensation main function; to call as soon as the motor drives are ready:
 Inputs:
     (carState) carMonitor structure of sensor info as defined in this file

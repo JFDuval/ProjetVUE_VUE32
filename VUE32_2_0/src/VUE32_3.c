@@ -111,7 +111,7 @@ void InitVUE32_3(void)
     // Init speed sensors
     init_change_notification();
 
-    // Initialisation des valeurs de compensation � 0
+    // Initialising compensation values to 0
 
     carState.ax1 = 0;
     carState.ay1 = 0;
@@ -126,20 +126,21 @@ void InitVUE32_3(void)
     carState.w3 = 0.0;
     carState.w4 = 0.0;
 
-
+    //COmpensated motor commands
     command.tmWh3 = 0.0;
     command.tmWh4 = 0.0;
 
+    // Complete compensation parametres
     uThr = 0.05;
     slThr = 0.2;
     gainPp = 150;
     gainPr = 400;
     rollCompThr = 40;
     userCommand = 0.0;
-
     otherComp = TRUE;
 
-    gainCorrection = 1.0;
+    //Simplified compensation parametres
+    gainCorrection = 0.0;
     threshold = 15.0;
 }
 
@@ -198,6 +199,7 @@ void ImplVUE32_3(void)
         SetResourceValue(E_ID_GLOBAL_CAR_SPEED, VUE32_1, sizeof(unsigned short), gResourceMemory[E_ID_GLOBAL_CAR_SPEED]);
     END_OF_EVERY
 
+     // Sending synchronization messages for simplified compensation
      EVERY_X_MS(50)
 
         NETV_MESSAGE msg = {{0}};
@@ -215,41 +217,32 @@ void ImplVUE32_3(void)
 
     END_OF_EVERY
 
+    // Calculating compensated torque commands and sending them to the drives
     EVERY_X_MS(50)
-        // Drive mode
-        //if (fDirectionMode == 1)
-        //{
 
+            //Getting accelerator pedal command
             userCommand = (float)gResourceMemory[E_ID_ACCELERATOR]*0.31;
+            
+            //Getting rear wheel speeds (rpm to km/h)
             carState.w3 = (((float)abs(gResourceMemory[E_ID_RIGHT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
             carState.w4 = (((float)abs(gResourceMemory[E_ID_LEFT_MOTOR_SPEED])/3.0)*60.0)*(2.0*3.1416*(0.55/2.0))/1000.0;
+
+            //Sending rear wheels speed to the user interface
             FloatToInt conv;
             conv.val = carState.w3;
             gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED1] = conv.raw;
             conv.val = carState.w4;
             gResourceMemory[E_ID_TEST_ALEX_MOTORSPEED2] = conv.raw;
 
+            //Calculating the compensated values
             command = comp(carState, userCommand, gainCorrection, threshold);
+
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_1] = command.tmWh3;
             gResourceMemory[E_ID_COMP_MOTOR_COMMAND_2] = command.tmWh4;
 
-            //***********Uncomment the two following lines to activate the torque vectoring********
+            // Sending the calculated commands to the drives
             DriveStateMachine(gDrivesVUE32_3, LeftDrive, command.tmWh3*fDirectionMode, (unsigned short)gResourceMemory[E_ID_LEFT_MOTOR_TEMP_ADC]);
             DriveStateMachine(gDrivesVUE32_3, RightDrive, command.tmWh4*fDirectionMode, (unsigned short)gResourceMemory[E_ID_RIGHT_MOTOR_TEMP_ADC]);
-            //*************************************************************
-        /*}
-        // Reverse mode
-        else if (fDirectionMode == -1)
-        {
-            command.tmWh3 = userCommand;
-            command.tmWh4 = userCommand;
-        }
-        // Park mode
-        else if (fDirectionMode == 0)
-        {
-            command.tmWh3 = 0;
-            command.tmWh4 = 0;
-        }*/
 
     END_OF_EVERY
 }
@@ -294,6 +287,7 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             ANSWER1(E_ID_COOLINGPUMP, unsigned char, gResourceMemory[E_ID_COOLINGPUMP])
             ANSWER1(E_ID_MAIN_CONTACTOR, unsigned char, gResourceMemory[E_ID_MAIN_CONTACTOR])
             
+            // When receiving new parametres values from the user interface
             FloatToInt conv;
 
             conv.raw = ((unsigned int*)(msg->msg_data))[0];
@@ -321,9 +315,9 @@ void OnMsgVUE32_3(NETV_MESSAGE *msg)
             com_led_toggle();
         END_OF_MSG_TYPE
 
+        // On reception of synchronization answer message type
         if(msg->msg_type == NETV_TYPE_SYNCHRONIZE_ANSWER)
         {
-            
             if(msg->msg_cmd == E_ID_STEERINGANGLESENSOR)
             {
                 ACTION1(E_ID_STEERINGANGLESENSOR, short, carState.stWh)
